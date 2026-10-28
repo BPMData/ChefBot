@@ -5,44 +5,41 @@ Everything a new session needs to keep going without the original conversation. 
 
 ## What this is
 
-ChefBot is Bryan's 2026 rewrite of **RecipeGPT** (`~/Documents/Github/RecipeGPT`), a Streamlit app he wrote 100%
-by hand in 2023–24. **RecipeGPT is a time capsule: never modify it.** ChefBot is a personal demo piece he'll use
-himself (and maybe 1–2 others), so quality matters more than cost.
+ChefBot is Bryan's 2026 rewrite of **RecipeGPT** (`../RecipeGPT`), a Streamlit app he wrote 100% by hand in
+2023–24. **RecipeGPT is a time capsule: never modify it.** ChefBot is a personal demo piece, so quality matters
+more than cost.
+
+**Private details** (where secrets live, accounts, his phone, which saved recipes are his) are in
+`HANDOFF.local.md`, which is gitignored. Read it too when it exists.
 
 - One Python codebase on [Flet](https://flet.dev) **1.0.5** (Flutter UI): desktop, web, Android (sideloaded APK).
-- Models via **OpenRouter**. The key lives in `~/Documents/Github/openrouter.txt` (outside every repo; never
-  commit it, never type it into a UI field; pass it as `OPENROUTER_API_KEY` for dev runs).
-- On GitHub as **BPMData/ChefBot (private)** since 2026-10-28. Work goes on a branch with a PR into `main`.
+- Models via **OpenRouter**. The key lives in a file outside every repo (see `HANDOFF.local.md`); never commit
+  it, never type it into a UI field; pass it as `OPENROUTER_API_KEY` for dev runs.
+- On GitHub as **BPMData/ChefBot**, AGPLv3 (see README). Work goes on a branch with a PR into `main`.
 
 ## Pinned (do these next, in this order)
 
-1. **Mail relay: deployed (2026-10-28)** as Bryan's Apps Script web app under overboard.reporting@gmail.com
-   (`tools/mail-relay.gs`, setup in `docs/EMAIL.md`). The URL and secret are saved in the desktop prefs
-   (`flutter.chefbot.relay_url` / `relay_secret`; check whether they're set, never print them). The `/exec` URL
-   answers the hello check, and a test email (Galbijjim + photo + PDF) went through the relay to that inbox.
-   **Still to confirm:** Bryan's look in Gmail at the inline image, the PDF attachment and the Korean name. Direct
-   SMTP with an app password still fails (`SMTPServerDisconnected` during sign-in); the relay is the way.
+1. **Mail relay: deployed (2026-10-28)** as Bryan's own Apps Script web app (`tools/mail-relay.gs`, setup in
+   `docs/EMAIL.md`; account and status in `HANDOFF.local.md`). Direct SMTP with an app password fails
+   (`SMTPServerDisconnected` during sign-in); the relay is the way.
    **Since 2026-10-28 the relay is a hidden developer option** (tap the "Settings" title 7 times; pref
-   `chefbot.dev_mode` = "on"). Bryan's phone has the relay set (he copied the URL and secret over with
-   `adb push`). Everyone else: Email on a phone opens the share sheet (subject + full plain-text recipe + PDF and
+   `chefbot.dev_mode` = "on"). Everyone else: Email on a phone opens the share sheet (subject + full plain-text recipe + PDF and
    photo attached; share_plus passes EXTRA_SUBJECT/EXTRA_TEXT/EXTRA_STREAM, so Gmail fills all three). On desktop
    it's a `mailto:` link with the whole recipe (shortened only on Windows, whose mail apps reject long links).
    Confirmations: a relay send keeps the dialog open with "Sent to ..." (or "Not sent: ..."). The share sheet
    result comes back when the user returns to ChefBot (after sending, in practice), so ChefBot says "Sent by
    your phone's mail app." (Bryan's wording). Strictly it only knows an app was picked, not that the email went.
-2. **Android APK built and installed on Bryan's Samsung (2026-10-28)** with `adb install -r` (USB debugging is on).
-   He reported almost everything worked first try; only email was off (fixed: share sheet, see item 1). Re-test
-   Email on the phone after installing the new build. See "Android" below for installing, rebuilding, signing,
+2. **Android APK built and installed on Bryan's phone (2026-10-28).** Almost everything worked first try; only
+   email was off (fixed: share sheet, see item 1). Re-test Email on the phone after installing the new build. See "Android" below for installing, rebuilding, signing,
    and deleting the ~13 GB toolchain.
-3. **GitHub: done** (private repo; PR #1 with the 2026-10-28 work is merged). Still to do: README screenshots; maybe make it
-   public later (ask first).
+3. **GitHub: public since 2026-10-28** (AGPLv3). Still to do: README screenshots.
 
 ## Run, test, verify
 
 ```bash
 cd ~/Documents/Github/ChefBot
 .venv/bin/flet run src/main.py                       # desktop window (Bryan's normal way)
-OPENROUTER_API_KEY="$(tr -d '[:space:]' < ../openrouter.txt)" \
+OPENROUTER_API_KEY=... \
   .venv/bin/flet run --web --port 8551 src/main.py   # web: what Claude uses with the browser pane
 .venv/bin/python -m pytest                           # 29 offline tests
 OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow-up edit (~1¢)
@@ -57,10 +54,8 @@ OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow
   `FLET_APP_STORAGE_DATA`; fallback `~/.chefbot`. Desktop settings (incl. secrets) are in the macOS defaults domain
   `com.appveyor.flet`; read single keys with `defaults read com.appveyor.flet flutter.chefbot.<key>`, never dump
   the whole domain (it holds the OpenRouter key and passwords).
-- **Saved recipes that are Bryan's:** "Lazy Golden Chicken Stew", "Crispy Whole Fish with Papaya
-  Sweet-and-Sour Glaze". Don't modify or add photos to them. Claude's test data: "Galbijjim (갈비찜)…",
-  "Buta to Hakusai no Nimono Domburi, Bunka-era Style…" (the Kansai one). The recent list is ordered by last
-  update, so positions change; check the title before clicking.
+- **Saved recipes:** some are Bryan's and must never be modified (the list is in `HANDOFF.local.md`). The
+  recent list is ordered by last update, so positions change; check the title before clicking.
 - Don't click Save PDF / Save HTML / Share in the browser pane (they download files onto the Mac). The export code
   is covered by `tests/test_export.py`.
 
@@ -139,11 +134,11 @@ cd ~/Documents/Github/ChefBot
   `#E8452C`; the splash is `#110E0C`.
 - **Signing:** the APK is signed with Flutter's automatic debug key (`~/.android/debug.keystore`, "CN=Android
   Debug"). That's fine for sideloading. But Android only installs an update over an existing app if the key
-  matches: an APK built on another computer (e.g. Bryan's PC) has a different debug key, so the phone will refuse
+  matches: an APK built on another computer has a different debug key, so the phone will refuse
   it until ChefBot is uninstalled, which **deletes its saved recipes and settings on the phone**. To keep one key,
   copy `~/.android/debug.keystore` to the new computer's `~/.android/` before building there (or set up a proper
   release keystore).
-- **Phone checklist** (on Bryan's Samsung 2026-10-28 "almost everything worked"; Email was the problem, since reworked):
+- **Phone checklist** (2026-10-28: "almost everything worked"; Email was the problem, since reworked):
   - Settings: type the OpenRouter key (no env var on a phone). It's kept in app-private SharedPreferences.
   - A recipe from the home form, and a follow-up change.
   - "Photograph my ingredients instead": on a phone it opens ChefBot's own camera screen (`flet-camera` 1.0.5, a
@@ -155,10 +150,10 @@ cd ~/Documents/Github/ChefBot
     `Download` folder through MediaStore (`_android_save_to_downloads`, via pyjnius, an Android-only dependency in
     `[tool.flet.android]`), so it's indexed the moment it's written. Fallbacks: a plain file write plus a media
     scan (Samsung's scan took 10+ s), then the save dialog. Desktop: `~/Downloads`. The viewer shows a green check
-    and "Saved to Downloads" (a snackbar would be hidden behind it). Bryan saw ~30 s before the picture appeared
-    in Gallery/My Files; MediaStore had it within the same second as the write, so check whether the delay is
-    before the write (in ChefBot) or Samsung's apps refreshing.
-  - PDF (with and without a photo), Share: worked on Bryan's Samsung (2026-10-28). The old "Open in mail
+    and "Saved to Downloads" (a snackbar would be hidden behind it). On one Samsung the picture took ~30 s to
+    appear in Gallery/My Files although MediaStore had it within the same second as the write, so check whether
+    the delay is before the write (in ChefBot) or the phone's apps refreshing.
+  - PDF (with and without a photo), Share: worked on the phone (2026-10-28). The old "Open in mail
     app" `mailto:` path on the phone dropped the PDF and cut the recipe at 6,000 characters; replaced by the share
     sheet (needs a re-test on the phone).
     CJK fonts for PDFs download on first use (10–18 MB) into `<data>/fonts`.
@@ -179,7 +174,7 @@ With USB debugging on, `~/Android/sdk/platform-tools/adb install -r build/apk/ch
 ### What the toolchain put on the Mac (delete to reclaim ~13 GB)
 
 Measured right after the first build (2026-10-28). Everything below was created by `flet build apk`; nothing in
-`~/Library` changed. Before: 91 GB free; after: 74 GB free.
+`~/Library` changed.
 
 | Folder | Size | What it is |
 | --- | --- | --- |
@@ -226,11 +221,12 @@ The next `flet build apk` downloads it all again.
 - Stopping a test server: `pkill -f "flet run ..."` leaves the child app process holding the port, so the next
   server fails to start (check its log) and the browser keeps showing old code. Kill whatever listens on the port
   (`lsof -ti tcp:8551 -sTCP:LISTEN`). A hidden Browser pane also skips animations; show it before scroll tests.
-- **`flet run` hot-reloads whenever a source file changes, including Claude's edits while Bryan has the app open.**
+- **`flet run` hot-reloads whenever a source file changes, including Claude's edits while the app is open.**
   The reloaded session's `SharedPreferences` never answers (10 s timeouts), so settings can't be read or saved.
   This happened 2026-10-28. The app now treats an unreadable load as an error (it no longer opens a blank
   first-run Settings that would save over his real settings) and shows Save failures in the dialog. Before editing
-  code, check whether his app is running (`ps ax | grep ChefBot/src/main.py`) and tell him to restart it afterwards.
+  code, check whether Bryan's app is running (`ps ax | grep ChefBot/src/main.py`) and tell him to restart it
+  afterwards.
 
 ## PDF gotchas (fpdf2 2.8.9)
 
@@ -247,5 +243,3 @@ The next `flet build apk` downloads it all again.
 - Auto-generate the dish picture after the first recipe (setting).
 - README screenshots; a GitHub description.
 - Old test conversations show raw `**Ingredients:**` in the first bubble (pre-redesign data); harmless.
-
-OpenRouter spend during development: roughly $2 (model bake-offs, judges, pictures, live tests).

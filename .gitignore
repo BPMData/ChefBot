@@ -10,3 +10,4 @@ openrouter.txt
 storage/
 .flet/
 .DS_Store
+*.local.md
