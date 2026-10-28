@@ -235,6 +235,7 @@ class ChefBotApp:
         self.saved_must_not = prefs.get(PREF_MUST_NOT) or ""
         if not (self.must_not.value or "").strip():     # don't overwrite anything typed while settings loaded
             self.must_not.value = self.saved_must_not
+            self.must_not_clear.visible = bool(self.saved_must_not)
         p.theme_mode = THEMES[self.theme]
         self.chef = api.ChefBotAPI(self.key) if self.key else None
         p.update()
@@ -448,9 +449,13 @@ class ChefBotApp:
                                show_checkmark=True, on_select=lambda e: None)   # a handler makes it tappable
         self.diet_chips = {r: ft.Chip(label=r, show_checkmark=True, on_select=self._on_diet_select)
                            for r in prompts.RESTRICTIONS}
+        self.must_not_clear = ft.IconButton(ft.Icons.CLOSE, tooltip="Clear (and forget)", icon_size=18,
+                                            visible=False, on_click=lambda e: self._run(self._clear_must_not))
         self.must_not = ft.TextField(hint_text="Never use... (e.g. peanuts, cilantro)", filled=True,
                                      border=soft_border(16), prefix_icon=ft.Icons.BLOCK,
+                                     suffix_icon=self.must_not_clear,
                                      helper="Remembered for next time. Clear it to forget.",
+                                     on_change=self._show_must_not_clear,
                                      on_blur=lambda e: self._run(self._remember_must_not))
         self.recent = ft.Column(spacing=10, horizontal_alignment=ft.CrossAxisAlignment.STRETCH)
 
@@ -608,6 +613,19 @@ class ChefBotApp:
             self.saved_must_not = value
         except Exception:
             pass             # not worth interrupting a recipe over
+
+    def _show_must_not_clear(self, e=None):
+        """The x in the "Never use..." box shows only when there's something to clear."""
+        visible = bool((self.must_not.value or "").strip())
+        if self.must_not_clear.visible != visible:
+            self.must_not_clear.visible = visible
+            self.must_not.update()
+
+    async def _clear_must_not(self):
+        self.must_not.value = ""
+        self.must_not_clear.visible = False
+        self.must_not.update()
+        await self._remember_must_not()
 
     async def start_recipe(self, e):
         if self._need_key():
