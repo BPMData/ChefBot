@@ -30,6 +30,9 @@ ALL_PREFS = (PREF_KEY, PREF_MODEL, PREF_EFFORT, PREF_THEME, PREF_EMAIL_TO, PREF_
              PREF_SMTP_SERVER, PREF_RELAY_URL, PREF_RELAY_SECRET, PREF_DEV_MODE,
              PREF_MUST_NOT)
 DEFAULT_SMTP = "smtp.gmail.com:465"
+MAIL_APPS = {"com.google.android.gm": "Gmail", "com.samsung.android.email.provider": "Samsung Email",
+             "com.microsoft.office.outlook": "Outlook", "ch.protonmail.android": "Proton Mail",
+             "com.yahoo.mobile.client.android.mail": "Yahoo Mail"}     # Android share result -> a friendly name
 MAILTO_LIMIT_WINDOWS = 1500   # characters of recipe text in a mailto link on Windows
 
 # ---------------------------------------------------------------- look and feel
@@ -145,13 +148,15 @@ def small_gradient_button(label: str, icon: str, on_click) -> ft.Container:
         gradient=ft.LinearGradient(colors=GRADIENT, begin=ft.Alignment.CENTER_LEFT, end=ft.Alignment.CENTER_RIGHT))
 
 
-def show_clear_button(field: ft.TextField):
-    """A text field's x (its suffix_icon) shows only when there's something to clear."""
+def show_clear_button(field: ft.TextField, button: ft.IconButton | None = None):
+    """A text field's x shows only when there's something to clear. The x is the field's suffix_icon unless
+    it's placed separately (`button`)."""
+    button = button or field.suffix_icon
     visible = bool((field.value or "").strip())
-    if field.suffix_icon.visible != visible:
-        field.suffix_icon.visible = visible
+    if button.visible != visible:
+        button.visible = visible
         try:
-            field.update()
+            (field if button is field.suffix_icon else button).update()
         except Exception:
             pass             # not on screen yet: it shows when drawn
 
@@ -441,10 +446,13 @@ class ChefBotApp:
         self.ingredients_clear = ft.IconButton(ft.Icons.CLOSE, tooltip="Clear", icon_size=18, visible=False,
                                                on_click=self._clear_ingredients)
         self.ingredients = ft.TextField(
-            suffix_icon=self.ingredients_clear,
-            on_change=lambda e: show_clear_button(self.ingredients),
+            on_change=lambda e: show_clear_button(self.ingredients, self.ingredients_clear),
             hint_text="Potatoes, carrots, tomatoes...", multiline=True, min_lines=4, max_lines=8,
+            content_padding=ft.Padding(left=16, right=44, top=16, bottom=16),     # room for the x
             filled=True, border=soft_border(16), capitalization=ft.TextCapitalization.SENTENCES, text_size=16)
+        # The x sits in the bottom-right corner of this tall box (a suffix icon would center it vertically).
+        self.ingredients_box = ft.Stack([self.ingredients,
+                                         ft.Container(self.ingredients_clear, right=2, bottom=2)])
         self.photo_btn = ft.FilledTonalButton(PHOTO_LABEL, icon=ft.Icons.PHOTO_CAMERA_OUTLINED,
                                               on_click=self.read_photo)
         self.cuisine_chips = {
@@ -529,7 +537,7 @@ class ChefBotApp:
         self.history.prune_photos()
         self._refresh_recent()
         body = ft.Column(spacing=18, horizontal_alignment=ft.CrossAxisAlignment.STRETCH, controls=[
-            card(section_title(ft.Icons.KITCHEN, "What have you got?"), self.ingredients,
+            card(section_title(ft.Icons.KITCHEN, "What have you got?"), self.ingredients_box,
                  ft.Row([self.photo_btn, small_gradient_button("Cook something up", ft.Icons.SOUP_KITCHEN,
                                                                self.start_recipe)],
                         wrap=True, spacing=10, run_spacing=10)),
@@ -615,8 +623,8 @@ class ChefBotApp:
             return
         current = (self.ingredients.value or "").strip()
         self.ingredients.value = f"{current}, {found}" if current else found
-        show_clear_button(self.ingredients)
         self.ingredients.update()
+        show_clear_button(self.ingredients, self.ingredients_clear)
         snack(self.page, "Here's what I saw. Fix anything I got wrong.")
 
     async def _remember_must_not(self):
@@ -632,7 +640,8 @@ class ChefBotApp:
 
     def _clear_ingredients(self, e=None):
         self.ingredients.value = ""
-        show_clear_button(self.ingredients)
+        self.ingredients.update()
+        show_clear_button(self.ingredients, self.ingredients_clear)
 
     async def _clear_must_not(self):
         self.must_not.value = ""
@@ -1079,18 +1088,21 @@ class ChefBotApp:
         if await self._save(page, f"{export.file_stem(title)}.html"):
             await self._flash(button)
 
-    async def _share(self, title: str, text: str, photo: bytes | None, subject: str, body: str):
-        """Open the system share sheet with the recipe PDF (and photo) attached."""
+    async def _share(self, title: str, text: str, photo: bytes | None, subject: str,
+                     body: str) -> ft.ShareResult | None:
+        """Open the system share sheet with the recipe PDF (and photo) attached. None if sharing isn't possible
+        here (the recipe is copied instead)."""
         try:
             pdf = await self._make_pdf(title, text, photo)
             files = [ft.ShareFile.from_bytes(pdf, mime_type="application/pdf", name=f"{export.file_stem(title)}.pdf")]
             if photo:
                 files.append(ft.ShareFile.from_bytes(photo, mime_type=export.image_mime(photo),
                                                      name=f"{export.file_stem(title)}.{export.image_mime(photo).split('/')[1]}"))
-            await self.share.share_files(files, subject=subject, text=body)
+            return await self.share.share_files(files, subject=subject, text=body)
         except Exception:
             await self.clipboard.set(text)
             snack(self.page, "Sharing isn't available here, so I copied the recipe instead.")
+            return None
 
     async def share_message(self, index: int, button=None):
         title, text, photo = self._message(index)
@@ -1102,7 +1114,15 @@ class ChefBotApp:
     async def _email_with_mail_app(self, title: str, text: str, photo: bytes | None):
         """On a phone: the share sheet, where the user picks their mail app. It gets the subject, the full recipe
         as the message, and the PDF and photo as attachments."""
-        await self._share(title, text, photo, f"Recipe: {title}", export.email_text(title, text))
+        result = await self._share(title, text, photo, f"Recipe: {title}", export.email_text(title, text))
+        # Android says which app was picked (or that the sheet was closed), not whether the email went out.
+        if result is None or result.status == ft.ShareResultStatus.UNAVAILABLE:
+            return
+        if result.status == ft.ShareResultStatus.DISMISSED:
+            snack(self.page, "Not sent: you closed the share sheet.")
+            return
+        app = MAIL_APPS.get((result.raw or "").split("/")[0].strip(), "your mail app")   # "package/activity"
+        snack(self.page, f"Opened in {app}. Tap Send there to email it.")
 
     async def email_message(self, index: int, button=None):
         title, text, photo = self._message(index)
@@ -1134,10 +1154,8 @@ class ChefBotApp:
                 to_field.update()
                 return
             await remember_address(to)
-            sending.visible = True
-            sending.update()
-            problem.visible = False
-            problem.update()
+            sending.visible, problem.visible, send_button.disabled = True, False, True
+            dialog.update()
             try:
                 pdf = await self._make_pdf(title, text, photo)
                 if use_relay:
@@ -1149,13 +1167,18 @@ class ChefBotApp:
                     await asyncio.to_thread(export.send_email, msg, host or "smtp.gmail.com", int(port or 465),
                                             self.smtp_user, self.smtp_password)
             except Exception as err:
-                sending.visible = False
-                sending.update()
+                sending.visible, send_button.disabled = False, False
                 problem.value, problem.visible = _email_error(err), True
-                problem.update()
+                dialog.update()
                 return
-            self.page.pop_dialog()
-            snack(self.page, f"Sent to {to}.")
+            # Say so plainly, in the dialog itself (a passing snackbar is easy to miss).
+            dialog.content.controls = [ft.Row([ft.Icon(ft.Icons.CHECK_CIRCLE, color=ft.Colors.GREEN_400, size=28),
+                                               ft.Text(f"Sent to {to}.", size=16, weight=ft.FontWeight.W_600,
+                                                       expand=True)], spacing=12),
+                                       ft.Text("It usually arrives within a minute. The first one may land in spam.",
+                                               size=12.5, color=ft.Colors.ON_SURFACE_VARIANT)]
+            dialog.actions = [ft.FilledButton("Done", on_click=lambda _: self.page.pop_dialog())]
+            dialog.update()
 
         async def open_mail_app(_):
             to = (to_field.value or "").strip()
@@ -1172,20 +1195,21 @@ class ChefBotApp:
             self.page.pop_dialog()
             self.open_settings()
 
+        send_button = ft.FilledButton("Send", icon=ft.Icons.SEND, on_click=send)
         actions = [ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog())]
         if can_send:
-            actions += [ft.TextButton("Use my mail app", on_click=open_mail_app),
-                        ft.FilledButton("Send", icon=ft.Icons.SEND, on_click=send)]
+            actions += [ft.TextButton("Use my mail app", on_click=open_mail_app), send_button]
         else:
             if self.dev_mode:
                 actions.append(ft.TextButton("Set up sending", on_click=settings))
             actions.append(ft.FilledButton("Open in mail app", icon=ft.Icons.OPEN_IN_NEW, on_click=open_mail_app))
-        self.page.show_dialog(ft.AlertDialog(
+        dialog = ft.AlertDialog(
             title=heading("Email this recipe", 22),
             content=ft.Column([ft.Text(title, weight=ft.FontWeight.W_600), to_field, remember, note, sending,
                                problem],
                               tight=True, spacing=14, width=420),
-            actions=actions))
+            actions=actions)
+        self.page.show_dialog(dialog)
 
     async def make_picture(self, index: int, button=None):
         if self.busy:
@@ -1230,7 +1254,7 @@ def _latest_title(conv: Conversation) -> str:
 def _email_error(err: Exception) -> str:
     import smtplib
     if isinstance(err, export.EmailError):
-        return str(err)
+        return f"Not sent: {err}"
     if isinstance(err, smtplib.SMTPAuthenticationError):
         return "The mail server didn't accept the address and app password. Check them in Settings."
     if isinstance(err, (smtplib.SMTPRecipientsRefused,)):
