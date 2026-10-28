@@ -21,6 +21,8 @@ PREF_SMTP_PASSWORD = "chefbot.smtp_password"
 PREF_SMTP_SERVER = "chefbot.smtp_server"
 PREF_RELAY_URL = "chefbot.relay_url"        # ChefBot mail relay (tools/mail-relay.gs), preferred over SMTP
 PREF_RELAY_SECRET = "chefbot.relay_secret"
+PREFS_FAILED = ("ChefBot couldn't read its saved settings (your key is still safe). Close ChefBot and open it "
+                "again.")
 ALL_PREFS = (PREF_KEY, PREF_MODEL, PREF_EFFORT, PREF_THEME, PREF_EMAIL_TO, PREF_SMTP_USER, PREF_SMTP_PASSWORD,
              PREF_SMTP_SERVER, PREF_RELAY_URL, PREF_RELAY_SECRET)
 DEFAULT_SMTP = "smtp.gmail.com:465"
@@ -165,6 +167,7 @@ class ChefBotApp:
         self.editing_index: int | None = None
         self.urls = ft.UrlLauncher()
         self.prefs_loaded = False
+        self.prefs_failed = False      # saved settings couldn't be read: never show or save a blank form over them
         self.cards: dict[int, ft.Container] = {}   # message index -> its card, on the conversation screen
         self.chef: api.ChefBotAPI | None = None
         self.conv: Conversation | None = None
@@ -193,6 +196,10 @@ class ChefBotApp:
         self.show_home()      # draw first; saved settings arrive a moment later
 
         prefs = await self._load_prefs()
+        if prefs is None:
+            self.prefs_failed = True
+            snack(self.page, PREFS_FAILED)
+            return
         self.prefs_loaded = True
         self.key = (prefs.get(PREF_KEY) or os.environ.get("OPENROUTER_API_KEY", "")).strip()
         model, effort, theme = prefs.get(PREF_MODEL), prefs.get(PREF_EFFORT), prefs.get(PREF_THEME)
@@ -211,16 +218,16 @@ class ChefBotApp:
         if not self.key:
             self.open_settings(first_run=True)
 
-    async def _load_prefs(self) -> dict:
+    async def _load_prefs(self) -> dict | None:
         """Read saved settings, all at once. On a slow first load the storage service can take a few seconds to come
-        up, so retry a little."""
+        up, so retry a little. None means they couldn't be read (not the same as "nothing saved")."""
         for attempt in range(4):
             try:
                 values = await asyncio.gather(*(self.prefs.get(k) for k in ALL_PREFS))
                 return dict(zip(ALL_PREFS, values))
             except RuntimeError:
                 await asyncio.sleep(0.5 * (attempt + 1))
-        return {}
+        return None
 
     def _side(self) -> float:
         return max(14.0, ((self.page.width or 0) - MAX_WIDTH) / 2)
@@ -243,6 +250,13 @@ class ChefBotApp:
         self.page.update()
 
     def open_settings(self, e=None, first_run: bool = False):
+        # Until the saved settings are read, the form would be blank, and saving it would wipe them.
+        if self.prefs_failed:
+            snack(self.page, PREFS_FAILED)
+            return
+        if not self.prefs_loaded:
+            snack(self.page, "Still loading your settings. Try again in a second.")
+            return
         key_field = ft.TextField(label="OpenRouter API key", value=self.key, password=True,
                                  can_reveal_password=True, hint_text="sk-or-v1-...")
         model_dd = ft.Dropdown(label="Recipe model", value=self.model, expand=True,
@@ -274,27 +288,43 @@ class ChefBotApp:
             await self.clipboard.set(relay_secret_field.value)
             snack(self.page, "New secret copied. Paste it into the relay's RELAY_SECRET script property.")
 
+        save_button = ft.FilledButton("Save")
+        save_problem = ft.Text("", color=ft.Colors.ERROR, size=13, visible=False, selectable=True)
+
         async def save(_):
-            self.key = (key_field.value or "").strip()
-            self.model, self.effort = model_dd.value or api.DEFAULT_MODEL, effort_dd.value or api.DEFAULT_EFFORT
-            self.theme = (list(theme_seg.selected) or ["dark"])[0]
-            self.email_to = (to_field.value or "").strip()
-            self.smtp_user = (user_field.value or "").strip()
-            self.smtp_password = (pass_field.value or "").replace(" ", "")
-            self.smtp_server = (server_field.value or "").strip() or DEFAULT_SMTP
-            self.relay_url = (relay_url_field.value or "").strip()
-            self.relay_secret = (relay_secret_field.value or "").strip()
-            for k, v in ((PREF_KEY, self.key), (PREF_MODEL, self.model), (PREF_EFFORT, self.effort),
-                         (PREF_THEME, self.theme), (PREF_EMAIL_TO, self.email_to), (PREF_SMTP_USER, self.smtp_user),
-                         (PREF_SMTP_PASSWORD, self.smtp_password), (PREF_SMTP_SERVER, self.smtp_server),
-                         (PREF_RELAY_URL, self.relay_url), (PREF_RELAY_SECRET, self.relay_secret)):
-                await self.prefs.set(k, v)
+            values = {PREF_KEY: (key_field.value or "").strip(),
+                      PREF_MODEL: model_dd.value or api.DEFAULT_MODEL, PREF_EFFORT: effort_dd.value or api.DEFAULT_EFFORT,
+                      PREF_THEME: (list(theme_seg.selected) or ["dark"])[0],
+                      PREF_EMAIL_TO: (to_field.value or "").strip(), PREF_SMTP_USER: (user_field.value or "").strip(),
+                      PREF_SMTP_PASSWORD: (pass_field.value or "").replace(" ", ""),
+                      PREF_SMTP_SERVER: (server_field.value or "").strip() or DEFAULT_SMTP,
+                      PREF_RELAY_URL: (relay_url_field.value or "").strip(),
+                      PREF_RELAY_SECRET: (relay_secret_field.value or "").strip()}
+            save_button.disabled, save_problem.visible = True, False
+            save_button.update()
+            save_problem.update()
+            try:
+                await asyncio.gather(*(self.prefs.set(k, v) for k, v in values.items()))
+            except Exception as err:
+                save_button.disabled = False
+                save_problem.value = (f"Couldn't save ({type(err).__name__}). ChefBot lost touch with its settings "
+                                      "storage. Close ChefBot and open it again, then try once more.")
+                save_problem.visible = True
+                save_button.update()
+                save_problem.update()
+                return
+            self.key = values[PREF_KEY]
+            self.model, self.effort, self.theme = values[PREF_MODEL], values[PREF_EFFORT], values[PREF_THEME]
+            self.email_to, self.smtp_user = values[PREF_EMAIL_TO], values[PREF_SMTP_USER]
+            self.smtp_password, self.smtp_server = values[PREF_SMTP_PASSWORD], values[PREF_SMTP_SERVER]
+            self.relay_url, self.relay_secret = values[PREF_RELAY_URL], values[PREF_RELAY_SECRET]
             self.chef = api.ChefBotAPI(self.key) if self.key else None
             self.page.theme_mode = THEMES[self.theme]
             self.page.pop_dialog()
             self.page.update()
             snack(self.page, "Settings saved." if self.key else "No API key yet: ChefBot can't cook without one.")
 
+        save_button.on_click = save
         intro = ("Paste an OpenRouter API key to get started (openrouter.ai/keys). It's stored only on this "
                  "device.") if first_run else "Your key is stored only on this device."
         self.page.show_dialog(ft.AlertDialog(
@@ -318,10 +348,9 @@ class ChefBotApp:
                 ft.Text("Or: a Gmail app password", weight=ft.FontWeight.W_600),
                 ft.Text("Made at myaccount.google.com/apppasswords on the same account as 'Send from'. Some "
                         "networks block this kind of sending.", size=12, color=ft.Colors.ON_SURFACE_VARIANT),
-                user_field, pass_field, server_field,
+                user_field, pass_field, server_field, save_problem,
             ]),
-            actions=[ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog()),
-                     ft.FilledButton("Save", on_click=save)],
+            actions=[ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog()), save_button],
         ))
 
     def _run(self, fn, *args):
@@ -338,6 +367,9 @@ class ChefBotApp:
     def _need_key(self) -> bool:
         if self.chef:
             return False
+        if self.prefs_failed:
+            snack(self.page, PREFS_FAILED)
+            return True
         if not self.prefs_loaded:
             snack(self.page, "Still starting up. Try again in a second.")
             return True
@@ -550,19 +582,27 @@ class ChefBotApp:
             leading=ft.IconButton(ft.Icons.ARROW_BACK, tooltip="Back", on_click=lambda _: self.go_home()),
             title=self.title_text, bgcolor=ft.Colors.TRANSPARENT,
             actions=[ft.IconButton(ft.Icons.SETTINGS_OUTLINED, tooltip="Settings", on_click=self.open_settings)])
-        self.thread = self._pad(ft.ListView(expand=True, spacing=16, auto_scroll=True), top=8, bottom=8)
+        # Build every message up front (not lazily) so scroll_to(scroll_key=...) can find any of them.
+        self.thread = self._pad(ft.ListView(expand=True, spacing=16, auto_scroll=True, build_controls_on_demand=False,
+                                            scroll_interval=150, on_scroll=self._on_thread_scroll), top=8, bottom=8)
+        self.jump_btn = ft.Container(
+            ft.FilledTonalButton("Jump to the bottom", icon=ft.Icons.ARROW_DOWNWARD,
+                                 on_click=lambda _: self._run(self.jump_to_bottom)),
+            alignment=ft.Alignment.CENTER, left=0, right=0, bottom=12, visible=False)
         self.cards = {}
+        self.heights: dict[int, float] = {}    # id(message control) -> rendered height (from on_size_change)
+        self.thread_end, self.viewport = 0.0, 0.0    # last known scroll range of the conversation
         self.user_tools = {}
         for i, m in enumerate(conv.messages):
             if m["role"] == "user":
-                self.thread.controls.append(self._user_bubble(m.get("display") or m["content"], index=i))
+                self._add_to_thread(self._user_bubble(m.get("display") or m["content"], index=i))
             elif m["role"] == "assistant":
                 photo = None
                 if str(i) in conv.photos:
                     path = self.history.photo_path(conv.photos[str(i)])
                     photo = path.read_bytes() if path.exists() else None
                 self.cards[i] = self._assistant_card(m["content"], photo, index=i)
-                self.thread.controls.append(self.cards[i])
+                self._add_to_thread(self.cards[i])
         self.status_text = ft.Text("", size=14, weight=ft.FontWeight.W_500, color=ft.Colors.ON_SURFACE_VARIANT)
         self.status = self._pad(ft.Container(
             ft.Row([ft.ProgressRing(width=18, height=18, stroke_width=2.5), self.status_text,
@@ -581,7 +621,7 @@ class ChefBotApp:
                                    ft.Text("Editing your last message", size=13, expand=True),
                                    ft.TextButton("Cancel", on_click=self.cancel_edit)], visible=False)
         self.root.content = ft.Column(expand=True, spacing=0, controls=[
-            self.thread,
+            ft.Stack([self.thread, self.jump_btn], expand=True),
             self.status,
             self._pad(ft.Container(ft.Column([self.tweaks, self.edit_banner, ft.Row([self.composer, self.send_btn])],
                                              spacing=10, tight=True)), top=8, bottom=12),
@@ -709,7 +749,8 @@ class ChefBotApp:
     def _fill_actions(self, c: ft.Container, index: int, text: str, has_photo: bool):
         """The buttons under a reply: they act on that reply only."""
         row: ft.Row = c.data["actions"]
-        c.key = ft.ScrollKey(f"msg-{index}")
+        if c.key is None:       # set once: a new key makes Flutter rebuild the card and lose its place
+            c.key = ft.ScrollKey(f"msg-{index}")
         btn = lambda icon, tip, fn: ft.IconButton(icon, tooltip=tip, icon_size=20,
                                                    on_click=lambda e: self._run(fn, index, e.control))
         row.controls = [
@@ -755,7 +796,7 @@ class ChefBotApp:
             self._cut_from(index)
             self.show_chat(self.conv)
         self.conv.messages.append({"role": "user", "content": text})
-        self.thread.controls.append(self._user_bubble(text, index=len(self.conv.messages) - 1))
+        self._add_to_thread(self._user_bubble(text, index=len(self.conv.messages) - 1))
         self.thread.update()
         await self.reply()
 
@@ -771,14 +812,53 @@ class ChefBotApp:
             except asyncio.TimeoutError:
                 pass
 
+    def _add_to_thread(self, control: ft.Control):
+        """Add a message to the conversation, keeping track of its height so we can scroll to it."""
+        def remember(e):
+            self.heights[id(control)] = e.height
+        control.size_change_interval = 200
+        control.on_size_change = remember
+        self.thread.controls.append(control)
+
+    def _offset_of(self, target: ft.Control | None) -> float:
+        """Where `target` starts in the conversation, in pixels from the top (None: the end of it)."""
+        offset = self.thread.padding.top if self.thread.padding else 0
+        for c in self.thread.controls:
+            if c is target:
+                break
+            offset += self.heights.get(id(c), 0) + self.thread.spacing
+        return offset
+
+    def _on_thread_scroll(self, e: ft.OnScrollEvent):
+        """Offer "Jump to the bottom" only when there's a good way left to scroll."""
+        self.thread_end, self.viewport = e.max_scroll_extent, e.viewport_dimension
+        far = e.max_scroll_extent - e.pixels > max(600, (self.page.height or 800) * 0.8)
+        if far != self.jump_btn.visible:
+            self.jump_btn.visible = far
+            self.jump_btn.update()
+
+    async def jump_to_bottom(self):
+        self.jump_btn.visible = False
+        self.jump_btn.update()
+        await self._scroll_to_end(400)
+
+    async def _scroll_to_end(self, duration: int = 0):
+        """Scroll to the end of the conversation; auto_scroll then follows new text again.
+
+        Flet 1.0.5 quirks: never toggle auto_scroll (that resets the list to the top), scroll_to(offset=-1) can land
+        at the top, and scroll_to(scroll_key=...) does nothing. So scroll to measured pixel positions."""
+        measured = self._offset_of(None) - self.viewport
+        await self.thread.scroll_to(offset=max(self.thread_end, measured, 0.0), duration=duration)
+
     async def reply(self):
         conv = self.conv
         self.stop_requested = False
         self._set_busy(True)
         bubble = self._assistant_card("")
         md: ft.Markdown = bubble.data["md"]
-        self.thread.controls.append(bubble)
+        self._add_to_thread(bubble)
         self.thread.update()
+        await self._scroll_to_end()      # if they were looking further up (at a new picture, say), follow the reply
         got_text = asyncio.Event()
         cycler = asyncio.create_task(self._cycle_status(conv, got_text))
         text, last_paint, error = "", 0.0, None
@@ -915,8 +995,8 @@ class ChefBotApp:
         use_relay = bool(self.relay_url and self.relay_secret)
         can_send = use_relay or bool(self.smtp_user and self.smtp_password)
         note = ft.Text(
-            "Sends a formatted email with the dish photo and a PDF attached." if can_send else
-            "To send it directly (with the photo and a PDF), set up the ChefBot mail relay in Settings "
+            f"Sends a formatted email with {export.attachments_phrase(bool(photo))} attached." if can_send else
+            f"To send it directly (with {export.attachments_phrase(bool(photo))}), set up the ChefBot mail relay in Settings "
             "(docs/EMAIL.md). Or open it in your mail app instead (text only).",
             size=12.5, color=ft.Colors.ON_SURFACE_VARIANT)
         sending = ft.ProgressBar(visible=False)
@@ -1008,8 +1088,11 @@ class ChefBotApp:
             slot.content = ft.Image(src=image, fit=ft.BoxFit.COVER, border_radius=18, height=300)
             slot.visible = True
             self._fill_actions(c, index, text, has_photo=True)
+            # Show the new picture right away, at the top of its reply (see _scroll_to_end for why it's done by
+            # measured position). auto_scroll stops following while we're away from the end.
             c.update()
-            await self.thread.scroll_to(scroll_key=f"msg-{index}", duration=500)
+            await asyncio.sleep(0.5)        # let the taller card lay out and report its new height
+            await self.thread.scroll_to(offset=max(0.0, self._offset_of(c) - 8), duration=500)
 
 
 def _latest_title(conv: Conversation) -> str:

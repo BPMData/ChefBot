@@ -309,6 +309,11 @@ class EmailError(Exception):
     """Sending failed. The message is safe to show the user."""
 
 
+def attachments_phrase(has_photo: bool) -> str:
+    """What an emailed recipe carries, for the Email dialog. The photo only if one was made."""
+    return "the dish photo and a PDF" if has_photo else "a PDF"
+
+
 def email_text(title: str, text: str) -> str:
     return f"{title}\n\n{without_title_line(text)}\n\n-- Made with ChefBot"
 
