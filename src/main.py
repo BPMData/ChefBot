@@ -931,7 +931,7 @@ class ChefBotApp:
                          md_style_sheet=md_style())
         photo_slot = ft.Container(visible=bool(photo))
         if photo:
-            photo_slot.content = ft.Image(src=photo, fit=ft.BoxFit.COVER, border_radius=18, height=300)
+            photo_slot.content = self._dish_photo(photo)
         actions = ft.Row(wrap=True, spacing=2, run_spacing=0, visible=False)
         c = card(photo_slot,
                  ft.Row([ft.Image(src="logo.svg", width=28, height=28),
@@ -1294,6 +1294,28 @@ class ChefBotApp:
             actions=actions)
         self.page.show_dialog(dialog)
 
+    def _dish_photo(self, image: bytes) -> ft.Control:
+        """A dish picture in a reply. Tapping it opens it full screen."""
+        return ft.Container(ft.Image(src=image, fit=ft.BoxFit.COVER, border_radius=18, height=300),
+                            border_radius=18, ink=True, tooltip="View full screen",
+                            on_click=lambda e: self.show_full_photo(image))
+
+    def show_full_photo(self, image: bytes):
+        """The picture on black, filling the screen, with pinch-to-zoom. It's a dialog, so the phone's back button
+        closes it (and only it)."""
+        close = ft.IconButton(ft.Icons.CLOSE, icon_size=28, icon_color=ft.Colors.WHITE, tooltip="Close",
+                              bgcolor=ft.Colors.with_opacity(0.6, "#000000"),
+                              on_click=lambda e: self.page.pop_dialog())
+        viewer = ft.InteractiveViewer(ft.Image(src=image, fit=ft.BoxFit.CONTAIN), min_scale=1, max_scale=5,
+                                      alignment=ft.Alignment.CENTER)
+        self.page.show_dialog(ft.AlertDialog(
+            content=ft.Container(
+                ft.Stack([ft.Container(viewer, alignment=ft.Alignment.CENTER, left=0, top=0, right=0, bottom=0),
+                          ft.Container(ft.SafeArea(close), top=8, right=8)]),
+                width=self.page.width, height=self.page.height, bgcolor="#000000"),
+            content_padding=0, inset_padding=0, bgcolor="#000000",
+            shape=ft.RoundedRectangleBorder(radius=0)))
+
     async def make_picture(self, index: int, button=None):
         if self.busy:
             snack(self.page, "Hang on, I'm still cooking.")
@@ -1317,7 +1339,7 @@ class ChefBotApp:
         if self.conv is conv and index in self.cards:
             c = self.cards[index]
             slot: ft.Container = c.data["photo"]
-            slot.content = ft.Image(src=image, fit=ft.BoxFit.COVER, border_radius=18, height=300)
+            slot.content = self._dish_photo(image)
             slot.visible = True
             self._fill_actions(c, index, text, has_photo=True)
             # Show the new picture right away, at the top of its reply (see _scroll_to_end for why it's done by
