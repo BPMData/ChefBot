@@ -39,6 +39,7 @@ dark_color = "#110E0C"
 
 [tool.flet.android]
 split_per_abi = true
+dependencies = ["pyjnius"]   # Android-only: tells the Gallery about saved pictures
 adaptive_icon_background = "#E8452C"
 
 [tool.pytest.ini_options]

@@ -1310,20 +1310,29 @@ class ChefBotApp:
             return Path(os.environ.get("EXTERNAL_STORAGE", "/storage/emulated/0")) / "Download"
         return Path.home() / "Downloads"
 
-    async def download_photo(self, image: bytes):
-        """Save the original picture (full resolution, as the image model made it) straight to Downloads."""
+    async def download_photo(self, image: bytes) -> bool:
+        """Save the original picture (full resolution, as the image model made it) straight to Downloads.
+        True if it was saved."""
         title = self.conv.title if self.conv else "ChefBot dish"
         name = f"{export.file_stem(title)}.{export.image_mime(image).split('/')[1].replace('jpeg', 'jpg')}"
+        mime = export.image_mime(image)
+        if self.page.platform == ft.PagePlatform.ANDROID and not self.page.web:
+            try:     # the fast way: straight into Android's media index, so the Gallery shows it right away
+                await asyncio.to_thread(_android_save_to_downloads, name, mime, image)
+                return True
+            except Exception:
+                pass             # fall back to a plain file write below
         folder = self._downloads_folder()
         if folder is not None:
             try:
                 path = export.free_path(folder, name)
                 await asyncio.to_thread(path.write_bytes, image)
-                snack(self.page, f"Saved to Downloads: {path.name}")
-                return
+                if self.page.platform == ft.PagePlatform.ANDROID:
+                    await asyncio.to_thread(_android_media_scan, str(path), mime)
+                return True
             except OSError:
                 pass             # e.g. the phone refused: fall back to the save dialog
-        await self._save(image, name)
+        return await self._save(image, name)
 
     def show_full_photo(self, image: bytes):
         """The picture on black, filling the screen, with pinch-to-zoom. It's a dialog, so the phone's back button
@@ -1332,15 +1341,34 @@ class ChefBotApp:
                               bgcolor=ft.Colors.with_opacity(0.6, "#000000"),
                               on_click=lambda e: self.page.pop_dialog())
         download = ft.IconButton(ft.Icons.DOWNLOAD, icon_size=28, icon_color=ft.Colors.WHITE,
-                                 tooltip="Save to Downloads", bgcolor=ft.Colors.with_opacity(0.6, "#000000"),
-                                 on_click=lambda e: self._run(self.download_photo, image))
+                                 tooltip="Save to Downloads", bgcolor=ft.Colors.with_opacity(0.6, "#000000"))
+        saved_note = ft.Container(ft.Text("Saved to Downloads", color=ft.Colors.WHITE, size=14,
+                                          weight=ft.FontWeight.W_600),
+                                  bgcolor=ft.Colors.with_opacity(0.6, "#000000"), border_radius=18,
+                                  padding=ft.Padding(left=14, right=14, top=8, bottom=8), visible=False)
+
+        async def save(_):
+            # Feedback has to be in here: a snackbar would sit behind this full-screen view.
+            download.disabled = True
+            download.update()
+            if await self.download_photo(image):
+                download.icon, download.icon_color = ft.Icons.CHECK, ft.Colors.GREEN_400
+                download.tooltip = "Saved"
+                saved_note.visible = True
+                saved_note.update()
+            else:
+                download.disabled = False      # cancelled or failed: allow another try
+            download.update()
+
+        download.on_click = save
         viewer = ft.InteractiveViewer(ft.Image(src=image, fit=ft.BoxFit.CONTAIN), min_scale=1, max_scale=5,
                                       alignment=ft.Alignment.CENTER)
         self.page.show_dialog(ft.AlertDialog(
             content=ft.Container(
                 ft.Stack([ft.Container(viewer, alignment=ft.Alignment.CENTER, left=0, top=0, right=0, bottom=0),
                           ft.Container(ft.SafeArea(close), top=8, right=8),
-                          ft.Container(ft.SafeArea(download), bottom=8, right=8)]),
+                          ft.Container(ft.SafeArea(ft.Row([saved_note, download], spacing=10, tight=True)),
+                                       bottom=8, right=8)]),
                 width=self.page.width, height=self.page.height, bgcolor="#000000"),
             content_padding=0, inset_padding=0, bgcolor="#000000",
             shape=ft.RoundedRectangleBorder(radius=0)))
@@ -1383,6 +1411,46 @@ def _latest_title(conv: Conversation) -> str:
         if m["role"] == "assistant" and extract_title(m["content"]):
             return extract_title(m["content"])
     return "New recipe"
+
+
+def _android_activity():
+    from jnius import autoclass
+    return autoclass(os.environ["MAIN_ACTIVITY_HOST_CLASS_NAME"]).mActivity
+
+
+def _android_save_to_downloads(name: str, mime: str, data: bytes):
+    """Save into the shared Download folder through MediaStore (Android 10+), the way download and camera apps do:
+    the file is in the Gallery's index the moment it's written. Same-named files get " (1)" etc. from Android."""
+    from jnius import autoclass
+    MediaColumns = autoclass("android.provider.MediaStore$MediaColumns")
+    values = autoclass("android.content.ContentValues")()
+    values.put(MediaColumns.DISPLAY_NAME, name)
+    values.put(MediaColumns.MIME_TYPE, mime)
+    values.put(MediaColumns.RELATIVE_PATH, "Download/")
+    resolver = _android_activity().getContentResolver()
+    uri = resolver.insert(autoclass("android.provider.MediaStore$Downloads").EXTERNAL_CONTENT_URI, values)
+    if uri is None:
+        raise OSError("MediaStore refused the file")
+    try:
+        out = resolver.openOutputStream(uri)
+        try:
+            out.write(data)
+        finally:
+            out.close()
+    except Exception:
+        resolver.delete(uri, None, None)     # don't leave an empty entry behind; the caller falls back
+        raise
+
+
+def _android_media_scan(path: str, mime: str):
+    """Tell Android a new picture exists, so it shows in the Gallery (a plain file write doesn't). pyjnius is only
+    in the Android build ([tool.flet.android] dependencies); anywhere else, or if it fails, the file is still
+    saved and visible in the Files app."""
+    try:
+        from jnius import autoclass
+        autoclass("android.media.MediaScannerConnection").scanFile(_android_activity(), [path], [mime], None)
+    except Exception:
+        pass
 
 
 def _email_error(err: Exception) -> str:
