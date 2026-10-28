@@ -150,6 +150,10 @@ cd ~/Documents/Github/ChefBot
     live preview + shutter, back lens, 720p "high" preset, no audio), with Gallery and Cancel buttons. If the
     camera can't start (no permission, no camera) it falls back to the gallery picker. On desktop/web it's the
     file picker. Camera added 2026-10-28; untested on the phone so far.
+  - Dish pictures: tap one for full screen (a dialog, so the phone's back button closes it; pinch to zoom). The
+    download button saves the original (about 1 MP, as the image model made it) straight to the phone's shared
+    `Download` folder by plain file path (`$EXTERNAL_STORAGE/Download`, allowed without a permission on Android
+    11+), or `~/Downloads` on desktop; if that fails it falls back to the save dialog. Untested on the phone.
   - PDF (with and without a photo), Share: worked on Bryan's Samsung (2026-10-28). The old "Open in mail
     app" `mailto:` path on the phone dropped the PDF and cut the recipe at 6,000 characters; replaced by the share
     sheet (needs a re-test on the phone).

@@ -155,3 +155,13 @@ def test_mailto_link_keeps_everything_unless_limited():
     assert full.count("braise") == 3000 and "Shortened" not in full
     short = unquote(export.mailto_link("a@b.c", "Galbijjim", text, limit=100))
     assert "Shortened here" in short and short.count("braise") < 20
+
+
+def test_free_path_never_overwrites(tmp_path):
+    first = export.free_path(tmp_path, "Galbijjim.png")
+    assert first == tmp_path / "Galbijjim.png"
+    first.write_bytes(b"x")
+    second = export.free_path(tmp_path, "Galbijjim.png")
+    assert second.name == "Galbijjim (2).png"
+    second.write_bytes(b"y")
+    assert export.free_path(tmp_path, "Galbijjim.png").name == "Galbijjim (3).png"

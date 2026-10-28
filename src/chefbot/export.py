@@ -321,6 +321,17 @@ class EmailError(Exception):
     """Sending failed. The message is safe to show the user."""
 
 
+def free_path(folder: Path, file_name: str) -> Path:
+    """`folder/file_name`, or `name (2).ext`, `name (3).ext`... if that's taken. Never overwrites."""
+    path = folder / file_name
+    stem, suffix = path.stem, path.suffix
+    n = 2
+    while path.exists():
+        path = folder / f"{stem} ({n}){suffix}"
+        n += 1
+    return path
+
+
 def attachments_phrase(has_photo: bool) -> str:
     """What an emailed recipe carries, for the Email dialog. The photo only if one was made."""
     return "the dish photo and a PDF" if has_photo else "a PDF"

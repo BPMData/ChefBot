@@ -1300,18 +1300,47 @@ class ChefBotApp:
                             border_radius=18, ink=True, tooltip="View full screen",
                             on_click=lambda e: self.show_full_photo(image))
 
+    def _downloads_folder(self):
+        """Where a download goes without asking: the phone's shared Download folder, or ~/Downloads on a computer.
+        None on the web (the browser handles downloads)."""
+        from pathlib import Path
+        if self.page.web:
+            return None
+        if self.page.platform == ft.PagePlatform.ANDROID:
+            return Path(os.environ.get("EXTERNAL_STORAGE", "/storage/emulated/0")) / "Download"
+        return Path.home() / "Downloads"
+
+    async def download_photo(self, image: bytes):
+        """Save the original picture (full resolution, as the image model made it) straight to Downloads."""
+        title = self.conv.title if self.conv else "ChefBot dish"
+        name = f"{export.file_stem(title)}.{export.image_mime(image).split('/')[1].replace('jpeg', 'jpg')}"
+        folder = self._downloads_folder()
+        if folder is not None:
+            try:
+                path = export.free_path(folder, name)
+                await asyncio.to_thread(path.write_bytes, image)
+                snack(self.page, f"Saved to Downloads: {path.name}")
+                return
+            except OSError:
+                pass             # e.g. the phone refused: fall back to the save dialog
+        await self._save(image, name)
+
     def show_full_photo(self, image: bytes):
         """The picture on black, filling the screen, with pinch-to-zoom. It's a dialog, so the phone's back button
         closes it (and only it)."""
         close = ft.IconButton(ft.Icons.CLOSE, icon_size=28, icon_color=ft.Colors.WHITE, tooltip="Close",
                               bgcolor=ft.Colors.with_opacity(0.6, "#000000"),
                               on_click=lambda e: self.page.pop_dialog())
+        download = ft.IconButton(ft.Icons.DOWNLOAD, icon_size=28, icon_color=ft.Colors.WHITE,
+                                 tooltip="Save to Downloads", bgcolor=ft.Colors.with_opacity(0.6, "#000000"),
+                                 on_click=lambda e: self._run(self.download_photo, image))
         viewer = ft.InteractiveViewer(ft.Image(src=image, fit=ft.BoxFit.CONTAIN), min_scale=1, max_scale=5,
                                       alignment=ft.Alignment.CENTER)
         self.page.show_dialog(ft.AlertDialog(
             content=ft.Container(
                 ft.Stack([ft.Container(viewer, alignment=ft.Alignment.CENTER, left=0, top=0, right=0, bottom=0),
-                          ft.Container(ft.SafeArea(close), top=8, right=8)]),
+                          ft.Container(ft.SafeArea(close), top=8, right=8),
+                          ft.Container(ft.SafeArea(download), bottom=8, right=8)]),
                 width=self.page.width, height=self.page.height, bgcolor="#000000"),
             content_padding=0, inset_padding=0, bgcolor="#000000",
             shape=ft.RoundedRectangleBorder(radius=0)))
