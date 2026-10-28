@@ -14,7 +14,7 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
 - **Runs anywhere.** One Python codebase ([Flet](https://flet.dev)) runs on desktop, in a browser, and as an
   Android app.
 - **New models.** Recipes come from GLM 5.3 (Z.ai) through [OpenRouter](https://openrouter.ai), sent to Z.ai's
-  own servers first. Kimi K3.1 Pro and GLM 5.3 Flash are in Settings. Fridge photos are read by GLM 5.3 Flash;
+  own servers first. Kimi K3.1 Pro and GLM 5.3 Flash are in Settings. Ingredient photos are read by GLM 5.3 Flash;
   dish pictures come from Gemini 3.1 Flash Lite Image.
 - **Fixed allergen rules.** "Free of major food allergens" now covers all nine U.S. allergens (FALCPA plus sesame,
   added by the FASTER Act), and dietary rules override a cuisine's classic ingredients.

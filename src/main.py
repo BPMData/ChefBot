@@ -40,6 +40,7 @@ HEADING_FONT, BODY_FONT = "Fraunces", "DM Sans"
 SEED = "#E8590C"
 GRADIENT = ["#FF8A3D", "#E8452C"]
 BG_LIGHT, BG_DARK = "#FFF6EC", "#110E0C"
+PHOTO_LABEL = "Photograph my ingredients instead"
 MAX_WIDTH = 780          # content column width on wide screens
 THEMES = {"dark": ft.ThemeMode.DARK, "light": ft.ThemeMode.LIGHT, "system": ft.ThemeMode.SYSTEM}
 
@@ -132,6 +133,16 @@ def gradient_button(label: str, icon: str, on_click) -> ft.Container:
                             offset=ft.Offset(0, 6)))
 
 
+def small_gradient_button(label: str, icon: str, on_click) -> ft.Container:
+    """A compact version of gradient_button, sized like a regular button (for shortcuts)."""
+    return ft.Container(
+        ft.Row([ft.Icon(icon, color=ft.Colors.WHITE, size=18),
+                ft.Text(label, color=ft.Colors.WHITE, size=14, weight=ft.FontWeight.W_600)],
+               spacing=8, tight=True),
+        height=40, border_radius=20, ink=True, on_click=on_click, padding=ft.Padding(left=16, right=18, top=0, bottom=0),
+        gradient=ft.LinearGradient(colors=GRADIENT, begin=ft.Alignment.CENTER_LEFT, end=ft.Alignment.CENTER_RIGHT))
+
+
 def soft_border(radius: int) -> ft.OutlineInputBorder:
     """Rounded, borderless text field outline (the fill color does the work)."""
     return ft.OutlineInputBorder(border_radius=radius, side=ft.BorderSide(0, ft.Colors.TRANSPARENT))
@@ -195,6 +206,7 @@ class ChefBotApp:
         p.on_resize = self._on_resize
         p.theme_mode = THEMES[self.theme]
         p.add(ft.SafeArea(self.root, expand=True))
+        p.views[0].on_confirm_pop = self._on_back
         self.key = os.environ.get("OPENROUTER_API_KEY", "").strip()     # development shortcut
         self.chef = api.ChefBotAPI(self.key) if self.key else None
         self.show_home()      # draw first; saved settings arrive a moment later
@@ -375,7 +387,7 @@ class ChefBotApp:
             content=ft.Column(tight=True, spacing=16, width=440, controls=[
                 ft.Text(intro, size=13), key_field, ft.Row([model_dd]), ft.Row([effort_dd]),
                 ft.Text("Appearance", size=13, color=ft.Colors.ON_SURFACE_VARIANT), theme_seg,
-                ft.Text("Fridge photos are read by GLM 5.3 Flash; dish pictures come from Gemini 3.1 Flash Lite "
+                ft.Text("Ingredient photos are read by GLM 5.3 Flash; dish pictures come from Gemini 3.1 Flash Lite "
                         "Image.", size=12, color=ft.Colors.ON_SURFACE_VARIANT),
                 dev_section, save_problem,
             ]),
@@ -411,7 +423,7 @@ class ChefBotApp:
         self.ingredients = ft.TextField(
             hint_text="Potatoes, carrots, tomatoes...", multiline=True, min_lines=4, max_lines=8,
             filled=True, border=soft_border(16), capitalization=ft.TextCapitalization.SENTENCES, text_size=16)
-        self.photo_btn = ft.FilledTonalButton("Snap my fridge instead", icon=ft.Icons.PHOTO_CAMERA_OUTLINED,
+        self.photo_btn = ft.FilledTonalButton(PHOTO_LABEL, icon=ft.Icons.PHOTO_CAMERA_OUTLINED,
                                               on_click=self.read_photo)
         self.cuisine_chips = {
             label: ft.Chip(label=short, selected=label == self.cuisine, show_checkmark=False,
@@ -483,13 +495,16 @@ class ChefBotApp:
 
     def show_home(self):
         self.conv = None
+        self.page.views[0].can_pop = True     # back on the home screen leaves the app
         self.padded = []
         self.page.appbar = None
         self.history.prune_photos()
         self._refresh_recent()
         body = ft.Column(spacing=18, horizontal_alignment=ft.CrossAxisAlignment.STRETCH, controls=[
             card(section_title(ft.Icons.KITCHEN, "What have you got?"), self.ingredients,
-                 ft.Row([self.photo_btn])),
+                 ft.Row([self.photo_btn, small_gradient_button("Cook something up", ft.Icons.SOUP_KITCHEN,
+                                                               self.start_recipe)],
+                        wrap=True, spacing=10, run_spacing=10)),
             card(ft.Row([section_title(ft.Icons.PUBLIC, "Pick a cuisine"),
                          ft.TextButton("Surprise me", icon=ft.Icons.CASINO_OUTLINED, on_click=self.surprise)],
                         alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
@@ -542,7 +557,7 @@ class ChefBotApp:
         if self._need_key():
             return
         files = await self.picker.pick_files(file_type=ft.FilePickerFileType.IMAGE, with_data=True,
-                                             compression_quality=85, dialog_title="Photo of your fridge or groceries")
+                                             compression_quality=85, dialog_title="Photo of your fridge, pantry or groceries")
         if not files:
             return
         f = files[0]
@@ -555,7 +570,7 @@ class ChefBotApp:
             return
         ext = (f.name.rsplit(".", 1)[-1] if "." in f.name else "jpeg").lower()
         mime = {"png": "image/png", "webp": "image/webp", "heic": "image/heic", "gif": "image/gif"}.get(ext, "image/jpeg")
-        self.photo_btn.disabled, self.photo_btn.content = True, "Looking in your fridge..."
+        self.photo_btn.disabled, self.photo_btn.content = True, "Taking a look..."
         self.photo_btn.update()
         try:
             found = await self.chef.read_ingredients(data, mime)
@@ -563,7 +578,7 @@ class ChefBotApp:
             snack(self.page, str(err))
             found = None
         finally:
-            self.photo_btn.disabled, self.photo_btn.content = False, "Snap my fridge instead"
+            self.photo_btn.disabled, self.photo_btn.content = False, PHOTO_LABEL
             self.photo_btn.update()
         if found is None:
             return
@@ -580,7 +595,7 @@ class ChefBotApp:
             return
         ingredients = (self.ingredients.value or "").strip()
         if not ingredients:
-            snack(self.page, "Tell me some ingredients first (or snap your fridge).")
+            snack(self.page, "Tell me some ingredients first (or photograph them).")
             return
         restrictions = [r for r, c in self.diet_chips.items() if c.selected]
         settings = {"cuisine": self.cuisine, "audience": self.audience, "dessert": bool(self.dessert.selected),
@@ -604,6 +619,7 @@ class ChefBotApp:
 
     def show_chat(self, conv: Conversation):
         self.conv = conv
+        self.page.views[0].can_pop = False    # back in a chat goes home instead (see _on_back)
         self.padded = []
         self.title_text = heading(conv.title, 18)
         self.title_text.max_lines, self.title_text.overflow = 1, ft.TextOverflow.ELLIPSIS
@@ -678,6 +694,14 @@ class ChefBotApp:
             content=ft.Text(HISTORY_WARNING, size=14.5, width=420),
             actions=[ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog()),
                      ft.FilledButton("I understand, rewrite it", on_click=go)]))
+
+    async def _on_back(self, e):
+        """The system back button (Android) while a chat is open: go to the home screen, don't leave the app."""
+        if self.conv is not None:
+            self.go_home()
+            await e.control.confirm_pop(False)
+        else:
+            await e.control.confirm_pop(True)
 
     def go_home(self):
         if self.busy:

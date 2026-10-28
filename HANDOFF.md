@@ -142,7 +142,7 @@ cd ~/Documents/Github/ChefBot
 - **Phone checklist** (on Bryan's Samsung 2026-10-28 "almost everything worked"; Email was the problem, since reworked):
   - Settings: type the OpenRouter key (no env var on a phone). It's kept in app-private SharedPreferences.
   - A recipe from the home form, and a follow-up change.
-  - "Snap my fridge": `FilePicker.pick_files(file_type=IMAGE, with_data=True)` probably opens the photo picker,
+  - "Photograph my ingredients instead" (was "Snap my fridge"): `FilePicker.pick_files(file_type=IMAGE, with_data=True)` probably opens the photo picker,
     not the camera. If camera capture is wanted, look at Flet 1.0's options (`--permissions camera`, a camera
     control) before building something custom.
   - PDF (with and without a photo), Share: worked on Bryan's Samsung (2026-10-28). The old "Open in mail
@@ -194,6 +194,10 @@ The next `flet build apk` downloads it all again.
 
 - Services (`SharedPreferences`, `Clipboard`, `Share`, `FilePicker`, `UrlLauncher`) auto-register when constructed
   inside the page context; most methods are `async`.
+- **Android back button (2026-10-28):** the root view (`page.views[0]`) has `can_pop` and `on_confirm_pop`, which wrap
+  Flutter's PopScope. `show_chat` sets `can_pop = False`, so back fires `_on_back`, which goes home and calls
+  `confirm_pop(False)`; `show_home` sets it back to `True`, so back on the home screen leaves the app. An open
+  dialog closes first on its own. Untested on the phone yet (web can't press the system back button).
 - `page.run_task` **swallows exceptions** silently: use `ChefBotApp._run()`, which reports them.
 - A `Chip` with no `on_select`/`on_click` renders disabled.
 - `Dropdown` uses `on_select`. `TextField.border_radius/border_color` are deprecated: use
