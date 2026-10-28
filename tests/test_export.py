@@ -105,3 +105,28 @@ def test_smtp_hangup_during_sign_in_is_explained(monkeypatch):
 def test_email_note_mentions_photo_only_when_there_is_one():
     assert export.attachments_phrase(True) == "the dish photo and a PDF"
     assert export.attachments_phrase(False) == "a PDF"
+
+
+def _image_count(pdf: bytes) -> int:
+    pypdf = pytest.importorskip("pypdf")
+    return sum(len(p.images) for p in pypdf.PdfReader(io.BytesIO(pdf)).pages)
+
+
+def test_pdf_has_the_photo():
+    assert _image_count(export.recipe_pdf(TITLE, RECIPE, PNG)) == 1
+
+
+@pytest.mark.parametrize("case", ["no pillow", "damaged photo"])
+def test_pdf_leaves_out_a_photo_it_cannot_add(monkeypatch, case):
+    """On a phone without Pillow (or with a broken picture) the PDF still gets made, just without the photo,
+    so Save PDF, Email and Share keep working."""
+    photo = PNG
+    if case == "no pillow":
+        import sys
+        monkeypatch.setitem(sys.modules, "PIL", None)        # makes `from PIL import ...` fail
+    else:
+        photo = PNG[:20]
+    with pytest.warns(UserWarning, match="Left the dish photo out"):
+        pdf = export.recipe_pdf(TITLE, RECIPE, photo)
+    monkeypatch.undo()          # count images with Pillow back, so a 0 can't come from the counting itself
+    assert pdf.startswith(b"%PDF") and _image_count(pdf) == 0

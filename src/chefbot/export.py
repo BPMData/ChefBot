@@ -235,6 +235,25 @@ def assign_fonts(html_text: str, base: set[int], extras: list[tuple[str, set[int
     return "".join(out)
 
 
+def _add_photo(pdf, photo: bytes) -> bool:
+    """Put the dish photo at the top of the page. If it can't be added (Pillow missing, as it might be on a phone,
+    or a damaged image), leave it out rather than failing the whole PDF, and with it email and sharing."""
+    try:
+        from PIL import Image as PILImage
+        with PILImage.open(io.BytesIO(photo)) as im:
+            w, h = im.size
+        disp_w, disp_h = pdf.epw, pdf.epw * h / w
+        if disp_h > 110:                      # keep tall photos from eating the first page
+            disp_h, disp_w = 110, 110 * w / h
+        pdf.image(io.BytesIO(photo), x=pdf.l_margin + (pdf.epw - disp_w) / 2, w=disp_w, h=disp_h)
+    except Exception as err:
+        import warnings
+        warnings.warn(f"Left the dish photo out of the PDF ({type(err).__name__}: {err})")
+        return False
+    pdf.ln(6)
+    return True
+
+
 def recipe_pdf(title: str, text: str, photo: bytes | None = None,
                cjk_fonts: dict[str, tuple[Path, Path]] | None = None) -> bytes:
     """A printable PDF of the reply, with the dish photo on top."""
@@ -273,14 +292,7 @@ def recipe_pdf(title: str, text: str, photo: bytes | None = None,
 
     pdf.add_page()
     if photo:
-        from PIL import Image as PILImage
-        with PILImage.open(io.BytesIO(photo)) as im:
-            w, h = im.size
-        disp_w, disp_h = pdf.epw, pdf.epw * h / w
-        if disp_h > 110:                      # keep tall photos from eating the first page
-            disp_h, disp_w = 110, 110 * w / h
-        pdf.image(io.BytesIO(photo), x=pdf.l_margin + (pdf.epw - disp_w) / 2, w=disp_w, h=disp_h)
-        pdf.ln(6)
+        _add_photo(pdf, photo)
     pdf.set_text_color(*accent)
     pdf.set_font(body, "B", 9)
     pdf.cell(text="CHEFBOT", new_x="LMARGIN", new_y="NEXT")
