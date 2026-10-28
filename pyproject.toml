@@ -8,12 +8,15 @@ authors = [{ name = "Bryan Murphy" }]
 dependencies = [
     "flet==1.0.5",
     "httpx>=0.28",
+    "markdown>=3.7",
+    "fpdf2>=2.8.4",
 ]
 
 [dependency-groups]
 dev = [
     "flet[all]==1.0.5",
     "pytest>=8",
+    "pypdf>=5",
 ]
 
 [tool.flet]

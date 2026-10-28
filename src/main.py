@@ -7,7 +7,7 @@ from datetime import datetime
 
 import flet as ft
 
-from chefbot import api, prompts
+from chefbot import api, export, prompts
 from chefbot.history import Conversation, History
 from chefbot.recipe import extract_title
 
@@ -15,6 +15,13 @@ PREF_KEY = "chefbot.openrouter_key"
 PREF_MODEL = "chefbot.model"
 PREF_EFFORT = "chefbot.effort"
 PREF_THEME = "chefbot.theme"
+PREF_EMAIL_TO = "chefbot.email_to"          # default recipient
+PREF_SMTP_USER = "chefbot.smtp_user"        # the account ChefBot sends from
+PREF_SMTP_PASSWORD = "chefbot.smtp_password"
+PREF_SMTP_SERVER = "chefbot.smtp_server"
+ALL_PREFS = (PREF_KEY, PREF_MODEL, PREF_EFFORT, PREF_THEME, PREF_EMAIL_TO, PREF_SMTP_USER, PREF_SMTP_PASSWORD,
+             PREF_SMTP_SERVER)
+DEFAULT_SMTP = "smtp.gmail.com:465"
 
 # ---------------------------------------------------------------- look and feel
 
@@ -138,6 +145,13 @@ class ChefBotApp:
         self.model = api.DEFAULT_MODEL
         self.effort = api.DEFAULT_EFFORT
         self.theme = "dark"
+        self.email_to = ""
+        self.smtp_user = ""
+        self.smtp_password = ""
+        self.smtp_server = DEFAULT_SMTP
+        self.urls = ft.UrlLauncher()
+        self.prefs_loaded = False
+        self.cards: dict[int, ft.Container] = {}   # message index -> its card, on the conversation screen
         self.chef: api.ChefBotAPI | None = None
         self.conv: Conversation | None = None
         self.busy = False
@@ -160,14 +174,21 @@ class ChefBotApp:
         p.on_resize = self._on_resize
         p.theme_mode = THEMES[self.theme]
         p.add(ft.SafeArea(self.root, expand=True))
+        self.key = os.environ.get("OPENROUTER_API_KEY", "").strip()     # development shortcut
+        self.chef = api.ChefBotAPI(self.key) if self.key else None
         self.show_home()      # draw first; saved settings arrive a moment later
 
         prefs = await self._load_prefs()
+        self.prefs_loaded = True
         self.key = (prefs.get(PREF_KEY) or os.environ.get("OPENROUTER_API_KEY", "")).strip()
         model, effort, theme = prefs.get(PREF_MODEL), prefs.get(PREF_EFFORT), prefs.get(PREF_THEME)
         self.model = model if model in api.MODELS else api.DEFAULT_MODEL
         self.effort = effort if effort in api.EFFORTS else api.DEFAULT_EFFORT
         self.theme = theme if theme in THEMES else "dark"
+        self.email_to = prefs.get(PREF_EMAIL_TO) or ""
+        self.smtp_user = prefs.get(PREF_SMTP_USER) or ""
+        self.smtp_password = prefs.get(PREF_SMTP_PASSWORD) or ""
+        self.smtp_server = prefs.get(PREF_SMTP_SERVER) or DEFAULT_SMTP
         p.theme_mode = THEMES[self.theme]
         self.chef = api.ChefBotAPI(self.key) if self.key else None
         p.update()
@@ -175,10 +196,12 @@ class ChefBotApp:
             self.open_settings(first_run=True)
 
     async def _load_prefs(self) -> dict:
-        """Read saved settings. On a slow first load the storage service can take a few seconds to come up."""
+        """Read saved settings, all at once. On a slow first load the storage service can take a few seconds to come
+        up, so retry a little."""
         for attempt in range(4):
             try:
-                return {k: await self.prefs.get(k) for k in (PREF_KEY, PREF_MODEL, PREF_EFFORT, PREF_THEME)}
+                values = await asyncio.gather(*(self.prefs.get(k) for k in ALL_PREFS))
+                return dict(zip(ALL_PREFS, values))
             except RuntimeError:
                 await asyncio.sleep(0.5 * (attempt + 1))
         return {}
@@ -215,13 +238,26 @@ class ChefBotApp:
             segments=[ft.Segment(value="dark", label="Dark", icon=ft.Icons.DARK_MODE_OUTLINED),
                       ft.Segment(value="light", label="Light", icon=ft.Icons.LIGHT_MODE_OUTLINED),
                       ft.Segment(value="system", label="System", icon=ft.Icons.BRIGHTNESS_AUTO_OUTLINED)])
+        to_field = ft.TextField(label="Send recipes to", value=self.email_to, hint_text="you@example.com",
+                                keyboard_type=ft.KeyboardType.EMAIL, prefix_icon=ft.Icons.EMAIL_OUTLINED)
+        user_field = ft.TextField(label="Send from (your Gmail address)", value=self.smtp_user,
+                                  keyboard_type=ft.KeyboardType.EMAIL)
+        pass_field = ft.TextField(label="Gmail app password", value=self.smtp_password, password=True,
+                                  can_reveal_password=True, hint_text="16 letters, from Google")
+        server_field = ft.TextField(label="Mail server", value=self.smtp_server, dense=True,
+                                    hint_text=DEFAULT_SMTP)
 
         async def save(_):
             self.key = (key_field.value or "").strip()
             self.model, self.effort = model_dd.value or api.DEFAULT_MODEL, effort_dd.value or api.DEFAULT_EFFORT
             self.theme = (list(theme_seg.selected) or ["dark"])[0]
+            self.email_to = (to_field.value or "").strip()
+            self.smtp_user = (user_field.value or "").strip()
+            self.smtp_password = (pass_field.value or "").replace(" ", "")
+            self.smtp_server = (server_field.value or "").strip() or DEFAULT_SMTP
             for k, v in ((PREF_KEY, self.key), (PREF_MODEL, self.model), (PREF_EFFORT, self.effort),
-                         (PREF_THEME, self.theme)):
+                         (PREF_THEME, self.theme), (PREF_EMAIL_TO, self.email_to), (PREF_SMTP_USER, self.smtp_user),
+                         (PREF_SMTP_PASSWORD, self.smtp_password), (PREF_SMTP_SERVER, self.smtp_server)):
                 await self.prefs.set(k, v)
             self.chef = api.ChefBotAPI(self.key) if self.key else None
             self.page.theme_mode = THEMES[self.theme]
@@ -238,14 +274,35 @@ class ChefBotApp:
                 ft.Text("Appearance", size=13, color=ft.Colors.ON_SURFACE_VARIANT), theme_seg,
                 ft.Text("Fridge photos are read by GLM 5.3 Flash; dish pictures come from Gemini 3.1 Flash Lite "
                         "Image.", size=12, color=ft.Colors.ON_SURFACE_VARIANT),
+                ft.Divider(),
+                heading("Email", 18),
+                ft.Text("To email recipes (with the photo and a PDF), ChefBot sends from your own account. For "
+                        "Gmail, make an app password at myaccount.google.com/apppasswords (it needs 2-Step "
+                        "Verification). Everything here stays on this device.",
+                        size=12.5, color=ft.Colors.ON_SURFACE_VARIANT),
+                to_field, user_field, pass_field, server_field,
             ]),
             actions=[ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog()),
                      ft.FilledButton("Save", on_click=save)],
         ))
 
+    def _run(self, fn, *args):
+        """Start a background task; if it fails, say so instead of failing silently."""
+        async def guarded():
+            try:
+                await fn(*args)
+            except Exception as err:
+                import traceback
+                traceback.print_exc()
+                snack(self.page, f"Something went wrong: {type(err).__name__}: {err}")
+        self.page.run_task(guarded)
+
     def _need_key(self) -> bool:
         if self.chef:
             return False
+        if not self.prefs_loaded:
+            snack(self.page, "Still starting up. Try again in a second.")
+            return True
         self.open_settings(first_run=True)
         return True
 
@@ -271,7 +328,7 @@ class ChefBotApp:
                 alignment=ft.Alignment.CENTER, on_click=lambda e, lab=label: self._pick_audience(lab))
         self._style_audience()
         self.dessert = ft.Chip(label="Dessert instead", leading=ft.Icon(ft.Icons.CAKE_OUTLINED, size=18),
-                               show_checkmark=False)
+                               show_checkmark=True, on_select=lambda e: None)   # a handler makes it tappable
         self.diet_chips = {r: ft.Chip(label=r, show_checkmark=True, on_select=self._on_diet_select)
                            for r in prompts.RESTRICTIONS}
         self.must_not = ft.TextField(hint_text="Never use... (e.g. peanuts, cilantro)", filled=True,
@@ -453,13 +510,9 @@ class ChefBotApp:
         self.page.appbar = ft.AppBar(
             leading=ft.IconButton(ft.Icons.ARROW_BACK, tooltip="Back", on_click=lambda _: self.go_home()),
             title=self.title_text, bgcolor=ft.Colors.TRANSPARENT,
-            actions=[
-                ft.IconButton(ft.Icons.PHOTO_CAMERA_OUTLINED, tooltip="Picture of the dish",
-                              on_click=self.make_picture),
-                ft.IconButton(ft.Icons.CONTENT_COPY, tooltip="Copy recipe", on_click=self.copy_recipe),
-                ft.IconButton(ft.Icons.IOS_SHARE, tooltip="Share recipe", on_click=self.share_recipe),
-            ])
+            actions=[ft.IconButton(ft.Icons.SETTINGS_OUTLINED, tooltip="Settings", on_click=self.open_settings)])
         self.thread = self._pad(ft.ListView(expand=True, spacing=16, auto_scroll=True), top=8, bottom=8)
+        self.cards = {}
         for i, m in enumerate(conv.messages):
             if m["role"] == "user":
                 self.thread.controls.append(self._user_bubble(m.get("display") or m["content"]))
@@ -468,7 +521,8 @@ class ChefBotApp:
                 if str(i) in conv.photos:
                     path = self.history.photo_path(conv.photos[str(i)])
                     photo = path.read_bytes() if path.exists() else None
-                self.thread.controls.append(self._assistant_card(m["content"], photo))
+                self.cards[i] = self._assistant_card(m["content"], photo, index=i)
+                self.thread.controls.append(self.cards[i])
         self.status_text = ft.Text("", size=14, weight=ft.FontWeight.W_500, color=ft.Colors.ON_SURFACE_VARIANT)
         self.status = self._pad(ft.Container(
             ft.Row([ft.ProgressRing(width=18, height=18, stroke_width=2.5), self.status_text,
@@ -476,7 +530,7 @@ class ChefBotApp:
             visible=False), top=4, extra=4)
         self.tweaks = ft.Row(scroll=ft.ScrollMode.AUTO, spacing=8, controls=[
             ft.Chip(label=label, leading=ft.Icon(icon, size=18),
-                    on_click=lambda e, msg=msg: self.page.run_task(self.send_text, msg))
+                    on_click=lambda e, msg=msg: self._run(self.send_text, msg))
             for icon, label, msg in QUICK_TWEAKS])
         self.composer = ft.TextField(
             hint_text="Ask for changes: no cucumber, more garlic...", expand=True, multiline=True,
@@ -505,19 +559,42 @@ class ChefBotApp:
             padding=ft.Padding(left=18, right=18, top=12, bottom=12),
             margin=ft.Margin(left=64, right=0, top=0, bottom=0))
 
-    def _assistant_card(self, text: str, photo: bytes | None = None) -> ft.Container:
+    def _assistant_card(self, text: str, photo: bytes | None = None, index: int | None = None) -> ft.Container:
+        """A ChefBot reply. `index` is its place in conv.messages; replies still streaming get it later."""
         md = ft.Markdown(text, selectable=True, extension_set=ft.MarkdownExtensionSet.GITHUB_WEB,
                          md_style_sheet=md_style())
-        parts: list[ft.Control] = []
+        photo_slot = ft.Container(visible=bool(photo))
         if photo:
-            parts.append(ft.Image(src=photo, fit=ft.BoxFit.COVER, border_radius=18, height=300))
-        parts.append(ft.Row([ft.Image(src="logo.svg", width=28, height=28),
-                             ft.Text("ChefBot", weight=ft.FontWeight.W_700, font_family=HEADING_FONT, size=15)],
-                            spacing=10))
-        parts.append(md)
-        c = card(*parts, padding=20)
-        c.data = md
+            photo_slot.content = ft.Image(src=photo, fit=ft.BoxFit.COVER, border_radius=18, height=300)
+        actions = ft.Row(wrap=True, spacing=2, run_spacing=0, visible=False)
+        c = card(photo_slot,
+                 ft.Row([ft.Image(src="logo.svg", width=28, height=28),
+                         ft.Text("ChefBot", weight=ft.FontWeight.W_700, font_family=HEADING_FONT, size=15)],
+                        spacing=10),
+                 md, actions, padding=20)
+        c.data = {"md": md, "photo": photo_slot, "actions": actions}
+        if index is not None:
+            self._fill_actions(c, index, text, has_photo=bool(photo))
         return c
+
+    def _fill_actions(self, c: ft.Container, index: int, text: str, has_photo: bool):
+        """The buttons under a reply: they act on that reply only."""
+        row: ft.Row = c.data["actions"]
+        c.key = ft.ScrollKey(f"msg-{index}")
+        btn = lambda icon, tip, fn: ft.IconButton(icon, tooltip=tip, icon_size=20,
+                                                   on_click=lambda e: self._run(fn, index, e.control))
+        row.controls = [
+            btn(ft.Icons.CONTENT_COPY, "Copy as Markdown", self.copy_message),
+            btn(ft.Icons.PICTURE_AS_PDF_OUTLINED, "Save as PDF", self.save_pdf),
+            btn(ft.Icons.HTML, "Save as web page (.html)", self.save_html),
+            btn(ft.Icons.EMAIL_OUTLINED, "Email", self.email_message),
+            btn(ft.Icons.SHARE_OUTLINED, "Share", self.share_message),
+        ]
+        if extract_title(text):
+            row.controls.append(ft.TextButton(
+                "New picture" if has_photo else "Picture this dish", icon=ft.Icons.PHOTO_CAMERA_OUTLINED,
+                on_click=lambda e: self._run(self.make_picture, index, e.control)))
+        row.visible = True
 
     def _set_status(self, text: str | None):
         self.status.visible = bool(text)
@@ -565,7 +642,7 @@ class ChefBotApp:
         self.stop_requested = False
         self._set_busy(True)
         bubble = self._assistant_card("")
-        md: ft.Markdown = bubble.data
+        md: ft.Markdown = bubble.data["md"]
         self.thread.controls.append(bubble)
         self.thread.update()
         got_text = asyncio.Event()
@@ -599,6 +676,10 @@ class ChefBotApp:
             md.value = text
             md.update()
             conv.messages.append({"role": "assistant", "content": text})
+            index = len(conv.messages) - 1
+            self.cards[index] = bubble
+            self._fill_actions(bubble, index, text, has_photo=False)
+            bubble.update()
             conv.title = extract_title(text) or conv.title
             self.title_text.value = conv.title
             self.title_text.update()
@@ -615,57 +696,183 @@ class ChefBotApp:
         elif self.stop_requested and text:
             snack(self.page, "Stopped. The partial recipe is kept; ask me to finish it if you like.")
 
-    def _latest_recipe(self) -> tuple[int, str] | None:
-        if not self.conv:
-            return None
-        for i in range(len(self.conv.messages) - 1, -1, -1):
-            m = self.conv.messages[i]
-            if m["role"] == "assistant" and extract_title(m["content"]):
-                return i, m["content"]
-        return None
+    # ------------------------------------------------------------ actions on one reply
 
-    async def copy_recipe(self, e):
-        found = self._latest_recipe()
-        if not found:
-            snack(self.page, "No recipe yet.")
-            return
-        await self.clipboard.set(found[1])
-        snack(self.page, "Recipe copied.")
+    def _message(self, index: int) -> tuple[str, str, bytes | None]:
+        """(title, markdown, photo) for one reply."""
+        text = self.conv.messages[index]["content"]
+        title = extract_title(text) or self.conv.title
+        photo = None
+        name = self.conv.photos.get(str(index))
+        if name:
+            path = self.history.photo_path(name)
+            photo = path.read_bytes() if path.exists() else None
+        return title, text, photo
 
-    async def share_recipe(self, e):
-        found = self._latest_recipe()
-        if not found:
-            snack(self.page, "No recipe yet.")
+    async def _flash(self, button: ft.Control, ok: bool = True):
+        """Brief check mark on the button that was pressed."""
+        if not isinstance(button, ft.IconButton):
             return
+        old = button.icon
+        button.icon = ft.Icons.CHECK if ok else ft.Icons.ERROR_OUTLINE
+        button.update()
+        await asyncio.sleep(1.6)
+        button.icon = old
+        button.update()
+
+    async def _make_pdf(self, title: str, text: str, photo: bytes | None) -> bytes:
+        if export.cjk_needed(title + text):
+            self._set_status("Getting fonts for the non-Latin names (first time only)...")
+        fonts = await asyncio.to_thread(export.ensure_cjk_fonts, title + text, self.history.folder / "fonts")
+        self._set_status("Making the PDF...")
         try:
-            await self.share.share_text(found[1], subject=self.conv.title)
+            return await asyncio.to_thread(export.recipe_pdf, title, text, photo, fonts)
+        finally:
+            self._set_status(None)
+
+    async def copy_message(self, index: int, button=None):
+        await self.clipboard.set(self.conv.messages[index]["content"])
+        snack(self.page, "Copied as Markdown.")
+        await self._flash(button)
+
+    async def _save(self, data: bytes, file_name: str) -> bool:
+        try:
+            path = await self.picker.save_file(dialog_title="Save", file_name=file_name, src_bytes=data)
+        except Exception as err:
+            snack(self.page, f"Couldn't save: {err}")
+            return False
+        if not self.page.web and not path:
+            return False             # cancelled the save dialog
+        snack(self.page, f"Saved {file_name}.")
+        return True
+
+    async def save_pdf(self, index: int, button=None):
+        title, text, photo = self._message(index)
+        pdf = await self._make_pdf(title, text, photo)
+        if await self._save(pdf, f"{export.file_stem(title)}.pdf"):
+            await self._flash(button)
+
+    async def save_html(self, index: int, button=None):
+        title, text, photo = self._message(index)
+        page = export.recipe_html(title, text, photo).encode("utf-8")
+        if await self._save(page, f"{export.file_stem(title)}.html"):
+            await self._flash(button)
+
+    async def share_message(self, index: int, button=None):
+        title, text, photo = self._message(index)
+        try:
+            pdf = await self._make_pdf(title, text, photo)
+            files = [ft.ShareFile.from_bytes(pdf, mime_type="application/pdf", name=f"{export.file_stem(title)}.pdf")]
+            if photo:
+                files.append(ft.ShareFile.from_bytes(photo, mime_type=export.image_mime(photo),
+                                                     name=f"{export.file_stem(title)}.{export.image_mime(photo).split('/')[1]}"))
+            await self.share.share_files(files, subject=title, text=f"{title}: a recipe from ChefBot")
         except Exception:
-            await self.clipboard.set(found[1])
+            await self.clipboard.set(text)
             snack(self.page, "Sharing isn't available here, so I copied the recipe instead.")
 
-    async def make_picture(self, e):
-        found = self._latest_recipe()
-        if not found or self.busy:
-            snack(self.page, "No recipe yet." if not found else "Hang on, I'm still cooking.")
+    async def email_message(self, index: int, button=None):
+        title, text, photo = self._message(index)
+        to_field = ft.TextField(label="Send to", value=self.email_to, autofocus=True,
+                                keyboard_type=ft.KeyboardType.EMAIL, prefix_icon=ft.Icons.EMAIL_OUTLINED)
+        remember = ft.Checkbox(label="Remember this address", value=True)
+        can_send = bool(self.smtp_user and self.smtp_password)
+        note = ft.Text(
+            "Sends a formatted email with the dish photo and a PDF attached." if can_send else
+            "To send it directly (with the photo and a PDF), add your Gmail address and an app password in "
+            "Settings. Or open it in your mail app instead (text only).",
+            size=12.5, color=ft.Colors.ON_SURFACE_VARIANT)
+        sending = ft.ProgressBar(visible=False)
+
+        async def remember_address(to: str):
+            if remember.value and to != self.email_to:
+                self.email_to = to
+                await self.prefs.set(PREF_EMAIL_TO, to)
+
+        async def send(_):
+            to = (to_field.value or "").strip()
+            if "@" not in to:
+                to_field.error = "Enter an email address"
+                to_field.update()
+                return
+            await remember_address(to)
+            sending.visible = True
+            sending.update()
+            try:
+                pdf = await self._make_pdf(title, text, photo)
+                msg = export.build_email(self.smtp_user, to, title, text, photo, pdf)
+                host, _, port = self.smtp_server.partition(":")
+                await asyncio.to_thread(export.send_email, msg, host or "smtp.gmail.com", int(port or 465),
+                                        self.smtp_user, self.smtp_password)
+            except Exception as err:
+                sending.visible = False
+                sending.update()
+                snack(self.page, _email_error(err))
+                return
+            self.page.pop_dialog()
+            snack(self.page, f"Sent to {to}.")
+
+        async def open_mail_app(_):
+            to = (to_field.value or "").strip()
+            await remember_address(to)
+            body = export.without_title_line(text)
+            if len(body) > 6000:
+                body = body[:6000] + "\n\n(Recipe shortened. Use Save as PDF for the full version.)"
+            from urllib.parse import quote
+            self.page.pop_dialog()
+            await self.urls.launch_url(f"mailto:{quote(to)}?subject={quote('Recipe: ' + title)}&body={quote(body)}")
+
+        def settings(_):
+            self.page.pop_dialog()
+            self.open_settings()
+
+        actions = [ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog()),
+                   ft.TextButton("Open in mail app", on_click=open_mail_app)]
+        actions.append(ft.FilledButton("Send", icon=ft.Icons.SEND, on_click=send) if can_send else
+                       ft.FilledButton("Set up sending", icon=ft.Icons.SETTINGS_OUTLINED, on_click=settings))
+        self.page.show_dialog(ft.AlertDialog(
+            title=heading("Email this recipe", 22),
+            content=ft.Column([ft.Text(title, weight=ft.FontWeight.W_600), to_field, remember, note, sending],
+                              tight=True, spacing=14, width=420),
+            actions=actions))
+
+    async def make_picture(self, index: int, button=None):
+        if self.busy:
+            snack(self.page, "Hang on, I'm still cooking.")
             return
         if self._need_key():
             return
-        index, content = found
         conv = self.conv
+        title, text, _ = self._message(index)
         self._set_busy(True)
         self._set_status("Plating it up for the camera...")
         try:
-            image = await self.chef.dish_photo(extract_title(content) or conv.title)
+            image = await self.chef.dish_photo(title)
         except api.ApiError as err:
-            self._set_status(None)
-            self._set_busy(False)
             snack(self.page, str(err))
             return
+        finally:
+            self._set_status(None)
+            self._set_busy(False)
         self.history.save_photo(conv, index, image)
         self.history.save(conv)
-        self.busy = False
-        if self.conv is conv:
-            self.show_chat(conv)
+        if self.conv is conv and index in self.cards:
+            c = self.cards[index]
+            slot: ft.Container = c.data["photo"]
+            slot.content = ft.Image(src=image, fit=ft.BoxFit.COVER, border_radius=18, height=300)
+            slot.visible = True
+            self._fill_actions(c, index, text, has_photo=True)
+            c.update()
+            await self.thread.scroll_to(scroll_key=f"msg-{index}", duration=500)
+
+
+def _email_error(err: Exception) -> str:
+    import smtplib
+    if isinstance(err, smtplib.SMTPAuthenticationError):
+        return "The mail server didn't accept the address and app password. Check them in Settings."
+    if isinstance(err, (smtplib.SMTPRecipientsRefused,)):
+        return "The mail server refused that address."
+    return f"Couldn't send the email ({type(err).__name__}: {err})."
 
 
 async def main(page: ft.Page):

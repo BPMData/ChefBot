@@ -1,0 +1,69 @@
+import io
+
+import pytest
+
+from chefbot import export
+
+RECIPE = """Hello foodies! Tonight: **Galbijjim (갈비찜)**, with oregano (ρίγανη) and a little 🔥.
+
+Recipe Title: Galbijjim (갈비찜) — Braised Short Ribs
+
+**The sauce:**
+- 2 tbsp soy sauce (ganjang, 간장)
+- 1 tbsp *honey*
+
+## Method
+1. Soak the ribs.
+2. Braise until tender.
+"""
+TITLE = "Galbijjim (갈비찜) — Braised Short Ribs"
+PNG = (b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x02\x00\x00\x00\x90wS\xde"
+       b"\x00\x00\x00\x0cIDATx\x9cc\xf8\xcf\xc0\x00\x00\x03\x01\x01\x00\xc9\xfe\x92\xef\x00\x00\x00\x00IEND\xaeB`\x82")
+
+
+def test_lists_right_under_a_label_still_become_lists():
+    html = export.markdown_to_html(RECIPE)
+    assert "<ul>" in html and "<li>2 tbsp soy sauce" in html and "<ol>" in html
+
+
+def test_html_page_is_standalone():
+    page = export.recipe_html(TITLE, RECIPE, PNG)
+    assert page.startswith("<!doctype html>") and "<title>Galbijjim (갈비찜)" in page
+    assert "data:image/png;base64," in page and "<strong>Galbijjim (갈비찜)</strong>" in page
+    assert "Recipe Title:" not in page          # the title is the heading instead
+
+
+def test_file_stem():
+    assert export.file_stem("Galbijjim (갈비찜) — Braised Short Ribs!") == "Galbijjim-갈비찜-Braised-Short-Ribs"
+    assert export.file_stem("???") == "recipe"
+
+
+def test_strip_cjk_tidies_brackets():
+    assert export.strip_cjk("Galbijjim (갈비찜) and sesame oil (chamgireum, 참기름)") == \
+        "Galbijjim and sesame oil (chamgireum)"
+
+
+def test_assign_fonts_marks_runs():
+    base = {ord(c) for c in "abc ()"}
+    out = export.assign_fonts("<p>abc (갈비) ρ 🔥</p>", base, [("Greek", {ord("ρ")}), ("KR", {ord("갈"), ord("비")})])
+    # spaces stay inside a run (so "갈비 찜" stays in one font); the emoji, which no font has, is dropped
+    assert out == '<p>abc (<font face="KR">갈비</font>) <font face="Greek">ρ </font></p>'
+
+
+def test_pdf_without_cjk_fonts_drops_only_cjk():
+    pypdf = pytest.importorskip("pypdf")
+    pdf = export.recipe_pdf(TITLE, RECIPE, PNG)
+    assert pdf[:5] == b"%PDF-"
+    text = "".join(p.extract_text() for p in pypdf.PdfReader(io.BytesIO(pdf)).pages)
+    assert "Galbijjim" in text and "Braise until tender" in text and "ρίγανη"[:1] in text
+    assert "갈비찜" not in text and "Recipe Title" not in text
+
+
+def test_email_has_html_photo_and_pdf():
+    msg = export.build_email("me@example.com", "you@example.com", TITLE, RECIPE, PNG, b"%PDF-1.4 fake")
+    types = [p.get_content_type() for p in msg.walk()]
+    assert types == ["multipart/mixed", "multipart/alternative", "text/plain", "multipart/related", "text/html",
+                     "image/png", "application/pdf"]
+    html = msg.get_payload()[0].get_payload()[1].get_payload()[0].get_content()
+    assert "cid:" in html and "<li>2 tbsp soy sauce" in html
+    assert msg["Subject"] == f"Recipe: {TITLE}"

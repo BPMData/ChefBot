@@ -18,13 +18,19 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
   dish pictures come from Gemini 3.1 Flash Lite Image.
 - **Fixed allergen rules.** "Free of major food allergens" now covers all nine U.S. allergens (FALCPA plus sesame,
   added by the FASTER Act), and dietary rules override a cuisine's classic ingredients.
-- **Share and copy** replace the old e-mail form.
+- **Under every reply:** Copy (as Markdown), Save as PDF, Save as web page (.html), Email, Share, and
+  Picture this dish. Each acts on that reply only.
+- **Email** sends a formatted recipe with the dish photo inline and a PDF attached, from your own account (for
+  Gmail: an app password from myaccount.google.com/apppasswords, entered in Settings). The recipient you type
+  is remembered. Without an account set up, "Open in mail app" sends the text through your mail app.
+- **PDFs** keep Korean, Chinese and Japanese names: the matching Noto font is downloaded the first time it's
+  needed (10–18 MB, once) and cached on the device.
 
 ## Run it
 
 ```bash
 python3 -m venv .venv
-.venv/bin/pip install "flet[all]==1.0.5" "httpx>=0.28" pytest
+.venv/bin/pip install "flet[all]==1.0.5" "httpx>=0.28" markdown fpdf2 pytest pypdf
 .venv/bin/flet run src/main.py            # desktop window
 .venv/bin/flet run --web src/main.py      # in a browser
 ```
@@ -72,6 +78,8 @@ src/chefbot/prompts.py   audiences, cuisines, dietary rules, prompt text
 src/chefbot/api.py       OpenRouter: streaming recipes, photo reading, dish pictures
 src/chefbot/history.py   saved conversations and photos
 src/chefbot/recipe.py    reading the "Recipe Title:" line
+src/chefbot/export.py    Markdown, HTML page, PDF and email versions of a reply
+tools/make_static_fonts.py  cuts the fixed-weight fonts PDFs use
 src/assets/              logo and bundled fonts (Fraunces, DM Sans; SIL Open Font License)
 ```
 
