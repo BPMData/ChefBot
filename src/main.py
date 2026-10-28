@@ -21,11 +21,14 @@ PREF_SMTP_PASSWORD = "chefbot.smtp_password"
 PREF_SMTP_SERVER = "chefbot.smtp_server"
 PREF_RELAY_URL = "chefbot.relay_url"        # ChefBot mail relay (tools/mail-relay.gs), preferred over SMTP
 PREF_RELAY_SECRET = "chefbot.relay_secret"
+PREF_DEV_MODE = "chefbot.dev_mode"          # "on" shows the hidden email-sending settings (tap Settings 7 times)
+DEV_MODE_TAPS = 7
 PREFS_FAILED = ("ChefBot couldn't read its saved settings (your key is still safe). Close ChefBot and open it "
                 "again.")
 ALL_PREFS = (PREF_KEY, PREF_MODEL, PREF_EFFORT, PREF_THEME, PREF_EMAIL_TO, PREF_SMTP_USER, PREF_SMTP_PASSWORD,
-             PREF_SMTP_SERVER, PREF_RELAY_URL, PREF_RELAY_SECRET)
+             PREF_SMTP_SERVER, PREF_RELAY_URL, PREF_RELAY_SECRET, PREF_DEV_MODE)
 DEFAULT_SMTP = "smtp.gmail.com:465"
+MAILTO_LIMIT_WINDOWS = 1500   # characters of recipe text in a mailto link on Windows
 
 # ---------------------------------------------------------------- look and feel
 
@@ -163,6 +166,7 @@ class ChefBotApp:
         self.smtp_server = DEFAULT_SMTP
         self.relay_url = ""
         self.relay_secret = ""
+        self.dev_mode = False
         self.user_tools: dict[int, ft.Row] = {}     # edit/delete buttons under user messages
         self.editing_index: int | None = None
         self.urls = ft.UrlLauncher()
@@ -212,6 +216,7 @@ class ChefBotApp:
         self.smtp_server = prefs.get(PREF_SMTP_SERVER) or DEFAULT_SMTP
         self.relay_url = prefs.get(PREF_RELAY_URL) or ""
         self.relay_secret = prefs.get(PREF_RELAY_SECRET) or ""
+        self.dev_mode = prefs.get(PREF_DEV_MODE) == "on"
         p.theme_mode = THEMES[self.theme]
         self.chef = api.ChefBotAPI(self.key) if self.key else None
         p.update()
@@ -288,6 +293,26 @@ class ChefBotApp:
             await self.clipboard.set(relay_secret_field.value)
             snack(self.page, "New secret copied. Paste it into the relay's RELAY_SECRET script property.")
 
+        # Developer mode: tapping the dialog's title 7 times shows (or hides again) the email-sending settings.
+        # Everyday users email through their own mail app and never need them.
+        dev_section = ft.Column(tight=True, spacing=16, visible=self.dev_mode)
+        taps = [0]
+
+        async def tap_title(_):
+            taps[0] += 1
+            if taps[0] < DEV_MODE_TAPS:
+                return
+            taps[0] = 0
+            self.dev_mode = not self.dev_mode
+            dev_section.visible = self.dev_mode
+            dev_section.update()
+            try:
+                await self.prefs.set(PREF_DEV_MODE, "on" if self.dev_mode else "")
+            except Exception:
+                pass                 # it still applies until ChefBot closes
+            snack(self.page, "Developer mode on: email-sending settings are below." if self.dev_mode else
+                  "Developer mode off.")
+
         save_button = ft.FilledButton("Save")
         save_problem = ft.Text("", color=ft.Colors.ERROR, size=13, visible=False, selectable=True)
 
@@ -327,28 +352,32 @@ class ChefBotApp:
         save_button.on_click = save
         intro = ("Paste an OpenRouter API key to get started (openrouter.ai/keys). It's stored only on this "
                  "device.") if first_run else "Your key is stored only on this device."
+        dev_section.controls = [
+            ft.Divider(),
+            heading("Email sending (developer)", 18),
+            ft.Text("Normally the Email button hands the recipe and its PDF to your own mail app. With a relay or "
+                    "a Gmail app password set here, ChefBot sends the email itself instead. Everything here stays "
+                    "on this device. Setup: docs/EMAIL.md.",
+                    size=12.5, color=ft.Colors.ON_SURFACE_VARIANT),
+            to_field,
+            ft.Text("ChefBot mail relay", weight=ft.FontWeight.W_600),
+            relay_url_field,
+            ft.Row([relay_secret_field, ft.TextButton("Generate", icon=ft.Icons.AUTORENEW,
+                                                      on_click=generate_secret)]),
+            ft.Text("Or: a Gmail app password", weight=ft.FontWeight.W_600),
+            ft.Text("Made at myaccount.google.com/apppasswords on the same account as 'Send from'. Some "
+                    "networks block this kind of sending.", size=12, color=ft.Colors.ON_SURFACE_VARIANT),
+            user_field, pass_field, server_field,
+        ]
         self.page.show_dialog(ft.AlertDialog(
-            modal=first_run, scrollable=True, title=heading("Settings", 22),
+            modal=first_run, scrollable=True,
+            title=ft.GestureDetector(content=heading("Settings", 22), on_tap=tap_title),
             content=ft.Column(tight=True, spacing=16, width=440, controls=[
                 ft.Text(intro, size=13), key_field, ft.Row([model_dd]), ft.Row([effort_dd]),
                 ft.Text("Appearance", size=13, color=ft.Colors.ON_SURFACE_VARIANT), theme_seg,
                 ft.Text("Fridge photos are read by GLM 5.3 Flash; dish pictures come from Gemini 3.1 Flash Lite "
                         "Image.", size=12, color=ft.Colors.ON_SURFACE_VARIANT),
-                ft.Divider(),
-                heading("Email", 18),
-                ft.Text("To email recipes (with the photo and a PDF), ChefBot sends from your own Google account. "
-                        "Easiest and most reliable: the ChefBot mail relay, a small Google script you set up once "
-                        "(docs/EMAIL.md). Everything here stays on this device.",
-                        size=12.5, color=ft.Colors.ON_SURFACE_VARIANT),
-                to_field,
-                ft.Text("ChefBot mail relay", weight=ft.FontWeight.W_600),
-                relay_url_field,
-                ft.Row([relay_secret_field, ft.TextButton("Generate", icon=ft.Icons.AUTORENEW,
-                                                          on_click=generate_secret)]),
-                ft.Text("Or: a Gmail app password", weight=ft.FontWeight.W_600),
-                ft.Text("Made at myaccount.google.com/apppasswords on the same account as 'Send from'. Some "
-                        "networks block this kind of sending.", size=12, color=ft.Colors.ON_SURFACE_VARIANT),
-                user_field, pass_field, server_field, save_problem,
+                dev_section, save_problem,
             ]),
             actions=[ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog()), save_button],
         ))
@@ -974,30 +1003,45 @@ class ChefBotApp:
         if await self._save(page, f"{export.file_stem(title)}.html"):
             await self._flash(button)
 
-    async def share_message(self, index: int, button=None):
-        title, text, photo = self._message(index)
+    async def _share(self, title: str, text: str, photo: bytes | None, subject: str, body: str):
+        """Open the system share sheet with the recipe PDF (and photo) attached."""
         try:
             pdf = await self._make_pdf(title, text, photo)
             files = [ft.ShareFile.from_bytes(pdf, mime_type="application/pdf", name=f"{export.file_stem(title)}.pdf")]
             if photo:
                 files.append(ft.ShareFile.from_bytes(photo, mime_type=export.image_mime(photo),
                                                      name=f"{export.file_stem(title)}.{export.image_mime(photo).split('/')[1]}"))
-            await self.share.share_files(files, subject=title, text=f"{title}: a recipe from ChefBot")
+            await self.share.share_files(files, subject=subject, text=body)
         except Exception:
             await self.clipboard.set(text)
             snack(self.page, "Sharing isn't available here, so I copied the recipe instead.")
 
+    async def share_message(self, index: int, button=None):
+        title, text, photo = self._message(index)
+        await self._share(title, text, photo, title, f"{title}: a recipe from ChefBot")
+
+    def _on_phone(self) -> bool:
+        return not self.page.web and self.page.platform in (ft.PagePlatform.ANDROID, ft.PagePlatform.IOS)
+
+    async def _email_with_mail_app(self, title: str, text: str, photo: bytes | None):
+        """On a phone: the share sheet, where the user picks their mail app. It gets the subject, the full recipe
+        as the message, and the PDF and photo as attachments."""
+        await self._share(title, text, photo, f"Recipe: {title}", export.email_text(title, text))
+
     async def email_message(self, index: int, button=None):
         title, text, photo = self._message(index)
+        use_relay = bool(self.relay_url and self.relay_secret)
+        can_send = use_relay or bool(self.smtp_user and self.smtp_password)
+        if self._on_phone() and not can_send:
+            await self._email_with_mail_app(title, text, photo)
+            return
         to_field = ft.TextField(label="Send to", value=self.email_to, autofocus=True,
                                 keyboard_type=ft.KeyboardType.EMAIL, prefix_icon=ft.Icons.EMAIL_OUTLINED)
         remember = ft.Checkbox(label="Remember this address", value=True)
-        use_relay = bool(self.relay_url and self.relay_secret)
-        can_send = use_relay or bool(self.smtp_user and self.smtp_password)
         note = ft.Text(
             f"Sends a formatted email with {export.attachments_phrase(bool(photo))} attached." if can_send else
-            f"To send it directly (with {export.attachments_phrase(bool(photo))}), set up the ChefBot mail relay in Settings "
-            "(docs/EMAIL.md). Or open it in your mail app instead (text only).",
+            "Opens a new message in your mail app with the whole recipe. Mail links can't carry attachments, so "
+            "use PDF to save one and attach it yourself.",
             size=12.5, color=ft.Colors.ON_SURFACE_VARIANT)
         sending = ft.ProgressBar(visible=False)
         problem = ft.Text("", color=ft.Colors.ERROR, size=13, visible=False, selectable=True)
@@ -1040,21 +1084,26 @@ class ChefBotApp:
         async def open_mail_app(_):
             to = (to_field.value or "").strip()
             await remember_address(to)
-            body = export.without_title_line(text)
-            if len(body) > 6000:
-                body = body[:6000] + "\n\n(Recipe shortened. Use Save as PDF for the full version.)"
-            from urllib.parse import quote
             self.page.pop_dialog()
-            await self.urls.launch_url(f"mailto:{quote(to)}?subject={quote('Recipe: ' + title)}&body={quote(body)}")
+            if self._on_phone():
+                await self._email_with_mail_app(title, text, photo)
+                return
+            # Some Windows mail apps reject long mailto links, so only there is the text shortened.
+            limit = MAILTO_LIMIT_WINDOWS if self.page.platform == ft.PagePlatform.WINDOWS else None
+            await self.urls.launch_url(export.mailto_link(to, title, text, limit))
 
         def settings(_):
             self.page.pop_dialog()
             self.open_settings()
 
-        actions = [ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog()),
-                   ft.TextButton("Open in mail app", on_click=open_mail_app)]
-        actions.append(ft.FilledButton("Send", icon=ft.Icons.SEND, on_click=send) if can_send else
-                       ft.FilledButton("Set up sending", icon=ft.Icons.SETTINGS_OUTLINED, on_click=settings))
+        actions = [ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog())]
+        if can_send:
+            actions += [ft.TextButton("Use my mail app", on_click=open_mail_app),
+                        ft.FilledButton("Send", icon=ft.Icons.SEND, on_click=send)]
+        else:
+            if self.dev_mode:
+                actions.append(ft.TextButton("Set up sending", on_click=settings))
+            actions.append(ft.FilledButton("Open in mail app", icon=ft.Icons.OPEN_IN_NEW, on_click=open_mail_app))
         self.page.show_dialog(ft.AlertDialog(
             title=heading("Email this recipe", 22),
             content=ft.Column([ft.Text(title, weight=ft.FontWeight.W_600), to_field, remember, note, sending,

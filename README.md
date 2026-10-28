@@ -20,9 +20,10 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
   added by the FASTER Act), and dietary rules override a cuisine's classic ingredients.
 - **Under every reply:** Copy (as Markdown), Save as PDF, Save as web page (.html), Email, Share, and
   Picture this dish. Each acts on that reply only.
-- **Email** sends a formatted recipe with the dish photo inline and a PDF attached, through the ChefBot mail
-  relay: a small Google Apps Script you deploy once ([docs/EMAIL.md](docs/EMAIL.md)). A Gmail app password
-  works too. The recipient you type is remembered. Without either, "Open in mail app" sends the text.
+- **Email** uses your own mail app, no setup needed. On a phone it opens the share sheet with the whole recipe
+  and the PDF and photo attached; on a computer it opens a new message with the recipe text. A hidden developer
+  setting (tap "Settings" 7 times) lets ChefBot send formatted emails itself through a small Google Apps Script
+  relay or a Gmail app password ([docs/EMAIL.md](docs/EMAIL.md)).
 - **Edit or delete your last message.** Edit puts it back in the box (nothing changes until you send); Delete
   has Undo.
 - **The 1817 version (beta)** rewrites a dish as a period recipe, after a clear warning that AI invents history.

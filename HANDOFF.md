@@ -22,9 +22,15 @@ himself (and maybe 1–2 others), so quality matters more than cost.
    answers the hello check, and a test email (Galbijjim + photo + PDF) went through the relay to that inbox.
    **Still to confirm:** Bryan's look in Gmail at the inline image, the PDF attachment and the Korean name. Direct
    SMTP with an app password still fails (`SMTPServerDisconnected` during sign-in); the relay is the way.
-2. **Android APK built (2026-10-28), not yet tried on a phone.** `build/apk/chefbot-arm64-v8a.apk` (66 MB). Bryan
-   sideloads it and tests: Settings key entry, a recipe, Snap my fridge, PDF/Email/Share, the dish picture. See
-   "Android" below for how to install, rebuild, and delete the ~13 GB toolchain afterwards.
+   **Since 2026-10-28 the relay is a hidden developer option** (tap the "Settings" title 7 times; pref
+   `chefbot.dev_mode` = "on"). Bryan's phone has the relay set (he copied the URL and secret over with
+   `adb push`). Everyone else: Email on a phone opens the share sheet (subject + full plain-text recipe + PDF and
+   photo attached; share_plus passes EXTRA_SUBJECT/EXTRA_TEXT/EXTRA_STREAM, so Gmail fills all three). On desktop
+   it's a `mailto:` link with the whole recipe (shortened only on Windows, whose mail apps reject long links).
+2. **Android APK built and installed on Bryan's Samsung (2026-10-28)** with `adb install -r` (USB debugging is on).
+   He reported almost everything worked first try; only email was off (fixed: share sheet, see item 1). Re-test
+   Email on the phone after installing the new build. See "Android" below for installing, rebuilding, signing,
+   and deleting the ~13 GB toolchain.
 3. **GitHub: done** (private repo; PR #1 with the 2026-10-28 work is merged). Still to do: README screenshots; maybe make it
    public later (ask first).
 
@@ -133,13 +139,15 @@ cd ~/Documents/Github/ChefBot
   it until ChefBot is uninstalled, which **deletes its saved recipes and settings on the phone**. To keep one key,
   copy `~/.android/debug.keystore` to the new computer's `~/.android/` before building there (or set up a proper
   release keystore).
-- **Untested on a real phone (Bryan's checklist):**
+- **Phone checklist** (on Bryan's Samsung 2026-10-28 "almost everything worked"; Email was the problem, since reworked):
   - Settings: type the OpenRouter key (no env var on a phone). It's kept in app-private SharedPreferences.
   - A recipe from the home form, and a follow-up change.
   - "Snap my fridge": `FilePicker.pick_files(file_type=IMAGE, with_data=True)` probably opens the photo picker,
     not the camera. If camera capture is wanted, look at Flet 1.0's options (`--permissions camera`, a camera
     control) before building something custom.
-  - PDF (with and without a photo), Email (relay), Share (`Share.share_files` should open the share sheet).
+  - PDF (with and without a photo), Share: worked on Bryan's Samsung (2026-10-28). The old "Open in mail
+    app" `mailto:` path on the phone dropped the PDF and cut the recipe at 6,000 characters; replaced by the share
+    sheet (needs a re-test on the phone).
     CJK fonts for PDFs download on first use (10–18 MB) into `<data>/fonts`.
   - Dish picture.
 
