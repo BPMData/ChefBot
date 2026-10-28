@@ -589,6 +589,13 @@ class ChefBotApp:
     async def read_photo(self, e):
         if self._need_key():
             return
+        if self._on_phone():
+            await self.open_camera()        # the gallery is one tap away there
+        else:
+            await self.pick_photo()
+
+    async def pick_photo(self):
+        """Choose an existing photo (the gallery on a phone, a file dialog elsewhere)."""
         files = await self.picker.pick_files(file_type=ft.FilePickerFileType.IMAGE, with_data=True,
                                              compression_quality=85, dialog_title="Photo of your fridge, pantry or groceries")
         if not files:
@@ -603,6 +610,82 @@ class ChefBotApp:
             return
         ext = (f.name.rsplit(".", 1)[-1] if "." in f.name else "jpeg").lower()
         mime = {"png": "image/png", "webp": "image/webp", "heic": "image/heic", "gif": "image/gif"}.get(ext, "image/jpeg")
+        await self._read_ingredients(data, mime)
+
+    # The in-app camera (phones). flet-camera shows a live preview; the shutter takes a JPEG.
+
+    async def open_camera(self):
+        import flet_camera as fc
+        self.on_camera = True
+        self.page.views[0].can_pop = False        # back closes the camera (see _on_back)
+        self.camera = fc.Camera(expand=True, preview_enabled=True)
+        self.shutter = ft.IconButton(ft.Icons.CAMERA, icon_size=44, icon_color=ft.Colors.BLACK,
+                                     bgcolor=ft.Colors.WHITE, tooltip="Take the photo", disabled=True,
+                                     style=ft.ButtonStyle(shape=ft.CircleBorder(), padding=18),
+                                     on_click=lambda e: self._run(self._take_photo))
+        self.camera_status = ft.Text("Starting the camera...", color=ft.Colors.WHITE, size=13)
+        bar = ft.Container(
+            ft.Column([self.camera_status,
+                       ft.Row([ft.TextButton("Gallery", icon=ft.Icons.PHOTO_LIBRARY_OUTLINED,
+                                             style=ft.ButtonStyle(color=ft.Colors.WHITE),
+                                             on_click=lambda e: self._run(self._camera_to_gallery)),
+                               self.shutter,
+                               ft.TextButton("Cancel", icon=ft.Icons.CLOSE, style=ft.ButtonStyle(color=ft.Colors.WHITE),
+                                             on_click=lambda e: self._close_camera())],
+                              alignment=ft.MainAxisAlignment.SPACE_EVENLY,
+                              vertical_alignment=ft.CrossAxisAlignment.CENTER)],
+                      horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=10, tight=True),
+            padding=ft.Padding(left=12, right=12, top=14, bottom=22),
+            bgcolor=ft.Colors.with_opacity(0.55, "#000000"), left=0, right=0, bottom=0)
+        self.page.appbar = None
+        self.root.content = ft.Container(ft.Stack([ft.Container(self.camera, expand=True, alignment=ft.Alignment.CENTER),
+                                                   bar], expand=True),
+                                         bgcolor="#000000", expand=True)
+        self.page.update()
+        try:
+            cams = await self.camera.get_available_cameras()
+            if not cams:
+                raise RuntimeError("no camera")
+            back = next((c for c in cams if c.lens_direction == fc.CameraLensDirection.BACK), cams[0])
+            await self.camera.initialize(back, fc.ResolutionPreset.HIGH, enable_audio=False)
+        except Exception:
+            # No camera, or permission refused: the gallery still works.
+            self._close_camera()
+            snack(self.page, "The camera isn't available, so here's your gallery instead.")
+            await self.pick_photo()
+            return
+        if not self.on_camera:
+            return                               # closed while it was starting
+        self.camera_status.value = "Get everything in the shot."
+        self.shutter.disabled = False
+        self.page.update()
+
+    def _close_camera(self):
+        if getattr(self, "on_camera", False):
+            self.on_camera = False
+            self.show_home()
+
+    async def _camera_to_gallery(self):
+        self._close_camera()
+        await self.pick_photo()
+
+    async def _take_photo(self):
+        self.shutter.disabled = True
+        self.camera_status.value = "Got it..."
+        self.page.update()
+        try:
+            data = await self.camera.take_picture()
+        except Exception:
+            self.shutter.disabled = False
+            self.camera_status.value = "That didn't work. Try again?"
+            self.page.update()
+            return
+        self._close_camera()
+        if data:
+            await self._read_ingredients(bytes(data), "image/jpeg")
+
+    async def _read_ingredients(self, data: bytes, mime: str):
+        """Ask the vision model what food is in the photo and add it to the ingredients box."""
         self.photo_btn.disabled, self.photo_btn.content = True, "Taking a look..."
         self.photo_btn.update()
         try:
@@ -755,7 +838,10 @@ class ChefBotApp:
 
     async def _on_back(self, e):
         """The system back button (Android) while a chat is open: go to the home screen, don't leave the app."""
-        if self.conv is not None:
+        if getattr(self, "on_camera", False):
+            self._close_camera()
+            await e.control.confirm_pop(False)
+        elif self.conv is not None:
             self.go_home()
             await e.control.confirm_pop(False)
         else:

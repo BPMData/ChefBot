@@ -49,7 +49,7 @@ OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow
 ```
 
 - The venv is Python 3.14 (`.venv`, plain pip; no uv on this Mac). Deps: flet[all]==1.0.5, httpx, markdown,
-  fpdf2, pillow==12.3.0 (pinned for Android), pytest, pypdf.
+  fpdf2, pillow==12.3.0 (pinned for Android), flet-camera==1.0.5, pytest, pypdf.
 - **Web dev mode quirks:** first page load takes ~20 s; Flutter draws on a canvas, so `find`/`read_page` see
   nothing: use screenshots and coordinates. After code changes, **restart the server** (hot reload leaves broken
   sessions). Use absolute paths in background shell commands (the shell's cwd drifts).
@@ -119,16 +119,17 @@ try; the first run took about 20 minutes, mostly downloads.
 
 ```bash
 cd ~/Documents/Github/ChefBot
-.venv/bin/flet build apk --yes --split-per-abi \
-  --splash-color "#110E0C" --splash-dark-color "#110E0C" \
-  --android-adaptive-icon-background "#E8452C"
+.venv/bin/flet build apk --yes     # split-per-abi, splash, icon background, camera permission: all in pyproject.toml
 # output: build/apk/chefbot-arm64-v8a.apk (66 MB, for any modern phone),
 #         chefbot-armeabi-v7a.apk (old 32-bit phones), chefbot-x86_64.apk (emulators)
 .venv/bin/flet debug android      # run on a USB-connected phone (developer mode + USB debugging); `--show-devices`
 ```
 
 - Config is in `pyproject.toml`: `[tool.flet]` org `io.github.bpmdata` (package `io.github.bpmdata.chefbot`),
-  product `ChefBot`, `[tool.flet.app] path = "src"`. Permissions in the APK: INTERNET and ACCESS_NETWORK_STATE.
+  product `ChefBot`, `permissions = ["camera"]`, `[tool.flet.app] path = "src"`, `[tool.flet.splash]` and
+  `[tool.flet.android]` (split_per_abi, adaptive icon background). Permissions in the APK: INTERNET,
+  ACCESS_NETWORK_STATE, CAMERA (plus RECORD_AUDIO and old-storage ones that the camera plugin declares itself;
+  ChefBot initializes the camera with audio off, so the microphone is never requested).
 - **Pillow is pinned to 12.3.0** because Flet's Android package index has no 13.x (the Mac venv has 13.0.0; the
   pin is fine on desktop too). Its native libs (`libPIL-_imaging.so` etc.) are in the APK. If it were ever missing,
   `_add_photo()` leaves the photo out of the PDF instead of failing.
@@ -145,9 +146,10 @@ cd ~/Documents/Github/ChefBot
 - **Phone checklist** (on Bryan's Samsung 2026-10-28 "almost everything worked"; Email was the problem, since reworked):
   - Settings: type the OpenRouter key (no env var on a phone). It's kept in app-private SharedPreferences.
   - A recipe from the home form, and a follow-up change.
-  - "Photograph my ingredients instead" (was "Snap my fridge"): `FilePicker.pick_files(file_type=IMAGE, with_data=True)` probably opens the photo picker,
-    not the camera. If camera capture is wanted, look at Flet 1.0's options (`--permissions camera`, a camera
-    control) before building something custom.
+  - "Photograph my ingredients instead": on a phone it opens ChefBot's own camera screen (`flet-camera` 1.0.5, a
+    live preview + shutter, back lens, 720p "high" preset, no audio), with Gallery and Cancel buttons. If the
+    camera can't start (no permission, no camera) it falls back to the gallery picker. On desktop/web it's the
+    file picker. Camera added 2026-10-28; untested on the phone so far.
   - PDF (with and without a photo), Share: worked on Bryan's Samsung (2026-10-28). The old "Open in mail
     app" `mailto:` path on the phone dropped the PDF and cut the recipe at 6,000 characters; replaced by the share
     sheet (needs a re-test on the phone).
