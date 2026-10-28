@@ -12,7 +12,7 @@ himself (and maybe 1–2 others), so quality matters more than cost.
 - One Python codebase on [Flet](https://flet.dev) **1.0.5** (Flutter UI): desktop, web, Android (sideloaded APK).
 - Models via **OpenRouter**. The key lives in `~/Documents/Github/openrouter.txt` (outside every repo; never
   commit it, never type it into a UI field; pass it as `OPENROUTER_API_KEY` for dev runs).
-- Local git only, on `main`, 3 commits. **Not pushed to GitHub yet.**
+- On GitHub as **BPMData/ChefBot (private)** since 2026-10-28. Work goes on a branch with a PR into `main`.
 
 ## Pinned (do these next, in this order)
 
@@ -23,7 +23,8 @@ himself (and maybe 1–2 others), so quality matters more than cost.
    **Still to confirm:** Bryan's look in Gmail at the inline image, the PDF attachment and the Korean name. Direct
    SMTP with an app password still fails (`SMTPServerDisconnected` during sign-in); the relay is the way.
 2. **Android APK never built.** See "Android" below. Ask before starting: it downloads several GB.
-3. **Push to GitHub** (BPMData/ChefBot) once he's happy. Ask public vs private. Add screenshots to the README.
+3. **GitHub: done** (private repo, PR #1 for the 2026-10-28 work). Still to do: README screenshots; maybe make it
+   public later (ask first).
 
 ## Run, test, verify
 
