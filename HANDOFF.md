@@ -172,6 +172,11 @@ cd ~/Documents/Github/ChefBot
     CJK fonts for PDFs download on first use (10–18 MB) into `<data>/fonts`.
   - Dish picture.
 
+- **Build gotcha (2026-10-28):** "chefbot depends on flet_camera from path which doesn't exist
+  (build/flutter-packages/flet_camera)" means the cached `build/flutter` project is stale. Deleting only
+  `build/flutter` or `build/site-packages` doesn't help (`build/.hash` says it's up to date); `rm -rf build` and
+  rebuild (about 4 minutes, nothing re-downloads). Copy the APK out first if you want to keep it.
+
 ### Sideloading onto the phone
 
 1. Get `build/apk/chefbot-arm64-v8a.apk` onto the phone: AirDrop doesn't reach Android, so use Google Drive, email
