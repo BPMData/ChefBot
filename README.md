@@ -14,15 +14,17 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
 - **Runs anywhere.** One Python codebase ([Flet](https://flet.dev)) runs on desktop, in a browser, and as an
   Android app.
 - **New models.** Recipes come from GLM 5.3 (Z.ai) through [OpenRouter](https://openrouter.ai), sent to Z.ai's
-  own servers first. Kimi K3.1 Pro and GLM 5.3 Flash are in Settings. Fridge photos are read by GLM 5.3 Flash;
+  own servers first. Kimi K3.1 Pro and GLM 5.3 Flash are in Settings. Ingredient photos are read by GLM 5.3 Flash;
   dish pictures come from Gemini 3.1 Flash Lite Image.
 - **Fixed allergen rules.** "Free of major food allergens" now covers all nine U.S. allergens (FALCPA plus sesame,
   added by the FASTER Act), and dietary rules override a cuisine's classic ingredients.
+- **"Never use..." is remembered** between recipes and restarts (an allergy doesn't go away) until you clear it.
 - **Under every reply:** Copy (as Markdown), Save as PDF, Save as web page (.html), Email, Share, and
   Picture this dish. Each acts on that reply only.
-- **Email** sends a formatted recipe with the dish photo inline and a PDF attached, through the ChefBot mail
-  relay: a small Google Apps Script you deploy once ([docs/EMAIL.md](docs/EMAIL.md)). A Gmail app password
-  works too. The recipient you type is remembered. Without either, "Open in mail app" sends the text.
+- **Email** uses your own mail app, no setup needed. On a phone it opens the share sheet with the whole recipe
+  and the PDF and photo attached; on a computer it opens a new message with the recipe text. A hidden developer
+  setting (tap "Settings" 7 times) lets ChefBot send formatted emails itself through a small Google Apps Script
+  relay or a Gmail app password ([docs/EMAIL.md](docs/EMAIL.md)).
 - **Edit or delete your last message.** Edit puts it back in the box (nothing changes until you send); Delete
   has Undo.
 - **The 1817 version (beta)** rewrites a dish as a period recipe, after a clear warning that AI invents history.

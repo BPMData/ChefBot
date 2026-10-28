@@ -11,6 +11,7 @@ dependencies = [
     "markdown>=3.7",
     "fpdf2>=2.8.4",
     "pillow==12.3.0",
+    "flet-camera==1.0.5",      # in-app camera for ingredient photos (phones)
 ]
 
 [dependency-groups]
@@ -26,8 +27,20 @@ product = "ChefBot"
 company = "Bryan Murphy"
 copyright = "Copyright (C) 2026 Bryan Murphy"
 
+# Phone builds: camera for ingredient photos. `flet build apk` reads all of this, so no flags are needed.
+permissions = ["camera"]
+
 [tool.flet.app]
 path = "src"
+
+[tool.flet.splash]
+color = "#110E0C"
+dark_color = "#110E0C"
+
+[tool.flet.android]
+split_per_abi = true
+dependencies = ["pyjnius"]   # Android-only: tells the Gallery about saved pictures
+adaptive_icon_background = "#E8452C"
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

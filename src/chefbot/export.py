@@ -321,13 +321,42 @@ class EmailError(Exception):
     """Sending failed. The message is safe to show the user."""
 
 
+def free_path(folder: Path, file_name: str) -> Path:
+    """`folder/file_name`, or `name (2).ext`, `name (3).ext`... if that's taken. Never overwrites."""
+    path = folder / file_name
+    stem, suffix = path.stem, path.suffix
+    n = 2
+    while path.exists():
+        path = folder / f"{stem} ({n}){suffix}"
+        n += 1
+    return path
+
+
 def attachments_phrase(has_photo: bool) -> str:
     """What an emailed recipe carries, for the Email dialog. The photo only if one was made."""
     return "the dish photo and a PDF" if has_photo else "a PDF"
 
 
+def plain_text(text: str) -> str:
+    """Markdown made readable as plain email text: no heading hashes or bold/italic markers."""
+    text = re.sub(r"(?m)^#{1,6}\s+", "", normalize_markdown(text))
+    text = re.sub(r"(\*\*|__)(.+?)\1", r"\2", text)
+    return re.sub(r"(?<![\w*])\*(?!\s)([^*\n]+?)(?<!\s)\*(?![\w*])", r"\1", text)
+
+
 def email_text(title: str, text: str) -> str:
-    return f"{title}\n\n{without_title_line(text)}\n\n-- Made with ChefBot"
+    return f"{title}\n\n{plain_text(without_title_line(text)).strip()}\n\n-- Made with ChefBot"
+
+
+def mailto_link(to: str, title: str, text: str, limit: int | None = None) -> str:
+    """A mailto: link with the whole recipe as the message. Mail links can't carry attachments. `limit` shortens
+    the recipe text, for mail apps that reject long links."""
+    from urllib.parse import quote
+    body = plain_text(without_title_line(text)).strip()
+    if limit and len(body) > limit:
+        body = body[:limit].rstrip() + "\n\n(Shortened here. Save the PDF for the full recipe.)"
+    body = f"{title}\n\n{body}\n\n-- Made with ChefBot"
+    return f"mailto:{quote(to)}?subject={quote('Recipe: ' + title)}&body={quote(body)}"
 
 
 def email_html(title: str, text: str, photo_cid: str | None = None) -> str:

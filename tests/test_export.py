@@ -130,3 +130,38 @@ def test_pdf_leaves_out_a_photo_it_cannot_add(monkeypatch, case):
         pdf = export.recipe_pdf(TITLE, RECIPE, photo)
     monkeypatch.undo()          # count images with Pillow back, so a 0 can't come from the counting itself
     assert pdf.startswith(b"%PDF") and _image_count(pdf) == 0
+
+
+def test_plain_text_drops_markdown_markers_but_keeps_lists():
+    md = "## Ingredients\n**Sauce:**\n* 2 tbsp *gochujang*\n- 1 tsp sugar\n\nStir __well__."
+    out = export.plain_text(md)
+    assert "##" not in out and "**" not in out and "__" not in out
+    assert "Sauce:" in out and "gochujang" in out and "*gochujang*" not in out
+    assert "* 2 tbsp" in out and "- 1 tsp sugar" in out      # list bullets survive
+
+
+def test_email_text_is_plain_and_complete():
+    long = "Recipe Title: Stew\n" + "\n".join(f"**Step {i}:** stir" for i in range(2000))
+    out = export.email_text("Stew", long)
+    assert out.startswith("Stew\n\n") and "Recipe Title" not in out and "**" not in out
+    assert "Step 1999: stir" in out                            # nothing cut off
+
+
+def test_mailto_link_keeps_everything_unless_limited():
+    from urllib.parse import unquote
+    text = "Recipe Title: Galbijjim (갈비찜)\n" + "braise " * 3000
+    full = unquote(export.mailto_link("a@b.c", "Galbijjim (갈비찜)", text))
+    assert full.startswith("mailto:a@b.c?subject=Recipe: Galbijjim (갈비찜)&body=")
+    assert full.count("braise") == 3000 and "Shortened" not in full
+    short = unquote(export.mailto_link("a@b.c", "Galbijjim", text, limit=100))
+    assert "Shortened here" in short and short.count("braise") < 20
+
+
+def test_free_path_never_overwrites(tmp_path):
+    first = export.free_path(tmp_path, "Galbijjim.png")
+    assert first == tmp_path / "Galbijjim.png"
+    first.write_bytes(b"x")
+    second = export.free_path(tmp_path, "Galbijjim.png")
+    assert second.name == "Galbijjim (2).png"
+    second.write_bytes(b"y")
+    assert export.free_path(tmp_path, "Galbijjim.png").name == "Galbijjim (3).png"

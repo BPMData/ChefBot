@@ -21,11 +21,16 @@ PREF_SMTP_PASSWORD = "chefbot.smtp_password"
 PREF_SMTP_SERVER = "chefbot.smtp_server"
 PREF_RELAY_URL = "chefbot.relay_url"        # ChefBot mail relay (tools/mail-relay.gs), preferred over SMTP
 PREF_RELAY_SECRET = "chefbot.relay_secret"
+PREF_MUST_NOT = "chefbot.must_not"          # the "Never use..." box, remembered (allergies don't go away)
+PREF_DEV_MODE = "chefbot.dev_mode"          # "on" shows the hidden email-sending settings (tap Settings 7 times)
+DEV_MODE_TAPS = 7
 PREFS_FAILED = ("ChefBot couldn't read its saved settings (your key is still safe). Close ChefBot and open it "
                 "again.")
 ALL_PREFS = (PREF_KEY, PREF_MODEL, PREF_EFFORT, PREF_THEME, PREF_EMAIL_TO, PREF_SMTP_USER, PREF_SMTP_PASSWORD,
-             PREF_SMTP_SERVER, PREF_RELAY_URL, PREF_RELAY_SECRET)
+             PREF_SMTP_SERVER, PREF_RELAY_URL, PREF_RELAY_SECRET, PREF_DEV_MODE,
+             PREF_MUST_NOT)
 DEFAULT_SMTP = "smtp.gmail.com:465"
+MAILTO_LIMIT_WINDOWS = 1500   # characters of recipe text in a mailto link on Windows
 
 # ---------------------------------------------------------------- look and feel
 
@@ -37,6 +42,7 @@ HEADING_FONT, BODY_FONT = "Fraunces", "DM Sans"
 SEED = "#E8590C"
 GRADIENT = ["#FF8A3D", "#E8452C"]
 BG_LIGHT, BG_DARK = "#FFF6EC", "#110E0C"
+PHOTO_LABEL = "Photograph my ingredients instead"
 MAX_WIDTH = 780          # content column width on wide screens
 THEMES = {"dark": ft.ThemeMode.DARK, "light": ft.ThemeMode.LIGHT, "system": ft.ThemeMode.SYSTEM}
 
@@ -129,6 +135,29 @@ def gradient_button(label: str, icon: str, on_click) -> ft.Container:
                             offset=ft.Offset(0, 6)))
 
 
+def small_gradient_button(label: str, icon: str, on_click) -> ft.Container:
+    """A compact version of gradient_button, sized like a regular button (for shortcuts)."""
+    return ft.Container(
+        ft.Row([ft.Icon(icon, color=ft.Colors.WHITE, size=18),
+                ft.Text(label, color=ft.Colors.WHITE, size=14, weight=ft.FontWeight.W_600)],
+               spacing=8, tight=True),
+        height=40, border_radius=20, ink=True, on_click=on_click, padding=ft.Padding(left=16, right=18, top=0, bottom=0),
+        gradient=ft.LinearGradient(colors=GRADIENT, begin=ft.Alignment.CENTER_LEFT, end=ft.Alignment.CENTER_RIGHT))
+
+
+def show_clear_button(field: ft.TextField, button: ft.IconButton | None = None):
+    """A text field's x shows only when there's something to clear. The x is the field's suffix_icon unless
+    it's placed separately (`button`)."""
+    button = button or field.suffix_icon
+    visible = bool((field.value or "").strip())
+    if button.visible != visible:
+        button.visible = visible
+        try:
+            (field if button is field.suffix_icon else button).update()
+        except Exception:
+            pass             # not on screen yet: it shows when drawn
+
+
 def soft_border(radius: int) -> ft.OutlineInputBorder:
     """Rounded, borderless text field outline (the fill color does the work)."""
     return ft.OutlineInputBorder(border_radius=radius, side=ft.BorderSide(0, ft.Colors.TRANSPARENT))
@@ -163,6 +192,8 @@ class ChefBotApp:
         self.smtp_server = DEFAULT_SMTP
         self.relay_url = ""
         self.relay_secret = ""
+        self.dev_mode = False
+        self.saved_must_not = ""
         self.user_tools: dict[int, ft.Row] = {}     # edit/delete buttons under user messages
         self.editing_index: int | None = None
         self.urls = ft.UrlLauncher()
@@ -191,6 +222,7 @@ class ChefBotApp:
         p.on_resize = self._on_resize
         p.theme_mode = THEMES[self.theme]
         p.add(ft.SafeArea(self.root, expand=True))
+        p.views[0].on_confirm_pop = self._on_back
         self.key = os.environ.get("OPENROUTER_API_KEY", "").strip()     # development shortcut
         self.chef = api.ChefBotAPI(self.key) if self.key else None
         self.show_home()      # draw first; saved settings arrive a moment later
@@ -212,6 +244,11 @@ class ChefBotApp:
         self.smtp_server = prefs.get(PREF_SMTP_SERVER) or DEFAULT_SMTP
         self.relay_url = prefs.get(PREF_RELAY_URL) or ""
         self.relay_secret = prefs.get(PREF_RELAY_SECRET) or ""
+        self.dev_mode = prefs.get(PREF_DEV_MODE) == "on"
+        self.saved_must_not = prefs.get(PREF_MUST_NOT) or ""
+        if not (self.must_not.value or "").strip():     # don't overwrite anything typed while settings loaded
+            self.must_not.value = self.saved_must_not
+            show_clear_button(self.must_not)
         p.theme_mode = THEMES[self.theme]
         self.chef = api.ChefBotAPI(self.key) if self.key else None
         p.update()
@@ -288,6 +325,26 @@ class ChefBotApp:
             await self.clipboard.set(relay_secret_field.value)
             snack(self.page, "New secret copied. Paste it into the relay's RELAY_SECRET script property.")
 
+        # Developer mode: tapping the dialog's title 7 times shows (or hides again) the email-sending settings.
+        # Everyday users email through their own mail app and never need them.
+        dev_section = ft.Column(tight=True, spacing=16, visible=self.dev_mode)
+        taps = [0]
+
+        async def tap_title(_):
+            taps[0] += 1
+            if taps[0] < DEV_MODE_TAPS:
+                return
+            taps[0] = 0
+            self.dev_mode = not self.dev_mode
+            dev_section.visible = self.dev_mode
+            dev_section.update()
+            try:
+                await self.prefs.set(PREF_DEV_MODE, "on" if self.dev_mode else "")
+            except Exception:
+                pass                 # it still applies until ChefBot closes
+            snack(self.page, "Developer mode on: email-sending settings are below." if self.dev_mode else
+                  "Developer mode off.")
+
         save_button = ft.FilledButton("Save")
         save_problem = ft.Text("", color=ft.Colors.ERROR, size=13, visible=False, selectable=True)
 
@@ -327,28 +384,32 @@ class ChefBotApp:
         save_button.on_click = save
         intro = ("Paste an OpenRouter API key to get started (openrouter.ai/keys). It's stored only on this "
                  "device.") if first_run else "Your key is stored only on this device."
+        dev_section.controls = [
+            ft.Divider(),
+            heading("Email sending (developer)", 18),
+            ft.Text("Normally the Email button hands the recipe and its PDF to your own mail app. With a relay or "
+                    "a Gmail app password set here, ChefBot sends the email itself instead. Everything here stays "
+                    "on this device. Setup: docs/EMAIL.md.",
+                    size=12.5, color=ft.Colors.ON_SURFACE_VARIANT),
+            to_field,
+            ft.Text("ChefBot mail relay", weight=ft.FontWeight.W_600),
+            relay_url_field,
+            ft.Row([relay_secret_field, ft.TextButton("Generate", icon=ft.Icons.AUTORENEW,
+                                                      on_click=generate_secret)]),
+            ft.Text("Or: a Gmail app password", weight=ft.FontWeight.W_600),
+            ft.Text("Made at myaccount.google.com/apppasswords on the same account as 'Send from'. Some "
+                    "networks block this kind of sending.", size=12, color=ft.Colors.ON_SURFACE_VARIANT),
+            user_field, pass_field, server_field,
+        ]
         self.page.show_dialog(ft.AlertDialog(
-            modal=first_run, scrollable=True, title=heading("Settings", 22),
+            modal=first_run, scrollable=True,
+            title=ft.GestureDetector(content=heading("Settings", 22), on_tap=tap_title),
             content=ft.Column(tight=True, spacing=16, width=440, controls=[
                 ft.Text(intro, size=13), key_field, ft.Row([model_dd]), ft.Row([effort_dd]),
                 ft.Text("Appearance", size=13, color=ft.Colors.ON_SURFACE_VARIANT), theme_seg,
-                ft.Text("Fridge photos are read by GLM 5.3 Flash; dish pictures come from Gemini 3.1 Flash Lite "
+                ft.Text("Ingredient photos are read by GLM 5.3 Flash; dish pictures come from Gemini 3.1 Flash Lite "
                         "Image.", size=12, color=ft.Colors.ON_SURFACE_VARIANT),
-                ft.Divider(),
-                heading("Email", 18),
-                ft.Text("To email recipes (with the photo and a PDF), ChefBot sends from your own Google account. "
-                        "Easiest and most reliable: the ChefBot mail relay, a small Google script you set up once "
-                        "(docs/EMAIL.md). Everything here stays on this device.",
-                        size=12.5, color=ft.Colors.ON_SURFACE_VARIANT),
-                to_field,
-                ft.Text("ChefBot mail relay", weight=ft.FontWeight.W_600),
-                relay_url_field,
-                ft.Row([relay_secret_field, ft.TextButton("Generate", icon=ft.Icons.AUTORENEW,
-                                                          on_click=generate_secret)]),
-                ft.Text("Or: a Gmail app password", weight=ft.FontWeight.W_600),
-                ft.Text("Made at myaccount.google.com/apppasswords on the same account as 'Send from'. Some "
-                        "networks block this kind of sending.", size=12, color=ft.Colors.ON_SURFACE_VARIANT),
-                user_field, pass_field, server_field, save_problem,
+                dev_section, save_problem,
             ]),
             actions=[ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog()), save_button],
         ))
@@ -379,10 +440,17 @@ class ChefBotApp:
     # ------------------------------------------------------------ home screen
 
     def _build_home_controls(self):
+        self.ingredients_clear = ft.IconButton(ft.Icons.CLOSE, tooltip="Clear", icon_size=18, visible=False,
+                                               on_click=self._clear_ingredients)
         self.ingredients = ft.TextField(
+            on_change=lambda e: show_clear_button(self.ingredients, self.ingredients_clear),
             hint_text="Potatoes, carrots, tomatoes...", multiline=True, min_lines=4, max_lines=8,
+            content_padding=ft.Padding(left=16, right=44, top=16, bottom=16),     # room for the x
             filled=True, border=soft_border(16), capitalization=ft.TextCapitalization.SENTENCES, text_size=16)
-        self.photo_btn = ft.FilledTonalButton("Snap my fridge instead", icon=ft.Icons.PHOTO_CAMERA_OUTLINED,
+        # The x sits in the bottom-right corner of this tall box (a suffix icon would center it vertically).
+        self.ingredients_box = ft.Stack([self.ingredients,
+                                         ft.Container(self.ingredients_clear, right=2, bottom=2)])
+        self.photo_btn = ft.FilledTonalButton(PHOTO_LABEL, icon=ft.Icons.PHOTO_CAMERA_OUTLINED,
                                               on_click=self.read_photo)
         self.cuisine_chips = {
             label: ft.Chip(label=short, selected=label == self.cuisine, show_checkmark=False,
@@ -401,8 +469,14 @@ class ChefBotApp:
                                show_checkmark=True, on_select=lambda e: None)   # a handler makes it tappable
         self.diet_chips = {r: ft.Chip(label=r, show_checkmark=True, on_select=self._on_diet_select)
                            for r in prompts.RESTRICTIONS}
+        self.must_not_clear = ft.IconButton(ft.Icons.CLOSE, tooltip="Clear (and forget)", icon_size=18,
+                                            visible=False, on_click=lambda e: self._run(self._clear_must_not))
         self.must_not = ft.TextField(hint_text="Never use... (e.g. peanuts, cilantro)", filled=True,
-                                     border=soft_border(16), prefix_icon=ft.Icons.BLOCK)
+                                     border=soft_border(16), prefix_icon=ft.Icons.BLOCK,
+                                     suffix_icon=self.must_not_clear,
+                                     helper="Remembered for next time. Clear it to forget.",
+                                     on_change=lambda e: show_clear_button(self.must_not),
+                                     on_blur=lambda e: self._run(self._remember_must_not))
         self.recent = ft.Column(spacing=10, horizontal_alignment=ft.CrossAxisAlignment.STRETCH)
 
     def _pick_cuisine(self, label: str):
@@ -454,13 +528,16 @@ class ChefBotApp:
 
     def show_home(self):
         self.conv = None
+        self.page.views[0].can_pop = True     # back on the home screen leaves the app
         self.padded = []
         self.page.appbar = None
         self.history.prune_photos()
         self._refresh_recent()
         body = ft.Column(spacing=18, horizontal_alignment=ft.CrossAxisAlignment.STRETCH, controls=[
-            card(section_title(ft.Icons.KITCHEN, "What have you got?"), self.ingredients,
-                 ft.Row([self.photo_btn])),
+            card(section_title(ft.Icons.KITCHEN, "What have you got?"), self.ingredients_box,
+                 ft.Row([self.photo_btn, small_gradient_button("Cook something up", ft.Icons.SOUP_KITCHEN,
+                                                               self.start_recipe)],
+                        wrap=True, spacing=10, run_spacing=10)),
             card(ft.Row([section_title(ft.Icons.PUBLIC, "Pick a cuisine"),
                          ft.TextButton("Surprise me", icon=ft.Icons.CASINO_OUTLINED, on_click=self.surprise)],
                         alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
@@ -512,8 +589,15 @@ class ChefBotApp:
     async def read_photo(self, e):
         if self._need_key():
             return
+        if self._on_phone():
+            await self.open_camera()        # the gallery is one tap away there
+        else:
+            await self.pick_photo()
+
+    async def pick_photo(self):
+        """Choose an existing photo (the gallery on a phone, a file dialog elsewhere)."""
         files = await self.picker.pick_files(file_type=ft.FilePickerFileType.IMAGE, with_data=True,
-                                             compression_quality=85, dialog_title="Photo of your fridge or groceries")
+                                             compression_quality=85, dialog_title="Photo of your fridge, pantry or groceries")
         if not files:
             return
         f = files[0]
@@ -526,7 +610,83 @@ class ChefBotApp:
             return
         ext = (f.name.rsplit(".", 1)[-1] if "." in f.name else "jpeg").lower()
         mime = {"png": "image/png", "webp": "image/webp", "heic": "image/heic", "gif": "image/gif"}.get(ext, "image/jpeg")
-        self.photo_btn.disabled, self.photo_btn.content = True, "Looking in your fridge..."
+        await self._read_ingredients(data, mime)
+
+    # The in-app camera (phones). flet-camera shows a live preview; the shutter takes a JPEG.
+
+    async def open_camera(self):
+        import flet_camera as fc
+        self.on_camera = True
+        self.page.views[0].can_pop = False        # back closes the camera (see _on_back)
+        self.camera = fc.Camera(expand=True, preview_enabled=True)
+        self.shutter = ft.IconButton(ft.Icons.CAMERA, icon_size=44, icon_color=ft.Colors.BLACK,
+                                     bgcolor=ft.Colors.WHITE, tooltip="Take the photo", disabled=True,
+                                     style=ft.ButtonStyle(shape=ft.CircleBorder(), padding=18),
+                                     on_click=lambda e: self._run(self._take_photo))
+        self.camera_status = ft.Text("Starting the camera...", color=ft.Colors.WHITE, size=13)
+        bar = ft.Container(
+            ft.Column([self.camera_status,
+                       ft.Row([ft.TextButton("Gallery", icon=ft.Icons.PHOTO_LIBRARY_OUTLINED,
+                                             style=ft.ButtonStyle(color=ft.Colors.WHITE),
+                                             on_click=lambda e: self._run(self._camera_to_gallery)),
+                               self.shutter,
+                               ft.TextButton("Cancel", icon=ft.Icons.CLOSE, style=ft.ButtonStyle(color=ft.Colors.WHITE),
+                                             on_click=lambda e: self._close_camera())],
+                              alignment=ft.MainAxisAlignment.SPACE_EVENLY,
+                              vertical_alignment=ft.CrossAxisAlignment.CENTER)],
+                      horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=10, tight=True),
+            padding=ft.Padding(left=12, right=12, top=14, bottom=22),
+            bgcolor=ft.Colors.with_opacity(0.55, "#000000"), left=0, right=0, bottom=0)
+        self.page.appbar = None
+        self.root.content = ft.Container(ft.Stack([ft.Container(self.camera, expand=True, alignment=ft.Alignment.CENTER),
+                                                   bar], expand=True),
+                                         bgcolor="#000000", expand=True)
+        self.page.update()
+        try:
+            cams = await self.camera.get_available_cameras()
+            if not cams:
+                raise RuntimeError("no camera")
+            back = next((c for c in cams if c.lens_direction == fc.CameraLensDirection.BACK), cams[0])
+            await self.camera.initialize(back, fc.ResolutionPreset.HIGH, enable_audio=False)
+        except Exception:
+            # No camera, or permission refused: the gallery still works.
+            self._close_camera()
+            snack(self.page, "The camera isn't available, so here's your gallery instead.")
+            await self.pick_photo()
+            return
+        if not self.on_camera:
+            return                               # closed while it was starting
+        self.camera_status.value = "Get everything in the shot."
+        self.shutter.disabled = False
+        self.page.update()
+
+    def _close_camera(self):
+        if getattr(self, "on_camera", False):
+            self.on_camera = False
+            self.show_home()
+
+    async def _camera_to_gallery(self):
+        self._close_camera()
+        await self.pick_photo()
+
+    async def _take_photo(self):
+        self.shutter.disabled = True
+        self.camera_status.value = "Got it..."
+        self.page.update()
+        try:
+            data = await self.camera.take_picture()
+        except Exception:
+            self.shutter.disabled = False
+            self.camera_status.value = "That didn't work. Try again?"
+            self.page.update()
+            return
+        self._close_camera()
+        if data:
+            await self._read_ingredients(bytes(data), "image/jpeg")
+
+    async def _read_ingredients(self, data: bytes, mime: str):
+        """Ask the vision model what food is in the photo and add it to the ingredients box."""
+        self.photo_btn.disabled, self.photo_btn.content = True, "Taking a look..."
         self.photo_btn.update()
         try:
             found = await self.chef.read_ingredients(data, mime)
@@ -534,7 +694,7 @@ class ChefBotApp:
             snack(self.page, str(err))
             found = None
         finally:
-            self.photo_btn.disabled, self.photo_btn.content = False, "Snap my fridge instead"
+            self.photo_btn.disabled, self.photo_btn.content = False, PHOTO_LABEL
             self.photo_btn.update()
         if found is None:
             return
@@ -544,15 +704,38 @@ class ChefBotApp:
         current = (self.ingredients.value or "").strip()
         self.ingredients.value = f"{current}, {found}" if current else found
         self.ingredients.update()
+        show_clear_button(self.ingredients, self.ingredients_clear)
         snack(self.page, "Here's what I saw. Fix anything I got wrong.")
+
+    async def _remember_must_not(self):
+        """Keep the "Never use..." text for next time (and after a restart) until it's cleared."""
+        value = (self.must_not.value or "").strip()
+        if value == self.saved_must_not or not self.prefs_loaded:
+            return
+        try:
+            await self.prefs.set(PREF_MUST_NOT, value)
+            self.saved_must_not = value
+        except Exception:
+            pass             # not worth interrupting a recipe over
+
+    def _clear_ingredients(self, e=None):
+        self.ingredients.value = ""
+        self.ingredients.update()
+        show_clear_button(self.ingredients, self.ingredients_clear)
+
+    async def _clear_must_not(self):
+        self.must_not.value = ""
+        show_clear_button(self.must_not)
+        await self._remember_must_not()
 
     async def start_recipe(self, e):
         if self._need_key():
             return
         ingredients = (self.ingredients.value or "").strip()
         if not ingredients:
-            snack(self.page, "Tell me some ingredients first (or snap your fridge).")
+            snack(self.page, "Tell me some ingredients first (or photograph them).")
             return
+        await self._remember_must_not()
         restrictions = [r for r, c in self.diet_chips.items() if c.selected]
         settings = {"cuisine": self.cuisine, "audience": self.audience, "dessert": bool(self.dessert.selected),
                     "restrictions": restrictions, "must_not": (self.must_not.value or "").strip()}
@@ -568,6 +751,8 @@ class ChefBotApp:
             {"role": "user", "content": prompts.first_message(ingredients, settings["must_not"]),
              "display": f"{ingredients}\n\n{'  ·  '.join(tags)}"},
         ])
+        # The ingredients go with this recipe; the box starts empty next time ("Never use..." is kept).
+        self.ingredients.value, self.ingredients_clear.visible = "", False
         self.show_chat(conv)
         await self.reply()
 
@@ -575,6 +760,7 @@ class ChefBotApp:
 
     def show_chat(self, conv: Conversation):
         self.conv = conv
+        self.page.views[0].can_pop = False    # back in a chat goes home instead (see _on_back)
         self.padded = []
         self.title_text = heading(conv.title, 18)
         self.title_text.max_lines, self.title_text.overflow = 1, ft.TextOverflow.ELLIPSIS
@@ -649,6 +835,17 @@ class ChefBotApp:
             content=ft.Text(HISTORY_WARNING, size=14.5, width=420),
             actions=[ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog()),
                      ft.FilledButton("I understand, rewrite it", on_click=go)]))
+
+    async def _on_back(self, e):
+        """The system back button (Android) while a chat is open: go to the home screen, don't leave the app."""
+        if getattr(self, "on_camera", False):
+            self._close_camera()
+            await e.control.confirm_pop(False)
+        elif self.conv is not None:
+            self.go_home()
+            await e.control.confirm_pop(False)
+        else:
+            await e.control.confirm_pop(True)
 
     def go_home(self):
         if self.busy:
@@ -734,7 +931,7 @@ class ChefBotApp:
                          md_style_sheet=md_style())
         photo_slot = ft.Container(visible=bool(photo))
         if photo:
-            photo_slot.content = ft.Image(src=photo, fit=ft.BoxFit.COVER, border_radius=18, height=300)
+            photo_slot.content = self._dish_photo(photo)
         actions = ft.Row(wrap=True, spacing=2, run_spacing=0, visible=False)
         c = card(photo_slot,
                  ft.Row([ft.Image(src="logo.svg", width=28, height=28),
@@ -974,30 +1171,56 @@ class ChefBotApp:
         if await self._save(page, f"{export.file_stem(title)}.html"):
             await self._flash(button)
 
-    async def share_message(self, index: int, button=None):
-        title, text, photo = self._message(index)
+    async def _share(self, title: str, text: str, photo: bytes | None, subject: str,
+                     body: str) -> ft.ShareResult | None:
+        """Open the system share sheet with the recipe PDF (and photo) attached. None if sharing isn't possible
+        here (the recipe is copied instead)."""
         try:
             pdf = await self._make_pdf(title, text, photo)
             files = [ft.ShareFile.from_bytes(pdf, mime_type="application/pdf", name=f"{export.file_stem(title)}.pdf")]
             if photo:
                 files.append(ft.ShareFile.from_bytes(photo, mime_type=export.image_mime(photo),
                                                      name=f"{export.file_stem(title)}.{export.image_mime(photo).split('/')[1]}"))
-            await self.share.share_files(files, subject=title, text=f"{title}: a recipe from ChefBot")
+            return await self.share.share_files(files, subject=subject, text=body)
         except Exception:
             await self.clipboard.set(text)
             snack(self.page, "Sharing isn't available here, so I copied the recipe instead.")
+            return None
+
+    async def share_message(self, index: int, button=None):
+        title, text, photo = self._message(index)
+        await self._share(title, text, photo, title, f"{title}: a recipe from ChefBot")
+
+    def _on_phone(self) -> bool:
+        return not self.page.web and self.page.platform in (ft.PagePlatform.ANDROID, ft.PagePlatform.IOS)
+
+    async def _email_with_mail_app(self, title: str, text: str, photo: bytes | None):
+        """On a phone: the share sheet, where the user picks their mail app. It gets the subject, the full recipe
+        as the message, and the PDF and photo as attachments."""
+        result = await self._share(title, text, photo, f"Recipe: {title}", export.email_text(title, text))
+        # Android reports which app was picked (or that the sheet was closed), not whether the email went out. In
+        # practice the result arrives when the user comes back to ChefBot, i.e. after sending.
+        if result is None or result.status == ft.ShareResultStatus.UNAVAILABLE:
+            return
+        if result.status == ft.ShareResultStatus.DISMISSED:
+            snack(self.page, "Not sent: you closed the share sheet.")
+            return
+        snack(self.page, "Sent by your phone's mail app.")
 
     async def email_message(self, index: int, button=None):
         title, text, photo = self._message(index)
+        use_relay = bool(self.relay_url and self.relay_secret)
+        can_send = use_relay or bool(self.smtp_user and self.smtp_password)
+        if self._on_phone() and not can_send:
+            await self._email_with_mail_app(title, text, photo)
+            return
         to_field = ft.TextField(label="Send to", value=self.email_to, autofocus=True,
                                 keyboard_type=ft.KeyboardType.EMAIL, prefix_icon=ft.Icons.EMAIL_OUTLINED)
         remember = ft.Checkbox(label="Remember this address", value=True)
-        use_relay = bool(self.relay_url and self.relay_secret)
-        can_send = use_relay or bool(self.smtp_user and self.smtp_password)
         note = ft.Text(
             f"Sends a formatted email with {export.attachments_phrase(bool(photo))} attached." if can_send else
-            f"To send it directly (with {export.attachments_phrase(bool(photo))}), set up the ChefBot mail relay in Settings "
-            "(docs/EMAIL.md). Or open it in your mail app instead (text only).",
+            "Opens a new message in your mail app with the whole recipe. Mail links can't carry attachments, so "
+            "use PDF to save one and attach it yourself.",
             size=12.5, color=ft.Colors.ON_SURFACE_VARIANT)
         sending = ft.ProgressBar(visible=False)
         problem = ft.Text("", color=ft.Colors.ERROR, size=13, visible=False, selectable=True)
@@ -1014,10 +1237,8 @@ class ChefBotApp:
                 to_field.update()
                 return
             await remember_address(to)
-            sending.visible = True
-            sending.update()
-            problem.visible = False
-            problem.update()
+            sending.visible, problem.visible, send_button.disabled = True, False, True
+            dialog.update()
             try:
                 pdf = await self._make_pdf(title, text, photo)
                 if use_relay:
@@ -1029,38 +1250,128 @@ class ChefBotApp:
                     await asyncio.to_thread(export.send_email, msg, host or "smtp.gmail.com", int(port or 465),
                                             self.smtp_user, self.smtp_password)
             except Exception as err:
-                sending.visible = False
-                sending.update()
+                sending.visible, send_button.disabled = False, False
                 problem.value, problem.visible = _email_error(err), True
-                problem.update()
+                dialog.update()
                 return
-            self.page.pop_dialog()
-            snack(self.page, f"Sent to {to}.")
+            # Say so plainly, in the dialog itself (a passing snackbar is easy to miss).
+            dialog.content.controls = [ft.Row([ft.Icon(ft.Icons.CHECK_CIRCLE, color=ft.Colors.GREEN_400, size=28),
+                                               ft.Text(f"Sent to {to}.", size=16, weight=ft.FontWeight.W_600,
+                                                       expand=True)], spacing=12),
+                                       ft.Text("It usually arrives within a minute. The first one may land in spam.",
+                                               size=12.5, color=ft.Colors.ON_SURFACE_VARIANT)]
+            dialog.actions = [ft.FilledButton("Done", on_click=lambda _: self.page.pop_dialog())]
+            dialog.update()
 
         async def open_mail_app(_):
             to = (to_field.value or "").strip()
             await remember_address(to)
-            body = export.without_title_line(text)
-            if len(body) > 6000:
-                body = body[:6000] + "\n\n(Recipe shortened. Use Save as PDF for the full version.)"
-            from urllib.parse import quote
             self.page.pop_dialog()
-            await self.urls.launch_url(f"mailto:{quote(to)}?subject={quote('Recipe: ' + title)}&body={quote(body)}")
+            if self._on_phone():
+                await self._email_with_mail_app(title, text, photo)
+                return
+            # Some Windows mail apps reject long mailto links, so only there is the text shortened.
+            limit = MAILTO_LIMIT_WINDOWS if self.page.platform == ft.PagePlatform.WINDOWS else None
+            await self.urls.launch_url(export.mailto_link(to, title, text, limit))
 
         def settings(_):
             self.page.pop_dialog()
             self.open_settings()
 
-        actions = [ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog()),
-                   ft.TextButton("Open in mail app", on_click=open_mail_app)]
-        actions.append(ft.FilledButton("Send", icon=ft.Icons.SEND, on_click=send) if can_send else
-                       ft.FilledButton("Set up sending", icon=ft.Icons.SETTINGS_OUTLINED, on_click=settings))
-        self.page.show_dialog(ft.AlertDialog(
+        send_button = ft.FilledButton("Send", icon=ft.Icons.SEND, on_click=send)
+        actions = [ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog())]
+        if can_send:
+            actions += [ft.TextButton("Use my mail app", on_click=open_mail_app), send_button]
+        else:
+            if self.dev_mode:
+                actions.append(ft.TextButton("Set up sending", on_click=settings))
+            actions.append(ft.FilledButton("Open in mail app", icon=ft.Icons.OPEN_IN_NEW, on_click=open_mail_app))
+        dialog = ft.AlertDialog(
             title=heading("Email this recipe", 22),
             content=ft.Column([ft.Text(title, weight=ft.FontWeight.W_600), to_field, remember, note, sending,
                                problem],
                               tight=True, spacing=14, width=420),
-            actions=actions))
+            actions=actions)
+        self.page.show_dialog(dialog)
+
+    def _dish_photo(self, image: bytes) -> ft.Control:
+        """A dish picture in a reply. Tapping it opens it full screen."""
+        return ft.Container(ft.Image(src=image, fit=ft.BoxFit.COVER, border_radius=18, height=300),
+                            border_radius=18, ink=True, tooltip="View full screen",
+                            on_click=lambda e: self.show_full_photo(image))
+
+    def _downloads_folder(self):
+        """Where a download goes without asking: the phone's shared Download folder, or ~/Downloads on a computer.
+        None on the web (the browser handles downloads)."""
+        from pathlib import Path
+        if self.page.web:
+            return None
+        if self.page.platform == ft.PagePlatform.ANDROID:
+            return Path(os.environ.get("EXTERNAL_STORAGE", "/storage/emulated/0")) / "Download"
+        return Path.home() / "Downloads"
+
+    async def download_photo(self, image: bytes) -> bool:
+        """Save the original picture (full resolution, as the image model made it) straight to Downloads.
+        True if it was saved."""
+        title = self.conv.title if self.conv else "ChefBot dish"
+        name = f"{export.file_stem(title)}.{export.image_mime(image).split('/')[1].replace('jpeg', 'jpg')}"
+        mime = export.image_mime(image)
+        if self.page.platform == ft.PagePlatform.ANDROID and not self.page.web:
+            try:     # the fast way: straight into Android's media index, so the Gallery shows it right away
+                await asyncio.to_thread(_android_save_to_downloads, name, mime, image)
+                return True
+            except Exception:
+                pass             # fall back to a plain file write below
+        folder = self._downloads_folder()
+        if folder is not None:
+            try:
+                path = export.free_path(folder, name)
+                await asyncio.to_thread(path.write_bytes, image)
+                if self.page.platform == ft.PagePlatform.ANDROID:
+                    await asyncio.to_thread(_android_media_scan, str(path), mime)
+                return True
+            except OSError:
+                pass             # e.g. the phone refused: fall back to the save dialog
+        return await self._save(image, name)
+
+    def show_full_photo(self, image: bytes):
+        """The picture on black, filling the screen, with pinch-to-zoom. It's a dialog, so the phone's back button
+        closes it (and only it)."""
+        close = ft.IconButton(ft.Icons.CLOSE, icon_size=28, icon_color=ft.Colors.WHITE, tooltip="Close",
+                              bgcolor=ft.Colors.with_opacity(0.6, "#000000"),
+                              on_click=lambda e: self.page.pop_dialog())
+        download = ft.IconButton(ft.Icons.DOWNLOAD, icon_size=28, icon_color=ft.Colors.WHITE,
+                                 tooltip="Save to Downloads", bgcolor=ft.Colors.with_opacity(0.6, "#000000"))
+        saved_note = ft.Container(ft.Text("Saved to Downloads", color=ft.Colors.WHITE, size=14,
+                                          weight=ft.FontWeight.W_600),
+                                  bgcolor=ft.Colors.with_opacity(0.6, "#000000"), border_radius=18,
+                                  padding=ft.Padding(left=14, right=14, top=8, bottom=8), visible=False)
+
+        async def save(_):
+            # Feedback has to be in here: a snackbar would sit behind this full-screen view.
+            download.disabled = True
+            download.update()
+            if await self.download_photo(image):
+                download.icon, download.icon_color = ft.Icons.CHECK, ft.Colors.GREEN_400
+                download.tooltip = "Saved"
+                saved_note.visible = True
+                saved_note.update()
+            else:
+                download.disabled = False      # cancelled or failed: allow another try
+            download.update()
+
+        download.on_click = save
+        viewer = ft.InteractiveViewer(ft.Image(src=image, fit=ft.BoxFit.CONTAIN), min_scale=1, max_scale=5,
+                                      alignment=ft.Alignment.CENTER)
+        self.page.show_dialog(ft.AlertDialog(
+            content=ft.Container(
+                ft.Stack([ft.Container(viewer, alignment=ft.Alignment.CENTER, left=0, top=0, right=0, bottom=0),
+                          ft.Container(ft.SafeArea(close), top=8, right=8),
+                          ft.Container(ft.SafeArea(ft.Row([saved_note, download], spacing=10, tight=True)),
+                                       bottom=8, right=8)]),
+                width=self.page.width, height=self.page.height, bgcolor="#000000"),
+            content_padding=0, inset_padding=0, bgcolor="#000000",
+            shape=ft.RoundedRectangleBorder(radius=0)))
 
     async def make_picture(self, index: int, button=None):
         if self.busy:
@@ -1085,7 +1396,7 @@ class ChefBotApp:
         if self.conv is conv and index in self.cards:
             c = self.cards[index]
             slot: ft.Container = c.data["photo"]
-            slot.content = ft.Image(src=image, fit=ft.BoxFit.COVER, border_radius=18, height=300)
+            slot.content = self._dish_photo(image)
             slot.visible = True
             self._fill_actions(c, index, text, has_photo=True)
             # Show the new picture right away, at the top of its reply (see _scroll_to_end for why it's done by
@@ -1102,10 +1413,50 @@ def _latest_title(conv: Conversation) -> str:
     return "New recipe"
 
 
+def _android_activity():
+    from jnius import autoclass
+    return autoclass(os.environ["MAIN_ACTIVITY_HOST_CLASS_NAME"]).mActivity
+
+
+def _android_save_to_downloads(name: str, mime: str, data: bytes):
+    """Save into the shared Download folder through MediaStore (Android 10+), the way download and camera apps do:
+    the file is in the Gallery's index the moment it's written. Same-named files get " (1)" etc. from Android."""
+    from jnius import autoclass
+    MediaColumns = autoclass("android.provider.MediaStore$MediaColumns")
+    values = autoclass("android.content.ContentValues")()
+    values.put(MediaColumns.DISPLAY_NAME, name)
+    values.put(MediaColumns.MIME_TYPE, mime)
+    values.put(MediaColumns.RELATIVE_PATH, "Download/")
+    resolver = _android_activity().getContentResolver()
+    uri = resolver.insert(autoclass("android.provider.MediaStore$Downloads").EXTERNAL_CONTENT_URI, values)
+    if uri is None:
+        raise OSError("MediaStore refused the file")
+    try:
+        out = resolver.openOutputStream(uri)
+        try:
+            out.write(data)
+        finally:
+            out.close()
+    except Exception:
+        resolver.delete(uri, None, None)     # don't leave an empty entry behind; the caller falls back
+        raise
+
+
+def _android_media_scan(path: str, mime: str):
+    """Tell Android a new picture exists, so it shows in the Gallery (a plain file write doesn't). pyjnius is only
+    in the Android build ([tool.flet.android] dependencies); anywhere else, or if it fails, the file is still
+    saved and visible in the Files app."""
+    try:
+        from jnius import autoclass
+        autoclass("android.media.MediaScannerConnection").scanFile(_android_activity(), [path], [mime], None)
+    except Exception:
+        pass
+
+
 def _email_error(err: Exception) -> str:
     import smtplib
     if isinstance(err, export.EmailError):
-        return str(err)
+        return f"Not sent: {err}"
     if isinstance(err, smtplib.SMTPAuthenticationError):
         return "The mail server didn't accept the address and app password. Check them in Settings."
     if isinstance(err, (smtplib.SMTPRecipientsRefused,)):

@@ -22,9 +22,18 @@ himself (and maybe 1–2 others), so quality matters more than cost.
    answers the hello check, and a test email (Galbijjim + photo + PDF) went through the relay to that inbox.
    **Still to confirm:** Bryan's look in Gmail at the inline image, the PDF attachment and the Korean name. Direct
    SMTP with an app password still fails (`SMTPServerDisconnected` during sign-in); the relay is the way.
-2. **Android APK built (2026-10-28), not yet tried on a phone.** `build/apk/chefbot-arm64-v8a.apk` (66 MB). Bryan
-   sideloads it and tests: Settings key entry, a recipe, Snap my fridge, PDF/Email/Share, the dish picture. See
-   "Android" below for how to install, rebuild, and delete the ~13 GB toolchain afterwards.
+   **Since 2026-10-28 the relay is a hidden developer option** (tap the "Settings" title 7 times; pref
+   `chefbot.dev_mode` = "on"). Bryan's phone has the relay set (he copied the URL and secret over with
+   `adb push`). Everyone else: Email on a phone opens the share sheet (subject + full plain-text recipe + PDF and
+   photo attached; share_plus passes EXTRA_SUBJECT/EXTRA_TEXT/EXTRA_STREAM, so Gmail fills all three). On desktop
+   it's a `mailto:` link with the whole recipe (shortened only on Windows, whose mail apps reject long links).
+   Confirmations: a relay send keeps the dialog open with "Sent to ..." (or "Not sent: ..."). The share sheet
+   result comes back when the user returns to ChefBot (after sending, in practice), so ChefBot says "Sent by
+   your phone's mail app." (Bryan's wording). Strictly it only knows an app was picked, not that the email went.
+2. **Android APK built and installed on Bryan's Samsung (2026-10-28)** with `adb install -r` (USB debugging is on).
+   He reported almost everything worked first try; only email was off (fixed: share sheet, see item 1). Re-test
+   Email on the phone after installing the new build. See "Android" below for installing, rebuilding, signing,
+   and deleting the ~13 GB toolchain.
 3. **GitHub: done** (private repo; PR #1 with the 2026-10-28 work is merged). Still to do: README screenshots; maybe make it
    public later (ask first).
 
@@ -40,7 +49,7 @@ OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow
 ```
 
 - The venv is Python 3.14 (`.venv`, plain pip; no uv on this Mac). Deps: flet[all]==1.0.5, httpx, markdown,
-  fpdf2, pillow==12.3.0 (pinned for Android), pytest, pypdf.
+  fpdf2, pillow==12.3.0 (pinned for Android), flet-camera==1.0.5, pytest, pypdf.
 - **Web dev mode quirks:** first page load takes ~20 s; Flutter draws on a canvas, so `find`/`read_page` see
   nothing: use screenshots and coordinates. After code changes, **restart the server** (hot reload leaves broken
   sessions). Use absolute paths in background shell commands (the shell's cwd drifts).
@@ -110,16 +119,17 @@ try; the first run took about 20 minutes, mostly downloads.
 
 ```bash
 cd ~/Documents/Github/ChefBot
-.venv/bin/flet build apk --yes --split-per-abi \
-  --splash-color "#110E0C" --splash-dark-color "#110E0C" \
-  --android-adaptive-icon-background "#E8452C"
+.venv/bin/flet build apk --yes     # split-per-abi, splash, icon background, camera permission: all in pyproject.toml
 # output: build/apk/chefbot-arm64-v8a.apk (66 MB, for any modern phone),
 #         chefbot-armeabi-v7a.apk (old 32-bit phones), chefbot-x86_64.apk (emulators)
 .venv/bin/flet debug android      # run on a USB-connected phone (developer mode + USB debugging); `--show-devices`
 ```
 
 - Config is in `pyproject.toml`: `[tool.flet]` org `io.github.bpmdata` (package `io.github.bpmdata.chefbot`),
-  product `ChefBot`, `[tool.flet.app] path = "src"`. Permissions in the APK: INTERNET and ACCESS_NETWORK_STATE.
+  product `ChefBot`, `permissions = ["camera"]`, `[tool.flet.app] path = "src"`, `[tool.flet.splash]` and
+  `[tool.flet.android]` (split_per_abi, adaptive icon background). Permissions in the APK: INTERNET,
+  ACCESS_NETWORK_STATE, CAMERA (plus RECORD_AUDIO and old-storage ones that the camera plugin declares itself;
+  ChefBot initializes the camera with audio off, so the microphone is never requested).
 - **Pillow is pinned to 12.3.0** because Flet's Android package index has no 13.x (the Mac venv has 13.0.0; the
   pin is fine on desktop too). Its native libs (`libPIL-_imaging.so` etc.) are in the APK. If it were ever missing,
   `_add_photo()` leaves the photo out of the PDF instead of failing.
@@ -133,13 +143,24 @@ cd ~/Documents/Github/ChefBot
   it until ChefBot is uninstalled, which **deletes its saved recipes and settings on the phone**. To keep one key,
   copy `~/.android/debug.keystore` to the new computer's `~/.android/` before building there (or set up a proper
   release keystore).
-- **Untested on a real phone (Bryan's checklist):**
+- **Phone checklist** (on Bryan's Samsung 2026-10-28 "almost everything worked"; Email was the problem, since reworked):
   - Settings: type the OpenRouter key (no env var on a phone). It's kept in app-private SharedPreferences.
   - A recipe from the home form, and a follow-up change.
-  - "Snap my fridge": `FilePicker.pick_files(file_type=IMAGE, with_data=True)` probably opens the photo picker,
-    not the camera. If camera capture is wanted, look at Flet 1.0's options (`--permissions camera`, a camera
-    control) before building something custom.
-  - PDF (with and without a photo), Email (relay), Share (`Share.share_files` should open the share sheet).
+  - "Photograph my ingredients instead": on a phone it opens ChefBot's own camera screen (`flet-camera` 1.0.5, a
+    live preview + shutter, back lens, 720p "high" preset, no audio), with Gallery and Cancel buttons. If the
+    camera can't start (no permission, no camera) it falls back to the gallery picker. On desktop/web it's the
+    file picker. Camera added 2026-10-28; untested on the phone so far.
+  - Dish pictures: tap one for full screen (a dialog, so the phone's back button closes it; pinch to zoom). The
+    download button saves the original (about 1 MP, as the image model made it) straight to the phone's shared
+    `Download` folder through MediaStore (`_android_save_to_downloads`, via pyjnius, an Android-only dependency in
+    `[tool.flet.android]`), so it's indexed the moment it's written. Fallbacks: a plain file write plus a media
+    scan (Samsung's scan took 10+ s), then the save dialog. Desktop: `~/Downloads`. The viewer shows a green check
+    and "Saved to Downloads" (a snackbar would be hidden behind it). Bryan saw ~30 s before the picture appeared
+    in Gallery/My Files; MediaStore had it within the same second as the write, so check whether the delay is
+    before the write (in ChefBot) or Samsung's apps refreshing.
+  - PDF (with and without a photo), Share: worked on Bryan's Samsung (2026-10-28). The old "Open in mail
+    app" `mailto:` path on the phone dropped the PDF and cut the recipe at 6,000 characters; replaced by the share
+    sheet (needs a re-test on the phone).
     CJK fonts for PDFs download on first use (10–18 MB) into `<data>/fonts`.
   - Dish picture.
 
@@ -186,6 +207,10 @@ The next `flet build apk` downloads it all again.
 
 - Services (`SharedPreferences`, `Clipboard`, `Share`, `FilePicker`, `UrlLauncher`) auto-register when constructed
   inside the page context; most methods are `async`.
+- **Android back button (2026-10-28):** the root view (`page.views[0]`) has `can_pop` and `on_confirm_pop`, which wrap
+  Flutter's PopScope. `show_chat` sets `can_pop = False`, so back fires `_on_back`, which goes home and calls
+  `confirm_pop(False)`; `show_home` sets it back to `True`, so back on the home screen leaves the app. An open
+  dialog closes first on its own. Untested on the phone yet (web can't press the system back button).
 - `page.run_task` **swallows exceptions** silently: use `ChefBotApp._run()`, which reports them.
 - A `Chip` with no `on_select`/`on_click` renders disabled.
 - `Dropdown` uses `on_select`. `TextField.border_radius/border_color` are deprecated: use
