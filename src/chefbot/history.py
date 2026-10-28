@@ -78,6 +78,16 @@ class History:
         conv.photos[str(message_index)] = name
         return path
 
+    def prune_photos(self) -> int:
+        """Delete photo files no saved conversation uses (e.g. after deleting a message). Returns how many."""
+        used = {name for c in self.load() for name in c.photos.values()}
+        gone = 0
+        for f in self.photo_dir.glob("*.png"):
+            if f.name not in used:
+                f.unlink(missing_ok=True)
+                gone += 1
+        return gone
+
     def photo_path(self, name: str) -> Path:
         return self.photo_dir / name
 

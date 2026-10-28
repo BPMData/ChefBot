@@ -128,3 +128,12 @@ def test_bad_key_gives_friendly_message():
 
     with pytest.raises(api.ApiError, match="API key"):
         asyncio.run(_collect(api.ChefBotAPI("k", _client(handler)), []))
+
+
+def test_prune_photos_keeps_only_used(tmp_path):
+    h = History(tmp_path)
+    c = Conversation(messages=[{"role": "system", "content": "s"}])
+    h.save_photo(c, 2, b"keep")
+    h.save(c)
+    (tmp_path / "photos" / "orphan-9.png").write_bytes(b"x")
+    assert h.prune_photos() == 1 and [f.name for f in (tmp_path / "photos").iterdir()] == [f"{c.id}-2.png"]

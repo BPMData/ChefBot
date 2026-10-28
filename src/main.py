@@ -19,8 +19,10 @@ PREF_EMAIL_TO = "chefbot.email_to"          # default recipient
 PREF_SMTP_USER = "chefbot.smtp_user"        # the account ChefBot sends from
 PREF_SMTP_PASSWORD = "chefbot.smtp_password"
 PREF_SMTP_SERVER = "chefbot.smtp_server"
+PREF_RELAY_URL = "chefbot.relay_url"        # ChefBot mail relay (tools/mail-relay.gs), preferred over SMTP
+PREF_RELAY_SECRET = "chefbot.relay_secret"
 ALL_PREFS = (PREF_KEY, PREF_MODEL, PREF_EFFORT, PREF_THEME, PREF_EMAIL_TO, PREF_SMTP_USER, PREF_SMTP_PASSWORD,
-             PREF_SMTP_SERVER)
+             PREF_SMTP_SERVER, PREF_RELAY_URL, PREF_RELAY_SECRET)
 DEFAULT_SMTP = "smtp.gmail.com:465"
 
 # ---------------------------------------------------------------- look and feel
@@ -76,13 +78,21 @@ QUICK_TWEAKS = [
     (ft.Icons.GROUP, "Serves 6", "Scale it to serve 6."),
     (ft.Icons.HISTORY_EDU, "The 1817 version",
      "How would this dish have been made in 1817? Rewrite it as a faithful period recipe, with the historical "
-     "techniques, and note any modern substitutions."),
+     "techniques, and note any modern substitutions. Be honest about uncertainty: don't invent people, book "
+     "titles, dates or quotations, and if you aren't sure something is historically accurate, say so plainly. "
+     "Start with one line reminding me this is an AI reconstruction, not a verified historical source."),
     (ft.Icons.ECO, "Vegetarian", "Make it vegetarian."),
     (ft.Icons.TIMER, "Faster", "Make it faster, under 30 minutes, without losing what makes it good."),
     (ft.Icons.SHOPPING_CART, "Shopping list",
      "Give me a shopping list for this, grouped by store section. Don't rewrite the recipe."),
     (ft.Icons.WINE_BAR, "Pairing", "What should I drink with this? Don't rewrite the recipe."),
 ]
+BETA_TWEAKS = {"The 1817 version"}
+HISTORY_WARNING = (
+    "This asks the AI to imagine how the dish was cooked in 1817. AI models regularly make up history that "
+    "sounds convincing: people, cookbooks, dates, quotations and \"traditional\" techniques that never existed. "
+    "Treat the result as inspiration, not as history, and check anything you rely on against a real period "
+    "cookbook or a food historian.")
 THINKING_LINES = ["Sharpening knives", "Smashing garlic", "Consulting old cookbooks", "Heating the pan",
                   "Tasting for salt", "Picking herbs", "Reading the ingredients twice"]
 DISCLAIMER = ("ChefBot is an AI, not a dietitian. Double-check recipes yourself, and never rely on it "
@@ -149,6 +159,10 @@ class ChefBotApp:
         self.smtp_user = ""
         self.smtp_password = ""
         self.smtp_server = DEFAULT_SMTP
+        self.relay_url = ""
+        self.relay_secret = ""
+        self.user_tools: dict[int, ft.Row] = {}     # edit/delete buttons under user messages
+        self.editing_index: int | None = None
         self.urls = ft.UrlLauncher()
         self.prefs_loaded = False
         self.cards: dict[int, ft.Container] = {}   # message index -> its card, on the conversation screen
@@ -189,6 +203,8 @@ class ChefBotApp:
         self.smtp_user = prefs.get(PREF_SMTP_USER) or ""
         self.smtp_password = prefs.get(PREF_SMTP_PASSWORD) or ""
         self.smtp_server = prefs.get(PREF_SMTP_SERVER) or DEFAULT_SMTP
+        self.relay_url = prefs.get(PREF_RELAY_URL) or ""
+        self.relay_secret = prefs.get(PREF_RELAY_SECRET) or ""
         p.theme_mode = THEMES[self.theme]
         self.chef = api.ChefBotAPI(self.key) if self.key else None
         p.update()
@@ -246,6 +262,17 @@ class ChefBotApp:
                                   can_reveal_password=True, hint_text="16 letters, from Google")
         server_field = ft.TextField(label="Mail server", value=self.smtp_server, dense=True,
                                     hint_text=DEFAULT_SMTP)
+        relay_url_field = ft.TextField(label="Relay web address", value=self.relay_url,
+                                       hint_text="https://script.google.com/macros/s/.../exec")
+        relay_secret_field = ft.TextField(label="Relay secret", value=self.relay_secret, password=True,
+                                          can_reveal_password=True, expand=True)
+
+        async def generate_secret(_):
+            import secrets
+            relay_secret_field.value = secrets.token_urlsafe(24)
+            relay_secret_field.update()
+            await self.clipboard.set(relay_secret_field.value)
+            snack(self.page, "New secret copied. Paste it into the relay's RELAY_SECRET script property.")
 
         async def save(_):
             self.key = (key_field.value or "").strip()
@@ -255,9 +282,12 @@ class ChefBotApp:
             self.smtp_user = (user_field.value or "").strip()
             self.smtp_password = (pass_field.value or "").replace(" ", "")
             self.smtp_server = (server_field.value or "").strip() or DEFAULT_SMTP
+            self.relay_url = (relay_url_field.value or "").strip()
+            self.relay_secret = (relay_secret_field.value or "").strip()
             for k, v in ((PREF_KEY, self.key), (PREF_MODEL, self.model), (PREF_EFFORT, self.effort),
                          (PREF_THEME, self.theme), (PREF_EMAIL_TO, self.email_to), (PREF_SMTP_USER, self.smtp_user),
-                         (PREF_SMTP_PASSWORD, self.smtp_password), (PREF_SMTP_SERVER, self.smtp_server)):
+                         (PREF_SMTP_PASSWORD, self.smtp_password), (PREF_SMTP_SERVER, self.smtp_server),
+                         (PREF_RELAY_URL, self.relay_url), (PREF_RELAY_SECRET, self.relay_secret)):
                 await self.prefs.set(k, v)
             self.chef = api.ChefBotAPI(self.key) if self.key else None
             self.page.theme_mode = THEMES[self.theme]
@@ -276,11 +306,19 @@ class ChefBotApp:
                         "Image.", size=12, color=ft.Colors.ON_SURFACE_VARIANT),
                 ft.Divider(),
                 heading("Email", 18),
-                ft.Text("To email recipes (with the photo and a PDF), ChefBot sends from your own account. For "
-                        "Gmail, make an app password at myaccount.google.com/apppasswords (it needs 2-Step "
-                        "Verification). Everything here stays on this device.",
+                ft.Text("To email recipes (with the photo and a PDF), ChefBot sends from your own Google account. "
+                        "Easiest and most reliable: the ChefBot mail relay, a small Google script you set up once "
+                        "(docs/EMAIL.md). Everything here stays on this device.",
                         size=12.5, color=ft.Colors.ON_SURFACE_VARIANT),
-                to_field, user_field, pass_field, server_field,
+                to_field,
+                ft.Text("ChefBot mail relay", weight=ft.FontWeight.W_600),
+                relay_url_field,
+                ft.Row([relay_secret_field, ft.TextButton("Generate", icon=ft.Icons.AUTORENEW,
+                                                          on_click=generate_secret)]),
+                ft.Text("Or: a Gmail app password", weight=ft.FontWeight.W_600),
+                ft.Text("Made at myaccount.google.com/apppasswords on the same account as 'Send from'. Some "
+                        "networks block this kind of sending.", size=12, color=ft.Colors.ON_SURFACE_VARIANT),
+                user_field, pass_field, server_field,
             ]),
             actions=[ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog()),
                      ft.FilledButton("Save", on_click=save)],
@@ -386,6 +424,7 @@ class ChefBotApp:
         self.conv = None
         self.padded = []
         self.page.appbar = None
+        self.history.prune_photos()
         self._refresh_recent()
         body = ft.Column(spacing=18, horizontal_alignment=ft.CrossAxisAlignment.STRETCH, controls=[
             card(section_title(ft.Icons.KITCHEN, "What have you got?"), self.ingredients,
@@ -513,9 +552,10 @@ class ChefBotApp:
             actions=[ft.IconButton(ft.Icons.SETTINGS_OUTLINED, tooltip="Settings", on_click=self.open_settings)])
         self.thread = self._pad(ft.ListView(expand=True, spacing=16, auto_scroll=True), top=8, bottom=8)
         self.cards = {}
+        self.user_tools = {}
         for i, m in enumerate(conv.messages):
             if m["role"] == "user":
-                self.thread.controls.append(self._user_bubble(m.get("display") or m["content"]))
+                self.thread.controls.append(self._user_bubble(m.get("display") or m["content"], index=i))
             elif m["role"] == "assistant":
                 photo = None
                 if str(i) in conv.photos:
@@ -529,35 +569,124 @@ class ChefBotApp:
                     ft.TextButton("Stop", icon=ft.Icons.STOP_CIRCLE_OUTLINED, on_click=self._stop)], spacing=12),
             visible=False), top=4, extra=4)
         self.tweaks = ft.Row(scroll=ft.ScrollMode.AUTO, spacing=8, controls=[
-            ft.Chip(label=label, leading=ft.Icon(icon, size=18),
-                    on_click=lambda e, msg=msg: self._run(self.send_text, msg))
-            for icon, label, msg in QUICK_TWEAKS])
+            self._tweak_chip(icon, label, msg) for icon, label, msg in QUICK_TWEAKS])
         self.composer = ft.TextField(
             hint_text="Ask for changes: no cucumber, more garlic...", expand=True, multiline=True,
             min_lines=1, max_lines=5, shift_enter=True, on_submit=self.send_followup, filled=True,
             border=soft_border(26), capitalization=ft.TextCapitalization.SENTENCES)
         self.send_btn = ft.IconButton(ft.Icons.ARROW_UPWARD, tooltip="Send", on_click=self.send_followup,
                                       bgcolor=ft.Colors.PRIMARY, icon_color=ft.Colors.ON_PRIMARY)
+        self.editing_index = None
+        self.edit_banner = ft.Row([ft.Icon(ft.Icons.EDIT_OUTLINED, size=16, color=ft.Colors.PRIMARY),
+                                   ft.Text("Editing your last message", size=13, expand=True),
+                                   ft.TextButton("Cancel", on_click=self.cancel_edit)], visible=False)
         self.root.content = ft.Column(expand=True, spacing=0, controls=[
             self.thread,
             self.status,
-            self._pad(ft.Container(ft.Column([self.tweaks, ft.Row([self.composer, self.send_btn])],
+            self._pad(ft.Container(ft.Column([self.tweaks, self.edit_banner, ft.Row([self.composer, self.send_btn])],
                                              spacing=10, tight=True)), top=8, bottom=12),
         ])
         self.page.update()
+        self._refresh_user_tools()
+
+    def _tweak_chip(self, icon: str, label: str, msg: str) -> ft.Chip:
+        if label not in BETA_TWEAKS:
+            return ft.Chip(label=label, leading=ft.Icon(icon, size=18),
+                           on_click=lambda e: self._run(self.send_text, msg))
+        badge = ft.Container(ft.Text("BETA", size=10, weight=ft.FontWeight.W_800, color=ft.Colors.ON_TERTIARY),
+                             bgcolor=ft.Colors.TERTIARY, border_radius=6,
+                             padding=ft.Padding(left=5, right=5, top=1, bottom=1))
+        return ft.Chip(label=ft.Row([ft.Text(label), badge], spacing=6, tight=True), leading=ft.Icon(icon, size=18),
+                       on_click=lambda e: self._warn_then_send(msg))
+
+    def _warn_then_send(self, msg: str):
+        def go(_):
+            self.page.pop_dialog()
+            self._run(self.send_text, msg)
+        self.page.show_dialog(ft.AlertDialog(
+            icon=ft.Icon(ft.Icons.WARNING_AMBER_ROUNDED, color=ft.Colors.TERTIARY, size=32),
+            title=heading("Beta: historical recipes", 22),
+            content=ft.Text(HISTORY_WARNING, size=14.5, width=420),
+            actions=[ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog()),
+                     ft.FilledButton("I understand, rewrite it", on_click=go)]))
 
     def go_home(self):
         if self.busy:
             self.stop_requested = True
         self.show_home()
 
-    def _user_bubble(self, text: str) -> ft.Control:
-        return ft.Container(
+    def _user_bubble(self, text: str, index: int | None = None) -> ft.Control:
+        bubble = ft.Container(
             ft.Text(text, color=ft.Colors.WHITE, size=15, selectable=True),
             gradient=ft.LinearGradient(colors=GRADIENT, begin=ft.Alignment.TOP_LEFT, end=ft.Alignment.BOTTOM_RIGHT),
             border_radius=ft.BorderRadius(top_left=22, top_right=22, bottom_left=22, bottom_right=6),
             padding=ft.Padding(left=18, right=18, top=12, bottom=12),
             margin=ft.Margin(left=64, right=0, top=0, bottom=0))
+        if index is None or index < 2:          # the opening request isn't editable here
+            return bubble
+        tools = ft.Row([ft.IconButton(ft.Icons.EDIT_OUTLINED, tooltip="Edit", icon_size=18,
+                                      on_click=lambda e: self._run(self.edit_message, index)),
+                        ft.IconButton(ft.Icons.DELETE_OUTLINE, tooltip="Delete", icon_size=18,
+                                      on_click=lambda e: self._run(self.delete_message, index))],
+                       spacing=0, alignment=ft.MainAxisAlignment.END, visible=False)
+        self.user_tools[index] = tools
+        return ft.Column([bubble, tools], spacing=0, horizontal_alignment=ft.CrossAxisAlignment.END)
+
+    def _refresh_user_tools(self):
+        """Edit/delete show only under your latest message, and not while ChefBot is answering."""
+        last = max((i for i, m in enumerate(self.conv.messages) if m["role"] == "user"), default=-1) if self.conv else -1
+        for i, row in self.user_tools.items():
+            show = i == last and not self.busy
+            if row.visible != show:
+                row.visible = show
+                row.update()
+
+    def _cut_from(self, index: int) -> tuple[list[dict], dict[str, str]]:
+        """Remove message `index` and everything after it. Returns what was removed (for undo)."""
+        conv = self.conv
+        removed = conv.messages[index:]
+        photos = {k: v for k, v in conv.photos.items() if int(k) >= index}
+        del conv.messages[index:]
+        for k in photos:
+            del conv.photos[k]
+        conv.title = _latest_title(conv)
+        self.history.save(conv)
+        return removed, photos
+
+    async def edit_message(self, index: int):
+        """Put the message back in the box. Nothing is removed until the edited version is sent."""
+        if self.busy:
+            return
+        self.editing_index = index
+        self.composer.value = self.conv.messages[index]["content"]
+        self.composer.update()
+        self.edit_banner.visible = True
+        self.edit_banner.update()
+        await self.composer.focus()
+
+    def cancel_edit(self, e=None):
+        self.editing_index = None
+        self.composer.value = ""
+        self.composer.update()
+        self.edit_banner.visible = False
+        self.edit_banner.update()
+
+    async def delete_message(self, index: int):
+        if self.busy:
+            return
+        conv = self.conv
+        removed, photos = self._cut_from(index)
+        self.show_chat(conv)
+
+        def undo(_):
+            if self.conv is conv and len(conv.messages) == index:
+                conv.messages.extend(removed)
+                conv.photos.update(photos)
+                conv.title = _latest_title(conv)
+                self.history.save(conv)
+                self.show_chat(conv)
+        self.page.show_dialog(ft.SnackBar(ft.Text("Message deleted."), duration=6000,
+                                          action=ft.SnackBarAction(label="Undo", on_click=undo)))
 
     def _assistant_card(self, text: str, photo: bytes | None = None, index: int | None = None) -> ft.Container:
         """A ChefBot reply. `index` is its place in conv.messages; replies still streaming get it later."""
@@ -609,6 +738,7 @@ class ChefBotApp:
         for c in (self.composer, self.send_btn, self.tweaks):
             c.disabled = busy
             c.update()
+        self._refresh_user_tools()
 
     async def send_followup(self, e):
         text = (self.composer.value or "").strip()
@@ -620,8 +750,12 @@ class ChefBotApp:
     async def send_text(self, text: str):
         if self.busy or not self.conv or self._need_key():
             return
+        if self.editing_index is not None:      # replace the message being edited (and the reply to it)
+            index, self.editing_index = self.editing_index, None
+            self._cut_from(index)
+            self.show_chat(self.conv)
         self.conv.messages.append({"role": "user", "content": text})
-        self.thread.controls.append(self._user_bubble(text))
+        self.thread.controls.append(self._user_bubble(text, index=len(self.conv.messages) - 1))
         self.thread.update()
         await self.reply()
 
@@ -684,10 +818,12 @@ class ChefBotApp:
             self.title_text.value = conv.title
             self.title_text.update()
             self.history.save(conv)
+        elif conv.messages and conv.messages[-1]["role"] == "user" and len(conv.messages) > 2:
+            unsent = conv.messages.pop()["content"]    # nothing came back: give the follow-up back to retry
+            self.show_chat(conv)
+            self.composer.value = unsent
         else:
             self.thread.controls.remove(bubble)
-            if conv.messages and conv.messages[-1]["role"] == "user" and len(conv.messages) > 2:
-                conv.messages.pop()     # let them resend the follow-up
             self.thread.update()
         self._set_status(None)
         self._set_busy(False)
@@ -776,13 +912,15 @@ class ChefBotApp:
         to_field = ft.TextField(label="Send to", value=self.email_to, autofocus=True,
                                 keyboard_type=ft.KeyboardType.EMAIL, prefix_icon=ft.Icons.EMAIL_OUTLINED)
         remember = ft.Checkbox(label="Remember this address", value=True)
-        can_send = bool(self.smtp_user and self.smtp_password)
+        use_relay = bool(self.relay_url and self.relay_secret)
+        can_send = use_relay or bool(self.smtp_user and self.smtp_password)
         note = ft.Text(
             "Sends a formatted email with the dish photo and a PDF attached." if can_send else
-            "To send it directly (with the photo and a PDF), add your Gmail address and an app password in "
-            "Settings. Or open it in your mail app instead (text only).",
+            "To send it directly (with the photo and a PDF), set up the ChefBot mail relay in Settings "
+            "(docs/EMAIL.md). Or open it in your mail app instead (text only).",
             size=12.5, color=ft.Colors.ON_SURFACE_VARIANT)
         sending = ft.ProgressBar(visible=False)
+        problem = ft.Text("", color=ft.Colors.ERROR, size=13, visible=False, selectable=True)
 
         async def remember_address(to: str):
             if remember.value and to != self.email_to:
@@ -798,16 +936,23 @@ class ChefBotApp:
             await remember_address(to)
             sending.visible = True
             sending.update()
+            problem.visible = False
+            problem.update()
             try:
                 pdf = await self._make_pdf(title, text, photo)
-                msg = export.build_email(self.smtp_user, to, title, text, photo, pdf)
-                host, _, port = self.smtp_server.partition(":")
-                await asyncio.to_thread(export.send_email, msg, host or "smtp.gmail.com", int(port or 465),
-                                        self.smtp_user, self.smtp_password)
+                if use_relay:
+                    await asyncio.to_thread(export.send_via_relay, self.relay_url, self.relay_secret, to, title,
+                                            text, photo, pdf)
+                else:
+                    msg = export.build_email(self.smtp_user, to, title, text, photo, pdf)
+                    host, _, port = self.smtp_server.partition(":")
+                    await asyncio.to_thread(export.send_email, msg, host or "smtp.gmail.com", int(port or 465),
+                                            self.smtp_user, self.smtp_password)
             except Exception as err:
                 sending.visible = False
                 sending.update()
-                snack(self.page, _email_error(err))
+                problem.value, problem.visible = _email_error(err), True
+                problem.update()
                 return
             self.page.pop_dialog()
             snack(self.page, f"Sent to {to}.")
@@ -832,7 +977,8 @@ class ChefBotApp:
                        ft.FilledButton("Set up sending", icon=ft.Icons.SETTINGS_OUTLINED, on_click=settings))
         self.page.show_dialog(ft.AlertDialog(
             title=heading("Email this recipe", 22),
-            content=ft.Column([ft.Text(title, weight=ft.FontWeight.W_600), to_field, remember, note, sending],
+            content=ft.Column([ft.Text(title, weight=ft.FontWeight.W_600), to_field, remember, note, sending,
+                               problem],
                               tight=True, spacing=14, width=420),
             actions=actions))
 
@@ -866,8 +1012,17 @@ class ChefBotApp:
             await self.thread.scroll_to(scroll_key=f"msg-{index}", duration=500)
 
 
+def _latest_title(conv: Conversation) -> str:
+    for m in reversed(conv.messages):
+        if m["role"] == "assistant" and extract_title(m["content"]):
+            return extract_title(m["content"])
+    return "New recipe"
+
+
 def _email_error(err: Exception) -> str:
     import smtplib
+    if isinstance(err, export.EmailError):
+        return str(err)
     if isinstance(err, smtplib.SMTPAuthenticationError):
         return "The mail server didn't accept the address and app password. Check them in Settings."
     if isinstance(err, (smtplib.SMTPRecipientsRefused,)):

@@ -67,3 +67,36 @@ def test_email_has_html_photo_and_pdf():
     html = msg.get_payload()[0].get_payload()[1].get_payload()[0].get_content()
     assert "cid:" in html and "<li>2 tbsp soy sauce" in html
     assert msg["Subject"] == f"Recipe: {TITLE}"
+
+
+def test_relay_payload_and_errors(monkeypatch):
+    import httpx
+    sent = {}
+
+    def fake_post(url, json, timeout, follow_redirects):
+        sent.update(json, url=url, follow=follow_redirects)
+        return httpx.Response(200, json={"ok": True})
+
+    monkeypatch.setattr(httpx, "post", fake_post)
+    export.send_via_relay("https://script.google.com/x/exec", "s3cret", "you@example.com", TITLE, RECIPE, PNG, b"%PDF")
+    assert sent["secret"] == "s3cret" and sent["to"] == "you@example.com" and sent["follow"] is True
+    assert 'src="cid:dish"' in sent["html"] and sent["photoType"] == "image/png" and sent["pdfName"].endswith(".pdf")
+
+    monkeypatch.setattr(httpx, "post", lambda *a, **k: httpx.Response(200, json={"ok": False, "error": "Wrong relay secret."}))
+    with pytest.raises(export.EmailError, match="Wrong relay secret"):
+        export.send_via_relay("https://x/exec", "bad", "you@example.com", TITLE, RECIPE)
+
+
+def test_smtp_hangup_during_sign_in_is_explained(monkeypatch):
+    import smtplib
+
+    class FakeSMTP:
+        def __init__(self, *a, **k): pass
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def login(self, u, p): raise smtplib.SMTPServerDisconnected("Connection unexpectedly closed")
+
+    monkeypatch.setattr(smtplib, "SMTP_SSL", FakeSMTP)
+    msg = export.build_email("me@example.com", "you@example.com", TITLE, RECIPE)
+    with pytest.raises(export.EmailError, match="hung up while signing in"):
+        export.send_email(msg, "smtp.gmail.com", 465, "me@example.com", "x" * 16)

@@ -305,23 +305,37 @@ def recipe_pdf(title: str, text: str, photo: bytes | None = None,
 
 # ---------------------------------------------------------------- e-mail
 
+class EmailError(Exception):
+    """Sending failed. The message is safe to show the user."""
+
+
+def email_text(title: str, text: str) -> str:
+    return f"{title}\n\n{without_title_line(text)}\n\n-- Made with ChefBot"
+
+
+def email_html(title: str, text: str, photo_cid: str | None = None) -> str:
+    """The email body. `photo_cid` names an inline image attached alongside it."""
+    img = (f'<img src="cid:{photo_cid}" alt="" style="width:100%;max-width:640px;border-radius:16px;'
+           f'margin-bottom:16px">') if photo_cid else ""
+    return (f'<div style="font-family:Georgia,serif;max-width:680px;margin:0 auto;color:#2a1d16;line-height:1.55">'
+            f'{img}<div style="color:#e8452c;font:700 12px sans-serif;letter-spacing:.08em">CHEFBOT</div>'
+            f'<h1 style="margin:4px 0 16px">{html.escape(title)}</h1>'
+            f'<div style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;font-size:15px">'
+            f'{markdown_to_html(without_title_line(text))}</div>'
+            f'<p style="color:#7b6a60;font-size:12px;margin-top:24px">Made with ChefBot. It\'s an AI: double-check '
+            f'recipes yourself, especially for allergies.</p></div>')
+
+
 def build_email(sender: str, to: str, title: str, text: str, photo: bytes | None = None,
                 pdf: bytes | None = None) -> EmailMessage:
-    """A formatted e-mail: HTML body with the photo inline, plain-text Markdown fallback, PDF attached."""
+    """A formatted e-mail: HTML body with the photo inline, plain-text fallback, PDF attached."""
     msg = EmailMessage()
     msg["Subject"] = f"Recipe: {title}"
     msg["From"] = sender
     msg["To"] = to
-    msg.set_content(f"{title}\n\n{text}\n\n-- Made with ChefBot")
+    msg.set_content(email_text(title, text))
     cid = make_msgid(domain="chefbot.local")
-    img = f'<img src="cid:{cid[1:-1]}" alt="" style="width:100%;max-width:640px;border-radius:16px;margin-bottom:16px">' if photo else ""
-    body = (f'<div style="font-family:Georgia,serif;max-width:680px;margin:0 auto;color:#2a1d16;line-height:1.55">'
-            f'{img}<div style="color:#e8452c;font:700 12px sans-serif;letter-spacing:.08em">CHEFBOT</div>'
-            f'<h1 style="margin:4px 0 16px">{html.escape(title)}</h1>'
-            f'<div style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;font-size:15px">{markdown_to_html(without_title_line(text))}</div>'
-            f'<p style="color:#7b6a60;font-size:12px;margin-top:24px">Made with ChefBot. It\'s an AI: double-check '
-            f'recipes yourself, especially for allergies.</p></div>')
-    msg.add_alternative(body, subtype="html")
+    msg.add_alternative(email_html(title, text, cid[1:-1] if photo else None), subtype="html")
     if photo:
         mime = image_mime(photo)
         msg.get_payload()[1].add_related(photo, maintype="image", subtype=mime.split("/")[1], cid=cid)
@@ -331,14 +345,56 @@ def build_email(sender: str, to: str, title: str, text: str, photo: bytes | None
 
 
 def send_email(msg: EmailMessage, host: str, port: int, username: str, password: str, timeout: float = 30) -> None:
-    """Send through the user's own mail account. Port 465 = SSL, anything else = STARTTLS."""
+    """Send through the user's own mail account. Port 465 = SSL, anything else = STARTTLS.
+    Raises EmailError saying which step failed: connecting, signing in, or sending."""
     context = ssl.create_default_context()
-    if port == 465:
-        with smtplib.SMTP_SSL(host, port, context=context, timeout=timeout) as server:
+    stage = "connecting to the mail server"
+    try:
+        server = (smtplib.SMTP_SSL(host, port, context=context, timeout=timeout) if port == 465
+                  else smtplib.SMTP(host, port, timeout=timeout))
+        with server:
+            if port != 465:
+                server.starttls(context=context)
+            stage = "signing in"
             server.login(username, password)
+            stage = "sending"
             server.send_message(msg)
-    else:
-        with smtplib.SMTP(host, port, timeout=timeout) as server:
-            server.starttls(context=context)
-            server.login(username, password)
-            server.send_message(msg)
+    except smtplib.SMTPAuthenticationError as e:
+        raise EmailError("The mail server didn't accept the address and app password. The app password has to "
+                         "be made on the same account as 'Send from'.") from e
+    except (smtplib.SMTPServerDisconnected, ConnectionError, OSError) as e:
+        if stage == "signing in":
+            raise EmailError("The mail server hung up while signing in. That usually means the app password "
+                             "belongs to a different account than 'Send from', or Google blocked the sign-in. "
+                             "The ChefBot mail relay avoids this (docs/EMAIL.md).") from e
+        raise EmailError(f"Lost the connection while {stage} ({type(e).__name__}). Some networks block "
+                         f"outgoing mail; the ChefBot mail relay works anywhere (docs/EMAIL.md).") from e
+    except smtplib.SMTPException as e:
+        raise EmailError(f"The mail server refused it while {stage}: {e}") from e
+
+
+def send_via_relay(url: str, secret: str, to: str, title: str, text: str, photo: bytes | None = None,
+                   pdf: bytes | None = None, timeout: float = 60) -> None:
+    """Send through the ChefBot mail relay (tools/mail-relay.gs, an Apps Script web app)."""
+    import httpx
+
+    payload = {"secret": secret, "to": to, "subject": f"Recipe: {title}", "text": email_text(title, text),
+               "html": email_html(title, text, "dish" if photo else None)}
+    if photo:
+        payload["photo"] = base64.b64encode(photo).decode()
+        payload["photoType"] = image_mime(photo)
+    if pdf:
+        payload["pdf"] = base64.b64encode(pdf).decode()
+        payload["pdfName"] = f"{file_stem(title)}.pdf"
+    try:
+        # Apps Script answers a POST with a redirect to the result; following it is how you read the reply.
+        r = httpx.post(url, json=payload, timeout=timeout, follow_redirects=True)
+    except httpx.HTTPError as e:
+        raise EmailError(f"Couldn't reach the mail relay ({type(e).__name__}). Check the web address in Settings.") from e
+    try:
+        data = r.json()
+    except ValueError:
+        raise EmailError("The mail relay sent back something unexpected. Check that it's deployed as a web app "
+                         "with access for 'Anyone' (docs/EMAIL.md).") from None
+    if not data.get("ok"):
+        raise EmailError(f"The mail relay said: {data.get('error', 'unknown error')}")

@@ -9,3 +9,4 @@ dist/
 openrouter.txt
 storage/
 .flet/
+.DS_Store
