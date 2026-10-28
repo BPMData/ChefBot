@@ -33,6 +33,15 @@ more than cost.
    email was off (fixed: share sheet, see item 1). Re-test Email on the phone after installing the new build. See "Android" below for installing, rebuilding, signing,
    and deleting the ~13 GB toolchain.
 3. **GitHub: public since 2026-10-28** (AGPLv3). Still to do: README screenshots.
+4. **Keep replies alive when the app is in the background (pinned 2026-10-28, Bryan's pick).** Leaving a chat
+   but staying in ChefBot works (the reply finishes in the background). Switching to another app mid-reply
+   doesn't: Android freezes ChefBot's process (logcat: "Skipping setProcessStateToThread due to frozen status.
+   io.github.bpmdata.chefbot"), the OpenRouter stream stalls and dies, and on return the user sees "Lost the
+   connection to OpenRouter". The fix Bryan wants is an Android **foreground service** with a notification
+   ("ChefBot is writing your recipe") while a reply streams, so Android doesn't freeze the app. Flet 1.0.5 has
+   no such service (its Wakelock only keeps the screen on), so it needs a custom Flutter extension (e.g. wrapping
+   a foreground-task plugin) plus the FOREGROUND_SERVICE / POST_NOTIFICATIONS permissions. Fallback considered
+   and set aside: auto-retry the reply on resume (`page.on_app_lifecycle_state_change`), which regenerates it.
 
 ## Run, test, verify
 
