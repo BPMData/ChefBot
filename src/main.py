@@ -145,6 +145,17 @@ def small_gradient_button(label: str, icon: str, on_click) -> ft.Container:
         gradient=ft.LinearGradient(colors=GRADIENT, begin=ft.Alignment.CENTER_LEFT, end=ft.Alignment.CENTER_RIGHT))
 
 
+def show_clear_button(field: ft.TextField):
+    """A text field's x (its suffix_icon) shows only when there's something to clear."""
+    visible = bool((field.value or "").strip())
+    if field.suffix_icon.visible != visible:
+        field.suffix_icon.visible = visible
+        try:
+            field.update()
+        except Exception:
+            pass             # not on screen yet: it shows when drawn
+
+
 def soft_border(radius: int) -> ft.OutlineInputBorder:
     """Rounded, borderless text field outline (the fill color does the work)."""
     return ft.OutlineInputBorder(border_radius=radius, side=ft.BorderSide(0, ft.Colors.TRANSPARENT))
@@ -235,7 +246,7 @@ class ChefBotApp:
         self.saved_must_not = prefs.get(PREF_MUST_NOT) or ""
         if not (self.must_not.value or "").strip():     # don't overwrite anything typed while settings loaded
             self.must_not.value = self.saved_must_not
-            self.must_not_clear.visible = bool(self.saved_must_not)
+            show_clear_button(self.must_not)
         p.theme_mode = THEMES[self.theme]
         self.chef = api.ChefBotAPI(self.key) if self.key else None
         p.update()
@@ -427,7 +438,11 @@ class ChefBotApp:
     # ------------------------------------------------------------ home screen
 
     def _build_home_controls(self):
+        self.ingredients_clear = ft.IconButton(ft.Icons.CLOSE, tooltip="Clear", icon_size=18, visible=False,
+                                               on_click=self._clear_ingredients)
         self.ingredients = ft.TextField(
+            suffix_icon=self.ingredients_clear,
+            on_change=lambda e: show_clear_button(self.ingredients),
             hint_text="Potatoes, carrots, tomatoes...", multiline=True, min_lines=4, max_lines=8,
             filled=True, border=soft_border(16), capitalization=ft.TextCapitalization.SENTENCES, text_size=16)
         self.photo_btn = ft.FilledTonalButton(PHOTO_LABEL, icon=ft.Icons.PHOTO_CAMERA_OUTLINED,
@@ -455,7 +470,7 @@ class ChefBotApp:
                                      border=soft_border(16), prefix_icon=ft.Icons.BLOCK,
                                      suffix_icon=self.must_not_clear,
                                      helper="Remembered for next time. Clear it to forget.",
-                                     on_change=self._show_must_not_clear,
+                                     on_change=lambda e: show_clear_button(self.must_not),
                                      on_blur=lambda e: self._run(self._remember_must_not))
         self.recent = ft.Column(spacing=10, horizontal_alignment=ft.CrossAxisAlignment.STRETCH)
 
@@ -600,6 +615,7 @@ class ChefBotApp:
             return
         current = (self.ingredients.value or "").strip()
         self.ingredients.value = f"{current}, {found}" if current else found
+        show_clear_button(self.ingredients)
         self.ingredients.update()
         snack(self.page, "Here's what I saw. Fix anything I got wrong.")
 
@@ -614,17 +630,13 @@ class ChefBotApp:
         except Exception:
             pass             # not worth interrupting a recipe over
 
-    def _show_must_not_clear(self, e=None):
-        """The x in the "Never use..." box shows only when there's something to clear."""
-        visible = bool((self.must_not.value or "").strip())
-        if self.must_not_clear.visible != visible:
-            self.must_not_clear.visible = visible
-            self.must_not.update()
+    def _clear_ingredients(self, e=None):
+        self.ingredients.value = ""
+        show_clear_button(self.ingredients)
 
     async def _clear_must_not(self):
         self.must_not.value = ""
-        self.must_not_clear.visible = False
-        self.must_not.update()
+        show_clear_button(self.must_not)
         await self._remember_must_not()
 
     async def start_recipe(self, e):
@@ -650,6 +662,8 @@ class ChefBotApp:
             {"role": "user", "content": prompts.first_message(ingredients, settings["must_not"]),
              "display": f"{ingredients}\n\n{'  ·  '.join(tags)}"},
         ])
+        # The ingredients go with this recipe; the box starts empty next time ("Never use..." is kept).
+        self.ingredients.value, self.ingredients_clear.visible = "", False
         self.show_chat(conv)
         await self.reply()
 
