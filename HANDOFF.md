@@ -23,7 +23,7 @@ himself (and maybe 1–2 others), so quality matters more than cost.
    **Still to confirm:** Bryan's look in Gmail at the inline image, the PDF attachment and the Korean name. Direct
    SMTP with an app password still fails (`SMTPServerDisconnected` during sign-in); the relay is the way.
 2. **Android APK never built.** See "Android" below. Ask before starting: it downloads several GB.
-3. **GitHub: done** (private repo, PR #1 for the 2026-10-28 work). Still to do: README screenshots; maybe make it
+3. **GitHub: done** (private repo; PR #1 with the 2026-10-28 work is merged). Still to do: README screenshots; maybe make it
    public later (ask first).
 
 ## Run, test, verify
@@ -116,9 +116,12 @@ cd ~/Documents/Github/ChefBot
   `src/assets/logo.svg` (the chef's-hat-on-orange-gradient logo). Optionally `--android-adaptive-icon-background`
   and a splash color (`--splash-color`, dark `#110E0C`).
 - **Risks to check on a real phone:**
-  - `fpdf2` needs **Pillow** and **fontTools** (Pillow has native code; Flet ships Android wheels for common
-    packages, but verify the build picks it up). `markdown`, `httpx`, `defusedxml` are pure Python. We deliberately
-    avoided the `openai` package (pydantic-core is native).
+  - `fpdf2` uses **Pillow** (native) only for images, and **fontTools** (pure Python) for fonts. Flet's Android
+    index has Pillow 12.3.0/12.2.0/11.1.0/10.4.0 (checked 2026-10-28), but the Mac venv has 13.0.0 and nothing pins
+    it: **pin `pillow==12.3.0` (or whatever Flet lists) before `flet build apk`**. If Pillow is missing anyway,
+    `_add_photo()` leaves the photo out of the PDF instead of failing (tested), so PDF/Email/Share still work.
+    `markdown`, `httpx`, `defusedxml` are pure Python. We deliberately avoided the `openai` package (pydantic-core
+    is native).
   - "Snap my fridge" uses `FilePicker.pick_files(file_type=IMAGE, with_data=True)`: on Android that opens the photo
     picker, maybe not the camera directly. If camera capture is wanted, check Flet 1.0's options (`--permissions
     camera`, a camera control) before building something custom. Never tested with a real fridge photo.
