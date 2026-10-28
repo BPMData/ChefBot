@@ -1,5 +1,6 @@
 """ChefBot: tell it what's in your fridge, get a recipe, then keep refining it in conversation."""
 import asyncio
+import logging
 import os
 import random
 import time
@@ -7,9 +8,11 @@ from datetime import datetime
 
 import flet as ft
 
-from chefbot import api, export, prompts
+from chefbot import android, api, export, prompts
 from chefbot.history import Conversation, History
 from chefbot.recipe import extract_title
+
+log = logging.getLogger("chefbot")
 
 PREF_KEY = "chefbot.openrouter_key"
 PREF_MODEL = "chefbot.model"
@@ -715,8 +718,8 @@ class ChefBotApp:
         try:
             await self.prefs.set(PREF_MUST_NOT, value)
             self.saved_must_not = value
-        except Exception:
-            pass             # not worth interrupting a recipe over
+        except Exception:    # not worth interrupting a recipe over, but say so in the log
+            log.warning("Couldn't remember the \"Never use...\" text", exc_info=True)
 
     def _clear_ingredients(self, e=None):
         self.ingredients.value = ""
@@ -1318,20 +1321,20 @@ class ChefBotApp:
         mime = export.image_mime(image)
         if self.page.platform == ft.PagePlatform.ANDROID and not self.page.web:
             try:     # the fast way: straight into Android's media index, so the Gallery shows it right away
-                await asyncio.to_thread(_android_save_to_downloads, name, mime, image)
+                await asyncio.to_thread(android.save_to_downloads, name, mime, image)
                 return True
-            except Exception:
-                pass             # fall back to a plain file write below
+            except Exception:    # fall back to a plain file write below
+                log.warning("MediaStore save failed; trying a plain file write", exc_info=True)
         folder = self._downloads_folder()
         if folder is not None:
             try:
                 path = export.free_path(folder, name)
                 await asyncio.to_thread(path.write_bytes, image)
                 if self.page.platform == ft.PagePlatform.ANDROID:
-                    await asyncio.to_thread(_android_media_scan, str(path), mime)
+                    await asyncio.to_thread(android.media_scan, str(path), mime)
                 return True
-            except OSError:
-                pass             # e.g. the phone refused: fall back to the save dialog
+            except OSError:      # e.g. the phone refused: fall back to the save dialog
+                log.warning("Couldn't write to %s; opening the save dialog", folder, exc_info=True)
         return await self._save(image, name)
 
     def show_full_photo(self, image: bytes):
@@ -1413,46 +1416,6 @@ def _latest_title(conv: Conversation) -> str:
     return "New recipe"
 
 
-def _android_activity():
-    from jnius import autoclass
-    return autoclass(os.environ["MAIN_ACTIVITY_HOST_CLASS_NAME"]).mActivity
-
-
-def _android_save_to_downloads(name: str, mime: str, data: bytes):
-    """Save into the shared Download folder through MediaStore (Android 10+), the way download and camera apps do:
-    the file is in the Gallery's index the moment it's written. Same-named files get " (1)" etc. from Android."""
-    from jnius import autoclass
-    MediaColumns = autoclass("android.provider.MediaStore$MediaColumns")
-    values = autoclass("android.content.ContentValues")()
-    values.put(MediaColumns.DISPLAY_NAME, name)
-    values.put(MediaColumns.MIME_TYPE, mime)
-    values.put(MediaColumns.RELATIVE_PATH, "Download/")
-    resolver = _android_activity().getContentResolver()
-    uri = resolver.insert(autoclass("android.provider.MediaStore$Downloads").EXTERNAL_CONTENT_URI, values)
-    if uri is None:
-        raise OSError("MediaStore refused the file")
-    try:
-        out = resolver.openOutputStream(uri)
-        try:
-            out.write(data)
-        finally:
-            out.close()
-    except Exception:
-        resolver.delete(uri, None, None)     # don't leave an empty entry behind; the caller falls back
-        raise
-
-
-def _android_media_scan(path: str, mime: str):
-    """Tell Android a new picture exists, so it shows in the Gallery (a plain file write doesn't). pyjnius is only
-    in the Android build ([tool.flet.android] dependencies); anywhere else, or if it fails, the file is still
-    saved and visible in the Files app."""
-    try:
-        from jnius import autoclass
-        autoclass("android.media.MediaScannerConnection").scanFile(_android_activity(), [path], [mime], None)
-    except Exception:
-        pass
-
-
 def _email_error(err: Exception) -> str:
     import smtplib
     if isinstance(err, export.EmailError):
@@ -1465,6 +1428,7 @@ def _email_error(err: Exception) -> str:
 
 
 async def main(page: ft.Page):
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     await ChefBotApp(page).start()
 
 

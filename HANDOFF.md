@@ -69,6 +69,7 @@ src/chefbot/api.py       OpenRouter: streaming chat, photo -> ingredients, dish 
 src/chefbot/history.py   conversations + photos saved as JSON/PNGs; prune_photos()
 src/chefbot/export.py    Markdown -> HTML page / PDF / email; SMTP + relay sending
 src/chefbot/recipe.py    extract_title() (last "Recipe Title:" line wins)
+src/chefbot/android.py   Android-only pyjnius calls: MediaStore save to Downloads, media scan
 tools/mail-relay.gs      Apps Script relay (secret + 40/day cap)
 tools/make_static_fonts.py   cuts static PDF fonts from variable ones (already done; output committed)
 tools/smoke.py           live API check
@@ -147,7 +148,7 @@ cd ~/Documents/Github/ChefBot
     file picker. Camera added 2026-10-28; untested on the phone so far.
   - Dish pictures: tap one for full screen (a dialog, so the phone's back button closes it; pinch to zoom). The
     download button saves the original (about 1 MP, as the image model made it) straight to the phone's shared
-    `Download` folder through MediaStore (`_android_save_to_downloads`, via pyjnius, an Android-only dependency in
+    `Download` folder through MediaStore (`android.save_to_downloads`, via pyjnius, an Android-only dependency in
     `[tool.flet.android]`), so it's indexed the moment it's written. Fallbacks: a plain file write plus a media
     scan (Samsung's scan took 10+ s), then the save dialog. Desktop: `~/Downloads`. The viewer shows a green check
     and "Saved to Downloads" (a snackbar would be hidden behind it). On one Samsung the picture took ~30 s to
@@ -207,6 +208,7 @@ The next `flet build apk` downloads it all again.
   `confirm_pop(False)`; `show_home` sets it back to `True`, so back on the home screen leaves the app. An open
   dialog closes first on its own. Untested on the phone yet (web can't press the system back button).
 - `page.run_task` **swallows exceptions** silently: use `ChefBotApp._run()`, which reports them.
+- Deliberate fallbacks log a warning to the `chefbot` logger (stderr; logcat on Android) instead of `pass`.
 - A `Chip` with no `on_select`/`on_click` renders disabled.
 - `Dropdown` uses `on_select`. `TextField.border_radius/border_color` are deprecated: use
   `border=ft.OutlineInputBorder(...)` (see `soft_border()`).
