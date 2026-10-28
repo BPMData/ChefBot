@@ -12,18 +12,19 @@ himself (and maybe 1–2 others), so quality matters more than cost.
 - One Python codebase on [Flet](https://flet.dev) **1.0.5** (Flutter UI): desktop, web, Android (sideloaded APK).
 - Models via **OpenRouter**. The key lives in `~/Documents/Github/openrouter.txt` (outside every repo; never
   commit it, never type it into a UI field; pass it as `OPENROUTER_API_KEY` for dev runs).
-- Local git only, on `main`, 3 commits. **Not pushed to GitHub yet.**
+- On GitHub as **BPMData/ChefBot (private)** since 2026-10-28. Work goes on a branch with a PR into `main`.
 
 ## Pinned (do these next, in this order)
 
-1. **Mail relay not deployed.** Direct SMTP for overboard.reporting@gmail.com (app password made on that same
-   account) failed with `SMTPServerDisconnected` during sign-in; the network was fine (465/587 reachable). Rather
-   than chase it, we built a relay: `tools/mail-relay.gs`, setup in `docs/EMAIL.md` (~10 min, needs Bryan's
-   Google sign-in; it mirrors OverBoard's `tools/report-relay.gs`, which he already runs under that account).
-   After he deploys it: paste the `/exec` URL + secret in Settings, email a recipe with a photo, check the inline
-   image, PDF attachment, and Korean names in Gmail. Until then "Open in mail app" works (text only).
+1. **Mail relay: deployed (2026-10-28)** as Bryan's Apps Script web app under overboard.reporting@gmail.com
+   (`tools/mail-relay.gs`, setup in `docs/EMAIL.md`). The URL and secret are saved in the desktop prefs
+   (`flutter.chefbot.relay_url` / `relay_secret`; check whether they're set, never print them). The `/exec` URL
+   answers the hello check, and a test email (Galbijjim + photo + PDF) went through the relay to that inbox.
+   **Still to confirm:** Bryan's look in Gmail at the inline image, the PDF attachment and the Korean name. Direct
+   SMTP with an app password still fails (`SMTPServerDisconnected` during sign-in); the relay is the way.
 2. **Android APK never built.** See "Android" below. Ask before starting: it downloads several GB.
-3. **Push to GitHub** (BPMData/ChefBot) once he's happy. Ask public vs private. Add screenshots to the README.
+3. **GitHub: done** (private repo, PR #1 for the 2026-10-28 work). Still to do: README screenshots; maybe make it
+   public later (ask first).
 
 ## Run, test, verify
 
@@ -139,7 +140,19 @@ cd ~/Documents/Github/ChefBot
 - `SharedPreferences.get` can time out (10 s) on a slow first web load: prefs load in parallel with retries, the
   UI draws first, and `_need_key()` says "still starting up" until prefs arrive.
 - Fonts fetched from GitHub at runtime fail in the browser (CORS): fonts are bundled in `src/assets/fonts`.
-- `ListView.scroll_to(scroll_key=...)` needs `control.key = ft.ScrollKey(...)`.
+- **Scrolling the conversation (Flet 1.0.5, tested 2026-10-28):** `scroll_to(scroll_key=...)` does nothing, and
+  toggling `auto_scroll` resets the list to the top. So the thread keeps `auto_scroll=True` (its pinning pauses
+  while you're scrolled away from the end) and scrolls to measured pixel offsets: every message reports its height
+  via `on_size_change` (`_add_to_thread`, `_offset_of`, `_scroll_to_end`). A new dish picture scrolls to the top of
+  its reply; "Jump to the bottom" shows when far from the end; a new reply scrolls to the end first.
+- Stopping a test server: `pkill -f "flet run ..."` leaves the child app process holding the port, so the next
+  server fails to start (check its log) and the browser keeps showing old code. Kill whatever listens on the port
+  (`lsof -ti tcp:8551 -sTCP:LISTEN`). A hidden Browser pane also skips animations; show it before scroll tests.
+- **`flet run` hot-reloads whenever a source file changes, including Claude's edits while Bryan has the app open.**
+  The reloaded session's `SharedPreferences` never answers (10 s timeouts), so settings can't be read or saved.
+  This happened 2026-10-28. The app now treats an unreadable load as an error (it no longer opens a blank
+  first-run Settings that would save over his real settings) and shows Save failures in the dialog. Before editing
+  code, check whether his app is running (`ps ax | grep ChefBot/src/main.py`) and tell him to restart it afterwards.
 
 ## PDF gotchas (fpdf2 2.8.9)
 

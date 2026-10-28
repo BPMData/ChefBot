@@ -100,3 +100,8 @@ def test_smtp_hangup_during_sign_in_is_explained(monkeypatch):
     msg = export.build_email("me@example.com", "you@example.com", TITLE, RECIPE)
     with pytest.raises(export.EmailError, match="hung up while signing in"):
         export.send_email(msg, "smtp.gmail.com", 465, "me@example.com", "x" * 16)
+
+
+def test_email_note_mentions_photo_only_when_there_is_one():
+    assert export.attachments_phrase(True) == "the dish photo and a PDF"
+    assert export.attachments_phrase(False) == "a PDF"
