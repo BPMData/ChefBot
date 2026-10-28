@@ -1,0 +1,30 @@
+[project]
+name = "chefbot"
+version = "0.1.0"
+description = "Tell it what's in your fridge; it writes you a recipe, then helps you perfect it."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Bryan Murphy" }]
+dependencies = [
+    "flet==1.0.5",
+    "httpx>=0.28",
+]
+
+[dependency-groups]
+dev = [
+    "flet[all]==1.0.5",
+    "pytest>=8",
+]
+
+[tool.flet]
+org = "io.github.bpmdata"
+product = "ChefBot"
+company = "Bryan Murphy"
+copyright = "Copyright (C) 2026 Bryan Murphy"
+
+[tool.flet.app]
+path = "src"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

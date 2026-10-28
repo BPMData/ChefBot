@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "chefbot-web",
+      "runtimeExecutable": ".venv/bin/flet",
+      "runtimeArgs": ["run", "--web", "--port", "8551", "src/main.py"],
+      "port": 8551
+    }
+  ]
+}
