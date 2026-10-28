@@ -18,6 +18,7 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
   dish pictures come from Gemini 3.1 Flash Lite Image.
 - **Fixed allergen rules.** "Free of major food allergens" now covers all nine U.S. allergens (FALCPA plus sesame,
   added by the FASTER Act), and dietary rules override a cuisine's classic ingredients.
+- **"Never use..." is remembered** between recipes and restarts (an allergy doesn't go away) until you clear it.
 - **Under every reply:** Copy (as Markdown), Save as PDF, Save as web page (.html), Email, Share, and
   Picture this dish. Each acts on that reply only.
 - **Email** uses your own mail app, no setup needed. On a phone it opens the share sheet with the whole recipe

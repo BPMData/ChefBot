@@ -21,12 +21,14 @@ PREF_SMTP_PASSWORD = "chefbot.smtp_password"
 PREF_SMTP_SERVER = "chefbot.smtp_server"
 PREF_RELAY_URL = "chefbot.relay_url"        # ChefBot mail relay (tools/mail-relay.gs), preferred over SMTP
 PREF_RELAY_SECRET = "chefbot.relay_secret"
+PREF_MUST_NOT = "chefbot.must_not"          # the "Never use..." box, remembered (allergies don't go away)
 PREF_DEV_MODE = "chefbot.dev_mode"          # "on" shows the hidden email-sending settings (tap Settings 7 times)
 DEV_MODE_TAPS = 7
 PREFS_FAILED = ("ChefBot couldn't read its saved settings (your key is still safe). Close ChefBot and open it "
                 "again.")
 ALL_PREFS = (PREF_KEY, PREF_MODEL, PREF_EFFORT, PREF_THEME, PREF_EMAIL_TO, PREF_SMTP_USER, PREF_SMTP_PASSWORD,
-             PREF_SMTP_SERVER, PREF_RELAY_URL, PREF_RELAY_SECRET, PREF_DEV_MODE)
+             PREF_SMTP_SERVER, PREF_RELAY_URL, PREF_RELAY_SECRET, PREF_DEV_MODE,
+             PREF_MUST_NOT)
 DEFAULT_SMTP = "smtp.gmail.com:465"
 MAILTO_LIMIT_WINDOWS = 1500   # characters of recipe text in a mailto link on Windows
 
@@ -178,6 +180,7 @@ class ChefBotApp:
         self.relay_url = ""
         self.relay_secret = ""
         self.dev_mode = False
+        self.saved_must_not = ""
         self.user_tools: dict[int, ft.Row] = {}     # edit/delete buttons under user messages
         self.editing_index: int | None = None
         self.urls = ft.UrlLauncher()
@@ -229,6 +232,9 @@ class ChefBotApp:
         self.relay_url = prefs.get(PREF_RELAY_URL) or ""
         self.relay_secret = prefs.get(PREF_RELAY_SECRET) or ""
         self.dev_mode = prefs.get(PREF_DEV_MODE) == "on"
+        self.saved_must_not = prefs.get(PREF_MUST_NOT) or ""
+        if not (self.must_not.value or "").strip():     # don't overwrite anything typed while settings loaded
+            self.must_not.value = self.saved_must_not
         p.theme_mode = THEMES[self.theme]
         self.chef = api.ChefBotAPI(self.key) if self.key else None
         p.update()
@@ -443,7 +449,9 @@ class ChefBotApp:
         self.diet_chips = {r: ft.Chip(label=r, show_checkmark=True, on_select=self._on_diet_select)
                            for r in prompts.RESTRICTIONS}
         self.must_not = ft.TextField(hint_text="Never use... (e.g. peanuts, cilantro)", filled=True,
-                                     border=soft_border(16), prefix_icon=ft.Icons.BLOCK)
+                                     border=soft_border(16), prefix_icon=ft.Icons.BLOCK,
+                                     helper="Remembered for next time. Clear it to forget.",
+                                     on_blur=lambda e: self._run(self._remember_must_not))
         self.recent = ft.Column(spacing=10, horizontal_alignment=ft.CrossAxisAlignment.STRETCH)
 
     def _pick_cuisine(self, label: str):
@@ -590,6 +598,17 @@ class ChefBotApp:
         self.ingredients.update()
         snack(self.page, "Here's what I saw. Fix anything I got wrong.")
 
+    async def _remember_must_not(self):
+        """Keep the "Never use..." text for next time (and after a restart) until it's cleared."""
+        value = (self.must_not.value or "").strip()
+        if value == self.saved_must_not or not self.prefs_loaded:
+            return
+        try:
+            await self.prefs.set(PREF_MUST_NOT, value)
+            self.saved_must_not = value
+        except Exception:
+            pass             # not worth interrupting a recipe over
+
     async def start_recipe(self, e):
         if self._need_key():
             return
@@ -597,6 +616,7 @@ class ChefBotApp:
         if not ingredients:
             snack(self.page, "Tell me some ingredients first (or photograph them).")
             return
+        await self._remember_must_not()
         restrictions = [r for r, c in self.diet_chips.items() if c.selected]
         settings = {"cuisine": self.cuisine, "audience": self.audience, "dessert": bool(self.dessert.selected),
                     "restrictions": restrictions, "must_not": (self.must_not.value or "").strip()}
