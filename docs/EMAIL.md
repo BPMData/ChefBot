@@ -17,7 +17,7 @@ setup as OverBoard's report relay.
 
 ### 1. Make the script
 
-Sign in to Google as the account the emails should come from (for example **overboard.reporting@gmail.com**).
+Sign in to Google as the account the emails should come from (a spare Gmail account works well).
 A private/incognito window avoids mixing up accounts.
 
 1. Go to [script.google.com](https://script.google.com) ▸ **New project**. Rename it (top left) to

@@ -89,3 +89,16 @@ src/assets/              logo and bundled fonts (Fraunces, DM Sans; SIL Open Fon
 ```
 
 ChefBot is an AI, not a dietitian. Double-check recipes yourself, and never rely on it for serious allergies.
+
+## License
+
+Copyright (C) 2026 Bryan Murphy. ChefBot's code is licensed under the
+[GNU Affero General Public License v3.0](LICENSE) (AGPLv3): you may use, change and share it, but if you share a
+changed version, or run one as a website or online service, you must share its source code under AGPLv3 too.
+
+I may one day sell a build of ChefBot in an app store for a small price. Like every version, it will be
+bring-your-own-key: you paste in your own OpenRouter key and pay OpenRouter directly. The code stays free here
+either way. If you contribute code, you agree that I may also ship your contribution in those store builds under
+the store's terms.
+
+The recipes and pictures you make are yours. The bundled fonts keep their own license (SIL Open Font License).
