@@ -80,7 +80,19 @@ tools/smoke.py           live API check
   field (the friendly summary shown instead of the raw prompt). Photos are stored per assistant-message index in
   `conv.photos` and never sent to the model.
 - **Editing:** only the latest user follow-up (index ≥ 2) gets Edit/Delete. Edit is non-destructive until send
-  (`editing_index`); Delete truncates from that index with Undo. Title recomputed via `_latest_title()`.
+  (`editing_index`); Delete truncates from that index with Undo. Title recomputed via `_latest_title()`. If an
+  edited message gets no reply at all (offline, out of credit), `send_text` puts the original message and reply
+  (and photos) back and stays in edit mode with the new text in the box. Tested 2026-10-28 by running the web
+  server with `HTTPS_PROXY=http://127.0.0.1:9` (every request fails like having no signal).
+- **Replies finish in the background:** leaving a chat (back arrow or phone back) no longer stops the reply.
+  `reply()` keeps streaming, saves the complete answer, refreshes the home list and says "Ready: <title>".
+  Reopening that chat shows the same live `Conversation` and re-attaches the card being written
+  (`self.working`, `self.live_bubbles`). "Busy" is per conversation (`busy` property), so another chat isn't
+  blocked. A chat still writing can't be deleted from the list. Only Stop cuts a reply short.
+- **No cap on saved recipes** (was 60, silently dropping the oldest). `prune_photos(keep=...)` spares photos a
+  pending edit or running reply may still need.
+- Note: the Browser pane's dev-server sandbox can't read `../openrouter.txt`; for live web tests start the server
+  from Bash with the key in the environment and open the URL with `preview_start {url}`.
 
 ## Model decisions (and why)
 
