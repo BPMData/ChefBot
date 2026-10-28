@@ -30,9 +30,6 @@ ALL_PREFS = (PREF_KEY, PREF_MODEL, PREF_EFFORT, PREF_THEME, PREF_EMAIL_TO, PREF_
              PREF_SMTP_SERVER, PREF_RELAY_URL, PREF_RELAY_SECRET, PREF_DEV_MODE,
              PREF_MUST_NOT)
 DEFAULT_SMTP = "smtp.gmail.com:465"
-MAIL_APPS = {"com.google.android.gm": "Gmail", "com.samsung.android.email.provider": "Samsung Email",
-             "com.microsoft.office.outlook": "Outlook", "ch.protonmail.android": "Proton Mail",
-             "com.yahoo.mobile.client.android.mail": "Yahoo Mail"}     # Android share result -> a friendly name
 MAILTO_LIMIT_WINDOWS = 1500   # characters of recipe text in a mailto link on Windows
 
 # ---------------------------------------------------------------- look and feel
@@ -1115,14 +1112,14 @@ class ChefBotApp:
         """On a phone: the share sheet, where the user picks their mail app. It gets the subject, the full recipe
         as the message, and the PDF and photo as attachments."""
         result = await self._share(title, text, photo, f"Recipe: {title}", export.email_text(title, text))
-        # Android says which app was picked (or that the sheet was closed), not whether the email went out.
+        # Android reports which app was picked (or that the sheet was closed), not whether the email went out. In
+        # practice the result arrives when the user comes back to ChefBot, i.e. after sending.
         if result is None or result.status == ft.ShareResultStatus.UNAVAILABLE:
             return
         if result.status == ft.ShareResultStatus.DISMISSED:
             snack(self.page, "Not sent: you closed the share sheet.")
             return
-        app = MAIL_APPS.get((result.raw or "").split("/")[0].strip(), "your mail app")   # "package/activity"
-        snack(self.page, f"Opened in {app}. Tap Send there to email it.")
+        snack(self.page, "Sent by your phone's mail app.")
 
     async def email_message(self, index: int, button=None):
         title, text, photo = self._message(index)

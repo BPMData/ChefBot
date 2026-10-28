@@ -28,8 +28,8 @@ himself (and maybe 1–2 others), so quality matters more than cost.
    photo attached; share_plus passes EXTRA_SUBJECT/EXTRA_TEXT/EXTRA_STREAM, so Gmail fills all three). On desktop
    it's a `mailto:` link with the whole recipe (shortened only on Windows, whose mail apps reject long links).
    Confirmations: a relay send keeps the dialog open with "Sent to ..." (or "Not sent: ..."). The share sheet
-   reports which app was picked (`ShareResult.raw` is "package/activity"), so ChefBot says "Opened in Gmail. Tap
-   Send there"; it can't know whether the user then sent it.
+   result comes back when the user returns to ChefBot (after sending, in practice), so ChefBot says "Sent by
+   your phone's mail app." (Bryan's wording). Strictly it only knows an app was picked, not that the email went.
 2. **Android APK built and installed on Bryan's Samsung (2026-10-28)** with `adb install -r` (USB debugging is on).
    He reported almost everything worked first try; only email was off (fixed: share sheet, see item 1). Re-test
    Email on the phone after installing the new build. See "Android" below for installing, rebuilding, signing,
