@@ -6,8 +6,6 @@ import uuid
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
-MAX_SAVED = 60
-
 
 def data_dir() -> Path:
     # Flet sets FLET_APP_STORAGE_DATA to the app's private folder on phones and in packaged apps.
@@ -60,9 +58,7 @@ class History:
         conv.updated = time.time()
         convs = [c for c in self.load() if c.id != conv.id]
         convs.insert(0, conv)
-        for old in convs[MAX_SAVED:]:
-            self._delete_photos(old)
-        self._write(convs[:MAX_SAVED])
+        self._write(convs)       # no cap: recipes stay until you delete them
 
     def delete(self, conv_id: str) -> None:
         convs = self.load()
@@ -78,9 +74,10 @@ class History:
         conv.photos[str(message_index)] = name
         return path
 
-    def prune_photos(self) -> int:
-        """Delete photo files no saved conversation uses (e.g. after deleting a message). Returns how many."""
-        used = {name for c in self.load() for name in c.photos.values()}
+    def prune_photos(self, keep: set[str] | frozenset[str] = frozenset()) -> int:
+        """Delete photo files no saved conversation uses (e.g. after deleting a message). `keep` names files that
+        are still needed though not saved (a reply in progress, an edit that may be undone). Returns how many."""
+        used = {name for c in self.load() for name in c.photos.values()} | set(keep)
         gone = 0
         for f in self.photo_dir.glob("*.png"):
             if f.name not in used:

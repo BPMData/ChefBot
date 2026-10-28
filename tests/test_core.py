@@ -137,3 +137,25 @@ def test_prune_photos_keeps_only_used(tmp_path):
     h.save(c)
     (tmp_path / "photos" / "orphan-9.png").write_bytes(b"x")
     assert h.prune_photos() == 1 and [f.name for f in (tmp_path / "photos").iterdir()] == [f"{c.id}-2.png"]
+
+
+def test_history_keeps_everything(tmp_path):
+    """No cap: the oldest recipe (and its photo) is never dropped to make room."""
+    h = History(tmp_path)
+    first = Conversation(title="First")
+    h.save_photo(first, 2, b"png")
+    h.save(first)
+    for i in range(80):
+        h.save(Conversation(title=f"Recipe {i}"))
+    titles = [c.title for c in h.load()]
+    assert len(titles) == 81 and "First" in titles
+    assert (tmp_path / "photos" / f"{first.id}-2.png").exists()
+
+
+def test_prune_photos_spares_kept_files(tmp_path):
+    """Photos an in-flight edit or reply may still need survive a cleanup."""
+    h = History(tmp_path)
+    (tmp_path / "photos" / "pending-4.png").write_bytes(b"x")
+    (tmp_path / "photos" / "orphan-9.png").write_bytes(b"x")
+    assert h.prune_photos(keep={"pending-4.png"}) == 1
+    assert [f.name for f in (tmp_path / "photos").iterdir()] == ["pending-4.png"]

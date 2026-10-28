@@ -205,7 +205,10 @@ class ChefBotApp:
         self.cards: dict[int, ft.Container] = {}   # message index -> its card, on the conversation screen
         self.chef: api.ChefBotAPI | None = None
         self.conv: Conversation | None = None
-        self.busy = False
+        # Conversations with a reply or picture in progress, by id. A reply keeps going if you leave its chat.
+        self.working: dict[str, Conversation] = {}
+        self.live_bubbles: dict[str, ft.Container] = {}   # conv id -> the reply card still being written
+        self.kept_photos: set[str] = set()     # photo files an in-flight edit may still need (see send_text)
         self.stop_requested = False
         self.cuisine = prompts.NO_CUISINE
         self.audience = prompts.DEFAULT_AUDIENCE
@@ -534,7 +537,8 @@ class ChefBotApp:
         self.page.views[0].can_pop = True     # back on the home screen leaves the app
         self.padded = []
         self.page.appbar = None
-        self.history.prune_photos()
+        self.history.prune_photos(keep={n for c in self.working.values() for n in c.photos.values()}
+                                       | self.kept_photos)
         self._refresh_recent()
         body = ft.Column(spacing=18, horizontal_alignment=ft.CrossAxisAlignment.STRETCH, controls=[
             card(section_title(ft.Icons.KITCHEN, "What have you got?"), self.ingredients_box,
@@ -580,12 +584,16 @@ class ChefBotApp:
         self.recent.controls = rows
 
     def delete_conversation(self, conv_id: str):
+        if conv_id in self.working:
+            snack(self.page, "Still writing that one. Delete it once it's done.")
+            return
         self.history.delete(conv_id)
         self._refresh_recent()
         self.recent.update()
 
     def open_conversation(self, conv_id: str):
-        conv = next((c for c in self.history.load() if c.id == conv_id), None)
+        # One still being written in the background: show that same conversation, live reply and all.
+        conv = self.working.get(conv_id) or next((c for c in self.history.load() if c.id == conv_id), None)
         if conv:
             self.show_chat(conv)
 
@@ -763,6 +771,7 @@ class ChefBotApp:
 
     def show_chat(self, conv: Conversation):
         self.conv = conv
+        self.stop_requested = False           # a Stop pressed in another chat doesn't carry over
         self.page.views[0].can_pop = False    # back in a chat goes home instead (see _on_back)
         self.padded = []
         self.title_text = heading(conv.title, 18)
@@ -815,8 +824,12 @@ class ChefBotApp:
             self._pad(ft.Container(ft.Column([self.tweaks, self.edit_banner, ft.Row([self.composer, self.send_btn])],
                                              spacing=10, tight=True)), top=8, bottom=12),
         ])
+        if conv.id in self.live_bubbles:          # came back while the reply is still being written
+            self._add_to_thread(self.live_bubbles[conv.id])
         self.page.update()
-        self._refresh_user_tools()
+        self._show_busy()
+        if conv.id in self.live_bubbles:
+            self._set_status("Still writing...")
 
     def _tweak_chip(self, icon: str, label: str, msg: str) -> ft.Chip:
         if label not in BETA_TWEAKS:
@@ -851,9 +864,7 @@ class ChefBotApp:
             await e.control.confirm_pop(True)
 
     def go_home(self):
-        if self.busy:
-            self.stop_requested = True
-        self.show_home()
+        self.show_home()         # a reply in progress keeps going and is saved when it's done (see reply)
 
     def _user_bubble(self, text: str, index: int | None = None) -> ft.Control:
         bubble = ft.Container(
@@ -974,10 +985,22 @@ class ChefBotApp:
     def _stop(self, e):
         self.stop_requested = True
 
-    def _set_busy(self, busy: bool):
-        self.busy = busy
+    @property
+    def busy(self) -> bool:
+        """Whether the chat on screen has a reply or picture in progress."""
+        return self.conv is not None and self.conv.id in self.working
+
+    def _set_busy(self, conv: Conversation, busy: bool):
+        if busy:
+            self.working[conv.id] = conv
+        else:
+            self.working.pop(conv.id, None)
+        if self.conv is conv:
+            self._show_busy()
+
+    def _show_busy(self):
         for c in (self.composer, self.send_btn, self.tweaks):
-            c.disabled = busy
+            c.disabled = self.busy
             c.update()
         self._refresh_user_tools()
 
@@ -991,14 +1014,37 @@ class ChefBotApp:
     async def send_text(self, text: str):
         if self.busy or not self.conv or self._need_key():
             return
+        conv = self.conv
+        cut = None
         if self.editing_index is not None:      # replace the message being edited (and the reply to it)
             index, self.editing_index = self.editing_index, None
-            self._cut_from(index)
-            self.show_chat(self.conv)
-        self.conv.messages.append({"role": "user", "content": text})
-        self._add_to_thread(self._user_bubble(text, index=len(self.conv.messages) - 1))
+            removed, photos = self._cut_from(index)
+            cut = (index, removed, photos)
+            self.kept_photos |= set(photos.values())
+            self.show_chat(conv)
+        conv.messages.append({"role": "user", "content": text})
+        self._add_to_thread(self._user_bubble(text, index=len(conv.messages) - 1))
         self.thread.update()
-        await self.reply()
+        got_reply = await self.reply()
+        if cut is None:
+            return
+        index, removed, photos = cut
+        self.kept_photos -= set(photos.values())
+        if got_reply:
+            return
+        # The edited version got no reply (no signal, out of credit...): put the original back exactly as it was,
+        # so a failed edit never loses anything. The edit stays in the box to try again.
+        del conv.messages[index:]
+        conv.messages.extend(removed)
+        conv.photos.update(photos)
+        conv.title = _latest_title(conv)
+        self.history.save(conv)
+        if self.conv is conv:
+            self.show_chat(conv)
+            self.composer.value = text
+            self.editing_index = index
+            self.edit_banner.visible = True
+            self.page.update()
 
     async def _cycle_status(self, conv: Conversation, got_text: asyncio.Event):
         lines = THINKING_LINES[:]
@@ -1050,28 +1096,34 @@ class ChefBotApp:
         measured = self._offset_of(None) - self.viewport
         await self.thread.scroll_to(offset=max(self.thread_end, measured, 0.0), duration=duration)
 
-    async def reply(self):
+    async def reply(self) -> bool:
+        """Stream the model's answer into a new card. If you leave the chat, it keeps going and the complete reply
+        is saved (reopening the chat shows it live). Returns True if a reply was saved."""
         conv = self.conv
+        on_screen = lambda: self.conv is conv
         self.stop_requested = False
-        self._set_busy(True)
+        self._set_busy(conv, True)
         bubble = self._assistant_card("")
+        self.live_bubbles[conv.id] = bubble
         md: ft.Markdown = bubble.data["md"]
         self._add_to_thread(bubble)
         self.thread.update()
         await self._scroll_to_end()      # if they were looking further up (at a new picture, say), follow the reply
         got_text = asyncio.Event()
         cycler = asyncio.create_task(self._cycle_status(conv, got_text))
-        text, last_paint, error = "", 0.0, None
+        text, last_paint, error, stopped = "", 0.0, None, False
         try:
             async for chunk in self.chef.stream_chat(conv.chat_messages(), self.model, self.effort):
-                if self.stop_requested or self.conv is not conv:
+                if self.stop_requested and on_screen():
+                    stopped = True
                     break
                 if chunk.kind == "text":
                     if not text:
                         got_text.set()
-                        self._set_status("Writing it up...")
+                        if on_screen():
+                            self._set_status("Writing it up...")
                     text += chunk.text
-                    if time.monotonic() - last_paint > 0.12:
+                    if on_screen() and time.monotonic() - last_paint > 0.12:
                         md.value, last_paint = text, time.monotonic()
                         md.update()
         except api.ApiError as err:
@@ -1079,38 +1131,48 @@ class ChefBotApp:
         finally:
             got_text.set()
             cycler.cancel()
-        if self.conv is not conv:      # user left the screen; keep what we got
-            if text:
-                conv.messages.append({"role": "assistant", "content": text})
-                conv.title = extract_title(text) or conv.title
-                self.history.save(conv)
-            self.busy = False
-            return
+            self.live_bubbles.pop(conv.id, None)
+        unsent = None
+        if text:
+            conv.messages.append({"role": "assistant", "content": text})
+            conv.title = extract_title(text) or conv.title
+            self.history.save(conv)
+        elif conv.messages and conv.messages[-1]["role"] == "user" and len(conv.messages) > 2:
+            unsent = conv.messages.pop()["content"]    # nothing came back: give the follow-up back to retry
+        self._set_busy(conv, False)
+
+        if not on_screen():            # finished in the background
+            if self.conv is None:      # on the home screen: show it in the list
+                self._refresh_recent()
+                self.recent.update()
+            if error:
+                snack(self.page, f"{conv.title}: {error}")
+            elif text:
+                snack(self.page, f"Ready: {conv.title}")
+            return bool(text)
+
         if text:
             md.value = text
-            md.update()
-            conv.messages.append({"role": "assistant", "content": text})
             index = len(conv.messages) - 1
             self.cards[index] = bubble
             self._fill_actions(bubble, index, text, has_photo=False)
             bubble.update()
-            conv.title = extract_title(text) or conv.title
             self.title_text.value = conv.title
             self.title_text.update()
-            self.history.save(conv)
-        elif conv.messages and conv.messages[-1]["role"] == "user" and len(conv.messages) > 2:
-            unsent = conv.messages.pop()["content"]    # nothing came back: give the follow-up back to retry
+            self._refresh_user_tools()
+        elif unsent is not None:
             self.show_chat(conv)
             self.composer.value = unsent
+            self.composer.update()
         else:
             self.thread.controls.remove(bubble)
             self.thread.update()
         self._set_status(None)
-        self._set_busy(False)
         if error:
             snack(self.page, error)
-        elif self.stop_requested and text:
+        elif stopped and text:
             snack(self.page, "Stopped. The partial recipe is kept; ask me to finish it if you like.")
+        return bool(text)
 
     # ------------------------------------------------------------ actions on one reply
 
@@ -1384,7 +1446,7 @@ class ChefBotApp:
             return
         conv = self.conv
         title, text, _ = self._message(index)
-        self._set_busy(True)
+        self._set_busy(conv, True)
         self._set_status("Plating it up for the camera...")
         try:
             image = await self.chef.dish_photo(title)
@@ -1392,8 +1454,9 @@ class ChefBotApp:
             snack(self.page, str(err))
             return
         finally:
-            self._set_status(None)
-            self._set_busy(False)
+            if self.conv is conv:
+                self._set_status(None)
+            self._set_busy(conv, False)
         self.history.save_photo(conv, index, image)
         self.history.save(conv)
         if self.conv is conv and index in self.cards:
