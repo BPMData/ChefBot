@@ -22,7 +22,9 @@ himself (and maybe 1–2 others), so quality matters more than cost.
    answers the hello check, and a test email (Galbijjim + photo + PDF) went through the relay to that inbox.
    **Still to confirm:** Bryan's look in Gmail at the inline image, the PDF attachment and the Korean name. Direct
    SMTP with an app password still fails (`SMTPServerDisconnected` during sign-in); the relay is the way.
-2. **Android APK never built.** See "Android" below. Ask before starting: it downloads several GB.
+2. **Android APK built (2026-10-28), not yet tried on a phone.** `build/apk/chefbot-arm64-v8a.apk` (66 MB). Bryan
+   sideloads it and tests: Settings key entry, a recipe, Snap my fridge, PDF/Email/Share, the dish picture. See
+   "Android" below for how to install, rebuild, and delete the ~13 GB toolchain afterwards.
 3. **GitHub: done** (private repo; PR #1 with the 2026-10-28 work is merged). Still to do: README screenshots; maybe make it
    public later (ask first).
 
@@ -33,12 +35,12 @@ cd ~/Documents/Github/ChefBot
 .venv/bin/flet run src/main.py                       # desktop window (Bryan's normal way)
 OPENROUTER_API_KEY="$(tr -d '[:space:]' < ../openrouter.txt)" \
   .venv/bin/flet run --web --port 8551 src/main.py   # web: what Claude uses with the browser pane
-.venv/bin/python -m pytest                           # 25 offline tests
+.venv/bin/python -m pytest                           # 29 offline tests
 OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow-up edit (~1¢)
 ```
 
 - The venv is Python 3.14 (`.venv`, plain pip; no uv on this Mac). Deps: flet[all]==1.0.5, httpx, markdown,
-  fpdf2, pytest, pypdf.
+  fpdf2, pillow==12.3.0 (pinned for Android), pytest, pypdf.
 - **Web dev mode quirks:** first page load takes ~20 s; Flutter draws on a canvas, so `find`/`read_page` see
   nothing: use screenshots and coordinates. After code changes, **restart the server** (hot reload leaves broken
   sessions). Use absolute paths in background shell commands (the shell's cwd drifts).
@@ -101,36 +103,84 @@ Full table in `README.md`. Blind tests (judge: Claude Sonnet 5.5, a non-contesta
 - Every reply has Copy (Markdown), PDF, HTML, Email, Share, Picture. Copy/actions act on that reply only.
 - Plain-language explanations; he's technical but values brevity. He tests thoroughly and reports precisely.
 
-## Android: plan and known facts
+## Android: build, install, clean up
+
+First built 2026-10-28 on the MacBook (Flet 1.0.5, Flutter 3.44.8, JDK 17, Android SDK 36). It built on the first
+try; the first run took about 20 minutes, mostly downloads.
 
 ```bash
 cd ~/Documents/Github/ChefBot
-.venv/bin/flet build apk          # first run installs Flutter (its own copy) and asks to install JDK + Android SDK
-# output: build/apk/*.apk  (consider --split-per-abi for a smaller arm64 APK)
+.venv/bin/flet build apk --yes --split-per-abi \
+  --splash-color "#110E0C" --splash-dark-color "#110E0C" \
+  --android-adaptive-icon-background "#E8452C"
+# output: build/apk/chefbot-arm64-v8a.apk (66 MB, for any modern phone),
+#         chefbot-armeabi-v7a.apk (old 32-bit phones), chefbot-x86_64.apk (emulators)
 .venv/bin/flet debug android      # run on a USB-connected phone (developer mode + USB debugging); `--show-devices`
 ```
 
-- Config is in `pyproject.toml`: `[tool.flet]` org `io.github.bpmdata`, product `ChefBot`, `[tool.flet.app] path =
-  "src"`. Android INTERNET permission is added by default.
-- **App icon:** add `src/assets/icon.png` (1024×1024 PNG; SVG is ignored by the build). Render it from
-  `src/assets/logo.svg` (the chef's-hat-on-orange-gradient logo). Optionally `--android-adaptive-icon-background`
-  and a splash color (`--splash-color`, dark `#110E0C`).
-- **Risks to check on a real phone:**
-  - `fpdf2` uses **Pillow** (native) only for images, and **fontTools** (pure Python) for fonts. Flet's Android
-    index has Pillow 12.3.0/12.2.0/11.1.0/10.4.0 (checked 2026-10-28), but the Mac venv has 13.0.0 and nothing pins
-    it: **pin `pillow==12.3.0` (or whatever Flet lists) before `flet build apk`**. If Pillow is missing anyway,
-    `_add_photo()` leaves the photo out of the PDF instead of failing (tested), so PDF/Email/Share still work.
-    `markdown`, `httpx`, `defusedxml` are pure Python. We deliberately avoided the `openai` package (pydantic-core
-    is native).
-  - "Snap my fridge" uses `FilePicker.pick_files(file_type=IMAGE, with_data=True)`: on Android that opens the photo
-    picker, maybe not the camera directly. If camera capture is wanted, check Flet 1.0's options (`--permissions
-    camera`, a camera control) before building something custom. Never tested with a real fridge photo.
-  - `Share.share_files` with the PDF + photo should open the Android share sheet (untested anywhere real).
-  - `FilePicker.save_file(src_bytes=..., file_name=...)` is required on mobile/web (already done).
-  - CJK fonts for PDFs download at first use (10–18 MB) into `<data>/fonts`; check that works on mobile data.
-  - First launch needs the OpenRouter key typed in Settings (no env var on a phone). SharedPreferences on Android
-    is plain app-private storage, acceptable for a personal sideload.
-- Sideload: copy the APK to the phone, allow "install unknown apps" for the file manager, install.
+- Config is in `pyproject.toml`: `[tool.flet]` org `io.github.bpmdata` (package `io.github.bpmdata.chefbot`),
+  product `ChefBot`, `[tool.flet.app] path = "src"`. Permissions in the APK: INTERNET and ACCESS_NETWORK_STATE.
+- **Pillow is pinned to 12.3.0** because Flet's Android package index has no 13.x (the Mac venv has 13.0.0; the
+  pin is fine on desktop too). Its native libs (`libPIL-_imaging.so` etc.) are in the APK. If it were ever missing,
+  `_add_photo()` leaves the photo out of the PDF instead of failing.
+- **App icon:** `src/assets/icon.png` (1024x1024). It is the logo's hat, scaled to 92%, on a full-square version of
+  the orange gradient, so the launcher's circle/squircle mask never clips the hat. Rendered from an SVG with
+  macOS's own SVG support (a small Swift script; no rsvg/Inkscape on this Mac). The adaptive-icon background is
+  `#E8452C`; the splash is `#110E0C`.
+- **Signing:** the APK is signed with Flutter's automatic debug key (`~/.android/debug.keystore`, "CN=Android
+  Debug"). That's fine for sideloading. But Android only installs an update over an existing app if the key
+  matches: an APK built on another computer (e.g. Bryan's PC) has a different debug key, so the phone will refuse
+  it until ChefBot is uninstalled, which **deletes its saved recipes and settings on the phone**. To keep one key,
+  copy `~/.android/debug.keystore` to the new computer's `~/.android/` before building there (or set up a proper
+  release keystore).
+- **Untested on a real phone (Bryan's checklist):**
+  - Settings: type the OpenRouter key (no env var on a phone). It's kept in app-private SharedPreferences.
+  - A recipe from the home form, and a follow-up change.
+  - "Snap my fridge": `FilePicker.pick_files(file_type=IMAGE, with_data=True)` probably opens the photo picker,
+    not the camera. If camera capture is wanted, look at Flet 1.0's options (`--permissions camera`, a camera
+    control) before building something custom.
+  - PDF (with and without a photo), Email (relay), Share (`Share.share_files` should open the share sheet).
+    CJK fonts for PDFs download on first use (10–18 MB) into `<data>/fonts`.
+  - Dish picture.
+
+### Sideloading onto the phone
+
+1. Get `build/apk/chefbot-arm64-v8a.apk` onto the phone: AirDrop doesn't reach Android, so use Google Drive, email
+   it to yourself, or a USB cable (Android File Transfer / the phone's "File transfer" mode).
+2. Tap the APK in the Files app (or Drive, or Gmail). Android asks to allow that app to "install unknown apps":
+   allow it (Settings > Apps > Special app access > Install unknown apps), then go back and tap Install.
+3. Play Protect may warn about an unknown developer: choose "Install anyway" (or "More details" > "Install anyway").
+4. Updating later: install the new APK the same way; data is kept as long as it was built with the same key (see
+   Signing).
+
+With USB debugging on, `~/Android/sdk/platform-tools/adb install -r build/apk/chefbot-arm64-v8a.apk` also works.
+
+### What the toolchain put on the Mac (delete to reclaim ~13 GB)
+
+Measured right after the first build (2026-10-28). Everything below was created by `flet build apk`; nothing in
+`~/Library` changed. Before: 91 GB free; after: 74 GB free.
+
+| Folder | Size | What it is |
+| --- | --- | --- |
+| `~/.gradle` | 4.1 GB | Gradle and its downloaded Android build libraries |
+| `~/flutter` | 3.8 GB | Flutter SDK 3.44.8 (Flet's own copy) |
+| `~/Android` | 3.8 GB | Android SDK (`~/Android/sdk`: build-tools 34-35, platforms 34-36, NDK, CMake, platform-tools/adb) |
+| `~/Documents/Github/ChefBot/build` | 2.6 GB | Build output incl. the APKs (gitignored) |
+| `~/.pub-cache` | 731 MB | Dart/Flutter packages |
+| `~/java` | 308 MB | JDK 17.0.13 |
+| `~/.flet/cache` | 59 MB | Flet build template and the Python-for-Android runtime |
+| `~/.android` | 6 MB | **Holds `debug.keystore`, the signing key** (see Signing): copy it somewhere before deleting |
+| `~/.dart-tool`, `~/.flutter`, `~/.cookiecutters`, `~/.cookiecutter_replay` | < 1 MB | Tool settings and template caches |
+
+Keep `~/.flet/client` (the desktop app's Flet runtime, there before the build). To remove everything (copy the APK
+and `~/.android/debug.keystore` somewhere first if wanted):
+
+```bash
+rm -rf ~/.gradle ~/flutter ~/Android ~/.pub-cache ~/java ~/.flet/cache ~/.android \
+       ~/.dart-tool ~/.flutter ~/.cookiecutters ~/.cookiecutter_replay ~/Documents/Github/ChefBot/build
+```
+
+The next `flet build apk` downloads it all again.
 
 ## Flet 1.0 gotchas learned the hard way
 
