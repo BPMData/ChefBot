@@ -41,7 +41,7 @@ cd ~/Documents/Github/ChefBot
 .venv/bin/flet run src/main.py                       # desktop window (Bryan's normal way)
 OPENROUTER_API_KEY=... \
   .venv/bin/flet run --web --port 8551 src/main.py   # web: what Claude uses with the browser pane
-.venv/bin/python -m pytest                           # 29 offline tests
+.venv/bin/python -m pytest                           # offline tests (also run by GitHub on every PR)
 OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow-up edit (~1¢)
 ```
 
