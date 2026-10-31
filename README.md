@@ -25,6 +25,9 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
   and the PDF and photo attached; on a computer it opens a new message with the recipe text. A hidden developer
   setting (tap "Settings" 7 times) lets ChefBot send formatted emails itself through a small Google Apps Script
   relay or a Gmail app password ([docs/EMAIL.md](docs/EMAIL.md)).
+- **Switch apps while it writes.** On Android a small notification ("ChefBot is writing your recipe") keeps
+  ChefBot running in the background, and another says when the recipe is ready. If the connection drops while
+  you're away anyway, the reply starts again when you come back.
 - **Edit or delete your last message.** Edit puts it back in the box (nothing changes until you send); Delete
   has Undo.
 - **The 1817 version (beta)** rewrites a dish as a period recipe, after a clear warning that AI invents history.
@@ -50,6 +53,17 @@ development you can set `OPENROUTER_API_KEY` instead.
 OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py  # live: a recipe, then a follow-up edit
 ```
 
+GitHub runs the offline tests on every pull request. It also checks OpenRouter on a schedule
+(`.github/workflows/api-checks.yml`, `tools/api_check.py`), so a retired or changed model shows up as a failed
+run (and an email) before it shows up in the app:
+
+- **Daily, free, no key:** every model ChefBot uses is still listed, still accepts thinking, the photo model
+  still reads images, the picture model still makes them, and Z.ai still hosts GLM.
+- **Sundays:** a real recipe from the default model, a quick reply from each other model, and a photo read.
+- **Monthly (the 1st):** a real dish picture.
+
+The live ones need an `OPENROUTER_API_KEY` repository secret and skip themselves without it.
+
 ## Android
 
 ```bash
@@ -57,7 +71,8 @@ OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py  # live: a recipe, then a
 ```
 
 The first build downloads the Flutter SDK, Android SDK and a JDK (several GB). The APK lands in `build/apk/`;
-copy it to the phone and sideload it.
+copy it to the phone and sideload it. The build includes `packages/flet-keepalive`, ChefBot's own small Flet
+extension (an Android foreground service) that keeps replies going while you're in another app.
 
 ## How the models were picked (Oct 2026)
 
@@ -84,6 +99,8 @@ src/chefbot/api.py       OpenRouter: streaming recipes, photo reading, dish pict
 src/chefbot/history.py   saved conversations and photos
 src/chefbot/recipe.py    reading the "Recipe Title:" line
 src/chefbot/export.py    Markdown, HTML page, PDF and email versions of a reply
+src/chefbot/keepalive.py keeps a reply going while the app is in the background (Android)
+packages/flet-keepalive/ the Android foreground service behind it (a Flet extension)
 tools/make_static_fonts.py  cuts the fixed-weight fonts PDFs use
 src/assets/              logo and bundled fonts (Fraunces, DM Sans; SIL Open Font License)
 ```

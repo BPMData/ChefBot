@@ -1,0 +1,22 @@
+[project]
+name = "flet-keepalive"
+version = "0.1.0"
+description = "Keeps a Flet Android app running while the user is in another app (a foreground service with a notification)."
+authors = [{ name = "Bryan Murphy" }]
+license = "AGPL-3.0-or-later"
+requires-python = ">=3.10"
+dependencies = []     # Python side is plain pyjnius calls; the app already brings flet and pyjnius
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+# Ship the Flutter/Android half as data next to the Python package, the way Flet's own extensions do:
+# `flet build` finds site-packages/flutter/<name>/pubspec.yaml and adds it to the app.
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["flet_keepalive*", "flutter*"]
+namespaces = true
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.dart", "*.java", "*.xml", "*.gradle", "*.pro"]

@@ -1,0 +1,49 @@
+name: API checks
+
+# Does OpenRouter still work the way ChefBot expects? A failed scheduled run emails the repo owner.
+#   daily:   the models ChefBot uses still exist, take thinking/photos, and Z.ai still hosts GLM (free, no key)
+#   Sunday:  a real recipe from the default model, the other models, and a photo read (needs the key secret)
+#   monthly: a real dish picture (needs the key secret; the priciest call)
+# Without the OPENROUTER_API_KEY repository secret the paid checks skip themselves instead of failing.
+# Run one by hand: Actions > API checks > Run workflow.
+
+on:
+  schedule:
+    - cron: "17 13 * * *"     # every day, 13:17 UTC
+    - cron: "43 14 * * 0"     # Sundays, 14:43 UTC
+    - cron: "29 15 1 * *"     # the 1st of each month, 15:29 UTC
+  workflow_dispatch:
+    inputs:
+      check:
+        description: Which check
+        type: choice
+        options: [models, recipe, picture]
+        default: models
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Pick the check
+        id: pick
+        run: |
+          case "${{ github.event_name }}/${{ github.event.schedule }}/${{ inputs.check }}" in
+            "schedule/43 14 * * 0/"*) echo "check=recipe"  >> "$GITHUB_OUTPUT" ;;
+            "schedule/29 15 1 * */"*) echo "check=picture" >> "$GITHUB_OUTPUT" ;;
+            schedule/*)               echo "check=models"  >> "$GITHUB_OUTPUT" ;;
+            *)                        echo "check=${{ inputs.check }}" >> "$GITHUB_OUTPUT" ;;
+          esac
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+      - name: Install
+        run: python -m pip install "httpx>=0.28" "pillow==12.3.0"
+      - name: Check ${{ steps.pick.outputs.check }}
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: python tools/api_check.py ${{ steps.pick.outputs.check }}
