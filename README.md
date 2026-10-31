@@ -53,6 +53,17 @@ development you can set `OPENROUTER_API_KEY` instead.
 OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py  # live: a recipe, then a follow-up edit
 ```
 
+GitHub runs the offline tests on every pull request. It also checks OpenRouter on a schedule
+(`.github/workflows/api-checks.yml`, `tools/api_check.py`), so a retired or changed model shows up as a failed
+run (and an email) before it shows up in the app:
+
+- **Daily, free, no key:** every model ChefBot uses is still listed, still accepts thinking, the photo model
+  still reads images, the picture model still makes them, and Z.ai still hosts GLM.
+- **Sundays:** a real recipe from the default model, a quick reply from each other model, and a photo read.
+- **Monthly (the 1st):** a real dish picture.
+
+The live ones need an `OPENROUTER_API_KEY` repository secret and skip themselves without it.
+
 ## Android
 
 ```bash

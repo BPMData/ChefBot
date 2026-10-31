@@ -76,6 +76,22 @@ OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow
 - Don't click Save PDF / Save HTML / Share in the browser pane (they download files onto the Mac). The export code
   is covered by `tests/test_export.py`.
 
+### Scheduled API checks (added 2026-10-31)
+
+`.github/workflows/api-checks.yml` runs `tools/api_check.py`: **daily** `models` (free, no key: OpenRouter's
+public model list; ids, `reasoning` support, image in/out, retirement dates, Z.ai still hosting GLM),
+**Sundays** `recipe` (a full recipe from the default model at default thinking, a one-word reply from each other
+model, a photo read of a drawn tomato), **the 1st of the month** `picture` (a dish picture). Model ids come from
+`api.py`, so the checks follow model changes. A failed scheduled run emails the repo owner. A retirement date
+more than 30 days out is a warning; within 30 days it fails. Run one by hand: Actions > API checks > Run
+workflow. GitHub turns scheduled workflows off after 60 days without a commit; re-enable from the Actions tab.
+
+**Still to do (Bryan):** add the key so the Sunday and monthly checks run (until then they skip with a
+notice). On GitHub: the repo > Settings > Secrets and variables > Actions > New repository secret, name
+`OPENROUTER_API_KEY`, value = the key from the file noted in `HANDOFF.local.md`. Ideally a separate OpenRouter
+key just for this, with a small credit limit (openrouter.ai/keys lets you set one), so it can be revoked
+alone. GitHub never shows secrets in logs or hands them to pull requests from forks.
+
 ## Architecture
 
 ```
@@ -129,6 +145,10 @@ tools/smoke.py           live API check
   `Extension` that `flet build` needs to register the plugin. It's wired in through `[tool.flet.android]`
   `dependencies` + `[tool.flet.android.dev_packages]` (pip builds it from the folder). The Java compiles against
   the Android 16 framework (checked 2026-10-31 with javac); the full Gradle build hasn't run yet.
+- **A damaged saved-recipes file is set aside, never overwritten (2026-10-31).** `History.load()` used to
+  return an empty list for unreadable JSON, and the next `save()` then wrote only the new recipe over it. Now it
+  renames the file to `conversations.unreadable-<time>.json` (logged) and starts fresh. Writes were already
+  atomic (temp file + replace), so this only matters for disk errors or hand edits.
 - **No cap on saved recipes** (was 60, silently dropping the oldest). `prune_photos(keep=...)` spares photos a
   pending edit or running reply may still need.
 - Note: the Browser pane's dev-server sandbox can't read `../openrouter.txt`; for live web tests start the server

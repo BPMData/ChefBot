@@ -1,10 +1,13 @@
 """Recipe conversations, saved on the device so you can come back to them."""
 import json
+import logging
 import os
 import time
 import uuid
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
+
+log = logging.getLogger("chefbot")
 
 
 def data_dir() -> Path:
@@ -44,7 +47,15 @@ class History:
     def load(self) -> list[Conversation]:
         try:
             raw = json.loads(self.file.read_text(encoding="utf-8"))
-        except (FileNotFoundError, json.JSONDecodeError):
+        except FileNotFoundError:
+            return []
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            raw = None
+        if not isinstance(raw, list):
+            # Unreadable: move it aside instead of letting the next save() write over every saved recipe.
+            backup = self.file.with_name(f"conversations.unreadable-{int(time.time())}.json")
+            self.file.replace(backup)
+            log.warning("Saved recipes were unreadable; kept them as %s and started a fresh list", backup.name)
             return []
         convs = []
         for item in raw:
