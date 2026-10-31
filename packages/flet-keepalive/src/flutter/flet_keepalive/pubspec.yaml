@@ -1,0 +1,22 @@
+name: flet_keepalive
+description: Android foreground service that keeps a Flet app's Python running in the background.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+  flutter: ">=3.16.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flet:
+    path: ../../../../../../../packages/flet     # same placeholder as Flet's own extensions; the app overrides it
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: io.github.bpmdata.keepalive
+        pluginClass: KeepAlivePlugin
