@@ -11,69 +11,60 @@ import android.util.Log;
 
 /**
  * A foreground service with nothing to do except exist: while it runs, Android treats the app as in use and doesn't
- * freeze its process, so Python's network stream keeps going in the background. Controlled by KeepAlive; every
- * method here runs on the main thread.
+ * freeze its process, so Python's network stream keeps going in the background.
+ *
+ * Python sends it Intents by class name: ACTION_SHOW (with title/text extras) starts it or updates its notification;
+ * ACTION_STOP ends it. Commands arrive in order, so a STOP right after the first SHOW still comes after the
+ * startForeground() call Android requires.
  */
 public class KeepAliveService extends Service {
-    static KeepAliveService running = null;
-
-    // Long enough for any reply (they take a few minutes at most); a safety net if stop() never came.
+    // Long enough for any reply (they take a few minutes at most); a safety net if STOP never came.
     private static final long WAKE_LOCK_TIMEOUT_MS = 30 * 60 * 1000L;
 
     private PowerManager.WakeLock wakeLock;
+    private boolean foreground = false;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // Android requires startForeground() promptly after startForegroundService(), even if we're about to stop.
+        if (intent != null && KeepAlive.ACTION_STOP.equals(intent.getAction())) {
+            finish();
+            return START_NOT_STICKY;
+        }
         try {
             KeepAlive.createChannels(this);
-            Notification n = notification();
+            Notification n = KeepAlive.builder(this, KeepAlive.CHANNEL_WORKING)
+                    .setContentTitle(KeepAlive.extra(intent, KeepAlive.EXTRA_TITLE))
+                    .setContentText(KeepAlive.extra(intent, KeepAlive.EXTRA_TEXT))
+                    .setOngoing(true)
+                    .setOnlyAlertOnce(true)
+                    .setShowWhen(false)
+                    .build();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 startForeground(KeepAlive.ID_WORKING, n, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC);
             } else {
                 startForeground(KeepAlive.ID_WORKING, n);
             }
+            foreground = true;
         } catch (Exception e) {
             Log.w(KeepAlive.TAG, "startForeground failed", e);
             stopSelf();
-            return START_NOT_STICKY;
-        }
-        running = this;
-        if (!KeepAlive.wanted) {        // stop() came before the service was up
-            finish();
             return START_NOT_STICKY;
         }
         holdWakeLock();
         return START_NOT_STICKY;        // if Android kills it anyway, don't restart it with nothing to do
     }
 
-    /** Show the latest title and text from KeepAlive.start(). */
-    void refresh() {
-        try {
-            KeepAlive.manager(this).notify(KeepAlive.ID_WORKING, notification());
-        } catch (Exception e) {
-            Log.w(KeepAlive.TAG, "Couldn't update the notification", e);
-        }
-    }
-
     @SuppressWarnings("deprecation")
-    void finish() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            stopForeground(STOP_FOREGROUND_REMOVE);
-        } else {
-            stopForeground(true);
+    private void finish() {
+        if (foreground) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                stopForeground(STOP_FOREGROUND_REMOVE);
+            } else {
+                stopForeground(true);
+            }
+            foreground = false;
         }
         stopSelf();
-    }
-
-    private Notification notification() {
-        return KeepAlive.builder(this, KeepAlive.CHANNEL_WORKING)
-                .setContentTitle(KeepAlive.title)
-                .setContentText(KeepAlive.text)
-                .setOngoing(true)
-                .setOnlyAlertOnce(true)
-                .setShowWhen(false)
-                .build();
     }
 
     private void holdWakeLock() {
@@ -94,13 +85,11 @@ public class KeepAliveService extends Service {
     @Override
     public void onTimeout(int startId, int fgsType) {
         Log.w(KeepAlive.TAG, "Android's time limit for background work ran out");
-        KeepAlive.wanted = false;
         finish();
     }
 
     @Override
     public void onDestroy() {
-        running = null;
         if (wakeLock != null && wakeLock.isHeld()) {
             wakeLock.release();
         }

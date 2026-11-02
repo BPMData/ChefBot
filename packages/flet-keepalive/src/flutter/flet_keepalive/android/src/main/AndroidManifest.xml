@@ -14,5 +14,9 @@
             android:exported="false"
             android:foregroundServiceType="dataSync"
             android:stopWithTask="true" />
+        <!-- Posts the "Ready" notification; a broadcast, since a backgrounded app may not start a service. -->
+        <receiver
+            android:name="io.github.bpmdata.keepalive.KeepAliveReceiver"
+            android:exported="false" />
     </application>
 </manifest>

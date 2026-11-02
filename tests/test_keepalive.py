@@ -52,13 +52,22 @@ def test_holding_releases_on_error():
     assert b.calls[-1] == ("stop",) and not k.jobs
 
 
-def test_a_failing_backend_switches_itself_off():
+def test_a_failing_start_switches_it_off():
     b = FakeBackend(fail="start")
     k = KeepAlive(b)
     with k.holding(WRITING):
         pass
     assert [c[0] for c in b.calls] == ["start"] and k.backend is None
     k.notify("x")      # no backend: nothing happens, nothing raises
+
+
+def test_other_failures_are_logged_but_keep_it_on():
+    b = FakeBackend(can_notify=False, fail="request_notification_permission")
+    k = KeepAlive(b)
+    k.ask_permission()
+    with k.holding(WRITING):
+        assert b.calls[-1][0] == "start"
+    assert k.backend is b
 
 
 def test_permission_is_asked_once_and_only_when_missing():
@@ -101,15 +110,117 @@ def test_package_wiring_matches_up():
     assert "pluginClass: KeepAlivePlugin" in pubspec and (java / "KeepAlivePlugin.java").exists()
     assert "class Extension extends FletExtension" in (FLUTTER / "lib" / "src" / "extension.dart").read_text()
     manifest = (FLUTTER / "android" / "src" / "main" / "AndroidManifest.xml").read_text()
-    assert 'android:name="io.github.bpmdata.keepalive.KeepAliveService"' in manifest
     assert 'foregroundServiceType="dataSync"' in manifest and "FOREGROUND_SERVICE_DATA_SYNC" in manifest
-    assert "-keep class io.github.bpmdata.keepalive.**" in (FLUTTER / "android" / "consumer-rules.pro").read_text()
-    # Python calls the Java class by name: they must agree, method names too.
-    py = (PKG / "src" / "flet_keepalive" / "__init__.py").read_text()
-    assert '_CLASS = "io.github.bpmdata.keepalive.KeepAlive"' in py
+    # Python reaches the service and receiver by class name and action strings: all three places must agree.
+    fk = flet_keepalive()
+    for cls in (fk.SERVICE, fk.RECEIVER):
+        assert f'android:name="{cls}"' in manifest and (java / (cls.rsplit(".", 1)[1] + ".java")).exists()
     java_api = (java / "KeepAlive.java").read_text()
-    for method in re.findall(r"_keepalive\(\)\.(\w+)\(", py):
-        assert f"public static" in java_api and re.search(rf"public static \w+ {method}\(", java_api), method
+    for name in ("SHOW", "STOP", "NOTIFY", "CANCEL"):
+        assert f'ACTION_{name} = "{getattr(fk, "ACTION_" + name)}"' in java_api
+    assert 'EXTRA_TITLE = "title"' in java_api and 'EXTRA_TEXT = "text"' in java_api
+
+
+def flet_keepalive():
+    import importlib
+    import sys
+    sys.path.insert(0, str(PKG / "src"))
+    try:
+        return importlib.import_module("flet_keepalive")
+    finally:
+        sys.path.remove(str(PKG / "src"))
+
+
+class FakeJava:
+    """Stands in for pyjnius: records what the package asks Android to do."""
+    def __init__(self, sdk=36, granted=False, start_service_fails=False):
+        self.calls, self.sdk, self.granted, self.fails = [], sdk, granted, start_service_fails
+        java = self
+
+        class Intent:
+            def __init__(self, action):
+                self.action, self.extras = action, {}
+            def setClassName(self, pkg, cls):
+                self.cls = cls
+            def putExtra(self, k, v):
+                self.extras[k] = v
+
+        class Activity:
+            def getPackageName(self):
+                return "io.github.bpmdata.chefbot"
+            def startForegroundService(self, i):
+                java.calls.append(("startForegroundService", i.cls, i.action, i.extras.get("title")))
+            def startService(self, i):
+                if java.fails:
+                    raise RuntimeError("not allowed from the background")
+                java.calls.append(("startService", i.cls, i.action, i.extras.get("title")))
+            def stopService(self, i):
+                java.calls.append(("stopService", i.cls, i.action, None))
+            def sendBroadcast(self, i):
+                java.calls.append(("sendBroadcast", i.cls, i.action, i.extras.get("title")))
+            def checkSelfPermission(self, p):
+                return 0 if java.granted else -1
+            def requestPermissions(self, perms, code):
+                java.calls.append(("requestPermissions", tuple(perms), None, None))
+
+        self.classes = {"Host": SimpleNamespace(mActivity=Activity()), "android.content.Intent": Intent,
+                        "android.os.Build$VERSION": SimpleNamespace(SDK_INT=sdk)}
+
+    def autoclass(self, name):
+        return self.classes[name]       # anything else (an app class) would fail on a phone, so fail here too
+
+
+@pytest.fixture
+def android(monkeypatch):
+    fk = flet_keepalive()
+    monkeypatch.setenv("MAIN_ACTIVITY_HOST_CLASS_NAME", "Host")
+    monkeypatch.setattr(fk, "_running", False)
+
+    def make(**kw):
+        java = FakeJava(**kw)
+        monkeypatch.setattr(fk, "_autoclass", java.autoclass)
+        return fk, java
+    return make
+
+
+def test_start_update_stop_send_the_right_intents(android):
+    fk, java = android()
+    fk.start("Writing", "keeps going")
+    fk.start("Cooking up 2 things")
+    fk.stop()
+    fk.stop()       # already stopped: nothing
+    assert java.calls == [
+        ("startForegroundService", fk.SERVICE, fk.ACTION_SHOW, "Writing"),
+        ("startService", fk.SERVICE, fk.ACTION_SHOW, "Cooking up 2 things"),
+        ("startService", fk.SERVICE, fk.ACTION_STOP, ""),
+    ]
+
+
+def test_stop_falls_back_to_stop_service(android):
+    fk, java = android()
+    fk.start("Writing")
+    java.fails = True
+    fk.stop()
+    assert java.calls[-1] == ("stopService", fk.SERVICE, fk.ACTION_STOP, None)
+
+
+def test_notifications_go_to_the_receiver(android):
+    fk, java = android()
+    fk.notify_done("Ready: Soup", "Tap to open")
+    fk.cancel_done()
+    assert java.calls == [("sendBroadcast", fk.RECEIVER, fk.ACTION_NOTIFY, "Ready: Soup"),
+                          ("sendBroadcast", fk.RECEIVER, fk.ACTION_CANCEL, "")]
+
+
+def test_permission_only_asked_on_android_13_and_up_when_missing(android):
+    fk, java = android(sdk=36, granted=False)
+    assert fk.can_notify() is False
+    fk.request_notification_permission()
+    assert java.calls == [("requestPermissions", (fk.POST_NOTIFICATIONS,), None, None)]
+    fk, java = android(sdk=32)
+    assert fk.can_notify() is True
+    fk.request_notification_permission()
+    assert java.calls == []
 
 
 def test_app_build_settings_include_the_package():

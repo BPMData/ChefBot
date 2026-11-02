@@ -4,8 +4,8 @@ Android freezes a backgrounded app within seconds, which kills an open OpenRoute
 written, ChefBot runs a foreground service (the `flet-keepalive` package, packages/flet-keepalive) with an ongoing
 notification, and Android leaves it alone. Elsewhere (desktop, web) there's no backend and this does nothing.
 
-Every call is best-effort: a failure is logged once, then the keep-alive switches itself off and the app carries on
-(the reply auto-retry in main.py is the safety net)."""
+Every call is best-effort: failures are logged (logcat tag flet.python) and the app carries on. If starting the
+service fails, the keep-alive switches itself off for the run; the reply auto-retry in main.py is the safety net."""
 import logging
 from contextlib import contextmanager
 
@@ -78,6 +78,9 @@ class KeepAlive:
         try:
             return getattr(self.backend, name)(*args)
         except Exception:
-            log.warning("Keep-alive %s failed; turning it off for this run", name, exc_info=True)
-            self.backend = None
+            if name == "start":      # can't keep the app alive at all: stop trying (the auto-retry still works)
+                log.warning("Keep-alive start failed; turning it off for this run", exc_info=True)
+                self.backend = None
+            else:                    # a notification or the permission prompt: log it and carry on
+                log.warning("Keep-alive %s failed", name, exc_info=True)
             return None

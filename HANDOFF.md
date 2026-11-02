@@ -34,8 +34,8 @@ more than cost.
    and deleting the ~13 GB toolchain.
 3. **GitHub: public since 2026-10-28** (AGPLv3). Still to do: README screenshots.
 4. **Keep replies alive when the app is in the background: built 2026-10-31. First phone build (2026-11-02):
-   the restart-on-return fallback worked, the keep-alive didn't (R8 removed its Java class; see "Shrinker
-   gotcha"). Fixed; needs a rebuild and re-test.** Before: switching apps mid-reply let Android freeze ChefBot (logcat: "Skipping
+   the restart-on-return fallback worked, the keep-alive didn't (pyjnius couldn't find its Java class; see
+   "pyjnius can't find the app's own classes"). Reworked to use Intents; needs a rebuild and re-test.** Before: switching apps mid-reply let Android freeze ChefBot (logcat: "Skipping
    setProcessStateToThread due to frozen status"), the stream died, and you came back to "Lost the connection to
    OpenRouter". Now (see "Background replies" under Architecture): a foreground service with a notification
    while anything is being written, a "Ready: <title>" notification if it finishes while you're away, and, as
@@ -49,7 +49,8 @@ more than cost.
    - Same with the screen locked (the service holds a wake lock).
    - Fallback: turn on airplane mode mid-reply while in another app, then off, then return: the card says it lost
      the connection, then it starts that reply again (once).
-   - If anything misbehaves: `adb logcat -s KeepAlive chefbot python` (Java side logs under the tag `KeepAlive`).
+   - If anything misbehaves: `adb logcat -d | grep -iE -A12 "keep-alive|keepalive|jnius"` (Python logs under
+     the tag `flet.python`, the Java side under `KeepAlive`).
 
 ## Run, test, verify
 
@@ -138,8 +139,9 @@ tools/smoke.py           live API check
   keep-alive has no backend and does nothing; the retry still applies.
 - **`packages/flet-keepalive`** is ChefBot's own Flet extension. The Android part is Java (no Kotlin, so it
   builds whatever Kotlin setup the template has): `KeepAliveService` (type `dataSync`, `stopWithTask`, a
-  30-minute partial wake lock, stops itself on Android 15's 6-hours-a-day `onTimeout`) and `KeepAlive`, static
-  methods Python calls by name through pyjnius (kept from R8 by `consumer-rules.pro`). Its manifest adds the
+  30-minute partial wake lock, stops itself on Android 15's 6-hours-a-day `onTimeout`) and `KeepAliveReceiver`
+  (posts/clears the "Ready" notification; a broadcast because a backgrounded app can't start a service). Python
+  sends both Intents by class name with only android.* classes (see the pyjnius gotcha below). Its manifest adds the
   service and the FOREGROUND_SERVICE, FOREGROUND_SERVICE_DATA_SYNC, POST_NOTIFICATIONS and WAKE_LOCK
   permissions; the manifest merger puts them in the app (Flet's build has no setting for a `<service>`, which
   is why `flutter_foreground_task` wasn't used: it needs one in the app's manifest). The Dart side is an empty
@@ -234,13 +236,14 @@ cd ~/Documents/Github/ChefBot
     CJK fonts for PDFs download on first use (10–18 MB) into `<data>/fonts`.
   - Dish picture.
 
-- **Shrinker gotcha (2026-11-02):** the first keep-alive build failed on the phone with
-  `ClassNotFoundException: io.github.bpmdata.keepalive.KeepAlive` (from pyjnius; seen with
-  `adb logcat -d | grep -iE -A12 "keep-alive|jnius"`). R8 had folded the class's static methods into
-  `KeepAliveService`, because nothing in Java calls it by name. Flet's default rules only `-keepnames`, which
-  doesn't stop that, and the package's consumer rule didn't take effect. Fixed with an app-level rule:
-  `[tool.flet.android] proguard_rules` in `pyproject.toml`. Anything else Python reaches by name through
-  pyjnius (app classes, not android.* framework ones) needs the same.
+- **pyjnius can't find the app's own classes (2026-11-02).** The first keep-alive builds failed on the phone with
+  `ClassNotFoundException: io.github.bpmdata.keepalive.KeepAlive` (`adb logcat -d | grep -iE -A12
+  "keep-alive|jnius"`), even with the class in the APK. Python's threads look classes up with Android's system
+  class loader, which only knows android.* classes (Flet's `MAIN_ACTIVITY_HOST_CLASS_NAME` works, apparently
+  because Flet loads it itself). So Python must use only android.* classes: `flet_keepalive` reaches its service
+  and receiver with Intents addressed by class name (`setClassName`), which Android delivers. Do the same for any
+  future Java code ChefBot ships. (An app-level `-keep` rule in `[tool.flet.android] proguard_rules` was added on
+  the way; harmless, kept.)
 - **Build gotcha (2026-10-28):** "chefbot depends on flet_camera from path which doesn't exist
   (build/flutter-packages/flet_camera)" means the cached `build/flutter` project is stale. Deleting only
   `build/flutter` or `build/site-packages` doesn't help (`build/.hash` says it's up to date); `rm -rf build` and
