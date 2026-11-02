@@ -33,8 +33,9 @@ more than cost.
    email was off (fixed: share sheet, see item 1). Re-test Email on the phone after installing the new build. See "Android" below for installing, rebuilding, signing,
    and deleting the ~13 GB toolchain.
 3. **GitHub: public since 2026-10-28** (AGPLv3). Still to do: README screenshots.
-4. **Keep replies alive when the app is in the background: built 2026-10-31, not yet built into an APK or tried
-   on the phone.** Before: switching apps mid-reply let Android freeze ChefBot (logcat: "Skipping
+4. **Keep replies alive when the app is in the background: built 2026-10-31. First phone build (2026-11-02):
+   the restart-on-return fallback worked, the keep-alive didn't (R8 removed its Java class; see "Shrinker
+   gotcha"). Fixed; needs a rebuild and re-test.** Before: switching apps mid-reply let Android freeze ChefBot (logcat: "Skipping
    setProcessStateToThread due to frozen status"), the stream died, and you came back to "Lost the connection to
    OpenRouter". Now (see "Background replies" under Architecture): a foreground service with a notification
    while anything is being written, a "Ready: <title>" notification if it finishes while you're away, and, as
@@ -233,6 +234,13 @@ cd ~/Documents/Github/ChefBot
     CJK fonts for PDFs download on first use (10–18 MB) into `<data>/fonts`.
   - Dish picture.
 
+- **Shrinker gotcha (2026-11-02):** the first keep-alive build failed on the phone with
+  `ClassNotFoundException: io.github.bpmdata.keepalive.KeepAlive` (from pyjnius; seen with
+  `adb logcat -d | grep -iE -A12 "keep-alive|jnius"`). R8 had folded the class's static methods into
+  `KeepAliveService`, because nothing in Java calls it by name. Flet's default rules only `-keepnames`, which
+  doesn't stop that, and the package's consumer rule didn't take effect. Fixed with an app-level rule:
+  `[tool.flet.android] proguard_rules` in `pyproject.toml`. Anything else Python reaches by name through
+  pyjnius (app classes, not android.* framework ones) needs the same.
 - **Build gotcha (2026-10-28):** "chefbot depends on flet_camera from path which doesn't exist
   (build/flutter-packages/flet_camera)" means the cached `build/flutter` project is stale. Deleting only
   `build/flutter` or `build/site-packages` doesn't help (`build/.hash` says it's up to date); `rm -rf build` and

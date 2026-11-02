@@ -116,6 +116,8 @@ def test_app_build_settings_include_the_package():
     flet = tomllib.loads((PKG.parents[1] / "pyproject.toml").read_text())["tool"]["flet"]["android"]
     assert "flet-keepalive" in flet["dependencies"] and "pyjnius" in flet["dependencies"]
     assert (PKG.parents[1] / flet["dev_packages"]["flet-keepalive"] / "pyproject.toml").exists()
+    # Python finds the Java class by name, so the app's shrinker must be told to keep it (see pyproject.toml).
+    assert any("io.github.bpmdata.keepalive" in r and "-keep" in r for r in flet["proguard_rules"])
 
 
 # ---------------------------------------------------------------- the stream's errors
