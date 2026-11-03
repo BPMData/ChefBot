@@ -18,5 +18,12 @@
         <receiver
             android:name="io.github.bpmdata.keepalive.KeepAliveReceiver"
             android:exported="false" />
+        <!-- Asks for the notification permission, then closes; transparent, so it shows only Android's dialog. -->
+        <activity
+            android:name="io.github.bpmdata.keepalive.PermissionActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 </manifest>

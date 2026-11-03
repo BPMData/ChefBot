@@ -113,7 +113,7 @@ def test_package_wiring_matches_up():
     assert 'foregroundServiceType="dataSync"' in manifest and "FOREGROUND_SERVICE_DATA_SYNC" in manifest
     # Python reaches the service and receiver by class name and action strings: all three places must agree.
     fk = flet_keepalive()
-    for cls in (fk.SERVICE, fk.RECEIVER):
+    for cls in (fk.SERVICE, fk.RECEIVER, fk.PERMISSION_ACTIVITY):
         assert f'android:name="{cls}"' in manifest and (java / (cls.rsplit(".", 1)[1] + ".java")).exists()
     java_api = (java / "KeepAlive.java").read_text()
     for name in ("SHOW", "STOP", "NOTIFY", "CANCEL"):
@@ -133,19 +133,24 @@ def flet_keepalive():
 
 class FakeJava:
     """Stands in for pyjnius: records what the package asks Android to do."""
-    def __init__(self, sdk=36, granted=False, start_service_fails=False):
+    def __init__(self, sdk=36, granted=False, start_service_fails=False, flet_host=False):
         self.calls, self.sdk, self.granted, self.fails = [], sdk, granted, start_service_fails
         java = self
 
         class Intent:
-            def __init__(self, action):
-                self.action, self.extras = action, {}
+            FLAG_ACTIVITY_NEW_TASK = 0x10000000
+            def __init__(self, action=None):
+                self.action, self.extras, self.flags = action, {}, 0
+            def addFlags(self, f):
+                self.flags |= f
             def setClassName(self, pkg, cls):
                 self.cls = cls
             def putExtra(self, k, v):
                 self.extras[k] = v
 
         class Activity:
+            def startActivity(self, i):
+                java.calls.append(("startActivity", i.cls, i.flags, None))
             def getPackageName(self):
                 return "io.github.bpmdata.chefbot"
             def startForegroundService(self, i):
@@ -163,8 +168,12 @@ class FakeJava:
             def requestPermissions(self, perms, code):
                 java.calls.append(("requestPermissions", tuple(perms), None, None))
 
-        self.classes = {"Host": SimpleNamespace(mActivity=Activity()), "android.content.Intent": Intent,
+        self.app = Activity()
+        self.classes = {"android.app.ActivityThread": SimpleNamespace(currentApplication=lambda: self.app),
+                        "android.content.Intent": Intent,
                         "android.os.Build$VERSION": SimpleNamespace(SDK_INT=sdk)}
+        if flet_host:
+            self.classes["Host"] = SimpleNamespace(mActivity=self.app)
 
     def autoclass(self, name):
         return self.classes[name]       # anything else (an app class) would fail on a phone, so fail here too
@@ -175,6 +184,7 @@ def android(monkeypatch):
     fk = flet_keepalive()
     monkeypatch.setenv("MAIN_ACTIVITY_HOST_CLASS_NAME", "Host")
     monkeypatch.setattr(fk, "_running", False)
+    monkeypatch.setattr(fk, "_context", None)
 
     def make(**kw):
         java = FakeJava(**kw)
@@ -216,7 +226,7 @@ def test_permission_only_asked_on_android_13_and_up_when_missing(android):
     fk, java = android(sdk=36, granted=False)
     assert fk.can_notify() is False
     fk.request_notification_permission()
-    assert java.calls == [("requestPermissions", (fk.POST_NOTIFICATIONS,), None, None)]
+    assert java.calls == [("startActivity", fk.PERMISSION_ACTIVITY, 0x10000000, None)]
     fk, java = android(sdk=32)
     assert fk.can_notify() is True
     fk.request_notification_permission()
@@ -358,3 +368,31 @@ def test_lifecycle_tracks_away_and_clears_the_notification():
         await app._on_lifecycle(ev(main.ft.AppLifecycleState.SHOW))
         assert not app.away and app.back.is_set() and backend.calls == [("cancel_done",)]
     asyncio.run(run())
+
+
+def test_context_comes_from_android_not_from_an_app_class(android, monkeypatch):
+    fk, java = android()            # no Flet host class: on the phone's event-loop thread, it isn't found
+    assert fk._app() is java.app
+
+
+def test_context_falls_back_to_flet_and_then_a_worker_thread(android, monkeypatch):
+    fk, java = android(flet_host=True)
+    del java.classes["android.app.ActivityThread"]
+    assert fk._app() is java.app
+    monkeypatch.setattr(fk, "_context", None)
+    import threading
+    main = threading.current_thread()
+
+    def only_off_the_main_thread(name):
+        if name == "Host" and threading.current_thread() is main:
+            raise RuntimeError("ClassNotFoundException")
+        return java.classes[name]
+    monkeypatch.setattr(fk, "_autoclass", only_off_the_main_thread)
+    assert fk._app() is java.app
+
+
+def test_no_context_at_all_says_why(android):
+    fk, java = android()
+    java.classes.clear()
+    with pytest.raises(RuntimeError, match="_from_activity_thread"):
+        fk._app()

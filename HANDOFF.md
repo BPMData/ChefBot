@@ -239,9 +239,12 @@ cd ~/Documents/Github/ChefBot
 - **pyjnius can't find the app's own classes (2026-11-02).** The first keep-alive builds failed on the phone with
   `ClassNotFoundException: io.github.bpmdata.keepalive.KeepAlive` (`adb logcat -d | grep -iE -A12
   "keep-alive|jnius"`), even with the class in the APK. Python's threads look classes up with Android's system
-  class loader, which only knows android.* classes (Flet's `MAIN_ACTIVITY_HOST_CLASS_NAME` works, apparently
-  because Flet loads it itself). So Python must use only android.* classes: `flet_keepalive` reaches its service
-  and receiver with Intents addressed by class name (`setClassName`), which Android delivers. Do the same for any
+  class loader, which only knows android.* classes. On the event-loop thread even Flet's own
+  `MAIN_ACTIVITY_HOST_CLASS_NAME` class isn't found (2026-11-03); `android.py` only works because it runs in
+  `asyncio.to_thread` workers. So `flet_keepalive` uses only android.* classes: the app's Context from
+  `ActivityThread.currentApplication()` (falling back to Flet's way, then that on a worker thread), and Intents
+  addressed by class name (`setClassName`) to its service, receiver and `PermissionActivity` (an invisible screen
+  that asks for the notification permission, since Python has no Activity to ask from). Do the same for any
   future Java code ChefBot ships. (An app-level `-keep` rule in `[tool.flet.android] proguard_rules` was added on
   the way; harmless, kept.)
 - **Build gotcha (2026-10-28):** "chefbot depends on flet_camera from path which doesn't exist

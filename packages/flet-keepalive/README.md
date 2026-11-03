@@ -7,12 +7,14 @@ Android freezes a backgrounded app's process within seconds, so an open network 
 foreground service runs (with its required ongoing notification), Android leaves the process alone.
 
 - `flutter/flet_keepalive/android`: `KeepAliveService` (type `dataSync`, with a partial wake lock so it also
-  works with the screen off) and `KeepAliveReceiver` (the "done" notification). Its manifest adds the
+  works with the screen off), `KeepAliveReceiver` (the "done" notification) and `PermissionActivity` (an
+  invisible screen that asks for the notification permission). Its manifest adds the
   `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_DATA_SYNC`, `POST_NOTIFICATIONS` and `WAKE_LOCK` permissions and
   both components; Android's manifest merger puts them into the app.
 - `flet_keepalive/__init__.py`: `start()`, `stop()`, `notify_done()`, `cancel_done()`, `can_notify()`,
   `request_notification_permission()`. pyjnius can't look up an app's own classes from Python's threads, so
-  these use only android.* classes and talk to the service and receiver with Intents addressed by class name.
+  these use only android.* classes: the Context from `ActivityThread.currentApplication()`, and Intents
+  addressed by class name to the service, receiver and permission screen.
 - The Dart side is an empty `Extension`: `flet build` only needs it to register the plugin.
 
 In the app's `pyproject.toml`:
