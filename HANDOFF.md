@@ -33,14 +33,15 @@ more than cost.
    email was off (fixed: share sheet, see item 1). Re-test Email on the phone after installing the new build. See "Android" below for installing, rebuilding, signing,
    and deleting the ~13 GB toolchain.
 3. **GitHub: public since 2026-10-28** (AGPLv3). Still to do: README screenshots.
-4. **Keep replies alive when the app is in the background: built 2026-10-31. First phone build (2026-11-02):
-   the restart-on-return fallback worked, the keep-alive didn't (pyjnius couldn't find its Java class; see
-   "pyjnius can't find the app's own classes"). Reworked to use Intents; needs a rebuild and re-test.** Before: switching apps mid-reply let Android freeze ChefBot (logcat: "Skipping
+4. **Keep replies alive when the app is in the background: works on the phone (2026-11-03).** It took three
+   builds: pyjnius couldn't reach the extension's Java code (see "pyjnius can't find the app's own classes").
+   Still to try: the screen-locked case and the airplane-mode fallback below.
+   Before: switching apps mid-reply let Android freeze ChefBot (logcat: "Skipping
    setProcessStateToThread due to frozen status"), the stream died, and you came back to "Lost the connection to
    OpenRouter". Now (see "Background replies" under Architecture): a foreground service with a notification
    while anything is being written, a "Ready: <title>" notification if it finishes while you're away, and, as
    the fallback Bryan also asked for, an automatic retry when you come back if the stream died anyway.
-   **Next:** `rm -rf build && .venv/bin/flet build apk --yes` on the Mac (a new extension: start clean, see the
+   Build with `rm -rf build && .venv/bin/flet build apk --yes` (start clean after extension changes, see the
    build gotcha), install, then on the phone:
    - First recipe: Android 13+ asks to allow notifications (allow it). The shade shows "ChefBot is writing your
      recipe" while it streams; it goes away when the reply ends.
