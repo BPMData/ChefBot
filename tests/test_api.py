@@ -221,3 +221,14 @@ def test_the_food_photo_is_a_real_png():
     from PIL import Image
     import io
     assert Image.open(io.BytesIO(api_check._food_photo())).format == "PNG"
+
+
+def test_provider_errors_say_who_failed_and_why():
+    body = {"error": {"message": "Provider returned error", "code": 400, "metadata": {
+        "provider_name": "Moonshot AI",
+        "raw": json.dumps({"error": {"message": "reasoning effort 'low' is not supported", "type": "invalid"}})}}}
+    with pytest.raises(api.ApiError, match=r"error 400: Provider returned error \(Moonshot AI: reasoning effort 'low'"):
+        asyncio.run(_chef(lambda r: httpx.Response(400, json=body)).dish_photo("x"))
+    plain = {"error": {"message": "Provider returned error", "metadata": {"raw": "upstream timeout"}}}
+    with pytest.raises(api.ApiError, match=r"Provider returned error \(upstream timeout\)"):
+        asyncio.run(_collect(_chef(lambda r: httpx.Response(400, json=plain))))

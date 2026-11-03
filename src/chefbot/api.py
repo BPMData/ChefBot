@@ -56,9 +56,27 @@ class Chunk:
     usage: dict | None = None
 
 
+def _provider_detail(error: dict) -> str:
+    """OpenRouter's "Provider returned error" hides the useful part in metadata: who failed, and their own words."""
+    meta = error.get("metadata") or {}
+    if not isinstance(meta, dict):
+        return ""
+    raw = meta.get("raw")
+    if isinstance(raw, str):
+        try:                                       # usually the provider's JSON error, as a string
+            parsed = json.loads(raw)
+            inner = parsed.get("error", parsed) if isinstance(parsed, dict) else parsed
+            raw = inner.get("message", raw) if isinstance(inner, dict) else raw
+        except (json.JSONDecodeError, AttributeError):
+            pass
+    parts = [str(p) for p in (meta.get("provider_name"), raw) if p]
+    return " (" + ": ".join(parts)[:300] + ")" if parts else ""
+
+
 def _friendly(status: int, body: str) -> str:
     try:
-        msg = json.loads(body).get("error", {}).get("message", "")
+        error = json.loads(body).get("error", {})
+        msg = (error.get("message", "") + _provider_detail(error)) if isinstance(error, dict) else str(error)
     except Exception:
         msg = body[:200]
     if status == 401:
@@ -120,7 +138,9 @@ class ChefBotAPI:
                     except json.JSONDecodeError:
                         continue
                     if "error" in obj:
-                        raise ApiError(f"The model stopped with an error: {obj['error'].get('message', obj['error'])}")
+                        err = obj["error"]
+                        detail = (err.get("message", "") + _provider_detail(err)) if isinstance(err, dict) else err
+                        raise ApiError(f"The model stopped with an error: {detail}")
                     if obj.get("usage"):
                         yield Chunk("usage", usage=obj["usage"])
                     for choice in obj.get("choices") or []:
