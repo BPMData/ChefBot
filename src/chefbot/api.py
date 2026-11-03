@@ -21,6 +21,7 @@ class Model:
     label: str         # shown in Settings
     provider: str      # preferred host: the company that made the model
     vision: bool       # can read photos
+    temperature: float = 0.7   # some hosts insist on their own value (Moonshot: Kimi K3.1 Pro takes only 1)
 
 
 # Picked from blind taste tests in Oct 2026 (see README). Requests go to the maker's own servers first,
@@ -29,7 +30,7 @@ MODELS: dict[str, Model] = {
     "glm-5.3": Model("z-ai/glm-5.3", "GLM 5.3 (Z.ai)", "z-ai", vision=False),
     "glm-5.3-flash": Model("z-ai/glm-5.3-flash", "GLM 5.3 Flash (Z.ai), fastest", "z-ai", vision=True),
     "kimi-k3.1-pro": Model("moonshotai/kimi-k3.1-pro", "Kimi K3.1 Pro (Moonshot), slow and thorough",
-                           "moonshotai", vision=True),
+                           "moonshotai", vision=True, temperature=1.0),   # 0.7 refused since 2026-11-03
 }
 DEFAULT_MODEL = "glm-5.3"
 PHOTO_MODEL = "glm-5.3-flash"
@@ -118,7 +119,7 @@ class ChefBotAPI:
             "messages": messages,
             "stream": True,
             "max_tokens": MAX_TOKENS,
-            "temperature": 0.7,
+            "temperature": model.temperature,
             "reasoning": {"effort": effort if effort in EFFORTS else DEFAULT_EFFORT},
             "provider": {"order": [model.provider], "allow_fallbacks": True},
             "usage": {"include": True},

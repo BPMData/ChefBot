@@ -232,3 +232,21 @@ def test_provider_errors_say_who_failed_and_why():
     plain = {"error": {"message": "Provider returned error", "metadata": {"raw": "upstream timeout"}}}
     with pytest.raises(api.ApiError, match=r"Provider returned error \(upstream timeout\)"):
         asyncio.run(_collect(_chef(lambda r: httpx.Response(400, json=plain))))
+
+
+def test_each_model_gets_its_own_temperature():
+    """Moonshot refuses anything but temperature 1 for Kimi K3.1 Pro (found by the API check, 2026-11-03)."""
+    sent = {}
+
+    def handler(request):
+        body = json.loads(request.content)
+        sent[body["model"]] = body["temperature"]
+        return httpx.Response(200, content=b"data: [DONE]\n\n")
+
+    async def run():
+        chef = _chef(handler)
+        for key in api.MODELS:
+            [c async for c in chef.stream_chat([], key)]
+    asyncio.run(run())
+    assert sent[api.MODELS["kimi-k3.1-pro"].id] == 1.0
+    assert sent[api.MODELS[api.DEFAULT_MODEL].id] == 0.7

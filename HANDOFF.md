@@ -171,6 +171,10 @@ Full table in `README.md`. Blind tests (judge: Claude Sonnet 5.5, a non-contesta
   (~3.4¢) with Bryan's original "modernist cookbook cover" prompt; he loved the result.
 - Bryan prefers Chinese labs (Z.ai, Moonshot, DeepSeek) and wanted money to reach Z.ai, hence the provider pin.
   Kimi K2.6 failed a gluten-free test; the Sep build of DeepSeek V4.1 Flash is weaker than the Oct one.
+- **Kimi K3.1 Pro needs `temperature: 1` (2026-11-03).** Moonshot started refusing 0.7 ("invalid temperature: only
+  1 is allowed for this model"); the first GitHub run of the Sunday API check caught it. Temperature is now
+  per model (`Model.temperature`, default 0.7). Errors now include the provider's own message
+  (`_provider_detail`), which is how this one was found.
 - Free OpenRouter models were rejected: slow, rate-limited, and one gave wrong allergen advice.
 
 ## Bryan's preferences (UI and process)
