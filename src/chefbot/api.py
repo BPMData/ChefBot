@@ -44,6 +44,11 @@ class ApiError(Exception):
     """Something went wrong talking to OpenRouter. The message is safe to show the user."""
 
 
+class ConnectionLost(ApiError):
+    """The connection dropped mid-reply (or never opened). Worth one automatic retry if ChefBot was in the
+    background at the time, since Android freezing the app is the usual cause."""
+
+
 @dataclass
 class Chunk:
     kind: str          # "text" (recipe words), "thinking" (hidden reasoning happened), or "usage"
@@ -125,7 +130,7 @@ class ChefBotAPI:
                         if delta.get("content"):
                             yield Chunk("text", delta["content"])
         except httpx.HTTPError as e:
-            raise ApiError(f"Lost the connection to OpenRouter ({type(e).__name__}). Try again.") from e
+            raise ConnectionLost(f"Lost the connection to OpenRouter ({type(e).__name__}). Try again.") from e
 
     async def read_ingredients(self, image: bytes, mime: str = "image/jpeg") -> str:
         """List the food items visible in a photo. Returns '' when it sees no food."""

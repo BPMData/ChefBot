@@ -10,6 +10,7 @@ import flet as ft
 
 from chefbot import android, api, export, prompts
 from chefbot.history import Conversation, History
+from chefbot.keepalive import PICTURE, WRITING, KeepAlive
 from chefbot.recipe import extract_title
 
 log = logging.getLogger("chefbot")
@@ -178,6 +179,8 @@ def md_style() -> ft.MarkdownStyleSheet:
 
 
 class ChefBotApp:
+    RETRY_SETTLE = 1.0     # seconds to let lifecycle events queued while frozen arrive (see reply())
+
     def __init__(self, page: ft.Page):
         self.page = page
         self.prefs = ft.SharedPreferences()
@@ -210,6 +213,14 @@ class ChefBotApp:
         self.live_bubbles: dict[str, ft.Container] = {}   # conv id -> the reply card still being written
         self.kept_photos: set[str] = set()     # photo files an in-flight edit may still need (see send_text)
         self.stop_requested = False
+        # In another app (phones) or minimized (desktop). Replies keep going thanks to the keep-alive; if one dies
+        # anyway while we're away, it starts again when we're back (see reply()).
+        self.away = False
+        self.times_away = 0
+        self.back = asyncio.Event()
+        self.back.set()
+        android_app = page.platform == ft.PagePlatform.ANDROID and not page.web
+        self.keepalive = KeepAlive.for_android() if android_app else KeepAlive()
         self.cuisine = prompts.NO_CUISINE
         self.audience = prompts.DEFAULT_AUDIENCE
         self.padded: list[ft.Control] = []     # containers whose side padding follows the window width
@@ -229,6 +240,7 @@ class ChefBotApp:
         p.theme_mode = THEMES[self.theme]
         p.add(ft.SafeArea(self.root, expand=True))
         p.views[0].on_confirm_pop = self._on_back
+        p.on_app_lifecycle_state_change = self._on_lifecycle
         self.key = os.environ.get("OPENROUTER_API_KEY", "").strip()     # development shortcut
         self.chef = api.ChefBotAPI(self.key) if self.key else None
         self.show_home()      # draw first; saved settings arrive a moment later
@@ -419,6 +431,18 @@ class ChefBotApp:
             ]),
             actions=[ft.TextButton("Cancel", on_click=lambda _: self.page.pop_dialog()), save_button],
         ))
+
+    async def _on_lifecycle(self, e: ft.AppLifecycleStateChangeEvent):     # async: runs on the event loop
+        if e.state in (ft.AppLifecycleState.HIDE, ft.AppLifecycleState.PAUSE):
+            if not self.away:
+                self.away = True
+                self.times_away += 1
+                self.back.clear()
+        elif e.state in (ft.AppLifecycleState.SHOW, ft.AppLifecycleState.RESUME):
+            if self.away:
+                self.away = False
+                self.back.set()
+                self.keepalive.clear()
 
     def _run(self, fn, *args):
         """Start a background task; if it fails, say so instead of failing silently."""
@@ -1098,7 +1122,10 @@ class ChefBotApp:
 
     async def reply(self) -> bool:
         """Stream the model's answer into a new card. If you leave the chat, it keeps going and the complete reply
-        is saved (reopening the chat shows it live). Returns True if a reply was saved."""
+        is saved (reopening the chat shows it live). Returns True if a reply was saved.
+
+        If the connection dies while ChefBot is in the background (on a phone: Android froze or killed the
+        stream despite the keep-alive), the partial reply is dropped and it starts again once, when you're back."""
         conv = self.conv
         on_screen = lambda: self.conv is conv
         self.stop_requested = False
@@ -1109,29 +1136,25 @@ class ChefBotApp:
         self._add_to_thread(bubble)
         self.thread.update()
         await self._scroll_to_end()      # if they were looking further up (at a new picture, say), follow the reply
-        got_text = asyncio.Event()
-        cycler = asyncio.create_task(self._cycle_status(conv, got_text))
-        text, last_paint, error, stopped = "", 0.0, None, False
+        self.keepalive.ask_permission()  # the first time: so the "writing" notification can show
+        retried = False
         try:
-            async for chunk in self.chef.stream_chat(conv.chat_messages(), self.model, self.effort):
-                if self.stop_requested and on_screen():
-                    stopped = True
+            while True:
+                times_away = self.times_away
+                with self.keepalive.holding(WRITING):
+                    text, err, stopped = await self._stream_reply(conv, md)
+                if retried or stopped or not isinstance(err, api.ConnectionLost):
                     break
-                if chunk.kind == "text":
-                    if not text:
-                        got_text.set()
-                        if on_screen():
-                            self._set_status("Writing it up...")
-                    text += chunk.text
-                    if on_screen() and time.monotonic() - last_paint > 0.12:
-                        md.value, last_paint = text, time.monotonic()
-                        md.update()
-        except api.ApiError as err:
-            error = str(err)
+                # A frozen app hears that it went away only after it thaws, maybe after the error: let those
+                # events arrive before deciding whether being away was the cause.
+                await asyncio.sleep(self.RETRY_SETTLE)
+                if not self.away and self.times_away == times_away:
+                    break                # lost it while on screen: say so, as before
+                retried = True
+                await self._wait_to_retry(conv, md)
         finally:
-            got_text.set()
-            cycler.cancel()
             self.live_bubbles.pop(conv.id, None)
+        error = str(err) if err else None
         unsent = None
         if text:
             conv.messages.append({"role": "assistant", "content": text})
@@ -1140,6 +1163,11 @@ class ChefBotApp:
         elif conv.messages and conv.messages[-1]["role"] == "user" and len(conv.messages) > 2:
             unsent = conv.messages.pop()["content"]    # nothing came back: give the follow-up back to retry
         self._set_busy(conv, False)
+        if self.away:                  # in another app: say it's done (tapping it brings ChefBot back)
+            if error:
+                self.keepalive.notify(f"Not finished: {conv.title}", error)
+            elif text and not stopped:
+                self.keepalive.notify(f"Ready: {conv.title}", "Tap to open your recipe.")
 
         if not on_screen():            # finished in the background
             if self.conv is None:      # on the home screen: show it in the list
@@ -1173,6 +1201,49 @@ class ChefBotApp:
         elif stopped and text:
             snack(self.page, "Stopped. The partial recipe is kept; ask me to finish it if you like.")
         return bool(text)
+
+    async def _stream_reply(self, conv: Conversation, md: ft.Markdown) -> tuple[str, api.ApiError | None, bool]:
+        """One attempt at streaming a reply into `md`. Returns (text so far, error, stopped by the user)."""
+        on_screen = lambda: self.conv is conv
+        got_text = asyncio.Event()
+        cycler = asyncio.create_task(self._cycle_status(conv, got_text))
+        text, last_paint, error, stopped = "", 0.0, None, False
+        try:
+            async for chunk in self.chef.stream_chat(conv.chat_messages(), self.model, self.effort):
+                if self.stop_requested and on_screen():
+                    stopped = True
+                    break
+                if chunk.kind == "text":
+                    if not text:
+                        got_text.set()
+                        if on_screen():
+                            self._set_status("Writing it up...")
+                    text += chunk.text
+                    if on_screen() and time.monotonic() - last_paint > 0.12:
+                        md.value, last_paint = text, time.monotonic()
+                        md.update()
+        except api.ApiError as err:
+            error = err
+        finally:
+            got_text.set()
+            cycler.cancel()
+        return text, error, stopped
+
+    async def _wait_to_retry(self, conv: Conversation, md: ft.Markdown):
+        """The connection died while ChefBot was away: clear the half-written reply, wait until ChefBot is back on
+        screen (Android won't let the keep-alive start from the background), then let reply() go again."""
+        md.value = ""
+        if self.conv is conv:
+            md.update()
+        if self.away:
+            log.warning("Reply for %r lost its connection in the background; retrying on return", conv.title)
+            if self.conv is conv:
+                self._set_status("Lost the connection while you were away. I'll start again when you're back...")
+            self.keepalive.notify(f"Interrupted: {conv.title}", "Open ChefBot and it will start again.")
+            await self.back.wait()
+        else:
+            log.warning("Reply for %r lost its connection while ChefBot was away; retrying", conv.title)
+        snack(self.page, "The connection dropped while you were away, so I started that reply again.")
 
     # ------------------------------------------------------------ actions on one reply
 
@@ -1449,7 +1520,8 @@ class ChefBotApp:
         self._set_busy(conv, True)
         self._set_status("Plating it up for the camera...")
         try:
-            image = await self.chef.dish_photo(title)
+            with self.keepalive.holding(PICTURE):
+                image = await self.chef.dish_photo(title)
         except api.ApiError as err:
             snack(self.page, str(err))
             return

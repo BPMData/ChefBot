@@ -1,4 +1,4 @@
-# ChefBot handoff (as of 2026-10-28)
+# ChefBot handoff (as of 2026-10-31)
 
 Everything a new session needs to keep going without the original conversation. Read this first, then
 `README.md` (features, how models were chosen) and `docs/EMAIL.md` (mail relay setup).
@@ -33,15 +33,25 @@ more than cost.
    email was off (fixed: share sheet, see item 1). Re-test Email on the phone after installing the new build. See "Android" below for installing, rebuilding, signing,
    and deleting the ~13 GB toolchain.
 3. **GitHub: public since 2026-10-28** (AGPLv3). Still to do: README screenshots.
-4. **Keep replies alive when the app is in the background (pinned 2026-10-28, Bryan's pick).** Leaving a chat
-   but staying in ChefBot works (the reply finishes in the background). Switching to another app mid-reply
-   doesn't: Android freezes ChefBot's process (logcat: "Skipping setProcessStateToThread due to frozen status.
-   io.github.bpmdata.chefbot"), the OpenRouter stream stalls and dies, and on return the user sees "Lost the
-   connection to OpenRouter". The fix Bryan wants is an Android **foreground service** with a notification
-   ("ChefBot is writing your recipe") while a reply streams, so Android doesn't freeze the app. Flet 1.0.5 has
-   no such service (its Wakelock only keeps the screen on), so it needs a custom Flutter extension (e.g. wrapping
-   a foreground-task plugin) plus the FOREGROUND_SERVICE / POST_NOTIFICATIONS permissions. Fallback considered
-   and set aside: auto-retry the reply on resume (`page.on_app_lifecycle_state_change`), which regenerates it.
+4. **Keep replies alive when the app is in the background: works on the phone (2026-11-03).** It took three
+   builds: pyjnius couldn't reach the extension's Java code (see "pyjnius can't find the app's own classes").
+   Still to try: the screen-locked case and the airplane-mode fallback below.
+   Before: switching apps mid-reply let Android freeze ChefBot (logcat: "Skipping
+   setProcessStateToThread due to frozen status"), the stream died, and you came back to "Lost the connection to
+   OpenRouter". Now (see "Background replies" under Architecture): a foreground service with a notification
+   while anything is being written, a "Ready: <title>" notification if it finishes while you're away, and, as
+   the fallback Bryan also asked for, an automatic retry when you come back if the stream died anyway.
+   Build with `rm -rf build && .venv/bin/flet build apk --yes` (start clean after extension changes, see the
+   build gotcha), install, then on the phone:
+   - First recipe: Android 13+ asks to allow notifications (allow it). The shade shows "ChefBot is writing your
+     recipe" while it streams; it goes away when the reply ends.
+   - Send a follow-up, switch to another app straight away, wait a minute: "Ready: <title>" arrives; tap it and
+     the finished recipe is there.
+   - Same with the screen locked (the service holds a wake lock).
+   - Fallback: turn on airplane mode mid-reply while in another app, then off, then return: the card says it lost
+     the connection, then it starts that reply again (once).
+   - If anything misbehaves: `adb logcat -d | grep -iE -A12 "keep-alive|keepalive|jnius"` (Python logs under
+     the tag `flet.python`, the Java side under `KeepAlive`).
 
 ## Run, test, verify
 
@@ -51,6 +61,7 @@ cd ~/Documents/Github/ChefBot
 OPENROUTER_API_KEY=... \
   .venv/bin/flet run --web --port 8551 src/main.py   # web: what Claude uses with the browser pane
 .venv/bin/python -m pytest                           # offline tests (also run by GitHub on every PR)
+                                                     # (CI installs flet too: test_keepalive drives reply())
 OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow-up edit (~1¢)
 ```
 
@@ -68,6 +79,22 @@ OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow
 - Don't click Save PDF / Save HTML / Share in the browser pane (they download files onto the Mac). The export code
   is covered by `tests/test_export.py`.
 
+### Scheduled API checks (added 2026-10-31)
+
+`.github/workflows/api-checks.yml` runs `tools/api_check.py`: **daily** `models` (free, no key: OpenRouter's
+public model list; ids, `reasoning` support, image in/out, retirement dates, Z.ai still hosting GLM),
+**Sundays** `recipe` (a full recipe from the default model at default thinking, a one-word reply from each other
+model, a photo read of a drawn tomato), **the 1st of the month** `picture` (a dish picture). Model ids come from
+`api.py`, so the checks follow model changes. A failed scheduled run emails the repo owner. A retirement date
+more than 30 days out is a warning; within 30 days it fails. Run one by hand: Actions > API checks > Run
+workflow. GitHub turns scheduled workflows off after 60 days without a commit; re-enable from the Actions tab.
+
+**Still to do (Bryan):** add the key so the Sunday and monthly checks run (until then they skip with a
+notice). On GitHub: the repo > Settings > Secrets and variables > Actions > New repository secret, name
+`OPENROUTER_API_KEY`, value = the key from the file noted in `HANDOFF.local.md`. Ideally a separate OpenRouter
+key just for this, with a small credit limit (openrouter.ai/keys lets you set one), so it can be revoked
+alone. GitHub never shows secrets in logs or hands them to pull requests from forks.
+
 ## Architecture
 
 ```
@@ -79,6 +106,8 @@ src/chefbot/history.py   conversations + photos saved as JSON/PNGs; prune_photos
 src/chefbot/export.py    Markdown -> HTML page / PDF / email; SMTP + relay sending
 src/chefbot/recipe.py    extract_title() (last "Recipe Title:" line wins)
 src/chefbot/android.py   Android-only pyjnius calls: MediaStore save to Downloads, media scan
+src/chefbot/keepalive.py keeps replies alive in the background (foreground service + notifications)
+packages/flet-keepalive/ ChefBot's own Flet extension: the Android foreground service (Java) behind keepalive.py
 tools/mail-relay.gs      Apps Script relay (secret + 40/day cap)
 tools/make_static_fonts.py   cuts static PDF fonts from variable ones (already done; output committed)
 tools/smoke.py           live API check
@@ -98,6 +127,32 @@ tools/smoke.py           live API check
   Reopening that chat shows the same live `Conversation` and re-attaches the card being written
   (`self.working`, `self.live_bubbles`). "Busy" is per conversation (`busy` property), so another chat isn't
   blocked. A chat still writing can't be deleted from the list. Only Stop cuts a reply short.
+- **Background replies (2026-10-31; Android).** `chefbot/keepalive.py` holds a foreground service
+  (`packages/flet-keepalive`, see below) open while a reply or dish picture is in progress
+  (`with self.keepalive.holding(WRITING)` around each stream attempt), so Android doesn't freeze the process. It
+  asks for the notification permission once per run on the first reply (Android 13+; without it the service
+  still works, the notifications just don't show). `_on_lifecycle` tracks `away` (HIDE/PAUSE) and back
+  (SHOW/RESUME); a reply that finishes while away posts "Ready: <title>", cleared on return. **Auto-retry:**
+  if the stream fails with `api.ConnectionLost` and ChefBot went away during it, `reply()` drops the partial
+  text, waits until you're back (Android won't start the service from the background) and streams once more.
+  A loss while on screen is shown as before. It waits `RETRY_SETTLE` (1 s) before deciding, because a frozen
+  process hears about going away only after it thaws, possibly after the error. Elsewhere (desktop, web) the
+  keep-alive has no backend and does nothing; the retry still applies.
+- **`packages/flet-keepalive`** is ChefBot's own Flet extension. The Android part is Java (no Kotlin, so it
+  builds whatever Kotlin setup the template has): `KeepAliveService` (type `dataSync`, `stopWithTask`, a
+  30-minute partial wake lock, stops itself on Android 15's 6-hours-a-day `onTimeout`) and `KeepAliveReceiver`
+  (posts/clears the "Ready" notification; a broadcast because a backgrounded app can't start a service). Python
+  sends both Intents by class name with only android.* classes (see the pyjnius gotcha below). Its manifest adds the
+  service and the FOREGROUND_SERVICE, FOREGROUND_SERVICE_DATA_SYNC, POST_NOTIFICATIONS and WAKE_LOCK
+  permissions; the manifest merger puts them in the app (Flet's build has no setting for a `<service>`, which
+  is why `flutter_foreground_task` wasn't used: it needs one in the app's manifest). The Dart side is an empty
+  `Extension` that `flet build` needs to register the plugin. It's wired in through `[tool.flet.android]`
+  `dependencies` + `[tool.flet.android.dev_packages]` (pip builds it from the folder). The Java compiles against
+  the Android 16 framework (checked 2026-10-31 with javac); the full Gradle build hasn't run yet.
+- **A damaged saved-recipes file is set aside, never overwritten (2026-10-31).** `History.load()` used to
+  return an empty list for unreadable JSON, and the next `save()` then wrote only the new recipe over it. Now it
+  renames the file to `conversations.unreadable-<time>.json` (logged) and starts fresh. Writes were already
+  atomic (temp file + replace), so this only matters for disk errors or hand edits.
 - **No cap on saved recipes** (was 60, silently dropping the oldest). `prune_photos(keep=...)` spares photos a
   pending edit or running reply may still need.
 - Note: the Browser pane's dev-server sandbox can't read `../openrouter.txt`; for live web tests start the server
@@ -146,7 +201,8 @@ cd ~/Documents/Github/ChefBot
   product `ChefBot`, `permissions = ["camera"]`, `[tool.flet.app] path = "src"`, `[tool.flet.splash]` and
   `[tool.flet.android]` (split_per_abi, adaptive icon background). Permissions in the APK: INTERNET,
   ACCESS_NETWORK_STATE, CAMERA (plus RECORD_AUDIO and old-storage ones that the camera plugin declares itself;
-  ChefBot initializes the camera with audio off, so the microphone is never requested).
+  ChefBot initializes the camera with audio off, so the microphone is never requested). Since 2026-10-31 also
+  FOREGROUND_SERVICE, FOREGROUND_SERVICE_DATA_SYNC, POST_NOTIFICATIONS and WAKE_LOCK, from `flet-keepalive`.
 - **Pillow is pinned to 12.3.0** because Flet's Android package index has no 13.x (the Mac venv has 13.0.0; the
   pin is fine on desktop too). Its native libs (`libPIL-_imaging.so` etc.) are in the APK. If it were ever missing,
   `_add_photo()` leaves the photo out of the PDF instead of failing.
@@ -181,6 +237,17 @@ cd ~/Documents/Github/ChefBot
     CJK fonts for PDFs download on first use (10–18 MB) into `<data>/fonts`.
   - Dish picture.
 
+- **pyjnius can't find the app's own classes (2026-11-02).** The first keep-alive builds failed on the phone with
+  `ClassNotFoundException: io.github.bpmdata.keepalive.KeepAlive` (`adb logcat -d | grep -iE -A12
+  "keep-alive|jnius"`), even with the class in the APK. Python's threads look classes up with Android's system
+  class loader, which only knows android.* classes. On the event-loop thread even Flet's own
+  `MAIN_ACTIVITY_HOST_CLASS_NAME` class isn't found (2026-11-03); `android.py` only works because it runs in
+  `asyncio.to_thread` workers. So `flet_keepalive` uses only android.* classes: the app's Context from
+  `ActivityThread.currentApplication()` (falling back to Flet's way, then that on a worker thread), and Intents
+  addressed by class name (`setClassName`) to its service, receiver and `PermissionActivity` (an invisible screen
+  that asks for the notification permission, since Python has no Activity to ask from). Do the same for any
+  future Java code ChefBot ships. (An app-level `-keep` rule in `[tool.flet.android] proguard_rules` was added on
+  the way; harmless, kept.)
 - **Build gotcha (2026-10-28):** "chefbot depends on flet_camera from path which doesn't exist
   (build/flutter-packages/flet_camera)" means the cached `build/flutter` project is stale. Deleting only
   `build/flutter` or `build/site-packages` doesn't help (`build/.hash` says it's up to date); `rm -rf build` and
@@ -268,6 +335,9 @@ The next `flet build apk` downloads it all again.
 ## Backlog (nice to have)
 
 - "Try again" on a reply; deleting a single older message.
+- If Android kills ChefBot outright mid-reply (not just freezes it; rare with the keep-alive), the follow-up being
+  answered is lost: it's only saved together with its reply. Saving the user message first would let the
+  auto-retry pick it up after a restart.
 - Auto-generate the dish picture after the first recipe (setting).
 - README screenshots; a GitHub description.
 - Old test conversations show raw `**Ingredients:**` in the first bubble (pre-redesign data); harmless.

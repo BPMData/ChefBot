@@ -1,0 +1,29 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- Android 14+: a foreground service must say what it's for. A streaming reply is a data transfer. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Keeps the CPU awake while the screen is off, so the reply keeps streaming. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application>
+        <!-- stopWithTask: swiping ChefBot away from Recents ends it, as you'd expect. -->
+        <service
+            android:name="io.github.bpmdata.keepalive.KeepAliveService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync"
+            android:stopWithTask="true" />
+        <!-- Posts the "Ready" notification; a broadcast, since a backgrounded app may not start a service. -->
+        <receiver
+            android:name="io.github.bpmdata.keepalive.KeepAliveReceiver"
+            android:exported="false" />
+        <!-- Asks for the notification permission, then closes; transparent, so it shows only Android's dialog. -->
+        <activity
+            android:name="io.github.bpmdata.keepalive.PermissionActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+    </application>
+</manifest>

@@ -39,8 +39,17 @@ dark_color = "#110E0C"
 
 [tool.flet.android]
 split_per_abi = true
-dependencies = ["pyjnius"]   # Android-only: tells the Gallery about saved pictures
+# Android-only: pyjnius (Gallery saves, and how Python talks to flet-keepalive); flet-keepalive keeps a reply
+# streaming while you're in another app (packages/flet-keepalive, a foreground service with a notification).
+dependencies = ["pyjnius", "flet-keepalive"]
 adaptive_icon_background = "#E8452C"
+# Python calls flet-keepalive's Java class by name (pyjnius), which the shrinker (R8) can't see, so it renamed or
+# merged it away ("ClassNotFoundException: io.github.bpmdata.keepalive.KeepAlive", 2026-11-02). The package's own
+# consumer rule didn't take effect; this app-level rule does.
+proguard_rules = ["-keep class io.github.bpmdata.keepalive.** { *; }"]
+
+[tool.flet.android.dev_packages]
+flet-keepalive = "packages/flet-keepalive"     # not on PyPI: built from this repo (path from the project root)
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

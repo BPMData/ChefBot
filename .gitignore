@@ -11,3 +11,4 @@ storage/
 .flet/
 .DS_Store
 *.local.md
+*.egg-info/
