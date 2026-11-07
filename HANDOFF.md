@@ -15,7 +15,8 @@ more than cost.
 - One Python codebase on [Flet](https://flet.dev) **1.0.5** (Flutter UI): desktop, web, Android (sideloaded APK).
 - Models via **OpenRouter**. The key lives in a file outside every repo (see `HANDOFF.local.md`); never commit
   it, never type it into a UI field; pass it as `OPENROUTER_API_KEY` for dev runs.
-- On GitHub as **BPMData/ChefBot**, AGPLv3 (see README). Work goes on a branch with a PR into `main`.
+- On GitHub as **BPMData/ChefBot**, AGPLv3 (see README). Work goes on a branch with a PR into `main`; Claude
+  opens the PR, Bryan merges it.
 
 ## Pinned (do these next, in this order)
 
@@ -60,7 +61,8 @@ cd ~/Documents/Github/ChefBot
 .venv/bin/flet run src/main.py                       # desktop window (Bryan's normal way)
 OPENROUTER_API_KEY=... \
   .venv/bin/flet run --web --port 8551 src/main.py   # web: what Claude uses with the browser pane
-.venv/bin/python -m pytest                           # offline tests (also run by GitHub on every PR)
+.venv/bin/python -m pytest                           # offline tests (GitHub runs them on every PR,
+                                                     # push to main, and on demand: Actions > Tests)
                                                      # (CI installs flet too: test_keepalive drives reply())
 OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow-up edit (~1¢)
 ```
