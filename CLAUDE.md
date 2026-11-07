@@ -14,7 +14,10 @@ features; `docs/EMAIL.md` covers the mail relay.
   or type it into a UI field; pass it as `OPENROUTER_API_KEY` for dev runs. Same for any email secrets.
 - **Don't modify Bryan's saved recipes** (see `HANDOFF.local.md` for which are his vs. test data).
 - **The repo is public.** Keep personal details (email addresses, devices, file locations) out of tracked files.
-- Ask before anything that downloads gigabytes (the Android toolchain), pushes to GitHub, or sends email.
+- Ask before anything that downloads gigabytes (the Android toolchain) or sends email.
+- **GitHub: always finish with a pull request into `main`, and never merge it.** Commit on a branch, push it, and
+  open a PR (or update the open one for that branch); Bryan reviews and merges. Never push to `main` directly.
+  The PR runs the offline tests in GitHub Actions (`.github/workflows/tests.yml`); check they pass.
 
 ## Bryan's preferences
 
