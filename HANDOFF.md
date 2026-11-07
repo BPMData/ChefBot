@@ -322,6 +322,11 @@ The next `flet build apk` downloads it all again.
   first-run Settings that would save over his real settings) and shows Save failures in the dialog. Before editing
   code, check whether Bryan's app is running (`ps ax | grep ChefBot/src/main.py`) and tell him to restart it
   afterwards.
+- **Android: the HTTPS certificate file can disappear while the app is open (2026-11-07).** httpx re-reads
+  `SSL_CERT_FILE` (Flet sets it on Android) each time a client is made, so saving Settings later crashed with
+  `FileNotFoundError` in `ssl.create_default_context`. `api.ssl_context()` now loads the certificates once into
+  memory (falling back to certifi) and every httpx client uses it. Make any new client with `verify=ssl_context()`.
+  Needs an APK rebuild to reach the phone.
 
 ## PDF gotchas (fpdf2 2.8.9)
 

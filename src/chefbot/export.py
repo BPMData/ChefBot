@@ -164,6 +164,8 @@ def ensure_cjk_fonts(text: str, cache_dir: Path, timeout: float = 120) -> dict[s
     raises."""
     import httpx
 
+    from .api import ssl_context
+
     found: dict[str, tuple[Path, Path]] = {}
     cache_dir.mkdir(parents=True, exist_ok=True)
     for key in cjk_needed(text):
@@ -171,7 +173,7 @@ def ensure_cjk_fonts(text: str, cache_dir: Path, timeout: float = 120) -> dict[s
         if not (regular.exists() and bold.exists()):
             raw = cache_dir / f"NotoSans{key.upper()}-variable.ttf"
             try:
-                with httpx.Client(timeout=timeout, follow_redirects=True) as client:
+                with httpx.Client(timeout=timeout, follow_redirects=True, verify=ssl_context()) as client:
                     r = client.get(CJK_FONT_URLS[key])
                     r.raise_for_status()
                 raw.write_bytes(r.content)
