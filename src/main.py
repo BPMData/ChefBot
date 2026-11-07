@@ -897,15 +897,20 @@ class ChefBotApp:
             border_radius=ft.BorderRadius(top_left=22, top_right=22, bottom_left=22, bottom_right=6),
             padding=ft.Padding(left=18, right=18, top=12, bottom=12),
             margin=ft.Margin(left=64, right=0, top=0, bottom=0))
-        if index is None or index < 2:          # the opening request isn't editable here
+        if index is None:
             return bubble
-        tools = ft.Row([ft.IconButton(ft.Icons.EDIT_OUTLINED, tooltip="Edit", icon_size=18,
-                                      on_click=lambda e: self._run(self.edit_message, index)),
-                        ft.IconButton(ft.Icons.DELETE_OUTLINE, tooltip="Delete", icon_size=18,
-                                      on_click=lambda e: self._run(self.delete_message, index))],
-                       spacing=0, alignment=ft.MainAxisAlignment.END, visible=False)
-        self.user_tools[index] = tools
-        return ft.Column([bubble, tools], spacing=0, horizontal_alignment=ft.CrossAxisAlignment.END)
+        copy = ft.IconButton(ft.Icons.CONTENT_COPY, tooltip="Copy", icon_size=18,
+                             on_click=lambda e: self._run(self.copy_user_message, index, e.control))
+        row = ft.Row([copy], spacing=0, alignment=ft.MainAxisAlignment.END)
+        if index >= 2:                          # the opening request isn't editable here
+            tools = ft.Row([ft.IconButton(ft.Icons.EDIT_OUTLINED, tooltip="Edit", icon_size=18,
+                                          on_click=lambda e: self._run(self.edit_message, index)),
+                            ft.IconButton(ft.Icons.DELETE_OUTLINE, tooltip="Delete", icon_size=18,
+                                          on_click=lambda e: self._run(self.delete_message, index))],
+                           spacing=0, visible=False)
+            self.user_tools[index] = tools
+            row.controls.insert(0, tools)
+        return ft.Column([bubble, row], spacing=0, horizontal_alignment=ft.CrossAxisAlignment.END)
 
     def _refresh_user_tools(self):
         """Edit/delete show only under your latest message, and not while ChefBot is answering."""
@@ -1282,6 +1287,13 @@ class ChefBotApp:
     async def copy_message(self, index: int, button=None):
         await self.clipboard.set(self.conv.messages[index]["content"])
         snack(self.page, "Copied as Markdown.")
+        await self._flash(button)
+
+    async def copy_user_message(self, index: int, button=None):
+        """Copies what the bubble shows (the friendly summary for the opening request, not the raw prompt)."""
+        m = self.conv.messages[index]
+        await self.clipboard.set(m.get("display") or m["content"])
+        snack(self.page, "Copied.")
         await self._flash(button)
 
     async def _save(self, data: bytes, file_name: str) -> bool:

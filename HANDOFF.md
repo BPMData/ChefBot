@@ -1,4 +1,4 @@
-# ChefBot handoff (as of 2026-10-31)
+# ChefBot handoff (as of 2026-11-07)
 
 Everything a new session needs to keep going without the original conversation. Read this first, then
 `README.md` (features, how models were chosen) and `docs/EMAIL.md` (mail relay setup).
@@ -184,6 +184,8 @@ Full table in `README.md`. Blind tests (judge: Claude Sonnet 5.5, a non-contesta
 - No cost talk in the UI ("costs about a cent" was removed: cost is his problem).
 - "The 1817 version" quick tweak stays **BETA** with a strong hallucination warning; no year picker.
 - Every reply has Copy (Markdown), PDF, HTML, Email, Share, Picture. Copy/actions act on that reply only.
+- Every user message has Copy (always shown). It copies what the bubble shows: for the opening request that's
+  the friendly `display` summary, not the raw prompt.
 - Plain-language explanations; he's technical but values brevity. He tests thoroughly and reports precisely.
 
 ## Android: build, install, clean up
