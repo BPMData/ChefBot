@@ -63,17 +63,14 @@ more than cost.
    (about 50 cuisines), built from deep research rather than model memory. Plan, decisions and taxonomy:
    `docs/CUISINE_TREE.md`. Ready-to-paste prompts: `docs/research/<continent>.md` (rebuild with
    `tools/make_research_prompts.py`).
-   **Where it stands (2026-11-08):** Bryan tried ChatGPT and Gemini deep research on the Americas and Africa.
-   ChatGPT won: well sourced (UNESCO, Smithsonian, Library of Congress, government sites) and careful. Gemini stated
-   myths as hard rules ("Cajun never uses tomatoes", "Cuban and Puerto Rican food has zero heat"), seemed to invent
-   history (sweet grits "to mask bitter corn rations"), and its Africa run stopped after the intro. Neither gave
-   the JSON or the fact-check, so the prompts were tightened (v2: JSON and fact-check required, full URLs, "usually"
-   unless a rule is firm). A follow-up message in ChatGPT can't help: the chat can't see its deep research run.
-   **Next:** Bryan reruns each continent with the v2 prompt in ChatGPT deep research and brings the answers to a
-   session, one continent at a time. For each: check the JSON parses and every node has all 13 fields; spot-check
-   claims and sources (Gemini's specifics, like Oaxacan chiles, Yucatecan recados and the two moquecas, are worth
-   checking against ChatGPT's); then turn it into ChefBot entries in house style. Then design the UI around real
-   entries (tiles vs. a world map with color bands; see the plan).
+   **Where it stands (2026-11-08):** research is done for the **Americas and Asia** (ChatGPT deep research, v2
+   prompt); Europe, Near & Middle East and Africa are still to run. Results and everything learned so far, including
+   import quirks, conflicts with Bryan's calls and corrections to the app's current entries:
+   `docs/research/FINDINGS.md` (read it first; the raw reports in `docs/research/results/raw/` are only for
+   checking a specific claim). Data: `docs/research/results/<continent>.json`.
+   **Next:** when the last three reports arrive, check each with `tools/check_research.py` (it saves them to
+   `results/`), read its fact-check and add the findings to `FINDINGS.md`. Then turn the data into ChefBot entries
+   in house style and design the UI around them (tiles vs. a world map with color bands; see the plan).
 
 ## Run, test, verify
 
