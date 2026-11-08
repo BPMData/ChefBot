@@ -77,6 +77,9 @@ OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow
 - **Web dev mode quirks:** first page load takes ~20 s; Flutter draws on a canvas, so `find`/`read_page` see
   nothing: use screenshots and coordinates. After code changes, **restart the server** (hot reload leaves broken
   sessions). Use absolute paths in background shell commands (the shell's cwd drifts).
+  Check no old `main.py` process is still running before testing: a leftover keeps answering on the port. In a
+  cloud session the browser can't reach www.gstatic.com, so Flutter never loads; have Playwright serve
+  `flutter-canvaskit/*` from `flet_web/web/canvaskit/` in the venv (`page.route` + `fulfill`).
 - **Dev storage:** `flet run` keeps recipes/photos in `src/.flet/storage/data/` (gitignored). On a phone it's
   `FLET_APP_STORAGE_DATA`; fallback `~/.chefbot`. Desktop settings (incl. secrets) are in the macOS defaults domain
   `com.appveyor.flet`; read single keys with `defaults read com.appveyor.flet flutter.chefbot.<key>`, never dump
@@ -190,6 +193,11 @@ Full table in `README.md`. Blind tests (judge: Claude Sonnet 5.5, a non-contesta
 - No cost talk in the UI ("costs about a cent" was removed: cost is his problem).
 - "The 1817 version" quick tweak stays **BETA** with a strong hallucination warning; no year picker.
 - Every reply has Copy (Markdown), PDF, HTML, Email, Share, Picture. Copy/actions act on that reply only.
+- **Cuisines** (`prompts.py`): `CUISINES` (classic flavors, used only where they suit the dish), `SWEET_FLAVORS`
+  (desserts only), `SIGNATURE_INGREDIENTS` (only if the user has them, else a Tips line), `CUISINE_TIPS` (e.g. the
+  Cajun seasoning shortcut goes in Tips, never the ingredients), `CUISINE_ABOUT` (the app's info sheet; never sent
+  to the model). Bryan's calls (2026-11-08): cinnamon, vanilla and Old Bay stay in American savory; filé powder is
+  out; kimchi is "strongly recommended" for Korean, not required.
 - Every user message has Copy (always shown). It copies what the bubble shows: for the opening request that's
   the friendly `display` summary, not the raw prompt.
 - Plain-language explanations; he's technical but values brevity. He tests thoroughly and reports precisely.

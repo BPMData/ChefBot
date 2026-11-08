@@ -484,8 +484,12 @@ class ChefBotApp:
                                               on_click=self.read_photo)
         self.cuisine_chips = {
             label: ft.Chip(label=short, selected=label == self.cuisine, show_checkmark=False,
-                           on_select=lambda e, lab=label: self._pick_cuisine(lab))
+                           on_select=lambda e, lab=label: self._pick_cuisine(lab),
+                           delete_icon=ft.Icon(ft.Icons.INFO_OUTLINE, size=18),
+                           delete_icon_tooltip=f"About {short} cooking")
             for label, short in CUISINE_NAMES.items()}
+        for label, chip in self.cuisine_chips.items():
+            self._show_cuisine_info(chip, label)
         self.audience_tiles: dict[str, ft.Container] = {}
         for label, (icon, short) in AUDIENCE_CARDS.items():
             self.audience_tiles[label] = ft.Container(
@@ -513,7 +517,29 @@ class ChefBotApp:
         self.cuisine = label
         for lab, chip in self.cuisine_chips.items():
             chip.selected = lab == label
+            self._show_cuisine_info(chip, lab)
             chip.update()
+
+    def _show_cuisine_info(self, chip: ft.Chip, label: str):
+        """Only the picked cuisine shows the info icon (Flutter shows a chip's trailing icon only with a handler)."""
+        has_info = label == self.cuisine and label in prompts.CUISINE_ABOUT
+        chip.on_delete = (lambda e, lab=label: self._cuisine_info(lab)) if has_info else None
+
+    def _cuisine_info(self, label: str):
+        """A sheet about the cuisine: where it's from, its style, and the flavors ChefBot draws on."""
+        name, flavors = prompts.CUISINES[label]
+        lines = [ft.Text(prompts.CUISINE_ABOUT[label], size=15)]
+        def section(title: str, text: str):
+            lines.append(ft.Text(title, size=13, weight=ft.FontWeight.W_700, color=ft.Colors.PRIMARY))
+            lines.append(ft.Text(text[0].upper() + text[1:] + ".", size=14, color=ft.Colors.ON_SURFACE_VARIANT))
+        section("Classic flavors", flavors)
+        if label in prompts.SWEET_FLAVORS:
+            section("For desserts", prompts.SWEET_FLAVORS[label])
+        if label in prompts.SIGNATURE_INGREDIENTS:
+            section("Signature ingredients (used if you have them)", prompts.SIGNATURE_INGREDIENTS[label])
+        self.page.show_dialog(ft.BottomSheet(show_drag_handle=True, scrollable=True, content=ft.Container(
+            ft.Column([heading(CUISINE_NAMES[label], 22), *lines], spacing=10, tight=True),
+            padding=ft.Padding(left=24, right=24, top=4, bottom=28), width=MAX_WIDTH)))
 
     def _pick_audience(self, label: str):
         self.audience = label
