@@ -2,25 +2,31 @@ You are researching regional cuisines for a recipe app whose AI writes
 recipes from the user's own ingredients. Accuracy matters more than
 breadth: every claim will be shown to users or used to steer recipes.
 
-SCOPE: the nodes in this tree (branches and leaves).
-- **Europe:** Italy (Northern, Southern & Sicilian, Any); French; Spanish; Greek; Central European (Germany, Austria, Czechia, Hungary, Poland); Russian.
+REQUIRED OUTPUT (the app imports it, so do not skip or reshape it):
+1. A short summary of the biggest surprises and disputes.
+2. The fact-check described at the end.
+3. One JSON array, in a code block, with one object per node, using
+   exactly the 13 field names below. Write a fuller report as well if
+   you like, but the JSON must come at the end and be complete for
+   every node. No emojis.
 
-"Any" OPTIONS: each node listed with an "Any" option has one; no other
-node does. Caribbean > Any covers several countries: describe the shared
-picture outsiders have, and note in pitfalls where islands differ and
-would object to being lumped together. "Any" means the internationally recognized version of that
-country's food: what people outside the country think of when they think
-of it (for the United States, American food as people in Asia and Europe
-picture it). Research it as a node of its own. Say where that outside
-view is a cliché, a stereotype, or an export version that differs from
-home cooking, but describe the outside view itself accurately.
+SCOPE: the nodes in this tree (branches and leaves).
+- Europe: Italy (Northern, Southern & Sicilian, Any); French; Spanish; Greek; Central European (Germany, Austria, Czechia, Hungary, Poland); Russian.
+
+"Any" OPTIONS: Italy has an "Any" option; no other node does. "Any" means the internationally recognized version of that country's food: what people outside the country think of when they think of it. Research it as a node of its own. Say where that outside view is a cliché, a stereotype, or an export version that differs from home cooking, but describe the outside view itself accurately.
 
 SOURCES: prefer recognized authorities on each cuisine (regional cookbook
 authors with deep expertise, culinary historians, academic food studies,
-national culinary institutions) over blogs and SEO recipe sites. Cite a
-source for each history claim and each seasoning list. Where sources
-disagree, say so and give both views. Mark anything you are unsure of
-as LOW CONFIDENCE rather than smoothing it over.
+national culinary institutions) over blogs and SEO recipe sites. Give
+full URLs in the JSON "sources" field: inline citation markers are lost
+when the report is copied. Where sources disagree, say so and give both
+views. Mark anything you are unsure of as LOW CONFIDENCE rather than
+smoothing it over.
+
+RULES, NOT ABSOLUTES: say "usually", "often" or "in classic versions"
+unless the sources agree something is a firm rule. Write "never" or
+"always" only when no tradition in that cuisine does otherwise, because
+the app will enforce whatever you write as a hard rule.
 
 FOR EACH NODE, return:
 1. id: snake_case, stable.
@@ -51,10 +57,10 @@ FOR EACH NODE, return:
 12. pitfalls: what an AI writing "authentic" recipes commonly gets
     wrong for this cuisine (confusions with neighbors, stereotypes,
     ingredients that don't belong, invented "traditions").
-13. sources: list with titles and authors or URLs.
+13. sources: full URLs (or title, author and year for books).
 
-Also fact-check these existing descriptions and flavor lists, and
-mark each claim correct, wrong, or disputed, with a source:
+FACT-CHECK (required): mark each claim in these existing descriptions
+and flavor lists as correct, wrong, or disputed, with a source:
 French
   Description: The foundation of Western restaurant technique: stocks, mother sauces, butter, wine and slow braises, lifted by fresh herbs. Regional styles range from Normandy's butter and cream to Provence's olive oil, garlic and tomatoes.
   Classic flavors: thyme (thym), bay leaf (feuille de laurier), parsley (persil), tarragon (estragon), chervil (cerfeuil), rosemary (romarin), nutmeg (noix de muscade), Dijon mustard (moutarde de Dijon), garlic (ail) and shallots (échalotes)
@@ -68,7 +74,3 @@ Italian
 Spanish
   Description: Olive oil, garlic, smoked pimentón and saffron. Tapas, rice dishes like Valencia's paella, slow stews, and cured ham, with sherry vinegar for brightness.
   Classic flavors: saffron (azafrán), paprika (pimentón), garlic (ajo), parsley (perejil), bay leaf (laurel), rosemary (romero), cumin (comino), thyme (tomillo), olive oil (aceite de oliva), and sherry vinegar (vinagre de Jerez)
-
-OUTPUT: a short narrative summary of the biggest surprises and
-disputes, then one JSON array with an object per node using exactly
-the field names above. No emojis.

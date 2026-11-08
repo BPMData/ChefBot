@@ -2,25 +2,31 @@ You are researching regional cuisines for a recipe app whose AI writes
 recipes from the user's own ingredients. Accuracy matters more than
 breadth: every claim will be shown to users or used to steer recipes.
 
-SCOPE: the nodes in this tree (branches and leaves).
-- **Asia:** China, the Eight Great Cuisines (Sichuan, Hunan, Cantonese, Shandong, Jiangsu, Zhejiang, Fujian, Anhui, Any); Japan (Kanto, Kansai, Any); India (North, South, Any); Korean; Thai; Vietnamese; Filipino; Indonesian; Malaysian & Singaporean.
+REQUIRED OUTPUT (the app imports it, so do not skip or reshape it):
+1. A short summary of the biggest surprises and disputes.
+2. The fact-check described at the end.
+3. One JSON array, in a code block, with one object per node, using
+   exactly the 13 field names below. Write a fuller report as well if
+   you like, but the JSON must come at the end and be complete for
+   every node. No emojis.
 
-"Any" OPTIONS: each node listed with an "Any" option has one; no other
-node does. Caribbean > Any covers several countries: describe the shared
-picture outsiders have, and note in pitfalls where islands differ and
-would object to being lumped together. "Any" means the internationally recognized version of that
-country's food: what people outside the country think of when they think
-of it (for the United States, American food as people in Asia and Europe
-picture it). Research it as a node of its own. Say where that outside
-view is a cliché, a stereotype, or an export version that differs from
-home cooking, but describe the outside view itself accurately.
+SCOPE: the nodes in this tree (branches and leaves).
+- Asia: China, the Eight Great Cuisines (Sichuan, Hunan, Cantonese, Shandong, Jiangsu, Zhejiang, Fujian, Anhui, Any); Japan (Kanto, Kansai, Any); India (North, South, Any); Korean; Thai; Vietnamese; Filipino; Indonesian; Malaysian & Singaporean.
+
+"Any" OPTIONS: China, Japan and India each have an "Any" option; no other node does. "Any" means the internationally recognized version of that country's food: what people outside the country think of when they think of it. Research it as a node of its own. Say where that outside view is a cliché, a stereotype, or an export version that differs from home cooking, but describe the outside view itself accurately.
 
 SOURCES: prefer recognized authorities on each cuisine (regional cookbook
 authors with deep expertise, culinary historians, academic food studies,
-national culinary institutions) over blogs and SEO recipe sites. Cite a
-source for each history claim and each seasoning list. Where sources
-disagree, say so and give both views. Mark anything you are unsure of
-as LOW CONFIDENCE rather than smoothing it over.
+national culinary institutions) over blogs and SEO recipe sites. Give
+full URLs in the JSON "sources" field: inline citation markers are lost
+when the report is copied. Where sources disagree, say so and give both
+views. Mark anything you are unsure of as LOW CONFIDENCE rather than
+smoothing it over.
+
+RULES, NOT ABSOLUTES: say "usually", "often" or "in classic versions"
+unless the sources agree something is a firm rule. Write "never" or
+"always" only when no tradition in that cuisine does otherwise, because
+the app will enforce whatever you write as a hard rule.
 
 FOR EACH NODE, return:
 1. id: snake_case, stable.
@@ -51,10 +57,10 @@ FOR EACH NODE, return:
 12. pitfalls: what an AI writing "authentic" recipes commonly gets
     wrong for this cuisine (confusions with neighbors, stereotypes,
     ingredients that don't belong, invented "traditions").
-13. sources: list with titles and authors or URLs.
+13. sources: full URLs (or title, author and year for books).
 
-Also fact-check these existing descriptions and flavor lists, and
-mark each claim correct, wrong, or disputed, with a source:
+FACT-CHECK (required): mark each claim in these existing descriptions
+and flavor lists as correct, wrong, or disputed, with a source:
 Chinese (Cantonese - Most common style in US)
   Description: From Guangdong province in southern China, around the Pearl River Delta and the city of Guangzhou. Fresh ingredients and light seasoning that lets them taste of themselves: steamed fish, quick stir-fries with wok hei (the smoky "breath of the wok"), dim sum. Most early Chinese emigrants came from here, which is why it's the style of most Chinese restaurants abroad.
   Classic flavors: ginger (jiang, 姜), green onions (cong, 葱), garlic (suan, 蒜), soy sauce (jiang you, 酱油), oyster sauce (hao you, 蚝油), fermented black beans (douchi, 豆豉), sesame oil (zhi ma you, 芝麻油), rice wine (mi jiu or Shaoxing jiu, 米酒 or 绍兴酒), white pepper (bai hu jiao, 白胡椒), and dried tangerine peel (chen pi, 陈皮)
@@ -95,7 +101,3 @@ Thai
 Vietnamese
   Description: Fresh and bright: fish sauce, lime, chili and a pile of fresh herbs at every meal. Clear, fragrant broths like pho come from the north around Hanoi; French rule left baguettes (bánh mì) and coffee.
   Classic flavors: fish sauce (nước mắm), lemongrass (sả), lime (chanh), ginger (gừng), turmeric (nghệ), Vietnamese coriander (rau răm), Thai basil (húng quế), mint (húng lủi), star anise (đại hồi), and green onions or scallions (hành lá)
-
-OUTPUT: a short narrative summary of the biggest surprises and
-disputes, then one JSON array with an object per node using exactly
-the field names above. No emojis.
