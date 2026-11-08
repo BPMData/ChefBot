@@ -8,13 +8,14 @@ The data for it comes from deep research runs (prompt below), not from a model's
 - **Drill-down, 1 to 3 levels.** Tap a continent, then a country or region, then (where it has them) a
   sub-style. A leaf picks the cuisine and closes the menu. On a phone: a modal with a back button and a
   breadcrumb ("Americas > Caribbean > Cuban").
-- **"Any" only on country nodes that have sub-styles** (United States, Mexico, China, Japan, India, Italy),
+- **"Any" only on country nodes that have sub-styles** (United States, Mexico, China, Japan, India, Italy), plus
+  one exception, the Caribbean (several countries, but close enough that outsiders picture one cuisine),
   meaning the internationally recognized version: what people outside that country think of as its food, not one
   regional sub-style picked at random. United States >
   Any is American food as people in Asia and Europe picture it (it keeps the current "American" list: Old Bay,
   vanilla, cinnamon). The research should still say where that outside view is a cliché or an export version.
-- **No "Any" anywhere else.** Not on continents (there is no "Asian food" to aim at) and not on multi-country
-  regions like the Caribbean: pick Cuban, Puerto Rican or Jamaican. Leaves like Oaxacan are already specific.
+- **No "Any" anywhere else.** Not on continents (there is no "Asian food" to aim at) and not on other
+  multi-country groupings. Leaves like Oaxacan are already specific.
   Surprise me covers "anything": it picks a random leaf.
 - **Recent picks:** the last 4-5 cuisines as chips on the home screen, so a usual pick is one tap. The picked chip
   shows the path ("Caribbean · Cuban") and keeps the info icon.
@@ -28,7 +29,7 @@ The data for it comes from deep research runs (prompt below), not from a model's
 ## Taxonomy
 
 - **The Americas:** United States (Cajun, Creole, Southern & Soul, Tex-Mex, New England Seafood, Any); Mexico
-  (Northern & Baja, Central & Oaxacan, Yucatán, Any); Caribbean (Cuban, Puerto Rican, Jamaican); Brazilian;
+  (Northern & Baja, Central & Oaxacan, Yucatán, Any); Caribbean (Cuban, Puerto Rican, Jamaican, Any); Brazilian;
   Peruvian; Argentinian.
 - **Asia:** China, the Eight Great Cuisines (Sichuan, Hunan, Cantonese, Shandong, Jiangsu, Zhejiang, Fujian,
   Anhui, Any); Japan (Kanto, Kansai, Any); India (North, South, Any); Korean; Thai; Vietnamese; Filipino;
@@ -52,8 +53,10 @@ breadth: every claim will be shown to users or used to steer recipes.
 SCOPE: the nodes in this tree (branches and leaves).
 [PASTE ONE CONTINENT'S PART OF THE TAXONOMY HERE]
 
-"Any" OPTIONS: each country listed with an "Any" option has one; no
-other node does. "Any" means the internationally recognized version of that
+"Any" OPTIONS: each node listed with an "Any" option has one; no other
+node does. Caribbean > Any covers several countries: describe the shared
+picture outsiders have, and note in pitfalls where islands differ and
+would object to being lumped together. "Any" means the internationally recognized version of that
 country's food: what people outside the country think of when they think
 of it (for the United States, American food as people in Asia and Europe
 picture it). Research it as a node of its own. Say where that outside
