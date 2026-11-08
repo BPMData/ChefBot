@@ -208,8 +208,8 @@ def system_prompt(audience: str, cuisine: str, dessert: bool = False,
     if name:
         style = (f"from {name} cuisine, keeping in mind that the audience for your recipe is an enthusiast and "
                  f"expert in {name} cuisine who would like you to prepare a dish with authentic {name} spices and "
-                 f"flavors. Make sure the recipe you suggest includes such classic {name} spices and flavors as "
-                 f"{flavors}")
+                 f"flavors. Draw on classic {name} spices and flavors such as {flavors}, but use only the ones "
+                 f"that suit this dish: you don't need all of them, and none should feel out of place")
         staples_extra = f", as well as such classic {name} spices and flavors as {flavors},"
     else:
         style = "from any cuisine or culture"
