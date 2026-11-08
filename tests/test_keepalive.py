@@ -396,3 +396,7 @@ def test_no_context_at_all_says_why(android):
     java.classes.clear()
     with pytest.raises(RuntimeError, match="_from_activity_thread"):
         fk._app()
+
+
+def test_every_cuisine_has_a_chip():
+    assert set(main.CUISINE_NAMES) == set(main.prompts.CUISINES)

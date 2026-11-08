@@ -50,6 +50,10 @@ CUISINES: dict[str, tuple[str, str]] = {
         "Cajun",
         "cayenne pepper, paprika, garlic, onion, green bell peppers, celery, bay leaves, thyme, oregano, and "
         "black and white pepper"),
+    "American (Creole)": (
+        "New Orleans Creole",
+        "onion, celery and green bell peppers, garlic, butter, tomato paste, cayenne pepper, paprika, thyme, bay "
+        "leaves, oregano, basil, parsley, green onions, black and white pepper, and Louisiana hot sauce"),
     "Chinese (Cantonese - Most common style in US)": (
         "Cantonese/Guangdong/Yue (Chinese)",
         "ginger (jiang, 姜), green onions (cong, 葱), garlic (suan, 蒜), soy sauce (jiang you, 酱油), "
@@ -170,6 +174,11 @@ CUISINE_TIPS: dict[str, str] = {
         "on time: most Cajun seasoning is paprika, cayenne, garlic, onion, black pepper, oregano and thyme plus a "
         "lot of salt, so say how many grams of blend would replace the spices in this recipe, and to cut the "
         "added salt if they use it."),
+    "American (Creole)": (
+        "Use the separate spices in the recipe itself, never a store-bought blend. Then add a tip for cooks short "
+        "on time: most Creole seasoning is paprika, garlic, onion, cayenne, black and white pepper, oregano, thyme "
+        "and basil plus a lot of salt, so say how many grams of blend would replace the spices in this recipe, "
+        "and to cut the added salt if they use it."),
     "Italian": (
         "If the recipe uses anchovies, add a tip that anchovy-only fish sauce works as a substitute (check the "
         "label: just anchovies and salt), with the amount."),
@@ -190,6 +199,12 @@ CUISINE_ABOUT: dict[str, str] = {
         "étouffée, built on a dark roux and the \"holy trinity\" of onion, celery and green bell pepper, with "
         "cayenne heat. Not the same as Creole, the city cooking of New Orleans, which uses more butter and "
         "tomatoes."),
+    "American (Creole)": (
+        "The city cooking of New Orleans, shaped by its French and Spanish colonial rulers, by West African and "
+        "Caribbean cooks (many of them enslaved), and later by Italian and German immigrants. Richer and more "
+        "refined than its country cousin Cajun, with more butter, cream and tomatoes on the same base of onion, "
+        "celery and green bell pepper. Shrimp Creole, red beans and rice, grillades and grits, and the city's "
+        "tomato-red jambalaya."),
     "Chinese (Cantonese - Most common style in US)": (
         "From Guangdong province in southern China, around the Pearl River Delta and the city of Guangzhou. "
         "Fresh ingredients and light seasoning that lets them taste of themselves: steamed fish, quick stir-fries "

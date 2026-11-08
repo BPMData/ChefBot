@@ -197,7 +197,7 @@ Full table in `README.md`. Blind tests (judge: Claude Sonnet 5.5, a non-contesta
   (desserts only), `SIGNATURE_INGREDIENTS` (only if the user has them, else a Tips line), `CUISINE_TIPS` (e.g. the
   Cajun seasoning shortcut goes in Tips, never the ingredients), `CUISINE_ABOUT` (the app's info sheet; never sent
   to the model). Bryan's calls (2026-11-08): cinnamon, vanilla and Old Bay stay in American savory; filé powder is
-  out; kimchi is "strongly recommended" for Korean, not required.
+  out; kimchi is "strongly recommended" for Korean, not required. Creole (New Orleans) added beside Cajun.
 - Every user message has Copy (always shown). It copies what the bubble shows: for the opening request that's
   the friendly `display` summary, not the raw prompt.
 - Plain-language explanations; he's technical but values brevity. He tests thoroughly and reports precisely.

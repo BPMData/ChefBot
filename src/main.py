@@ -54,6 +54,7 @@ CUISINE_NAMES = {   # prompt label -> short chip label
     prompts.NO_CUISINE: "Anything",
     "American": "American",
     "American (Cajun)": "Cajun",
+    "American (Creole)": "Creole",
     "Chinese (Cantonese - Most common style in US)": "Cantonese",
     "Chinese (Hong Kong)": "Hong Kong",
     "Chinese (Sichuan)": "Sichuan",
