@@ -59,6 +59,10 @@ more than cost.
    "never use" list were followed. Undecided: what happens when it finds a problem (a note under the reply, or an
    automatic fix). For now the main prompt has a "check your work" list (`prompts.system_prompt`).
 
+6. **Later: the cuisine tree.** Replace the flat cuisine chips with a drill-down by continent and region (about
+   50 cuisines), built from deep research rather than model memory. Plan, decisions, taxonomy and the research
+   prompt are in `docs/CUISINE_TREE.md`. Bryan runs the research (one run per continent) first.
+
 ## Run, test, verify
 
 ```bash
