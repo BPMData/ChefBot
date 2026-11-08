@@ -41,7 +41,7 @@ The data for it comes from deep research runs (prompt below), not from a model's
 
 ## Next steps
 
-1. **Research (Bryan):** the five prompts in `docs/research/` are ready to paste, one per continent, with the
+1. **Research (Bryan):** the five prompts in `docs/research/` are ready to paste whole (select all), one per continent, with the
    taxonomy and the current entries already filled in. Paste one into a deep research tool (for example
    claude.ai with Research turned on) and save the whole answer.
 2. **House style (Claude, one continent per session):** bring an answer back to a session, uploaded as a file or

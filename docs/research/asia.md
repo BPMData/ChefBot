@@ -1,9 +1,3 @@
-# Cuisine research prompt: Asia
-
-Generated from `docs/CUISINE_TREE.md` and `src/chefbot/prompts.py` (2026-11-08). Paste everything below the line into a deep research tool.
-
----
-
 You are researching regional cuisines for a recipe app whose AI writes
 recipes from the user's own ingredients. Accuracy matters more than
 breadth: every claim will be shown to users or used to steer recipes.
