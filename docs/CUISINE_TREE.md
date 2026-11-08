@@ -48,6 +48,11 @@ The data for it comes from deep research runs (prompt below), not from a model's
    pasted. Claude checks it, then turns it into ChefBot's entries in its house style.
 3. **The UI** once the first continent's data is in, so the tree is built around real entries.
 
+**UI idea to weigh then (Bryan):** the first level as a world map with each region shaded as one color band, tapped
+anywhere in its band. The alternative is five tiles, each with a small outline of its region. Bands keep the map
+feel and give each region a big tap target. To check: the Near East band is small next to Africa and Asia, and the
+map needs to read clearly in both dark and light themes.
+
 ## Research prompt
 
 Run once per continent (one run for ~50 nodes comes back thin), then merge the JSON. Fill in the two bracketed
