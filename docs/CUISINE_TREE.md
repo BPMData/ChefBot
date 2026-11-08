@@ -39,6 +39,15 @@ The data for it comes from deep research runs (prompt below), not from a model's
 - **Near & Middle East:** Palestinian & Levantine; Persian; Turkish.
 - **Africa:** Moroccan & North African; Ethiopian; Egyptian; Nigerian; Senegalese.
 
+## Next steps
+
+1. **Research (Bryan):** the five prompts in `docs/research/` are ready to paste, one per continent, with the
+   taxonomy and the current entries already filled in. Paste one into a deep research tool (for example
+   claude.ai with Research turned on) and save the whole answer.
+2. **House style (Claude, one continent per session):** bring an answer back to a session, uploaded as a file or
+   pasted. Claude checks it, then turns it into ChefBot's entries in its house style.
+3. **The UI** once the first continent's data is in, so the tree is built around real entries.
+
 ## Research prompt
 
 Run once per continent (one run for ~50 nodes comes back thin), then merge the JSON. Fill in the two bracketed
