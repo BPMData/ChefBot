@@ -55,34 +55,40 @@ map needs to read clearly in both dark and light themes.
 
 ## Research prompt
 
-Run once per continent (one run for ~50 nodes comes back thin), then merge the JSON. Fill in the two bracketed
-parts: the continent's piece of the taxonomy above, and the current `CUISINE_ABOUT` and `CUISINES` entries for
-that continent from `src/chefbot/prompts.py`.
+Run once per continent (one run for ~50 nodes comes back thin). `tools/make_research_prompts.py` fills in the
+bracketed parts (the continent's taxonomy, its "Any" rule, and the app's current entries for it) and writes
+`docs/research/<continent>.md`. Rerun it after changing this template or the cuisines in `prompts.py`.
 
 ```
 You are researching regional cuisines for a recipe app whose AI writes
 recipes from the user's own ingredients. Accuracy matters more than
 breadth: every claim will be shown to users or used to steer recipes.
 
-SCOPE: the nodes in this tree (branches and leaves).
-[PASTE ONE CONTINENT'S PART OF THE TAXONOMY HERE]
+REQUIRED OUTPUT (the app imports it, so do not skip or reshape it):
+1. A short summary of the biggest surprises and disputes.
+2. The fact-check described at the end.
+3. One JSON array, in a code block, with one object per node, using
+   exactly the 13 field names below. Write a fuller report as well if
+   you like, but the JSON must come at the end and be complete for
+   every node. No emojis.
 
-"Any" OPTIONS: each node listed with an "Any" option has one; no other
-node does. Caribbean > Any covers several countries: describe the shared
-picture outsiders have, and note in pitfalls where islands differ and
-would object to being lumped together. "Any" means the internationally recognized version of that
-country's food: what people outside the country think of when they think
-of it (for the United States, American food as people in Asia and Europe
-picture it). Research it as a node of its own. Say where that outside
-view is a cliché, a stereotype, or an export version that differs from
-home cooking, but describe the outside view itself accurately.
+SCOPE: the nodes in this tree (branches and leaves).
+[TAXONOMY]
+
+[ANY RULE]
 
 SOURCES: prefer recognized authorities on each cuisine (regional cookbook
 authors with deep expertise, culinary historians, academic food studies,
-national culinary institutions) over blogs and SEO recipe sites. Cite a
-source for each history claim and each seasoning list. Where sources
-disagree, say so and give both views. Mark anything you are unsure of
-as LOW CONFIDENCE rather than smoothing it over.
+national culinary institutions) over blogs and SEO recipe sites. Give
+full URLs in the JSON "sources" field: inline citation markers are lost
+when the report is copied. Where sources disagree, say so and give both
+views. Mark anything you are unsure of as LOW CONFIDENCE rather than
+smoothing it over.
+
+RULES, NOT ABSOLUTES: say "usually", "often" or "in classic versions"
+unless the sources agree something is a firm rule. Write "never" or
+"always" only when no tradition in that cuisine does otherwise, because
+the app will enforce whatever you write as a hard rule.
 
 FOR EACH NODE, return:
 1. id: snake_case, stable.
@@ -113,13 +119,9 @@ FOR EACH NODE, return:
 12. pitfalls: what an AI writing "authentic" recipes commonly gets
     wrong for this cuisine (confusions with neighbors, stereotypes,
     ingredients that don't belong, invented "traditions").
-13. sources: list with titles and authors or URLs.
+13. sources: full URLs (or title, author and year for books).
 
-Also fact-check these existing descriptions and flavor lists, and
-mark each claim correct, wrong, or disputed, with a source:
-[PASTE THE MATCHING CUISINE_ABOUT AND CUISINES ENTRIES]
-
-OUTPUT: a short narrative summary of the biggest surprises and
-disputes, then one JSON array with an object per node using exactly
-the field names above. No emojis.
+FACT-CHECK (required): mark each claim in these existing descriptions
+and flavor lists as correct, wrong, or disputed, with a source:
+[EXISTING]
 ```
