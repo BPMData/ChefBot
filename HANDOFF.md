@@ -1,4 +1,4 @@
-# ChefBot handoff (as of 2026-10-31)
+# ChefBot handoff (as of 2026-11-07)
 
 Everything a new session needs to keep going without the original conversation. Read this first, then
 `README.md` (features, how models were chosen) and `docs/EMAIL.md` (mail relay setup).
@@ -54,6 +54,15 @@ more than cost.
    - If anything misbehaves: `adb logcat -d | grep -iE -A12 "keep-alive|keepalive|jnius"` (Python logs under
      the tag `flet.python`, the Java side under `KeepAlive`).
 
+5. **Later: a second-pass recipe audit.** After each recipe, send it to the cheapest, fastest model that does the
+   job well enough, to check only: ingredient weights and ratios, timings, and that the dietary rules and
+   "never use" list were followed. Undecided: what happens when it finds a problem (a note under the reply, or an
+   automatic fix). For now the main prompt has a "check your work" list (`prompts.system_prompt`).
+
+6. **Later: the cuisine tree.** Replace the flat cuisine chips with a drill-down by continent and region (about
+   50 cuisines), built from deep research rather than model memory. Plan, decisions, taxonomy and the research
+   prompt are in `docs/CUISINE_TREE.md`. Bryan runs the research (one run per continent) first.
+
 ## Run, test, verify
 
 ```bash
@@ -72,6 +81,9 @@ OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow
 - **Web dev mode quirks:** first page load takes ~20 s; Flutter draws on a canvas, so `find`/`read_page` see
   nothing: use screenshots and coordinates. After code changes, **restart the server** (hot reload leaves broken
   sessions). Use absolute paths in background shell commands (the shell's cwd drifts).
+  Check no old `main.py` process is still running before testing: a leftover keeps answering on the port. In a
+  cloud session the browser can't reach www.gstatic.com, so Flutter never loads; have Playwright serve
+  `flutter-canvaskit/*` from `flet_web/web/canvaskit/` in the venv (`page.route` + `fulfill`).
 - **Dev storage:** `flet run` keeps recipes/photos in `src/.flet/storage/data/` (gitignored). On a phone it's
   `FLET_APP_STORAGE_DATA`; fallback `~/.chefbot`. Desktop settings (incl. secrets) are in the macOS defaults domain
   `com.appveyor.flet`; read single keys with `defaults read com.appveyor.flet flutter.chefbot.<key>`, never dump
@@ -102,7 +114,8 @@ alone. GitHub never shows secrets in logs or hands them to pull requests from fo
 ```
 src/main.py              UI: home form, recipe conversation, settings, per-reply actions, email dialog
 src/chefbot/prompts.py   audiences, cuisines (+ classic seasonings), dietary rules, prompt text (ported from
-                         RecipeGPT's personas.py; keep his voice)
+                         RecipeGPT's personas.py; since 2026-11-08 the persona is a food scientist and
+                         test kitchen developer, not a food blogger; salt always in grams)
 src/chefbot/api.py       OpenRouter: streaming chat, photo -> ingredients, dish picture
 src/chefbot/history.py   conversations + photos saved as JSON/PNGs; prune_photos()
 src/chefbot/export.py    Markdown -> HTML page / PDF / email; SMTP + relay sending
@@ -184,6 +197,13 @@ Full table in `README.md`. Blind tests (judge: Claude Sonnet 5.5, a non-contesta
 - No cost talk in the UI ("costs about a cent" was removed: cost is his problem).
 - "The 1817 version" quick tweak stays **BETA** with a strong hallucination warning; no year picker.
 - Every reply has Copy (Markdown), PDF, HTML, Email, Share, Picture. Copy/actions act on that reply only.
+- **Cuisines** (`prompts.py`): `CUISINES` (classic flavors, used only where they suit the dish), `SWEET_FLAVORS`
+  (desserts only), `SIGNATURE_INGREDIENTS` (only if the user has them, else a Tips line), `CUISINE_TIPS` (e.g. the
+  Cajun seasoning shortcut goes in Tips, never the ingredients), `CUISINE_ABOUT` (the app's info sheet; never sent
+  to the model). Bryan's calls (2026-11-08): cinnamon, vanilla and Old Bay stay in American savory; filé powder is
+  out; kimchi is "strongly recommended" for Korean, not required. Creole (New Orleans) added beside Cajun.
+- Every user message has Copy (always shown). It copies what the bubble shows: for the opening request that's
+  the friendly `display` summary, not the raw prompt.
 - Plain-language explanations; he's technical but values brevity. He tests thoroughly and reports precisely.
 
 ## Android: build, install, clean up
