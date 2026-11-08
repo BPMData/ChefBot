@@ -54,6 +54,11 @@ more than cost.
    - If anything misbehaves: `adb logcat -d | grep -iE -A12 "keep-alive|keepalive|jnius"` (Python logs under
      the tag `flet.python`, the Java side under `KeepAlive`).
 
+5. **Later: a second-pass recipe audit.** After each recipe, send it to the cheapest, fastest model that does the
+   job well enough, to check only: ingredient weights and ratios, timings, and that the dietary rules and
+   "never use" list were followed. Undecided: what happens when it finds a problem (a note under the reply, or an
+   automatic fix). For now the main prompt has a "check your work" list (`prompts.system_prompt`).
+
 ## Run, test, verify
 
 ```bash
@@ -102,7 +107,8 @@ alone. GitHub never shows secrets in logs or hands them to pull requests from fo
 ```
 src/main.py              UI: home form, recipe conversation, settings, per-reply actions, email dialog
 src/chefbot/prompts.py   audiences, cuisines (+ classic seasonings), dietary rules, prompt text (ported from
-                         RecipeGPT's personas.py; keep his voice)
+                         RecipeGPT's personas.py; since 2026-11-08 the persona is a food scientist and
+                         test kitchen developer, not a food blogger; salt always in grams)
 src/chefbot/api.py       OpenRouter: streaming chat, photo -> ingredients, dish picture
 src/chefbot/history.py   conversations + photos saved as JSON/PNGs; prune_photos()
 src/chefbot/export.py    Markdown -> HTML page / PDF / email; SMTP + relay sending
