@@ -59,9 +59,21 @@ more than cost.
    "never use" list were followed. Undecided: what happens when it finds a problem (a note under the reply, or an
    automatic fix). For now the main prompt has a "check your work" list (`prompts.system_prompt`).
 
-6. **Later: the cuisine tree.** Replace the flat cuisine chips with a drill-down by continent and region (about
-   50 cuisines), built from deep research rather than model memory. Plan, decisions, taxonomy and the research
-   prompt are in `docs/CUISINE_TREE.md`. Bryan runs the research (one run per continent) first.
+6. **In progress: the cuisine tree.** Replace the flat cuisine chips with a drill-down by continent and region
+   (about 50 cuisines), built from deep research rather than model memory. Plan, decisions and taxonomy:
+   `docs/CUISINE_TREE.md`. Ready-to-paste prompts: `docs/research/<continent>.md` (rebuild with
+   `tools/make_research_prompts.py`).
+   **Where it stands (2026-11-08):** Bryan tried ChatGPT and Gemini deep research on the Americas and Africa.
+   ChatGPT won: well sourced (UNESCO, Smithsonian, Library of Congress, government sites) and careful. Gemini stated
+   myths as hard rules ("Cajun never uses tomatoes", "Cuban and Puerto Rican food has zero heat"), seemed to invent
+   history (sweet grits "to mask bitter corn rations"), and its Africa run stopped after the intro. Neither gave
+   the JSON or the fact-check, so the prompts were tightened (v2: JSON and fact-check required, full URLs, "usually"
+   unless a rule is firm). A follow-up message in ChatGPT can't help: the chat can't see its deep research run.
+   **Next:** Bryan reruns each continent with the v2 prompt in ChatGPT deep research and brings the answers to a
+   session, one continent at a time. For each: check the JSON parses and every node has all 13 fields; spot-check
+   claims and sources (Gemini's specifics, like Oaxacan chiles, Yucatecan recados and the two moquecas, are worth
+   checking against ChatGPT's); then turn it into ChefBot entries in house style. Then design the UI around real
+   entries (tiles vs. a world map with color bands; see the plan).
 
 ## Run, test, verify
 
