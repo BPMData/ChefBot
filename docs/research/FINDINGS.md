@@ -46,21 +46,19 @@ Pasting the prompt from a phone can cut it off at the SCOPE section; copy it fro
 - **Coconut:** per current FDA guidance it is no longer a major tree-nut allergen. The app's allergen rule already
   says so.
 
-## Conflicts with Bryan's calls (decide before importing)
+## Conflicts with Bryan's calls (all decided 2026-11-09)
 
-1. **American flavors:** the research marks cinnamon and vanilla as sweet-only and Old Bay as Chesapeake-specific,
-   not national. Bryan's call (2026-11-08) was to keep all three in American savory (he wants them usable
-   beyond holiday baking). In the tree, `us_any` (burgers, barbecue, fast food: the export image) replaces
-   "American"; decide where cinnamon, vanilla and Old Bay go.
+1. **American flavors: decided, keep them.** The research marks cinnamon and vanilla as sweet-only and Old Bay as
+   Chesapeake-specific. Bryan keeps all three as savory flavors of `us_any` (which replaces "American").
 2. **Filé powder: decided, it's out** (Bryan, 2026-11-09). Drop it from `us_cajun` and `us_creole` at import. His
    thickeners instead, already in the app as `prompts.LOUISIANA_THICKENING`: okra; a dark roux plus a reduced,
    collagen-rich homemade stock; or xanthan gum weighed in grams (about 1 to 3 g per liter of liquid).
 
 3. **Mastiha:** Bryan moved it to dessert-only for Greek. The research says it's mainly sweets, breads and liqueurs
    but has savory uses on Chios. Keeping it in `sweet_only` with that note is consistent with both.
-4. **"Moroccan & North African":** the research argues the node should be Moroccan only (harissa is Tunisian; the
-   Maghreb's cuisines aren't interchangeable) and labeled it "Moroccan". Bryan's taxonomy named it "Moroccan &
-   North African"; the label "Moroccan" is the research's suggestion, Bryan to confirm.
+4. **"Moroccan & North African": decided, it's "Moroccan"** (the research's advice: harissa is Tunisian and the
+   Maghreb's cuisines aren't interchangeable). **Tunisian** was added as its own Africa node for harissa
+   (prompt: `docs/research/tunisian.md`; result goes to `results/tunisian.json`). Algerian may follow.
 
 ## Corrections to the app's current entries
 

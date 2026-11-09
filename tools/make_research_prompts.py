@@ -36,6 +36,11 @@ CONTINENTS = {   # slug: (taxonomy heading, "Any" rule, the app's current cuisin
     "near-east": ("Near & Middle East", '"Any" OPTIONS: none on this continent. Every node is a single cuisine.',
                   ["Turkish"]),
     "africa": ("Africa", '"Any" OPTIONS: none on this continent. Every node is a single cuisine.', []),
+    # One added node, researched on its own after the rest of Africa.
+    "tunisian": ("Africa", '"Any" OPTIONS: none. This is a single cuisine.', [],
+                 "- Africa, one new node: Tunisian. Moroccan, Egyptian, Ethiopian, Nigerian and Senegalese are "
+                 "already researched; say clearly how Tunisian cooking differs from Moroccan and Algerian cooking, "
+                 "and give harissa its full due (what goes in it, regional versions, how it is used)."),
 }
 
 
@@ -60,8 +65,8 @@ def main():
     lines = [re.sub(r"\s*\n\s*", " ", part).strip() for part in re.split(r"\n(?=- \*\*)", taxonomy)]
     out_dir = ROOT / "docs/research"
     out_dir.mkdir(exist_ok=True)
-    for slug, (heading, any_rule, labels) in CONTINENTS.items():
-        part = next(line for line in lines if line.startswith(f"- **{heading}:**"))
+    for slug, (heading, any_rule, labels, *scope) in CONTINENTS.items():
+        part = scope[0] if scope else next(line for line in lines if line.startswith(f"- **{heading}:**"))
         part = part.replace("**", "")
         body = (template.replace("[TAXONOMY]", part).replace("[ANY RULE]", any_rule)
                 .replace("[EXISTING]", existing_entries(labels)))

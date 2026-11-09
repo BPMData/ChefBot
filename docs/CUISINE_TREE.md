@@ -37,7 +37,8 @@ The data for it comes from deep research runs (prompt below), not from a model's
 - **Europe:** Italy (Northern, Southern & Sicilian, Any); French; Spanish; Greek; Central European (Germany,
   Austria, Czechia, Hungary, Poland); Russian.
 - **Near & Middle East:** Palestinian & Levantine; Persian; Turkish.
-- **Africa:** Moroccan & North African; Ethiopian; Egyptian; Nigerian; Senegalese.
+- **Africa:** Moroccan; Tunisian; Ethiopian; Egyptian; Nigerian; Senegalese. ("Moroccan & North African" became
+  Moroccan on the research's advice, and Tunisian was added for harissa; Algerian may follow.)
 
 ## Next steps
 

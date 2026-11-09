@@ -11,7 +11,7 @@ REQUIRED OUTPUT (the app imports it, so do not skip or reshape it):
    every node. No emojis.
 
 SCOPE: the nodes in this tree (branches and leaves).
-- Africa: Moroccan & North African; Ethiopian; Egyptian; Nigerian; Senegalese.
+- Africa: Moroccan; Tunisian; Ethiopian; Egyptian; Nigerian; Senegalese. ("Moroccan & North African" became Moroccan on the research's advice, and Tunisian was added for harissa; Algerian may follow.)
 
 "Any" OPTIONS: none on this continent. Every node is a single cuisine.
 

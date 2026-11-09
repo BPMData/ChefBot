@@ -27,7 +27,8 @@ You don't need `HANDOFF.md` beyond its "Run, test, verify" section, and you don'
   chip that opens a bottom sheet (`_cuisine_info`), Surprise me, and the recent-recipes list, which shows each
   saved chat's cuisine from `conversation.settings["cuisine"]` (a label string).
 - Research data for all five continents: `docs/research/results/americas.json`, `asia.json`, `europe.json`,
-  `near_east.json` and `africa.json` (65 nodes). Ignore `near_east_run2.json` (a duplicate run; FINDINGS lists
+  `near_east.json` and `africa.json` (65 nodes), plus `tunisian.json` (one more Africa node) if it exists by the
+  time you start; if it doesn't, the build script must pick it up when it's added later. Ignore `near_east_run2.json` (a duplicate run; FINDINGS lists
   the few extras from it worth merging).
 
 ## What to build
@@ -85,9 +86,9 @@ mechanical part. It must be rerunnable (the research files may be refreshed late
     research data.
   - Copy each `CUISINE_TIPS` entry in `prompts.py` into the matching node's `tips` (Cajun, Creole, Italian,
     Korean), so no current behavior is lost.
-  - Leave two open questions alone (Bryan decides later; see "Conflicts" in FINDINGS): where cinnamon, vanilla
-    and Old Bay go (use `us_any` as the research has it), and the Moroccan node's label (use the research's
-    "Moroccan"). Don't merge anything from `near_east_run2.json`.
+  - `us_any`: add cinnamon, vanilla and Old Bay to `flavors` (Bryan's call: savory latitude for all three).
+  - `moroccan_north_african`: keep the research's label "Moroccan".
+  - Don't merge anything from `near_east_run2.json`.
 
 - Every list field in the research is already a list of plain strings (`tools/check_research.py` normalized
   them); signature ingredients read "item (substitute: ...)".
