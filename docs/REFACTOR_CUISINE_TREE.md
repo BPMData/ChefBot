@@ -90,6 +90,8 @@ mechanical part. It must be rerunnable (the research files may be refreshed late
   - `us_any`: add cinnamon, vanilla and Old Bay to `flavors` (Bryan's call: savory latitude for all three).
   - `moroccan_north_african`: keep the research's label "Moroccan".
   - Don't merge anything from `near_east_run2.json`.
+  - No brand names in `tips` (Bryan's rule): `additions.json` cites specific products (Le Phare du Cap Bon, Shan).
+    Keep the gram figures as "a typical packaged mix" and drop the brand.
 
 - Every list field in the research is already a list of plain strings (`tools/check_research.py` normalized
   them); signature ingredients read "item (substitute: ...)".
