@@ -20,6 +20,12 @@ more than cost.
 
 ## Pinned (do these next, in this order)
 
+**Raise with Bryan at the start of the next ChefBot implementation session** (he asked to be reminded):
+**pantry defaults**, a setting ("Use cuisine pantry defaults") so a photo of only new groceries still gets a
+sensible recipe, assuming the spices and staples a cook of the chosen cuisine usually has. Details and caveats in
+`docs/research/FINDINGS.md` ("About the added-cuisines run"). Not started; drop this note once he decides.
+
+
 1. **Mail relay: deployed (2026-10-28)** as Bryan's own Apps Script web app (`tools/mail-relay.gs`, setup in
    `docs/EMAIL.md`; account and status in `HANDOFF.local.md`). Direct SMTP with an app password fails
    (`SMTPServerDisconnected` during sign-in); the relay is the way.
@@ -229,6 +235,18 @@ cd ~/Documents/Github/ChefBot
 # output: build/apk/chefbot-arm64-v8a.apk (66 MB, for any modern phone),
 #         chefbot-armeabi-v7a.apk (old 32-bit phones), chefbot-x86_64.apk (emulators)
 .venv/bin/flet debug android      # run on a USB-connected phone (developer mode + USB debugging); `--show-devices`
+```
+
+**A second, beta copy beside the normal app** (added 2026-11-09, for trying a branch such as AI Studio's cuisine
+tree): build that branch with its own package id and name. Android treats it as a different app, with its own
+saved recipes and settings (enter the API key again in its Settings); the normal ChefBot is untouched. Not yet
+tried on the phone.
+
+```bash
+git checkout <branch> && rm -rf build
+.venv/bin/flet build apk --yes --bundle-id io.github.bpmdata.chefbotbeta --product "ChefBot Beta"
+~/Android/sdk/platform-tools/adb install build/apk/chefbot-arm64-v8a.apk
+git checkout main                  # and rebuild without the flags for the normal app
 ```
 
 - Config is in `pyproject.toml`: `[tool.flet]` org `io.github.bpmdata` (package `io.github.bpmdata.chefbot`),
