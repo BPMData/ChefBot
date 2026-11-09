@@ -411,3 +411,7 @@ The next `flet build apk` downloads it all again.
      guarantee; say so in the UI.
   3. Lower priority: unit conversion/scaling with real densities (good for baking), substitutes.
   Free tier is ~150 points/day (a nutrition call is ~1-2), which is fine for one user but not a shared class key.
+- **Kimi K3.1 Pro: keep it, fix it (decided 2026-11-09, not started).** Rebase PR #11 onto `main` (it conflicts
+  now) and merge it: Moonshot only accepts temperature 1 for this model, so picking Kimi errors until then. Also
+  lock Kimi to **medium** thinking: hide or disable the low/high choice when Kimi is selected. Medium scored best
+  (6.6 vs 5.8 for high) and is far faster (51 s vs 92 s). Kept because its score was the top one, within the tie.
