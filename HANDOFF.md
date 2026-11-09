@@ -63,14 +63,10 @@ more than cost.
    (about 50 cuisines), built from deep research rather than model memory. Plan, decisions and taxonomy:
    `docs/CUISINE_TREE.md`. Ready-to-paste prompts: `docs/research/<continent>.md` (rebuild with
    `tools/make_research_prompts.py`).
-   **Where it stands (2026-11-08):** research is done for the **Americas and Asia** (ChatGPT deep research, v2
-   prompt); Europe, Near & Middle East and Africa are still to run. Results and everything learned so far, including
-   import quirks, conflicts with Bryan's calls and corrections to the app's current entries:
-   `docs/research/FINDINGS.md` (read it first; the raw reports in `docs/research/results/raw/` are only for
-   checking a specific claim). Data: `docs/research/results/<continent>.json`.
-   **Next:** when the last three reports arrive, check each with `tools/check_research.py` (it saves them to
-   `results/`), read its fact-check and add the findings to `FINDINGS.md`. Then turn the data into ChefBot entries
-   in house style and design the UI around them (tiles vs. a world map with color bands; see the plan).
+   **Where it stands (2026-11-09):** research is **complete for all five continents** (65 nodes, ChatGPT deep
+   research, v2 prompt). Everything learned, including import quirks, open questions for Bryan and corrections to
+   the app's current entries: `docs/research/FINDINGS.md` (read it first; the raw reports in
+   `docs/research/results/raw/` are only for checking a specific claim). Data: `docs/research/results/*.json`.
    **Build plan (2026-11-09):** Bryan will have Google AI Studio attempt the refactor from the self-contained brief
    `docs/REFACTOR_CUISINE_TREE.md` (data under `src/chefbot/cuisines/`, a loader, the drill-down picker, recent
    picks, legacy ids for saved chats, tests). Claude's job afterwards: review its pull request, fix its mistakes,

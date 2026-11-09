@@ -17,6 +17,22 @@ MAY_BE_EMPTY = {"sweet_only", "signature_ingredients", "pantry_assumed"}
 RESULTS = Path(__file__).resolve().parent.parent / "docs/research/results"
 
 
+def normalize(node: dict):
+    """One shape for every report: list fields are lists of plain strings."""
+    for field in FIELDS[4:12]:
+        value = node.get(field)
+        if isinstance(value, str):
+            value = [value] if value else []
+        items = []
+        for item in value or []:
+            if isinstance(item, dict) and "ingredient" in item:
+                item = f"{item['ingredient']} (substitute: {item.get('substitute', 'none')})"
+            elif isinstance(item, dict):
+                item = ". ".join(f"{k.replace('_', ' ')}: {v}" for k, v in item.items())
+            items.append(item)
+        node[field] = items
+
+
 def main(continent: str, report: str):
     text = Path(report).read_text()
     found = re.search(r"```json\n(.*?)(\n```|\Z)", text, re.S)
@@ -40,8 +56,7 @@ def main(continent: str, report: str):
         problems += bool(flag)
         print(f"{node.get('id', '?'):32} flavors={len(node.get('flavors', [])):2} sources={urls} url "
               f"{'; '.join(flag)}")
-        if isinstance(node.get("pitfalls"), str):
-            node["pitfalls"] = [node["pitfalls"]]
+        normalize(node)
     words = json.dumps(data).lower()
     print(f"\n{len(data)} nodes, {problems} with problems; 'never' x{words.count('never')}, "
           f"'always' x{words.count('always')} (check these aren't false hard rules)")

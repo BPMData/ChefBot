@@ -26,15 +26,16 @@ You don't need `HANDOFF.md` beyond its "Run, test, verify" section, and you don'
 - `main.py`: `CUISINE_NAMES` (label -> chip text), one row of chips on the home screen, an info icon on the picked
   chip that opens a bottom sheet (`_cuisine_info`), Surprise me, and the recent-recipes list, which shows each
   saved chat's cuisine from `conversation.settings["cuisine"]` (a label string).
-- Research data: `docs/research/results/americas.json` and `asia.json`. Europe, Near & Middle East and Africa are
-  not researched yet.
+- Research data for all five continents: `docs/research/results/americas.json`, `asia.json`, `europe.json`,
+  `near_east.json` and `africa.json` (65 nodes). Ignore `near_east_run2.json` (a duplicate run; FINDINGS lists
+  the few extras from it worth merging).
 
 ## What to build
 
 ### 1. Cuisine data the app ships
 
 Create `src/chefbot/cuisines/` with one JSON file per continent (`americas.json`, `asia.json`, `europe.json`,
-`near_east.json`) and a loader module `src/chefbot/cuisines.py`. Everything under `src/` is packaged into the
+`near_east.json`, `africa.json`) and a loader module `src/chefbot/cuisines.py`. Everything under `src/` is packaged into the
 Android app, so data files belong there, not in `docs/`.
 
 Node schema (every node, every file):
@@ -66,10 +67,13 @@ Node schema (every node, every file):
 - `prompt_name`: how the prompt names the cuisine ("Cajun", "Sichuan (Chinese)", "Kanto (Japanese)").
 - Ids: keep the research ids exactly (`us_cajun`, `mx_yucatan`, `sichuan`, `north_india`, `china_any`...).
 
-Build the Americas and Asia files from the research JSON with a script, `tools/build_cuisine_data.py`, that does
-the mechanical part. It must be rerunnable when the other continents arrive:
+Build all five files from the research JSON with a script, `tools/build_cuisine_data.py`, that does the
+mechanical part. It must be rerunnable (the research files may be refreshed later):
 
-- Drop organizational nodes (`the_americas`, `asia`, `eight_great_cuisines`); add continent nodes yourself.
+- Drop organizational nodes (`the_americas`, `asia`, `europe`, `eight_great_cuisines`); add the five continent
+  nodes yourself (`americas`, `asia`, `europe`, `near_east`, `africa`, labeled "The Americas", "Asia", "Europe",
+  "Near & Middle East", "Africa"). Near & Middle East and Africa have no country level: their cuisines are the
+  continent's direct children.
 - Normalize `flavors` to the format above; turn `pitfalls` into short items; keep `about`, `subtitle`, `label`.
 - Map `signature_ingredients` to the "item (substitute: ...)" form.
 - `tips`: from the research `shortcuts`, keeping gram amounts and the salt-from-sodium rule.
@@ -81,11 +85,15 @@ the mechanical part. It must be rerunnable when the other continents arrive:
     research data.
   - Copy each `CUISINE_TIPS` entry in `prompts.py` into the matching node's `tips` (Cajun, Creole, Italian,
     Korean), so no current behavior is lost.
+  - Leave two open questions alone (Bryan decides later; see "Conflicts" in FINDINGS): where cinnamon, vanilla
+    and Old Bay go (use `us_any` as the research has it), and the Moroccan node's label (use the research's
+    "Moroccan"). Don't merge anything from `near_east_run2.json`.
 
-Europe and the Near & Middle East have no research yet. So the current cuisines don't disappear, hand-write
-interim files from today's `prompts.py` entries: `french`, `greek`, `spanish`, `italy_any` (under an `italy`
-country node with only the Any child for now), and `turkish`. Mark each with `"interim": true`. Leave Africa out
-until its research exists: a continent with no data is hidden.
+- Every list field in the research is already a list of plain strings (`tools/check_research.py` normalized
+  them); signature ingredients read "item (substitute: ...)".
+- Country nodes with sub-styles (`united_states`, `mexico`, `caribbean`, `china`, `japan`, `india`, `italy`) are
+  branches: keep their `about` and `subtitle` for the browse list, and list their children in this order: the
+  `*_any` child first, then the rest as the research orders them.
 
 ### 2. Loader and prompt
 
@@ -101,7 +109,7 @@ until its research exists: a continent with no data is hidden.
   Hong Kong -> `cantonese`; Chinese (Sichuan/Shandong/Jiangsu) -> `sichuan`/`shandong`/`jiangsu`; Japanese
   (Kansai/Kanto) -> `kansai`/`kanto`; North Indian -> `north_india`; South Indian -> `south_india`; Korean,
   Thai, Vietnamese, Peruvian -> same names lowercased; Mexican -> `mx_any`; Italian -> `italy_any`; French,
-  Greek, Spanish, Turkish -> interim ids. "Nothing in particular" stays the no-cuisine choice.
+  Greek, Spanish, Turkish -> `french`, `greek`, `spanish`, `turkish`. "Nothing in particular" stays the no-cuisine choice.
 
 `prompts.system_prompt(audience, cuisine, dessert, restrictions)`: `cuisine` becomes a node id (or the no-cuisine
 value). Keep every current behavior; read it from the node instead of the old dicts:
