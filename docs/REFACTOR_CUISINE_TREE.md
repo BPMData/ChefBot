@@ -27,8 +27,8 @@ You don't need `HANDOFF.md` beyond its "Run, test, verify" section, and you don'
   chip that opens a bottom sheet (`_cuisine_info`), Surprise me, and the recent-recipes list, which shows each
   saved chat's cuisine from `conversation.settings["cuisine"]` (a label string).
 - Research data for all five continents: `docs/research/results/americas.json`, `asia.json`, `europe.json`,
-  `near_east.json` and `africa.json` (65 nodes), plus `tunisian.json` (one more Africa node) if it exists by the
-  time you start; if it doesn't, the build script must pick it up when it's added later. Ignore `near_east_run2.json` (a duplicate run; FINDINGS lists
+  `near_east.json` and `africa.json` (65 nodes), plus `tunisian.json` (one more Africa node) and `afghan_pakistani.json` (Asia) if they exist by the
+  time you start; if they don't, the build script must pick them up when they're added later. Ignore `near_east_run2.json` (a duplicate run; FINDINGS lists
   the few extras from it worth merging).
 
 ## What to build

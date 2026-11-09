@@ -41,6 +41,12 @@ CONTINENTS = {   # slug: (taxonomy heading, "Any" rule, the app's current cuisin
                  "- Africa, one new node: Tunisian. Moroccan, Egyptian, Ethiopian, Nigerian and Senegalese are "
                  "already researched; say clearly how Tunisian cooking differs from Moroccan and Algerian cooking, "
                  "and give harissa its full due (what goes in it, regional versions, how it is used)."),
+    # Two added nodes, researched together after the rest of Asia.
+    "afghan-pakistani": ("Asia", '"Any" OPTIONS: none. Each node is a single cuisine.', [],
+                         "- Asia, two new nodes: Afghan; Pakistani. North Indian and Persian are already researched. "
+                         "Say clearly how each differs from those and from each other, describe what they share "
+                         "(especially Pashtun cooking on both sides of the border), and say in the summary whether "
+                         "a recipe app should treat them as one combined node or two, and why."),
 }
 
 

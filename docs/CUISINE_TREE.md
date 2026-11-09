@@ -33,7 +33,8 @@ The data for it comes from deep research runs (prompt below), not from a model's
   Peruvian; Argentinian.
 - **Asia:** China, the Eight Great Cuisines (Sichuan, Hunan, Cantonese, Shandong, Jiangsu, Zhejiang, Fujian,
   Anhui, Any); Japan (Kanto, Kansai, Any); India (North, South, Any); Korean; Thai; Vietnamese; Filipino;
-  Indonesian; Malaysian & Singaporean.
+  Indonesian; Malaysian & Singaporean; Afghan; Pakistani (added 2026-11-09; one node or two depending on what
+  the research recommends).
 - **Europe:** Italy (Northern, Southern & Sicilian, Any); French; Spanish; Greek; Central European (Germany,
   Austria, Czechia, Hungary, Poland); Russian.
 - **Near & Middle East:** Palestinian & Levantine; Persian; Turkish.
