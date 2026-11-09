@@ -175,7 +175,7 @@ def test_signature_ingredients_only_if_the_user_has_them():
 
 def test_cuisine_lists_have_no_shortcuts_or_duplicates():
     cajun = prompts.system_prompt(prompts.DEFAULT_AUDIENCE, "American (Cajun)")
-    assert "filé" not in cajun.lower()
+    assert "filé" not in prompts.CUISINES["American (Cajun)"][1].lower()
     assert "never a store-bought blend" in cajun
     for label, (name, flavors) in prompts.CUISINES.items():
         if name:
@@ -184,3 +184,9 @@ def test_cuisine_lists_have_no_shortcuts_or_duplicates():
 
 def test_every_cuisine_has_an_explainer():
     assert set(prompts.CUISINE_ABOUT) == set(prompts.CUISINES) - {prompts.NO_CUISINE}
+
+
+def test_louisiana_recipes_never_suggest_file_and_offer_thickeners():
+    for label in ("American (Cajun)", "American (Creole)"):
+        p = prompts.system_prompt(prompts.DEFAULT_AUDIENCE, label)
+        assert "Never use or suggest filé powder" in p and "xanthan gum weighed in grams" in p

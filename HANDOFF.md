@@ -20,6 +20,12 @@ more than cost.
 
 ## Pinned (do these next, in this order)
 
+**Raise with Bryan at the start of the next ChefBot implementation session** (he asked to be reminded):
+**pantry defaults**, a setting ("Use cuisine pantry defaults") so a photo of only new groceries still gets a
+sensible recipe, assuming the spices and staples a cook of the chosen cuisine usually has. Details and caveats in
+`docs/research/FINDINGS.md` ("About the added-cuisines run"). Not started; drop this note once he decides.
+
+
 1. **Mail relay: deployed (2026-10-28)** as Bryan's own Apps Script web app (`tools/mail-relay.gs`, setup in
    `docs/EMAIL.md`; account and status in `HANDOFF.local.md`). Direct SMTP with an app password fails
    (`SMTPServerDisconnected` during sign-in); the relay is the way.
@@ -63,17 +69,17 @@ more than cost.
    (about 50 cuisines), built from deep research rather than model memory. Plan, decisions and taxonomy:
    `docs/CUISINE_TREE.md`. Ready-to-paste prompts: `docs/research/<continent>.md` (rebuild with
    `tools/make_research_prompts.py`).
-   **Where it stands (2026-11-08):** Bryan tried ChatGPT and Gemini deep research on the Americas and Africa.
-   ChatGPT won: well sourced (UNESCO, Smithsonian, Library of Congress, government sites) and careful. Gemini stated
-   myths as hard rules ("Cajun never uses tomatoes", "Cuban and Puerto Rican food has zero heat"), seemed to invent
-   history (sweet grits "to mask bitter corn rations"), and its Africa run stopped after the intro. Neither gave
-   the JSON or the fact-check, so the prompts were tightened (v2: JSON and fact-check required, full URLs, "usually"
-   unless a rule is firm). A follow-up message in ChatGPT can't help: the chat can't see its deep research run.
-   **Next:** Bryan reruns each continent with the v2 prompt in ChatGPT deep research and brings the answers to a
-   session, one continent at a time. For each: check the JSON parses and every node has all 13 fields; spot-check
-   claims and sources (Gemini's specifics, like Oaxacan chiles, Yucatecan recados and the two moquecas, are worth
-   checking against ChatGPT's); then turn it into ChefBot entries in house style. Then design the UI around real
-   entries (tiles vs. a world map with color bands; see the plan).
+   **Where it stands (2026-11-09):** research is **complete for all five continents** (65 nodes, ChatGPT deep
+   research, v2 prompt). Everything learned, including import quirks, open questions for Bryan and corrections to
+   the app's current entries: `docs/research/FINDINGS.md` (read it first; the raw reports in
+   `docs/research/results/raw/` are only for checking a specific claim). Data: `docs/research/results/*.json`.
+   Added 2026-11-09: Tunisian and Algerian (Africa), Afghan and Pakistani (Asia), researched together and saved as
+   `docs/research/results/additions.json` (kept as two nodes, Afghan and Pakistani, per the research). That run
+   also raised an idea for Bryan: per-cuisine "pantry defaults" (see FINDINGS).
+   **Build plan (2026-11-09):** Bryan will have Google AI Studio attempt the refactor from the self-contained brief
+   `docs/REFACTOR_CUISINE_TREE.md` (data under `src/chefbot/cuisines/`, a loader, the drill-down picker, recent
+   picks, legacy ids for saved chats, tests). Claude's job afterwards: review its pull request, fix its mistakes,
+   then do the house-style pass on the entries.
 
 ## Run, test, verify
 
@@ -229,6 +235,18 @@ cd ~/Documents/Github/ChefBot
 # output: build/apk/chefbot-arm64-v8a.apk (66 MB, for any modern phone),
 #         chefbot-armeabi-v7a.apk (old 32-bit phones), chefbot-x86_64.apk (emulators)
 .venv/bin/flet debug android      # run on a USB-connected phone (developer mode + USB debugging); `--show-devices`
+```
+
+**A second, beta copy beside the normal app** (added 2026-11-09, for trying a branch such as AI Studio's cuisine
+tree): build that branch with its own package id and name. Android treats it as a different app, with its own
+saved recipes and settings (enter the API key again in its Settings); the normal ChefBot is untouched. Not yet
+tried on the phone.
+
+```bash
+git checkout <branch> && rm -rf build
+.venv/bin/flet build apk --yes --bundle-id io.github.bpmdata.chefbotbeta --product "ChefBot Beta"
+~/Android/sdk/platform-tools/adb install build/apk/chefbot-arm64-v8a.apk
+git checkout main                  # and rebuild without the flags for the normal app
 ```
 
 - Config is in `pyproject.toml`: `[tool.flet]` org `io.github.bpmdata` (package `io.github.bpmdata.chefbot`),

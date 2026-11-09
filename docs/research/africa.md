@@ -11,7 +11,7 @@ REQUIRED OUTPUT (the app imports it, so do not skip or reshape it):
    every node. No emojis.
 
 SCOPE: the nodes in this tree (branches and leaves).
-- Africa: Moroccan & North African; Ethiopian; Egyptian; Nigerian; Senegalese.
+- Africa: Moroccan; Tunisian; Algerian; Ethiopian; Egyptian; Nigerian; Senegalese. ("Moroccan & North African" became Moroccan on the research's advice; Tunisian, for harissa, and Algerian were added 2026-11-09.)
 
 "Any" OPTIONS: none on this continent. Every node is a single cuisine.
 
@@ -61,4 +61,4 @@ FOR EACH NODE, return:
 
 FACT-CHECK (required): mark each claim in these existing descriptions
 and flavor lists as correct, wrong, or disputed, with a source:
-(None: the app has no cuisines from this continent yet. Skip the fact-check.)
+(None: the app has no existing entries for these cuisines yet. Skip the fact-check.)

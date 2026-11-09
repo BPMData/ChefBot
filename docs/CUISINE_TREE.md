@@ -33,11 +33,13 @@ The data for it comes from deep research runs (prompt below), not from a model's
   Peruvian; Argentinian.
 - **Asia:** China, the Eight Great Cuisines (Sichuan, Hunan, Cantonese, Shandong, Jiangsu, Zhejiang, Fujian,
   Anhui, Any); Japan (Kanto, Kansai, Any); India (North, South, Any); Korean; Thai; Vietnamese; Filipino;
-  Indonesian; Malaysian & Singaporean.
+  Indonesian; Malaysian & Singaporean; Afghan; Pakistani (added 2026-11-09; one node or two depending on what
+  the research recommends).
 - **Europe:** Italy (Northern, Southern & Sicilian, Any); French; Spanish; Greek; Central European (Germany,
   Austria, Czechia, Hungary, Poland); Russian.
 - **Near & Middle East:** Palestinian & Levantine; Persian; Turkish.
-- **Africa:** Moroccan & North African; Ethiopian; Egyptian; Nigerian; Senegalese.
+- **Africa:** Moroccan; Tunisian; Algerian; Ethiopian; Egyptian; Nigerian; Senegalese. ("Moroccan & North
+  African" became Moroccan on the research's advice; Tunisian, for harissa, and Algerian were added 2026-11-09.)
 
 ## Next steps
 
@@ -47,6 +49,8 @@ The data for it comes from deep research runs (prompt below), not from a model's
 2. **House style (Claude, one continent per session):** bring an answer back to a session, uploaded as a file or
    pasted. Claude checks it, then turns it into ChefBot's entries in its house style.
 3. **The UI** once the first continent's data is in, so the tree is built around real entries.
+4. **The build:** `docs/REFACTOR_CUISINE_TREE.md` is a self-contained brief for a coding model (Google AI Studio
+   first, then Claude reviews and fixes).
 
 **UI idea to weigh then (Bryan):** the first level as a world map with each region shaded as one color band, tapped
 anywhere in its band. The alternative is five tiles, each with a small outline of its region. Bands keep the map

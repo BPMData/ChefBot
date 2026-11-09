@@ -36,12 +36,23 @@ CONTINENTS = {   # slug: (taxonomy heading, "Any" rule, the app's current cuisin
     "near-east": ("Near & Middle East", '"Any" OPTIONS: none on this continent. Every node is a single cuisine.',
                   ["Turkish"]),
     "africa": ("Africa", '"Any" OPTIONS: none on this continent. Every node is a single cuisine.', []),
+    # Cuisines added after the first five runs, researched together. Their ids are fixed so the build script
+    # can place them: tunisian and algerian go under Africa, afghan and pakistani under Asia.
+    "additions": ("Africa", '"Any" OPTIONS: none. Each node is a single cuisine.', [],
+                  "Four new nodes, each a single cuisine. Use exactly these ids: tunisian, algerian (both in "
+                  "Africa), afghan, pakistani (both in Asia). Moroccan, Egyptian, North Indian and Persian are "
+                  "already researched. Say clearly how Tunisian and Algerian differ from each other and from "
+                  "Moroccan cooking, and give harissa its full due (what goes in it, regional versions, how it is "
+                  "used). Say how Afghan and Pakistani differ from North Indian, Persian and each other, describe "
+                  "what they share (especially Pashtun cooking on both sides of the border), and say in the "
+                  "summary whether a recipe app should treat Afghan and Pakistani as one combined node or two, "
+                  "and why."),
 }
 
 
 def existing_entries(labels: list[str]) -> str:
     if not labels:
-        return "(None: the app has no cuisines from this continent yet. Skip the fact-check.)"
+        return "(None: the app has no existing entries for these cuisines yet. Skip the fact-check.)"
     out = []
     for label in labels:
         _, flavors = prompts.CUISINES[label]
@@ -60,8 +71,8 @@ def main():
     lines = [re.sub(r"\s*\n\s*", " ", part).strip() for part in re.split(r"\n(?=- \*\*)", taxonomy)]
     out_dir = ROOT / "docs/research"
     out_dir.mkdir(exist_ok=True)
-    for slug, (heading, any_rule, labels) in CONTINENTS.items():
-        part = next(line for line in lines if line.startswith(f"- **{heading}:**"))
+    for slug, (heading, any_rule, labels, *scope) in CONTINENTS.items():
+        part = scope[0] if scope else next(line for line in lines if line.startswith(f"- **{heading}:**"))
         part = part.replace("**", "")
         body = (template.replace("[TAXONOMY]", part).replace("[ANY RULE]", any_rule)
                 .replace("[EXISTING]", existing_entries(labels)))

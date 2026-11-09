@@ -11,7 +11,7 @@ REQUIRED OUTPUT (the app imports it, so do not skip or reshape it):
    every node. No emojis.
 
 SCOPE: the nodes in this tree (branches and leaves).
-- Asia: China, the Eight Great Cuisines (Sichuan, Hunan, Cantonese, Shandong, Jiangsu, Zhejiang, Fujian, Anhui, Any); Japan (Kanto, Kansai, Any); India (North, South, Any); Korean; Thai; Vietnamese; Filipino; Indonesian; Malaysian & Singaporean.
+- Asia: China, the Eight Great Cuisines (Sichuan, Hunan, Cantonese, Shandong, Jiangsu, Zhejiang, Fujian, Anhui, Any); Japan (Kanto, Kansai, Any); India (North, South, Any); Korean; Thai; Vietnamese; Filipino; Indonesian; Malaysian & Singaporean; Afghan; Pakistani (added 2026-11-09; one node or two depending on what the research recommends).
 
 "Any" OPTIONS: China, Japan and India each have an "Any" option; no other node does. "Any" means the internationally recognized version of that country's food: what people outside the country think of when they think of it. Research it as a node of its own. Say where that outside view is a cliché, a stereotype, or an export version that differs from home cooking, but describe the outside view itself accurately.
 
