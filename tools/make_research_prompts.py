@@ -46,7 +46,7 @@ CONTINENTS = {   # slug: (taxonomy heading, "Any" rule, the app's current cuisin
 
 def existing_entries(labels: list[str]) -> str:
     if not labels:
-        return "(None: the app has no cuisines from this continent yet. Skip the fact-check.)"
+        return "(None: the app has no existing entries for these cuisines yet. Skip the fact-check.)"
     out = []
     for label in labels:
         _, flavors = prompts.CUISINES[label]

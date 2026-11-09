@@ -61,4 +61,4 @@ FOR EACH NODE, return:
 
 FACT-CHECK (required): mark each claim in these existing descriptions
 and flavor lists as correct, wrong, or disputed, with a source:
-(None: the app has no cuisines from this continent yet. Skip the fact-check.)
+(None: the app has no existing entries for these cuisines yet. Skip the fact-check.)
