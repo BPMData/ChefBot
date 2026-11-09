@@ -412,3 +412,16 @@ The next `flet build apk` downloads it all again.
 - Auto-generate the dish picture after the first recipe (setting).
 - README screenshots; a GitHub description.
 - Old test conversations show raw `**Ingredients:**` in the first bubble (pre-redesign data); harmless.
+- **Spoonacular integration (idea, 2026-11-09, not started).** Use it only for hard data the model guesses at,
+  never for recipe search or meal planning (the chat already does those). It's optional: with no key, hide the
+  extras. The key is handled like the OpenRouter one (Settings, env var for dev, never committed).
+  1. Nutrition panel: a "Nutrition" button on a finished recipe that sends the ingredient list to Spoonacular's
+     nutrition analysis and shows a facts panel. Do this first. Test it offline with a recorded response.
+  2. Dietary/allergen check: Spoonacular is an independent check on the model's output. Parse the recipe's
+     ingredients and flag anything that conflicts with a stated restriction or allergen (e.g. "nut-free" but
+     the recipe has almond flour, "vegetarian" but it uses fish sauce or gelatin). This could run in the app as
+     a warning and in tests as a regression check. Caveat: Spoonacular's allergen/diet tagging is ingredient-
+     based and imperfect (cross-contamination, brand-specific ingredients), so it's a second check, not a
+     guarantee; say so in the UI.
+  3. Lower priority: unit conversion/scaling with real densities (good for baking), substitutes.
+  Free tier is ~150 points/day (a nutrition call is ~1-2), which is fine for one user but not a shared class key.
