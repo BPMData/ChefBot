@@ -167,18 +167,24 @@ SIGNATURE_INGREDIENTS: dict[str, str] = {
     "Korean": "perilla leaves (kkaennip, 깻잎)",
 }
 
+# Bryan's rule: no filé. These are the thickeners he uses instead.
+LOUISIANA_THICKENING = (
+    "Never use or suggest filé powder. When a dish needs body (gumbo, étouffée), thicken it with okra, with a dark "
+    "roux plus a reduced, collagen-rich homemade stock, or with xanthan gum weighed in grams (about 1 to 3 g per "
+    "liter of liquid, blended in).")
+
 # Extra lines for the Tips section at the end of a recipe.
 CUISINE_TIPS: dict[str, str] = {
     "American (Cajun)": (
         "Use the separate spices in the recipe itself, never a store-bought blend. Then add a tip for cooks short "
         "on time: most Cajun seasoning is paprika, cayenne, garlic, onion, black pepper, oregano and thyme plus a "
         "lot of salt, so say how many grams of blend would replace the spices in this recipe, and to cut the "
-        "added salt if they use it."),
+        "added salt if they use it. " + LOUISIANA_THICKENING),
     "American (Creole)": (
         "Use the separate spices in the recipe itself, never a store-bought blend. Then add a tip for cooks short "
         "on time: most Creole seasoning is paprika, garlic, onion, cayenne, black and white pepper, oregano, thyme "
         "and basil plus a lot of salt, so say how many grams of blend would replace the spices in this recipe, "
-        "and to cut the added salt if they use it."),
+        "and to cut the added salt if they use it. " + LOUISIANA_THICKENING),
     "Italian": (
         "If the recipe uses anchovies, add a tip that anchovy-only fish sauce works as a substitute (check the "
         "label: just anchovies and salt), with the amount."),

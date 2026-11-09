@@ -43,8 +43,9 @@ Pasting the prompt from a phone can cut it off at the SCOPE section; copy it fro
    not national. Bryan's call (2026-11-08) was to keep all three in American savory (he wants them usable
    beyond holiday baking). In the tree, `us_any` (burgers, barbecue, fast food: the export image) replaces
    "American"; decide where cinnamon, vanilla and Old Bay go.
-2. **Filé powder:** Bryan removed it from Cajun; the research lists it in `us_cajun` (flavors and signature
-   ingredients) and `us_creole`. Drop it at import unless Bryan changes his mind.
+2. **Filé powder: decided, it's out** (Bryan, 2026-11-09). Drop it from `us_cajun` and `us_creole` at import. His
+   thickeners instead, already in the app as `prompts.LOUISIANA_THICKENING`: okra; a dark roux plus a reduced,
+   collagen-rich homemade stock; or xanthan gum weighed in grams (about 1 to 3 g per liter of liquid).
 
 ## Corrections to the app's current entries
 

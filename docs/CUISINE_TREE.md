@@ -47,6 +47,8 @@ The data for it comes from deep research runs (prompt below), not from a model's
 2. **House style (Claude, one continent per session):** bring an answer back to a session, uploaded as a file or
    pasted. Claude checks it, then turns it into ChefBot's entries in its house style.
 3. **The UI** once the first continent's data is in, so the tree is built around real entries.
+4. **The build:** `docs/REFACTOR_CUISINE_TREE.md` is a self-contained brief for a coding model (Google AI Studio
+   first, then Claude reviews and fixes).
 
 **UI idea to weigh then (Bryan):** the first level as a world map with each region shaded as one color band, tapped
 anywhere in its band. The alternative is five tiles, each with a small outline of its region. Bands keep the map

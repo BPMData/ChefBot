@@ -71,6 +71,10 @@ more than cost.
    **Next:** when the last three reports arrive, check each with `tools/check_research.py` (it saves them to
    `results/`), read its fact-check and add the findings to `FINDINGS.md`. Then turn the data into ChefBot entries
    in house style and design the UI around them (tiles vs. a world map with color bands; see the plan).
+   **Build plan (2026-11-09):** Bryan will have Google AI Studio attempt the refactor from the self-contained brief
+   `docs/REFACTOR_CUISINE_TREE.md` (data under `src/chefbot/cuisines/`, a loader, the drill-down picker, recent
+   picks, legacy ids for saved chats, tests). Claude's job afterwards: review its pull request, fix its mistakes,
+   then do the house-style pass on the entries.
 
 ## Run, test, verify
 
