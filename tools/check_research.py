@@ -1,7 +1,7 @@
 """Checks a deep research report and saves its JSON to docs/research/results/<continent>.json.
 
 Usage, from the repo root:
-    .venv/bin/python tools/check_research.py <continent> <report.md>
+    .venv/bin/python tools/check_research.py <continent> <report.md or data.json>
 For example: tools/check_research.py europe ~/Downloads/deep-research-report.md
 The report is also copied to docs/research/results/raw/<continent>.md.
 """
@@ -35,10 +35,13 @@ def normalize(node: dict):
 
 def main(continent: str, report: str):
     text = Path(report).read_text()
-    found = re.search(r"```json\n(.*?)(\n```|\Z)", text, re.S)
-    if not found:
-        sys.exit("No ```json block in the report: rerun the research (the JSON is required).")
-    data = json.loads(found.group(1))
+    if report.endswith(".json"):          # the JSON on its own, without the narrative report
+        data = json.loads(text)
+    else:
+        found = re.search(r"```json\n(.*?)(\n```|\Z)", text, re.S)
+        if not found:
+            sys.exit("No ```json block in the report: rerun the research (the JSON is required).")
+        data = json.loads(found.group(1))
     problems = 0
     for node in data:
         missing = [f for f in FIELDS if f not in node]
@@ -62,7 +65,7 @@ def main(continent: str, report: str):
           f"'always' x{words.count('always')} (check these aren't false hard rules)")
     (RESULTS / f"{continent}.json").write_text(json.dumps(data, ensure_ascii=False, indent=1))
     (RESULTS / "raw").mkdir(parents=True, exist_ok=True)
-    raw = RESULTS / "raw" / f"{continent}.md"
+    raw = RESULTS / "raw" / f"{continent}{Path(report).suffix}"
     if Path(report).resolve() != raw.resolve():
         shutil.copyfile(report, raw)
     print(f"saved docs/research/results/{continent}.json and raw/{continent}.md")

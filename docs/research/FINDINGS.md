@@ -1,8 +1,9 @@
 # Cuisine research: findings so far
 
 Read this instead of the raw reports. Status (2026-11-09): **research complete for all five continents** (ChatGPT
-deep research, v2 prompts in `docs/research/<continent>.md`). 65 nodes: Americas 21, Asia 26, Europe 10, Near &
-Middle East 3, Africa 5.
+deep research, v2 prompts in `docs/research/<continent>.md`). 69 nodes: Americas 21, Asia 26, Europe 10, Near &
+Middle East 3, Africa 5, plus 4 added cuisines in `additions.json` (Tunisian and Algerian for Africa, Afghan and
+Pakistani for Asia).
 
 Files (add a new report with `python3 tools/check_research.py <continent> <report.md>`: it checks the JSON and
 fields, flags missing URLs and long labels, counts "never"/"always", and saves both files below):
@@ -172,6 +173,20 @@ Highlights for writing the entries; the JSON has the detail.
   koshari's parts are cooked separately.
 - **Nigerian:** start from the dish family and region (Yoruba, Igbo, Hausa...), not a national template; don't put
   egusi, crayfish, palm oil or iru in everything. *Yaji/suya spice usually contains peanut (kulikuli).
+- **Tunisian:** harissa (dried chile, garlic, salt, coriander; caraway common), tabil (coriander or a coriander-based
+  blend), olive oil, seafood, lablabi, brik; harissa is a cooking base as well as a condiment, but not compulsory
+  in every dish, and Tunisian tajine is a baked egg dish, not a stew. Couscous is shared Maghrebi heritage
+  (UNESCO, 2020).
+- **Algerian:** dersa (garlic-chile paste, variants), cinnamon-scented white sauces and chile-garlic red sauces, frik
+  (green wheat), rechta (steamed noodles); not just "one white sauce, one red sauce"; "sauce algérienne" (the
+  mayonnaise) isn't Algerian.
+- **Afghan:** palaw (parboil and steam), browned onions, mantu (usually steamed) vs ashak (usually boiled, gandana
+  filling), chakka and qurut; Persian and Central Asian ties, but not a branch of Persian; chile and turmeric do
+  appear. **Keep Afghan and Pakistani as two nodes** (the research's recommendation); they meet in Pashtun
+  borderland food like chapli kebab.
+- **Pakistani:** bhunai, tarka, dum, karahi styles (Peshawari, Lahori, Karachi), nihari, Sindhi biryani; shares a
+  lot with North India (Punjabi, Mughal), so differences are regional, not categorical. Kewra and rosewater also
+  go in biryani, not only sweets.
 - **Senegalese:** ceebu jën (UNESCO-listed, from Saint-Louis), yassa (lots of onion, mustard, often grilled) and mafé
   (peanut) are distinct; fermented nététou, guedj and yët give depth (fish and shellfish allergens); don't swap
   in soy or fish sauce.
@@ -179,6 +194,20 @@ Highlights for writing the entries; the JSON has the detail.
 **Near East run 2 extras worth merging into `near_east.json`:** Palestinian: Gaza's hotter, dill-forward cooking in
 `about`, and jameed, akkawi/nabulsi cheese and the fresh za'atar herb as signature ingredients. Persian: golpar
 and sumac as flavors, advieh as a variable blend. Turkish: kaymak and bulgur grades as signature ingredients.
+
+**About the added-cuisines run:** the first attempt was poor (Wikipedia-only sources, native names in the wrong
+languages, factual errors) and Bryan had to push ChatGPT through several corrections; the saved version is the
+corrected one, with good sources (UNESCO, Roden, Saberi, Ayubi, Usmani, Bouayed). Two things differ from the other
+continents:
+
+- **Brand names:** its shortcuts cite specific products (Le Phare du Cap Bon harissa, Shan biryani, karahi and
+  nihari mixes) with label-derived salt. Bryan doesn't want brands named in recipes: keep the numbers as
+  "a typical packaged mix contributes about X g salt per 10 g" and drop the brand.
+- **Pantry defaults (an idea for Bryan):** its `pantry_assumed` lists what a cook of that cuisine probably has on
+  hand (spices, oil, rice, couscous...) as soft defaults, so a user who photographs only new groceries still gets
+  a sensible recipe. The other continents mostly left `pantry_assumed` empty. If Bryan wants this, it would be a
+  setting ("Use cuisine pantry defaults"), the other continents' lists would need filling, and the prompt must say
+  the item was assumed, not seen, and honor dietary rules and "never use". Not part of the cuisine-tree build.
 
 ## Themes for writing the entries
 

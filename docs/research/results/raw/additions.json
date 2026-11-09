@@ -1,0 +1,347 @@
+[
+  {
+    "id": "tunisian",
+    "label": "Tunisian",
+    "subtitle": "Harissa, caraway, olive oil, couscous",
+    "about": "On the Mediterranean coast between Algeria and Libya, Tunisia stretches from Cap Bon and Tunis to the inland steppes and Sahara. Amazigh, Arab, Andalusi, Ottoman and Mediterranean contacts shaped dishes that often feature olive oil, chili, grain dishes and seafood, with substantial regional variation. Representative dishes include fish couscous, lablabi, brik and kamounia.",
+    "flavors": [
+      "Harissa chili paste (هريسة; harīsa)",
+      "Tabil spice mixture or ground coriander (تابل; tābil)",
+      "Caraway seed (كروية; karwiyā)",
+      "Cumin (كمون; kammūn)",
+      "Garlic (ثوم; thūm)",
+      "Hot red pepper (فلفل أحمر حار; filfil aḥmar ḥārr)",
+      "Black pepper (فلفل أكحل; filfil akḥal)",
+      "Flat-leaf parsley (معدنوس; maʿdnūs)",
+      "Fresh coriander/cilantro (قصبر; qusbūr)",
+      "Dried mint (نعناع يابس; naʿnāʿ yābis)"
+    ],
+    "sweet_only": [
+      "Orange blossom water (ماء الزهر; māʾ al-zahr), mainly sweets but with regional savory-sweet exceptions",
+      "Rose-geranium-flavored water (ماء العطرشية; māʾ al-ʿaṭrshiyya), mainly sweets and drinks"
+    ],
+    "signature_ingredients": [
+      {
+        "ingredient": "Malsouka thin pastry sheets for brik",
+        "substitute": "Plain spring-roll wrappers; crispness and thickness differ"
+      },
+      {
+        "ingredient": "Ripe red Baklouti-type peppers for homemade harissa",
+        "substitute": "Red Fresno chilies, with red bell pepper to moderate heat; not an exact flavor match"
+      },
+      {
+        "ingredient": "Dried powdered jute mallow (mloukhiya) for its namesake stew",
+        "substitute": "none; frozen molokhia or spinach produces a different texture and dish"
+      },
+      {
+        "ingredient": "Durum couscous for traditionally steamed couscous",
+        "substitute": "Plain supermarket couscous; adjust method because many boxes are presteamed"
+      }
+    ],
+    "pantry_assumed": [
+      "Harissa paste",
+      "Olive oil",
+      "Tomato paste",
+      "Caraway seeds or ground caraway",
+      "Ground coriander or tabil",
+      "Ground cumin",
+      "Garlic",
+      "Dry couscous",
+      "Black pepper",
+      "Salt"
+    ],
+    "techniques": [
+      "Grind or pound peppers, garlic, coriander and optional caraway into harissa; use as condiment or cooking base",
+      "Sweat or fry concentrated tomato and aromatics in olive oil for selected red stews and sauces",
+      "Steam couscous over broth, fluff it and sometimes moisten it with spiced cooking liquid",
+      "Fry filled malsouka pastry for brik, often with egg and sometimes tuna",
+      "Simmer chickpeas with garlic and cumin for lablabi, served over torn bread"
+    ],
+    "shortcuts": [
+      {
+        "name": "Le Phare du Cap Bon ready-made harissa",
+        "contains": "Red chili, garlic, coriander, caraway, salt; some packages also list citric acid",
+        "swap_rule": "Use 20 g prepared paste in place of 20 g homemade harissa as a starting point, then adjust heat and acidity. A label reporting 1.8 g salt/100 g contributes 0.36 g salt from 20 g; subtract at most 0.36 g from separately added salt, checking the actual package."
+      },
+      {
+        "name": "Pre-ground unsalted tabil or coriander-caraway blend",
+        "contains": "Usually coriander and caraway, sometimes garlic and dried chili; blends vary",
+        "swap_rule": "Replace 5 g freshly ground dry spice components with 5 g of a verified unsalted blend as an initial trial; salt added by an unsalted blend is 0 g. If salt is listed, calculate adjustment from that brand rather than assuming a percentage."
+      }
+    ],
+    "allergen_notes": "Wheat occurs in couscous, bread and brik wrappers; egg in many brik fillings and some pastries; fish (especially tuna) in brik, salads and sandwiches; shellfish in some coastal dishes; milk in butter, smen and certain cheeses; tree nuts in some festive couscous and sweets. Sesame or peanuts can occur in bakery goods or commercial products, but are not universal seasonings. Soy is not a defining traditional seasoning; check packaged sauce labels and shared equipment.",
+    "pitfalls": "Do not ban cumin from meat: kamounia may use it prominently. Harissa is not merely a table sauce, but it also is not compulsory in every dish; recipes and heat levels vary. Do not claim all Tunisian couscous is red or all Moroccan couscous pale. Tabil may mean ground coriander alone or a variable coriander-based spice mix. Do not equate hrous with a single standardized fermentation formula; regional details remain LOW CONFIDENCE. Pantry defaults are soft assumptions; do not assume rarer specialty ingredients are on hand or that harissa must be used in every dish.",
+    "sources": [
+      "https://ich.unesco.org/en/RL/harissa-knowledge-skills-and-culinary-and-social-practices-01710",
+      "https://www.gica.tn/en/?p=1093",
+      "https://app.ckbk.com/reference/newb37788c01s001ss003e002/tabil",
+      "https://1001tunisia.com/magazine-fr/recettes-fr/kamounia/",
+      "https://www.intermarche.com/produit/harissa/6194049100105",
+      "https://makhtoum98.tn/en/shop/hrouss/",
+      "https://ich.unesco.org/en/RL/knowledge-know-how-and-practices-pertaining-to-the-production-and-consumption-of-couscous-01602?RL=01602&lang=en",
+      "Claudia Roden, A New Book of Middle Eastern Food (1986)"
+    ]
+  },
+  {
+    "id": "algerian",
+    "label": "Algerian",
+    "subtitle": "Dersa, frik, rechta, cinnamon",
+    "about": "Algeria extends from Mediterranean cities such as Algiers, Oran and Constantine across the Atlas Mountains to the Sahara. Amazigh, Arab, Andalusi, Ottoman and later French influences shaped diverse regional traditions, including aromatic white sauces and chili-garlic red sauces. Representative dishes include rechta, chorba frik, chtitha djaj and couscous.",
+    "flavors": [
+      "Dersa garlic-chili paste (درسة; dersa)",
+      "Cumin (كمون; kemmoun)",
+      "Cinnamon (قرفة; qerfa)",
+      "Garlic (ثوم; thūm)",
+      "Paprika or dried red pepper (فلفل عكري; felfel ʿakri)",
+      "Caraway (كروية; karwiya)",
+      "Fresh coriander/cilantro (قصبر; kosbor)",
+      "Mint (نعناع; naʿnaʿ)",
+      "Black pepper (فلفل كحل; felfel kḥal)",
+      "Ras el hanout mixed spices (راس الحانوت; rās el-ḥānūt)",
+      "Aged clarified butter (سمن; smen)"
+    ],
+    "sweet_only": [
+      "Orange blossom water (ماء الزهر; māʾ ez-zhar), predominantly sweets with exceptions",
+      "Rosewater (ماء الورد; māʾ el-ward), predominantly pastries and sweet preparations"
+    ],
+    "signature_ingredients": [
+      {
+        "ingredient": "Frik, roasted cracked green wheat, for chorba frik",
+        "substitute": "Coarse bulgur; texture is similar but lacks its green smoky aroma"
+      },
+      {
+        "ingredient": "Rechta, fine fresh semolina noodles prepared for steaming",
+        "substitute": "Fine fresh wheat noodles or tagliolini, preferably steamed rather than boiled if recipe permits"
+      },
+      {
+        "ingredient": "Dioul pastry sheets for bourek",
+        "substitute": "Spring-roll wrappers; expect a different texture"
+      },
+      {
+        "ingredient": "Berkoukes, large rolled semolina granules",
+        "substitute": "Large pearl couscous; size and hydration differ"
+      }
+    ],
+    "pantry_assumed": [
+      "Olive oil or neutral cooking oil",
+      "Garlic",
+      "Onions",
+      "Tomato paste",
+      "Ground cumin",
+      "Paprika",
+      "Ground cinnamon or cinnamon sticks",
+      "Black pepper",
+      "Dried chickpeas",
+      "Dry couscous",
+      "Salt"
+    ],
+    "techniques": [
+      "Pound garlic with chili, salt and variable spices to make dersa; cook into some red sauces",
+      "Simmer onion- and cinnamon-scented white sauces for rechta or poultry and chickpea dishes",
+      "Steam fresh rechta noodles over the sauce and moisten between steamings",
+      "Steam and fluff couscous, using different broths and toppings by region",
+      "Cook cracked roasted green wheat in chorba frik"
+    ],
+    "shortcuts": [
+      {
+        "name": "Commercial unsalted ras el hanout",
+        "contains": "Variable mixture that may include coriander, cumin, cinnamon, ginger, pepper and other spices",
+        "swap_rule": "Start with 5 g blend for 5 g of compatible dry mixed spices, not as a complete sauce substitute. If the label confirms no salt, salt adjustment is 0 g; otherwise use labeled sodium or salt, not a generic assumed percentage."
+      },
+      {
+        "name": "Ready-made plain Tunisian harissa as an emergency dersa component",
+        "contains": "Red chili, garlic, coriander, caraway and salt in the verified Le Phare du Cap Bon example",
+        "swap_rule": "Use 15 g harissa plus about 5 g fresh garlic and 1 g ground cumin as a provisional stand-in for a chili-garlic dersa; this is not flavor-identical. At 1.8 g salt/100 g, the 15 g harissa contributes 0.27 g salt. Adjust only for the label of the actual brand."
+      }
+    ],
+    "allergen_notes": "Wheat appears in frik, rechta, dioul, couscous and berkoukes. Milk may be present in smen, butter or dairy-enriched sauces. Egg occurs in some pasta doughs, bourek fillings and optional lemon-egg sauce finishes. Almonds and other tree nuts occur in some savory meat dishes and festive recipes. Fish and shellfish occur in coastal dishes. Sesame, peanuts and soy are not universal savory seasonings; evaluate bread, packaged blends, sauces and cross-contact individually.",
+    "pitfalls": "Avoid portraying one Algiers-style white sauce and one dersa-based red sauce as the entire country. Moroccan cooks also have pale sauces and stuffed vegetable dishes; Ottoman history does not create an absolute culinary border. Dersa has variants: do not insist paprika or cumin must be present in every mortar paste. Rechta and frik are not interchangeable with ordinary boiled pasta and bulgur without changing results. European mayonnaise-based Sauce Algérienne is not the same as traditional Algerian dersa. Do not claim every recipe uses smen or a lemon-egg liaison.",
+    "sources": [
+      "https://asjp.cerist.dz/en/downArticle/226/9/1/187983",
+      "https://www.cuisine.co.nz/recipe/braised-chicken-in-chtitha-sauce-with-chickpeas-region-algeria/",
+      "https://www.cultures-algerienne.com/lart-culinaire-algerien-histoire-traditions-et-diversite-regionale/",
+      "https://ich.unesco.org/en/RL/knowledge-know-how-and-practices-pertaining-to-the-production-and-consumption-of-couscous-01602?RL=01602&lang=en",
+      "Fatima-Zohra Bouayed, La Cuisine algérienne (1983)"
+    ]
+  },
+  {
+    "id": "afghan",
+    "label": "Afghan",
+    "subtitle": "Palaw, dumplings, yogurt, cumin",
+    "about": "Afghanistan lies among the Hindu Kush mountains between Iran, Central Asia and Pakistan, with foodways shaped by Persianate cities, Turkic and Pashtun communities, farming and pastoral traditions. Many celebrated dishes balance rice, browned onions, aromatic spices, yogurt and sometimes dried fruit, but heat and ingredients differ by region and household. Representative dishes include qabili palaw, mantu, ashak and bolani.",
+    "flavors": [
+      "Cumin (زیره; zīra)",
+      "Green cardamom (هل سبز; hel-e sabz)",
+      "Black cumin, where available (زیره سیاه; zīra-ye siyāh)",
+      "Coriander seed (تخم گشنیز; tokhm-e geshnīz)",
+      "Garlic (سیر; sīr)",
+      "Onion (پیاز; piyāz)",
+      "Dried mint (نعناع خشک; naʿnāʿ-e khoshk)",
+      "Black pepper (مرچ سیاه; morch-e siyāh)",
+      "Char masala mixed spices (چار مصالحه; chār masāla)",
+      "Chakka, thick yogurt sauce (چکه; chakka)",
+      "Qurut, salted sour dried dairy (قروت; qurūt)"
+    ],
+    "sweet_only": [
+      "Rosewater (گلاب; gulāb), principally sweet dishes and drinks; some savory exceptions possible"
+    ],
+    "signature_ingredients": [
+      {
+        "ingredient": "Gandana, leafy Afghan chives/leeks used as ashak filling",
+        "substitute": "Garlic chives or a mixture of leeks and scallions"
+      },
+      {
+        "ingredient": "Sella parboiled basmati for selected palaw recipes",
+        "substitute": "Ordinary long-grain basmati; reduce soaking and adjust water and cooking time"
+      },
+      {
+        "ingredient": "Chakka, very thick strained yogurt used as a major sauce component",
+        "substitute": "Plain whole-milk Greek yogurt, thinned if needed"
+      },
+      {
+        "ingredient": "Qurut, sour dried dairy used in quruti and related regional dishes",
+        "substitute": "none for an exact match; plain yogurt with lemon can approximate acidity but not cured flavor"
+      }
+    ],
+    "pantry_assumed": [
+      "Basmati rice",
+      "Neutral cooking oil",
+      "Onions",
+      "Garlic",
+      "Cumin",
+      "Ground coriander",
+      "Green cardamom",
+      "Black pepper",
+      "Turmeric",
+      "Dried mint",
+      "Salt"
+    ],
+    "techniques": [
+      "Parboil and drain rice, then steam-finish with a covered pot for selected palaw and chalaw",
+      "Brown onions as the foundation for many qorma and meat-and-rice dishes",
+      "Steam filled mantu dumplings; boil ashak in common classic versions",
+      "Layer savory dumplings or vegetables with garlicky yogurt and tomato-based sauces",
+      "Pan-cook filled flatbreads such as bolani"
+    ],
+    "shortcuts": [
+      {
+        "name": "Verified unsalted Afghan char masala, homemade or commercially blended",
+        "contains": "One documented Afghan cook formula uses equal parts cumin, black cardamom, cinnamon and cloves; other families vary the blend",
+        "swap_rule": "Use 4 g of the unsalted mixture in place of 4 g of those combined ground spices as a starting point; added salt is 0 g if all four components are unsalted. Do not replace every Afghan spice mixture with this exact formula."
+      },
+      {
+        "name": "Store-bought plain Greek yogurt as chakka shortcut",
+        "contains": "Milk cultures, sometimes milk solids; check plain unsweetened label",
+        "swap_rule": "Start with 100 g thick plain Greek yogurt in place of 100 g chakka, adding water if necessary for sauce texture. If the product contains no added salt, subtract 0 g salt; check dairy-allergen label."
+      },
+      {
+        "name": "Shan Kabuli Rice seasoning (cross-regional convenience product, not a defining Afghan mix)",
+        "contains": "Salt, sugar, cumin, fennel, coriander, pepper, cardamom, cinnamon, clove, ginger, garlic and pine nuts",
+        "swap_rule": "LOW CONFIDENCE: the manufacturer web page lists 1650 mg sodium per 10 g, implying 4.13 g salt equivalent, but its displayed Daily Value percentage conflicts with that figure. Do not make an automatic gram-for-gram replacement or salt deduction without checking the current package."
+      }
+    ],
+    "allergen_notes": "Milk is present in chakka, yogurt sauces and qurut; ghee also derives from milk. Wheat is common in naan, bolani, mantu and ashak wrappers, with egg possible in some doughs. Almonds, pistachios and other tree nuts may garnish festive palaw; pine nuts appear in some packaged rice mixes. Sesame may top breads or be a packaged cross-contact warning. Fish, shellfish, peanuts and soy are not general defaults but require dish-specific or package checks. Avoid assuming all dumpling sauces contain dairy if a particular recipe omits it.",
+    "pitfalls": "Do not describe Afghanistan as uniformly mild or prohibit chili and turmeric: both occur in documented recipes. Do not require sella rice or qurut for every dish. Distinguish mantu (often steamed, commonly meat-filled) from ashak (often boiled, generally gandana-filled). Do not treat chakka or qurut as synonyms. Afghan food shares Persian, Central Asian and Pashtun features while remaining internally diverse; do not force every dish into an Iranian-only mold. Sella and many specific spice-blend ratios are recipe choices, not universal rules.",
+    "sources": [
+      "https://www.sbs.com.au/food/recipe/ashak-boiled-chive-dumplings/8qf8c5rkp",
+      "https://www.wnycstudios.org/podcasts/all-of-it/segments/parwana-recipes-and-stories-afghan-kitchen",
+      "https://afghancooks.com/afghan-char-masala-recipe/",
+      "https://isacpittsburgh.org/aushak/",
+      "https://www.shanfoods.com/product/recipe-mixes/arabic/kabuli/",
+      "Durkhanai Ayubi, Parwana: Recipes and Stories from an Afghan Kitchen (2020)",
+      "Helen Saberi, Afghan Food & Cookery: Noshe Djan (2000)"
+    ]
+  },
+  {
+    "id": "pakistani",
+    "label": "Pakistani",
+    "subtitle": "Karahi, biryani, chilies, aromatics",
+    "about": "Pakistan spans the Indus plains of Punjab and Sindh, the mountains of Khyber Pakhtunkhwa, and Balochistan's dry plateaus and coast. Punjabi, Sindhi, Pashtun, Baloch, Mughal and migrant communities contribute varied rice, flatbread, lentil, vegetable and meat dishes with substantial overlap with North India and Afghanistan. Representative dishes include chicken karahi, nihari, Sindhi biryani and chapli kebab.",
+    "flavors": [
+      "Fresh ginger (ادرک; adrak)",
+      "Garlic (لہسن; lahsan)",
+      "Red chili powder or flakes (لال مرچ; lāl mirch)",
+      "Green chili (ہری مرچ; harī mirch)",
+      "Coriander seed (دھنیا; dhaniyā)",
+      "Cumin (زیرہ; zīra)",
+      "Turmeric (ہلدی; haldī)",
+      "Garam masala spice mixture (گرم مصالحہ; garam masālā)",
+      "Dried fenugreek leaves (قصوری میتھی; kasūrī methī)",
+      "Black cardamom (بڑی الائچی; baṛī ilāichī)",
+      "Fennel seed (سونف; saunf)",
+      "Dried sour pomegranate seed (اناردانہ; anārdāna)"
+    ],
+    "sweet_only": [
+      "Rosewater (عرق گلاب; ʿarq-e gulāb), mainly sweets but also some biryanis",
+      "Kewra/screwpine water (کیوڑہ; kewra), mainly sweets and perfumes, but also used in biryani"
+    ],
+    "signature_ingredients": [
+      {
+        "ingredient": "Atta, whole-wheat or high-extraction flour for roti and some stews",
+        "substitute": "Fine whole-wheat flour; protein and milling texture may differ"
+      },
+      {
+        "ingredient": "Besan, flour from split desi chickpeas, for pakora and batter dishes",
+        "substitute": "Supermarket chickpea flour; test hydration because grind and bean variety differ"
+      },
+      {
+        "ingredient": "Goat meat for classic regional curries and karahi",
+        "substitute": "Lamb, noting a different flavor and fat content"
+      },
+      {
+        "ingredient": "Rohu/catla freshwater fish in some Punjabi and Sindhi fish preparations",
+        "substitute": "Catfish or tilapia, adjusted for bones and cooking time"
+      }
+    ],
+    "pantry_assumed": [
+      "Basmati rice",
+      "Atta or whole-wheat flour",
+      "Neutral cooking oil",
+      "Onions",
+      "Fresh ginger or ginger-garlic paste",
+      "Garlic",
+      "Cumin",
+      "Ground coriander",
+      "Turmeric",
+      "Red chili powder",
+      "Garam masala",
+      "Kasuri methi (dried fenugreek leaves)",
+      "Salt"
+    ],
+    "techniques": [
+      "Bhunai/bhuno: fry and reduce aromatics and spices until moisture drops and oil may become visible",
+      "Cook regional karahi dishes in a wide deep pan, often reducing tomatoes with meat and ginger",
+      "Tarka/baghar: bloom whole spices or aromatics in hot fat and add to lentils and other dishes",
+      "Dum: finish layered rice dishes slowly in a covered pot",
+      "Long-simmer nihari or haleem to develop texture; some nihari recipes use a wheat-flour slurry"
+    ],
+    "shortcuts": [
+      {
+        "name": "Shan Biryani Mix, specific manufacturer recipe-mix page",
+        "contains": "Salt, garlic, ginger, cumin, bay leaf, cardamom, cinnamon, carom, cloves, chili, coriander, turmeric, sugar and hydrolyzed soy protein",
+        "swap_rule": "Use 10 g blend as an initial test dose instead of some separate spices, not a universally equivalent substitute. Manufacturer sodium 1340 mg per 8 g implies approximately 4.19 g salt equivalent per 10 g: reduce separately added salt by at most 4.19 g, subject to current package label."
+      },
+      {
+        "name": "Shan Karahi Mix, specific manufacturer recipe-mix page",
+        "contains": "Chili, paprika, salt, cardamom, garlic, coriander, fenugreek leaf, spices and hydrolyzed soy protein",
+        "swap_rule": "Use 10 g as a starting dose of seasoning, not as a replacement for the tomato-ginger cooking process. Manufacturer sodium 910 mg per 8 g implies about 2.84 g salt equivalent in 10 g; deduct at most this amount of separate salt after checking the package."
+      },
+      {
+        "name": "Shan Nihari Mix, specific manufacturer recipe-mix page",
+        "contains": "Chili, salt, paprika, nigella, garlic, onion, cumin, aniseed, cardamom, ginger, fennel and hydrolyzed soy protein",
+        "swap_rule": "Use 10 g as a first trial for the spice component, not to replace meat, stock or thickening. Manufacturer sodium 1330 mg per 10 g implies about 3.33 g salt equivalent; adjust separately added salt accordingly only if label matches."
+      }
+    ],
+    "allergen_notes": "Milk occurs in ghee, yogurt, cream and khoya; wheat in atta roti, naan and flour-thickened nihari, with possible wheat in boxed blends; egg sometimes binds chapli kebab or is added to dishes. Tree nuts may occur in korma, rice and sweets, and peanuts or sesame may appear in snacks, chutneys, bakery goods or cross-contact. Fish and shellfish feature in some coastal and Sindhi seafood dishes. Certain commercial Shan mixes explicitly contain hydrolyzed soy protein and may warn of sesame, gluten and tree-nut traces. Labels and recipes vary; never infer allergen safety from a cuisine name.",
+    "pitfalls": "Do not define Pakistan simply as beef-heavy, very spicy or cream-free: vegetarian dishes, mild Pashtun cookery and rich Mughal-derived gravies exist. Do not call all karahi recipes onion-free; some tomato-forward styles are, while cooks vary. Pakistani and North Indian foodways share substantial Punjabi and Mughal continuities; differences are regional rather than categorical. Chapli kebab crosses the Afghan-Pakistani Pashtun region and may contain egg or flour depending on recipe. Kewra and rosewater are not dessert-exclusive. Calculate salt from an exact packaged blend, not from a generic garam masala category.",
+    "sources": [
+      "https://www.bbcgoodfood.com/recipes/chicken-karahi",
+      "https://www.dishoom.com/journal/interviews/what-s-in-my-dabba-with-sumayya-usmani/",
+      "https://downloads.bbc.co.uk/radioscotland/recipes/sindhi_mutton_biryani.pdf",
+      "https://www.shanfoods.com/sa/product/recipe-mixes-sa/rice-sa/biryani/",
+      "https://www.shanfoods.com/product/recipe-mixes/curry/karhai-fry-gosht-2/",
+      "https://www.shanfoods.com/fareast/product/recipe-mixes-fareast/curry-fareast/nihari/",
+      "Sumayya Usmani, Summers Under the Tamarind Tree: Recipes and Memories from Pakistan (2016)"
+    ]
+  }
+]
