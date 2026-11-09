@@ -36,17 +36,17 @@ CONTINENTS = {   # slug: (taxonomy heading, "Any" rule, the app's current cuisin
     "near-east": ("Near & Middle East", '"Any" OPTIONS: none on this continent. Every node is a single cuisine.',
                   ["Turkish"]),
     "africa": ("Africa", '"Any" OPTIONS: none on this continent. Every node is a single cuisine.', []),
-    # One added node, researched on its own after the rest of Africa.
-    "tunisian": ("Africa", '"Any" OPTIONS: none. This is a single cuisine.', [],
-                 "- Africa, one new node: Tunisian. Moroccan, Egyptian, Ethiopian, Nigerian and Senegalese are "
-                 "already researched; say clearly how Tunisian cooking differs from Moroccan and Algerian cooking, "
-                 "and give harissa its full due (what goes in it, regional versions, how it is used)."),
-    # Two added nodes, researched together after the rest of Asia.
-    "afghan-pakistani": ("Asia", '"Any" OPTIONS: none. Each node is a single cuisine.', [],
-                         "- Asia, two new nodes: Afghan; Pakistani. North Indian and Persian are already researched. "
-                         "Say clearly how each differs from those and from each other, describe what they share "
-                         "(especially Pashtun cooking on both sides of the border), and say in the summary whether "
-                         "a recipe app should treat them as one combined node or two, and why."),
+    # Cuisines added after the first five runs, researched together. Their ids are fixed so the build script
+    # can place them: tunisian and algerian go under Africa, afghan and pakistani under Asia.
+    "additions": ("Africa", '"Any" OPTIONS: none. Each node is a single cuisine.', [],
+                  "Four new nodes, each a single cuisine. Use exactly these ids: tunisian, algerian (both in "
+                  "Africa), afghan, pakistani (both in Asia). Moroccan, Egyptian, North Indian and Persian are "
+                  "already researched. Say clearly how Tunisian and Algerian differ from each other and from "
+                  "Moroccan cooking, and give harissa its full due (what goes in it, regional versions, how it is "
+                  "used). Say how Afghan and Pakistani differ from North Indian, Persian and each other, describe "
+                  "what they share (especially Pashtun cooking on both sides of the border), and say in the "
+                  "summary whether a recipe app should treat Afghan and Pakistani as one combined node or two, "
+                  "and why."),
 }
 
 

@@ -57,8 +57,9 @@ Pasting the prompt from a phone can cut it off at the SCOPE section; copy it fro
 3. **Mastiha:** Bryan moved it to dessert-only for Greek. The research says it's mainly sweets, breads and liqueurs
    but has savory uses on Chios. Keeping it in `sweet_only` with that note is consistent with both.
 4. **"Moroccan & North African": decided, it's "Moroccan"** (the research's advice: harissa is Tunisian and the
-   Maghreb's cuisines aren't interchangeable). **Tunisian** was added as its own Africa node for harissa
-   (prompt: `docs/research/tunisian.md`; result goes to `results/tunisian.json`). Algerian may follow.
+   Maghreb's cuisines aren't interchangeable). **Tunisian** (for harissa) and **Algerian** were added to Africa,
+   and **Afghan** and **Pakistani** to Asia: one research run (`docs/research/additions.md`, result goes to
+   `results/additions.json`).
 
 ## Corrections to the app's current entries
 

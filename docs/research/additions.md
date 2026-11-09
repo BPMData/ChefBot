@@ -11,9 +11,9 @@ REQUIRED OUTPUT (the app imports it, so do not skip or reshape it):
    every node. No emojis.
 
 SCOPE: the nodes in this tree (branches and leaves).
-- Africa, one new node: Tunisian. Moroccan, Egyptian, Ethiopian, Nigerian and Senegalese are already researched; say clearly how Tunisian cooking differs from Moroccan and Algerian cooking, and give harissa its full due (what goes in it, regional versions, how it is used).
+Four new nodes, each a single cuisine. Use exactly these ids: tunisian, algerian (both in Africa), afghan, pakistani (both in Asia). Moroccan, Egyptian, North Indian and Persian are already researched. Say clearly how Tunisian and Algerian differ from each other and from Moroccan cooking, and give harissa its full due (what goes in it, regional versions, how it is used). Say how Afghan and Pakistani differ from North Indian, Persian and each other, describe what they share (especially Pashtun cooking on both sides of the border), and say in the summary whether a recipe app should treat Afghan and Pakistani as one combined node or two, and why.
 
-"Any" OPTIONS: none. This is a single cuisine.
+"Any" OPTIONS: none. Each node is a single cuisine.
 
 SOURCES: prefer recognized authorities on each cuisine (regional cookbook
 authors with deep expertise, culinary historians, academic food studies,

@@ -67,10 +67,9 @@ more than cost.
    research, v2 prompt). Everything learned, including import quirks, open questions for Bryan and corrections to
    the app's current entries: `docs/research/FINDINGS.md` (read it first; the raw reports in
    `docs/research/results/raw/` are only for checking a specific claim). Data: `docs/research/results/*.json`.
-   Tunisian was added to Africa afterwards (for harissa): prompt `docs/research/tunisian.md`; when the report comes
-   back, save it with `tools/check_research.py tunisian <report>`. Same for Afghan and Pakistani in Asia (prompt
-   `docs/research/afghan-pakistani.md`, save as `afghan_pakistani`); the research also says whether they should be
-   one node or two, and Bryan decides.
+   Added 2026-11-09: Tunisian and Algerian (Africa), Afghan and Pakistani (Asia), researched in one run (prompt
+   `docs/research/additions.md`; save the report with `tools/check_research.py additions <report>`). The research
+   also says whether Afghan and Pakistani should be one node or two; Bryan decides.
    **Build plan (2026-11-09):** Bryan will have Google AI Studio attempt the refactor from the self-contained brief
    `docs/REFACTOR_CUISINE_TREE.md` (data under `src/chefbot/cuisines/`, a loader, the drill-down picker, recent
    picks, legacy ids for saved chats, tests). Claude's job afterwards: review its pull request, fix its mistakes,
