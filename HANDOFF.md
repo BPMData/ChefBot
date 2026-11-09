@@ -40,6 +40,20 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
    email was off (fixed: share sheet, see item 1). Re-test Email on the phone after installing the new build. See "Android" below for installing, rebuilding, signing,
    and deleting the ~13 GB toolchain.
 3. **GitHub: public since 2026-10-28** (AGPLv3). Still to do: README screenshots.
+   **Next after the cuisine tree: a public web demo** (Bryan, 2026-11-09: it's a portfolio piece, and recruiters
+   won't run Flet commands). The plan, not started:
+   - **Host it as a server app**, not a static build: Flet's web mode on a small always-on host (Fly.io, Render,
+     Google Cloud Run or similar; pick one when building). A static `flet build web` would put the OpenRouter key in
+     the browser, where anyone can copy it.
+   - **A separate OpenRouter key with a hard credit limit** (openrouter.ai/keys), stored as the host's secret, plus
+     per-visitor limits (a few recipes a day, a short reply cooldown) so a bot can't drain it. Pictures and photo
+     reading are the expensive calls: lower limits there.
+   - **Per-visitor storage.** Today the app keeps one shared history folder; on a public server every visitor
+     would see everyone's recipes. Saved chats must be per browser (Flet's client storage or a visitor id).
+   - **Demo settings:** hide the API key field, the relay and developer options; Email becomes the `mailto:` link;
+     check that photo upload and Save PDF work in a browser (they use FilePicker uploads and downloads).
+   - **A few featured recipes** that open instantly without spending anything, for visitors who just look.
+   - Then README screenshots and the live link at the top of the README.
 4. **Keep replies alive when the app is in the background: works on the phone (2026-11-03).** It took three
    builds: pyjnius couldn't reach the extension's Java code (see "pyjnius can't find the app's own classes").
    Still to try: the screen-locked case and the airplane-mode fallback below.
