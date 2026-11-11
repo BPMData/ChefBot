@@ -393,6 +393,11 @@ The next `flet build apk` downloads it all again.
   `FileNotFoundError` in `ssl.create_default_context`. `api.ssl_context()` now loads the certificates once into
   memory (falling back to certifi) and every httpx client uses it. Make any new client with `verify=ssl_context()`.
   Needs an APK rebuild to reach the phone.
+- **Never use `capitalization=` on a TextField (2026-11-11).** Flet doesn't tell the keyboard; it adds a formatter
+  that rewrites the text on every keystroke and drops the keyboard's in-progress word, so Android resets the
+  keyboard: voice typing stopped after a few characters and double-tap caps lock lasted one letter. Removed from the
+  ingredients box and the chat box; follow-ups get their first letter capitalized on send instead.
+  `tests/test_text_fields.py` guards it. Needs an APK rebuild to reach the phone.
 
 ## PDF gotchas (fpdf2 2.8.9)
 

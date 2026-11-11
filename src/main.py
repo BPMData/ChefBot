@@ -473,11 +473,13 @@ class ChefBotApp:
     def _build_home_controls(self):
         self.ingredients_clear = ft.IconButton(ft.Icons.CLOSE, tooltip="Clear", icon_size=18, visible=False,
                                                on_click=self._clear_ingredients)
+        # No `capitalization=` on text fields: Flet implements it by rewriting the text after each keystroke,
+        # which resets the Android keyboard (voice typing stops, caps lock turns off). See test_text_fields.py.
         self.ingredients = ft.TextField(
             on_change=lambda e: show_clear_button(self.ingredients, self.ingredients_clear),
             hint_text="Potatoes, carrots, tomatoes...", multiline=True, min_lines=4, max_lines=8,
             content_padding=ft.Padding(left=16, right=44, top=16, bottom=16),     # room for the x
-            filled=True, border=soft_border(16), capitalization=ft.TextCapitalization.SENTENCES, text_size=16)
+            filled=True, border=soft_border(16), text_size=16)
         # The x sits in the bottom-right corner of this tall box (a suffix icon would center it vertically).
         self.ingredients_box = ft.Stack([self.ingredients,
                                          ft.Container(self.ingredients_clear, right=2, bottom=2)])
@@ -862,7 +864,7 @@ class ChefBotApp:
         self.composer = ft.TextField(
             hint_text="Ask for changes: no cucumber, more garlic...", expand=True, multiline=True,
             min_lines=1, max_lines=5, shift_enter=True, on_submit=self.send_followup, filled=True,
-            border=soft_border(26), capitalization=ft.TextCapitalization.SENTENCES)
+            border=soft_border(26))
         self.send_btn = ft.IconButton(ft.Icons.ARROW_UPWARD, tooltip="Send", on_click=self.send_followup,
                                       bgcolor=ft.Colors.PRIMARY, icon_color=ft.Colors.ON_PRIMARY)
         self.editing_index = None
@@ -1063,6 +1065,7 @@ class ChefBotApp:
     async def send_followup(self, e):
         text = (self.composer.value or "").strip()
         if text:
+            text = text[0].upper() + text[1:]     # the field can't auto-capitalize (see _build_home_controls)
             self.composer.value = ""
             self.composer.update()
             await self.send_text(text)
