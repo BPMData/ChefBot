@@ -410,6 +410,25 @@ The next `flet build apk` downloads it all again.
 
 ## Backlog (nice to have)
 
+- **Second-model review loop (idea, 2026-11-11, not started).** Bryan's view: asking the model to double-check
+  itself never matches a real second check, so recipes should pass through a separate, faster model before the
+  user treats them as final. The hard part is keeping the UX snappy (replies stream today). Options, roughly best
+  first:
+  1. *Stream, then check in the background.* Show the draft as it streams, as now; a small status line under the
+     bubble ("Checking...", then "Checked" or "Fixed 2 things", tap to see what changed). Fixes swap in once,
+     after the stream ends, never while text is still arriving.
+  2. *Reviewer returns a short list of issues, not a rewrite.* Structured JSON (issue, location, fix). Short
+     output means it's fast. No issues: just mark it checked. Minor issues: apply them as targeted edits. Major
+     issues (diet or must-not violation, missing step): send the issues back to the main model for a revision.
+  3. *Overlap with the stream.* `recipe.py` already parses sections, so the ingredients list can be reviewed
+     while the steps are still streaming.
+  4. *Fallback if text swapping feels bad:* hold the bubble behind staged status ("Writing...", "Checking...")
+     and reveal it all at once. More correct, less snappy; only if 1 feels jarring.
+  What to check: quantities in the steps match the ingredient list, every ingredient gets used, times and
+  temperatures are plausible, diet/allergen/must-not rules are respected, and the user's ingredients are actually
+  used. Possibly first recipes only, not every follow-up. Reviewer: a fast model from one of Bryan's preferred
+  labs. Prove it helps before shipping it: run the existing judged recipe set with and without the review step
+  and compare scores. Pairs with Spoonacular idea 2 below (a hard-data allergen check).
 - "Try again" on a reply; deleting a single older message.
 - If Android kills ChefBot outright mid-reply (not just freezes it; rare with the keep-alive), the follow-up being
   answered is lost: it's only saved together with its reply. Saving the user message first would let the
