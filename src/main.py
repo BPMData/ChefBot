@@ -172,11 +172,30 @@ def snack(page: ft.Page, message: str):
     page.show_dialog(ft.SnackBar(ft.Text(message)))
 
 
+# Quotes and code blocks get theme colors: Flutter's defaults are a fixed light blue (quotes) and a light code
+# background, which put the dark theme's light text on a light box. Models use them to show a corrected step.
+QUOTE_BOX = ft.BoxDecoration(bgcolor=ft.Colors.SURFACE_CONTAINER_HIGH,
+                             border=ft.Border(left=ft.BorderSide(3, ft.Colors.PRIMARY)))
+CODE_BOX = ft.BoxDecoration(bgcolor=ft.Colors.SURFACE_CONTAINER_HIGH, border_radius=12)
+
+
 def md_style() -> ft.MarkdownStyleSheet:
     h = lambda size: ft.TextStyle(font_family=HEADING_FONT, size=size, weight=ft.FontWeight.W_700)
     return ft.MarkdownStyleSheet(h1_text_style=h(24), h2_text_style=h(21), h3_text_style=h(18),
                                  h4_text_style=h(16), p_text_style=ft.TextStyle(size=15, height=1.5),
+                                 blockquote_decoration=QUOTE_BOX, blockquote_padding=ft.Padding.symmetric(vertical=12, horizontal=14),
                                  block_spacing=10)
+
+
+def md_code_style() -> ft.MarkdownStyleSheet:
+    """Code blocks: in a recipe they hold prose (a corrected step), so normal text on a themed box."""
+    return ft.MarkdownStyleSheet(code_text_style=ft.TextStyle(size=15, height=1.5, color=ft.Colors.ON_SURFACE),
+                                 codeblock_decoration=CODE_BOX, codeblock_padding=ft.Padding.all(14))
+
+
+# The code highlighter paints its own background unless `root` sets one; transparent lets CODE_BOX show.
+MD_CODE_THEME = ft.MarkdownCustomCodeTheme(root=ft.TextStyle(color=ft.Colors.ON_SURFACE,
+                                                             bgcolor=ft.Colors.TRANSPARENT))
 
 
 class ChefBotApp:
@@ -1000,7 +1019,7 @@ class ChefBotApp:
     def _assistant_card(self, text: str, photo: bytes | None = None, index: int | None = None) -> ft.Container:
         """A ChefBot reply. `index` is its place in conv.messages; replies still streaming get it later."""
         md = ft.Markdown(text, selectable=True, extension_set=ft.MarkdownExtensionSet.GITHUB_WEB,
-                         md_style_sheet=md_style())
+                         md_style_sheet=md_style(), code_style_sheet=md_code_style(), code_theme=MD_CODE_THEME)
         photo_slot = ft.Container(visible=bool(photo))
         if photo:
             photo_slot.content = self._dish_photo(photo)
