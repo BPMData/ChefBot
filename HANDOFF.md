@@ -393,6 +393,11 @@ The next `flet build apk` downloads it all again.
   `FileNotFoundError` in `ssl.create_default_context`. `api.ssl_context()` now loads the certificates once into
   memory (falling back to certifi) and every httpx client uses it. Make any new client with `verify=ssl_context()`.
   Needs an APK rebuild to reach the phone.
+- **Markdown quotes and code blocks need theme colors (2026-11-11).** Flutter's default quote box is a fixed light
+  blue and code blocks get a light highlighter background, so in the dark theme a quoted or fenced corrected step
+  showed as faint light text on a bright block. `md_style()` sets `blockquote_decoration` (surface box, orange
+  left bar); `md_code_style()` and `MD_CODE_THEME` (a transparent highlighter `root`) do the same for code blocks.
+  Pass all three to any new `ft.Markdown`. Checked in the web build (dark theme).
 - **Never use `capitalization=` on a TextField (2026-11-11).** Flet doesn't tell the keyboard; it adds a formatter
   that rewrites the text on every keystroke and drops the keyboard's in-progress word, so Android resets the
   keyboard: voice typing stopped after a few characters and double-tap caps lock lasted one letter. Removed from the
