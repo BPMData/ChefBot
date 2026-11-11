@@ -393,6 +393,11 @@ The next `flet build apk` downloads it all again.
   `FileNotFoundError` in `ssl.create_default_context`. `api.ssl_context()` now loads the certificates once into
   memory (falling back to certifi) and every httpx client uses it. Make any new client with `verify=ssl_context()`.
   Needs an APK rebuild to reach the phone.
+- **Never use `capitalization=` on a TextField (2026-11-11).** Flet doesn't tell the keyboard; it adds a formatter
+  that rewrites the text on every keystroke and drops the keyboard's in-progress word, so Android resets the
+  keyboard: voice typing stopped after a few characters and double-tap caps lock lasted one letter. Removed from the
+  ingredients box and the chat box; follow-ups get their first letter capitalized on send instead.
+  `tests/test_text_fields.py` guards it. Needs an APK rebuild to reach the phone.
 
 ## PDF gotchas (fpdf2 2.8.9)
 
@@ -405,6 +410,32 @@ The next `flet build apk` downloads it all again.
 
 ## Backlog (nice to have)
 
+- **Second-model review loop (idea, 2026-11-11, not started).** Bryan's view: asking the model to double-check
+  itself never matches a real second check, so every recipe should pass through a separate, faster model.
+  Test case with the mistakes it must catch: `docs/review-loop/example-lamb-fries.md` (onion cooked but never
+  added; chickpeas "crisped" by simmering in water).
+  - *Flow (Bryan's pick):* **stream first, check after, fix automatically.** The reply streams as now (nobody
+    starts cooking in 30 seconds). When it ends, a status line under the bubble says "Checking..."; the reviewer
+    gets the whole recipe and returns a short list of issues as JSON (issue, location, fix), not a rewrite, so
+    it's fast. No issues: "Checked". Minor issues: targeted edits, swapped in once. Major issues (diet/allergen/
+    must-not violation, missing step): one revision round with the main model, then swap. "Fixed 2 things", tap
+    to see what changed. Text only ever changes once, after the stream ends.
+  - *What it checks:* every ingredient used in the steps is in the list and gets added; quantities match; methods
+    do what the step says (crisp, sear, reduce); times and temperatures are plausible; notes match the steps;
+    diet/allergen/must-not rules; the user's ingredients are actually used.
+  - *Optional loading animation* (for the check and any revision round). **Decided 2026-11-11: use EOMD**, Bryan's
+    own repo (github.com/BPMData/EOMD: 3D canvas motion graphics in single offline HTML files, which an AI writes
+    as small JSON pieces). Chosen over Rive because an AI can write and change EOMD pieces, while Rive's `.riv`
+    files are binary and have to be made by hand in Rive's editor. Plan: bundle a small EOMD piece as an asset
+    in `flet-webview` and drive it live from Python with JavaScript calls (e.g. ingredient names spelled in 3D
+    dots as they stream, a new stage when checking starts). Check first that `flet-webview` 1.0.5 runs on
+    Android and can run JavaScript. Desktop fallback (the web view doesn't run on every desktop): a
+    pre-rendered loop (EOMD's `tools/html_to_mp4.py`, converted to animated WebP for `ft.Image`). The new piece
+    itself is made in the EOMD repo, following its own process. Rive (`flet-rive` 1.0.5) is the backup if the
+    web view doesn't work on Android. Any new extension package means an APK rebuild. No emojis.
+  - *Before shipping:* run the reviewer on the test case, then the existing judged recipe set with and without
+    the review step; compare scores and time it. Reviewer: a fast model from one of Bryan's preferred labs.
+    Pairs with Spoonacular idea 2 below (a hard-data allergen check).
 - "Try again" on a reply; deleting a single older message.
 - If Android kills ChefBot outright mid-reply (not just freezes it; rare with the keep-alive), the follow-up being
   answered is lost: it's only saved together with its reply. Saving the user message first would let the
