@@ -412,23 +412,28 @@ The next `flet build apk` downloads it all again.
 
 - **Second-model review loop (idea, 2026-11-11, not started).** Bryan's view: asking the model to double-check
   itself never matches a real second check, so recipes should pass through a separate, faster model before the
-  user treats them as final. The hard part is keeping the UX snappy (replies stream today). Options, roughly best
-  first:
-  1. *Stream, then check in the background.* Show the draft as it streams, as now; a small status line under the
-     bubble ("Checking...", then "Checked" or "Fixed 2 things", tap to see what changed). Fixes swap in once,
-     after the stream ends, never while text is still arriving.
-  2. *Reviewer returns a short list of issues, not a rewrite.* Structured JSON (issue, location, fix). Short
-     output means it's fast. No issues: just mark it checked. Minor issues: apply them as targeted edits. Major
-     issues (diet or must-not violation, missing step): send the issues back to the main model for a revision.
-  3. *Overlap with the stream.* `recipe.py` already parses sections, so the ingredients list can be reviewed
-     while the steps are still streaming.
-  4. *Fallback if text swapping feels bad:* hold the bubble behind staged status ("Writing...", "Checking...")
-     and reveal it all at once. More correct, less snappy; only if 1 feels jarring.
-  What to check: quantities in the steps match the ingredient list, every ingredient gets used, times and
-  temperatures are plausible, diet/allergen/must-not rules are respected, and the user's ingredients are actually
-  used. Possibly first recipes only, not every follow-up. Reviewer: a fast model from one of Bryan's preferred
-  labs. Prove it helps before shipping it: run the existing judged recipe set with and without the review step
-  and compare scores. Pairs with Spoonacular idea 2 below (a hard-data allergen check).
+  user sees them. Decided: the reviewer needs the whole recipe, and showing an unchecked draft defeats the point
+  (you might start cooking from it), so **the reply is held until it's checked**, and the wait is covered by a
+  loading screen good enough to enjoy (the ChatGPT image-generation approach).
+  - *Flow:* stream the draft into a hidden buffer, send it to the reviewer, reveal the final recipe in one go.
+    The reviewer returns a short list of issues as JSON (issue, location, fix), not a rewrite, so it's fast. No
+    issues: show it. Minor issues: apply targeted edits. Major issues (diet/allergen/must-not violation, missing
+    step): one revision round with the main model. A small "Checked" line under the bubble, tap for what changed.
+  - *The loading screen:* drive it from the hidden stream so it's genuine, not just a spinner. `recipe.py` can
+    already parse sections as they arrive, so ingredient names can drop in as they're written and a stage line
+    can follow along ("Picking ingredients...", "Writing step 4...", "Double-checking quantities..."). Bryan
+    suggested a playful 3D animation (he mentioned "EOMD"; find out what he means). Ways to show animation in Flet
+    1.0.5, easiest first: a looping animated WebP/GIF in `ft.Image` (render a 3D scene offline, no new
+    package); `flet-lottie` 1.0.5 (Lottie JSON, small, many free cooking animations); `flet-rive` 1.0.5
+    (interactive, could react to the stage); Flet's built-in animations on SVG/Material icons (no assets). Real
+    3D in a WebView (three.js via `flet-webview`) is possible but heavy on the phone; avoid. Any new extension
+    package means an APK rebuild. No emojis in it (Bryan's rule).
+  - *What the reviewer checks:* quantities in the steps match the ingredient list, every ingredient gets used,
+    times and temperatures are plausible, diet/allergen/must-not rules are respected, the user's ingredients are
+    actually used. Maybe first recipes only, with small follow-up tweaks shown straight away.
+  - *Before shipping:* run the existing judged recipe set with and without the review step and compare scores;
+    also time it, since the wait is the whole cost. Reviewer: a fast model from one of Bryan's preferred labs.
+    Pairs with Spoonacular idea 2 below (a hard-data allergen check).
 - "Try again" on a reply; deleting a single older message.
 - If Android kills ChefBot outright mid-reply (not just freezes it; rare with the keep-alive), the follow-up being
   answered is lost: it's only saved together with its reply. Saving the user message first would let the
