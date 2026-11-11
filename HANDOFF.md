@@ -423,15 +423,16 @@ The next `flet build apk` downloads it all again.
   - *What it checks:* every ingredient used in the steps is in the list and gets added; quantities match; methods
     do what the step says (crisp, sear, reduce); times and temperatures are plausible; notes match the steps;
     diet/allergen/must-not rules; the user's ingredients are actually used.
-  - *Optional loading animation* (for the revision round, or if checking ever needs to hold the reply). Bryan
-    leans toward Rive (`flet-rive` 1.0.5: interactive, can react to the stage, but needs the Rive editor to
-    make). Alternative: **his own EOMD repo** (github.com/BPMData/EOMD: 3D canvas motion graphics in single
-    offline HTML files, written by an AI as small JSON pieces). Two ways to use it: (a) play a pre-rendered
-    loop (its `tools/html_to_mp4.py`, then convert to animated WebP for `ft.Image`; no new package, works
-    everywhere, doesn't react); (b) bundle a small EOMD piece as an asset in `flet-webview` and drive it live
-    from Python with JavaScript calls (e.g. the ingredient names spelled in 3D dots as they stream). Check first
-    that `flet-webview` 1.0.5 runs on Android and can run JavaScript; it doesn't run on every desktop, so (a)
-    would be the desktop fallback. Any new extension package means an APK rebuild. No emojis.
+  - *Optional loading animation* (for the check and any revision round). **Decided 2026-11-11: use EOMD**, Bryan's
+    own repo (github.com/BPMData/EOMD: 3D canvas motion graphics in single offline HTML files, which an AI writes
+    as small JSON pieces). Chosen over Rive because an AI can write and change EOMD pieces, while Rive's `.riv`
+    files are binary and have to be made by hand in Rive's editor. Plan: bundle a small EOMD piece as an asset
+    in `flet-webview` and drive it live from Python with JavaScript calls (e.g. ingredient names spelled in 3D
+    dots as they stream, a new stage when checking starts). Check first that `flet-webview` 1.0.5 runs on
+    Android and can run JavaScript. Desktop fallback (the web view doesn't run on every desktop): a
+    pre-rendered loop (EOMD's `tools/html_to_mp4.py`, converted to animated WebP for `ft.Image`). The new piece
+    itself is made in the EOMD repo, following its own process. Rive (`flet-rive` 1.0.5) is the backup if the
+    web view doesn't work on Android. Any new extension package means an APK rebuild. No emojis.
   - *Before shipping:* run the reviewer on the test case, then the existing judged recipe set with and without
     the review step; compare scores and time it. Reviewer: a fast model from one of Bryan's preferred labs.
     Pairs with Spoonacular idea 2 below (a hard-data allergen check).
