@@ -411,28 +411,29 @@ The next `flet build apk` downloads it all again.
 ## Backlog (nice to have)
 
 - **Second-model review loop (idea, 2026-11-11, not started).** Bryan's view: asking the model to double-check
-  itself never matches a real second check, so recipes should pass through a separate, faster model before the
-  user sees them. Decided: the reviewer needs the whole recipe, and showing an unchecked draft defeats the point
-  (you might start cooking from it), so **the reply is held until it's checked**, and the wait is covered by a
-  loading screen good enough to enjoy (the ChatGPT image-generation approach).
-  - *Flow:* stream the draft into a hidden buffer, send it to the reviewer, reveal the final recipe in one go.
-    The reviewer returns a short list of issues as JSON (issue, location, fix), not a rewrite, so it's fast. No
-    issues: show it. Minor issues: apply targeted edits. Major issues (diet/allergen/must-not violation, missing
-    step): one revision round with the main model. A small "Checked" line under the bubble, tap for what changed.
-  - *The loading screen:* drive it from the hidden stream so it's genuine, not just a spinner. `recipe.py` can
-    already parse sections as they arrive, so ingredient names can drop in as they're written and a stage line
-    can follow along ("Picking ingredients...", "Writing step 4...", "Double-checking quantities..."). Bryan
-    suggested a playful 3D animation (he mentioned "EOMD"; find out what he means). Ways to show animation in Flet
-    1.0.5, easiest first: a looping animated WebP/GIF in `ft.Image` (render a 3D scene offline, no new
-    package); `flet-lottie` 1.0.5 (Lottie JSON, small, many free cooking animations); `flet-rive` 1.0.5
-    (interactive, could react to the stage); Flet's built-in animations on SVG/Material icons (no assets). Real
-    3D in a WebView (three.js via `flet-webview`) is possible but heavy on the phone; avoid. Any new extension
-    package means an APK rebuild. No emojis in it (Bryan's rule).
-  - *What the reviewer checks:* quantities in the steps match the ingredient list, every ingredient gets used,
-    times and temperatures are plausible, diet/allergen/must-not rules are respected, the user's ingredients are
-    actually used. Maybe first recipes only, with small follow-up tweaks shown straight away.
-  - *Before shipping:* run the existing judged recipe set with and without the review step and compare scores;
-    also time it, since the wait is the whole cost. Reviewer: a fast model from one of Bryan's preferred labs.
+  itself never matches a real second check, so every recipe should pass through a separate, faster model.
+  Test case with the mistakes it must catch: `docs/review-loop/example-lamb-fries.md` (onion cooked but never
+  added; chickpeas "crisped" by simmering in water).
+  - *Flow (Bryan's pick):* **stream first, check after, fix automatically.** The reply streams as now (nobody
+    starts cooking in 30 seconds). When it ends, a status line under the bubble says "Checking..."; the reviewer
+    gets the whole recipe and returns a short list of issues as JSON (issue, location, fix), not a rewrite, so
+    it's fast. No issues: "Checked". Minor issues: targeted edits, swapped in once. Major issues (diet/allergen/
+    must-not violation, missing step): one revision round with the main model, then swap. "Fixed 2 things", tap
+    to see what changed. Text only ever changes once, after the stream ends.
+  - *What it checks:* every ingredient used in the steps is in the list and gets added; quantities match; methods
+    do what the step says (crisp, sear, reduce); times and temperatures are plausible; notes match the steps;
+    diet/allergen/must-not rules; the user's ingredients are actually used.
+  - *Optional loading animation* (for the revision round, or if checking ever needs to hold the reply). Bryan
+    leans toward Rive (`flet-rive` 1.0.5: interactive, can react to the stage, but needs the Rive editor to
+    make). Alternative: **his own EOMD repo** (github.com/BPMData/EOMD: 3D canvas motion graphics in single
+    offline HTML files, written by an AI as small JSON pieces). Two ways to use it: (a) play a pre-rendered
+    loop (its `tools/html_to_mp4.py`, then convert to animated WebP for `ft.Image`; no new package, works
+    everywhere, doesn't react); (b) bundle a small EOMD piece as an asset in `flet-webview` and drive it live
+    from Python with JavaScript calls (e.g. the ingredient names spelled in 3D dots as they stream). Check first
+    that `flet-webview` 1.0.5 runs on Android and can run JavaScript; it doesn't run on every desktop, so (a)
+    would be the desktop fallback. Any new extension package means an APK rebuild. No emojis.
+  - *Before shipping:* run the reviewer on the test case, then the existing judged recipe set with and without
+    the review step; compare scores and time it. Reviewer: a fast model from one of Bryan's preferred labs.
     Pairs with Spoonacular idea 2 below (a hard-data allergen check).
 - "Try again" on a reply; deleting a single older message.
 - If Android kills ChefBot outright mid-reply (not just freezes it; rare with the keep-alive), the follow-up being
