@@ -1,0 +1,1121 @@
+[
+  {
+    "id": "asia",
+    "kind": "continent",
+    "label": "Asia",
+    "subtitle": "East, South, Southeast & Central Asia",
+    "about": "Cuisines of East, South, Southeast and Central Asia.",
+    "prompt_name": "",
+    "flavors": [],
+    "sweet_only": [],
+    "signature_ingredients": [],
+    "tips": [],
+    "pitfalls": [],
+    "avoid": [],
+    "children": [
+      "china",
+      "japan",
+      "india",
+      "korean",
+      "thai",
+      "vietnamese",
+      "filipino",
+      "indonesian",
+      "malaysian_singaporean",
+      "afghan",
+      "pakistani"
+    ]
+  },
+  {
+    "id": "china",
+    "kind": "country",
+    "label": "China",
+    "subtitle": "Regional, diverse, technique-driven",
+    "about": "Chinese cooking spans northern wheat regions, the Yangtze basin, subtropical south, western plateaus and long coastlines. Migration, imperial courts, trade and highly regional agriculture produced many cuisines rather than one uniform style; representative dishes include jiaozi, red-braised pork, steamed fish and hand-pulled or cut noodles.",
+    "prompt_name": "",
+    "flavors": [
+      "soy sauce (酱油, jiàngyóu)",
+      "ginger (姜, jiāng)",
+      "scallion (葱, cōng)",
+      "garlic (蒜, suàn)",
+      "rice vinegar (米醋, mǐcù)",
+      "sesame oil (芝麻油, zhīmayóu)",
+      "rice wine (米酒, mǐjiǔ)",
+      "white pepper (白胡椒, báihújiāo)",
+      "fermented beans (豆豉, dòuchǐ)",
+      "star anise (八角, bājiǎo)"
+    ],
+    "sweet_only": [
+      "osmanthus (桂花, guìhuā)"
+    ],
+    "signature_ingredients": [
+      "dried wood ear (木耳, mù'ěr) (substitute: cremini for texture only)",
+      "dried shiitake (香菇, xiānggū) (substitute: fresh shiitake)",
+      "Chinese black vinegar (香醋/陈醋, xiāngcù) (substitute: unseasoned rice vinegar plus a little balsamic)",
+      "Shaoxing wine (绍兴酒, Shàoxīng jiǔ) (substitute: dry sherry)"
+    ],
+    "tips": [
+      "Chinese five-spice (wǔxiāngfěn, 五香粉): usually star anise, cassia, fennel, clove and Sichuan pepper; use about 2-4 g per 500 g meat; usually 0 g salt.",
+      "Commercial stir-fry sauces vary widely; for 30 g bottled sauce, reduce separately added salt by roughly 1-2 g and check label sodium."
+    ],
+    "pitfalls": [
+      "Do not treat Chinese cuisine as synonymous with Cantonese or Sichuan.",
+      "Do not add five-spice, sesame oil or soy sauce to every dish.",
+      "Do not assume all Chinese food is stir-fried.",
+      "The Eight Great Cuisines taxonomy is conventional but incomplete."
+    ],
+    "avoid": [],
+    "children": [
+      "china_any",
+      "sichuan",
+      "hunan",
+      "cantonese",
+      "shandong",
+      "jiangsu",
+      "zhejiang",
+      "fujian",
+      "anhui"
+    ]
+  },
+  {
+    "id": "china_any",
+    "kind": "any",
+    "label": "Any",
+    "subtitle": "International Chinese restaurant image",
+    "about": "Outside China, 'Chinese food' often means an export repertoire shaped first by Cantonese-speaking migrants and later by Sichuan, Hunan, Taiwanese and other influences. Fried rice, dumplings, chow mein, sweet-and-sour dishes and stir-fries are recognizable international examples, but this is an export category rather than a faithful national summary.",
+    "prompt_name": "Chinese",
+    "flavors": [
+      "soy sauce (酱油, jiàngyóu)",
+      "ginger (姜, jiāng)",
+      "garlic (蒜, suàn)",
+      "scallion (葱, cōng)",
+      "sesame oil (芝麻油, zhīmayóu)",
+      "rice vinegar (米醋, mǐcù)",
+      "oyster sauce (蚝油, háoyóu)",
+      "white pepper (白胡椒, báihújiāo)",
+      "five-spice (五香粉, wǔxiāngfěn)",
+      "chile sauce (辣椒酱, làjiāojiàng)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "water chestnuts (substitute: jicama)",
+      "bamboo shoots (substitute: canned bamboo shoots)",
+      "wood ear (substitute: mushrooms for texture only)",
+      "Chinese egg noodles (substitute: spaghetti in emergency)"
+    ],
+    "tips": [
+      "Bottled stir-fry sauce: 30 g per 500 g ingredients; typically contributes about 2-4 g salt plus sugar.",
+      "Five-spice: 2 g per 500 g where appropriate; generally 0 g salt."
+    ],
+    "pitfalls": [
+      "Label this as an international/export version, not representative Chinese home cooking.",
+      "Do not put sesame oil, five-spice or sweet sauce into every dish.",
+      "American chop suey and similar dishes are diaspora developments, not proof of a mainland regional tradition."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "sichuan",
+    "kind": "cuisine",
+    "label": "Sichuan",
+    "subtitle": "Chile, peppercorn, fermented depth",
+    "about": "Sichuan and Chongqing sit in a mountain-ringed basin along the upper Yangtze in southwest China. Migration and fertile agriculture helped produce a cuisine famous for intricate seasoning systems rather than heat alone; mapo tofu, gongbao chicken, twice-cooked pork and fish-fragrant eggplant are representative.",
+    "prompt_name": "Sichuan (Chinese)",
+    "flavors": [
+      "Sichuan pepper (花椒, huājiāo)",
+      "dried chile (干辣椒, gānlàjiāo)",
+      "Pixian broad-bean paste (郫县豆瓣, Píxiàn dòubàn)",
+      "pickled chile (泡辣椒, pàolàjiāo)",
+      "garlic (蒜, suàn)",
+      "ginger (姜, jiāng)",
+      "scallion (葱, cōng)",
+      "black vinegar (香醋, xiāngcù)",
+      "fermented black beans (豆豉, dòuchǐ)",
+      "sesame oil (芝麻油, zhīmayóu)",
+      "sesame paste (芝麻酱, zhīmajiàng)",
+      "preserved mustard greens (芽菜, yácài)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "Pixian doubanjiang (substitute: chile-bean sauce plus a little miso, imperfect)",
+      "yacai preserved mustard greens (substitute: finely chopped Tianjin preserved vegetable or mild pickled mustard)",
+      "Sichuan pepper (substitute: none for numbing aroma)",
+      "caiziyou roasted rapeseed oil (substitute: neutral oil plus a small amount toasted sesame oil, imperfect)"
+    ],
+    "tips": [
+      "Commercial Sichuan chile-bean paste: 20 g can replace about 20 g homemade fermented chile-bean seasoning; typically contributes roughly 2-4 g salt depending on brand.",
+      "Five-spice is optional and dish-specific; if used, 2 g blend per 500 g meat, normally 0 g added salt."
+    ],
+    "pitfalls": [
+      "Do not make every dish málà.",
+      "Do not confuse Sichuan food with Hunan food.",
+      "Avoid drowning dishes in sweet bottled chili sauce.",
+      "Star anise and five-spice are not universal Sichuan defaults."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "hunan",
+    "kind": "cuisine",
+    "label": "Hunan",
+    "subtitle": "Fresh chile, smoke, sourness",
+    "about": "Hunan lies south of the middle Yangtze, with humid river valleys, Dongting Lake and mountainous western areas. Its cooking prizes fresh and preserved chiles, smoked and cured foods, pickles and sharp savory flavors; steamed fish head with chopped chile, Chairman Mao's red-braised pork, farmhouse stir-fried pork and smoked meats are representative.",
+    "prompt_name": "Hunan (Chinese)",
+    "flavors": [
+      "fresh chile (鲜辣椒, xiānlàjiāo)",
+      "chopped salted chile (剁椒, duòjiāo)",
+      "dried chile (干辣椒, gānlàjiāo)",
+      "garlic (蒜, suàn)",
+      "ginger (姜, jiāng)",
+      "scallion (葱, cōng)",
+      "fermented black beans (豆豉, dòuchǐ)",
+      "rice vinegar (米醋, mǐcù)",
+      "soy sauce (酱油, jiàngyóu)",
+      "pickled vegetables (酸菜, suāncài)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "duojiao chopped salted chiles (substitute: chopped Fresno or red jalapeño fermented or salted briefly)",
+      "Hunan smoked pork (腊肉, làròu) (substitute: slab bacon, smokier and saltier)",
+      "dried long beans (substitute: fresh green beans, different flavor)"
+    ],
+    "tips": [
+      "Jarred chopped salted chile: use 20-30 g per 500 g main ingredient; often contributes about 1.5-3 g salt, so reduce added salt accordingly.",
+      "Commercial black-bean chile sauce can replace douchi plus chile in quick dishes; 15 g often contributes about 1-2 g salt."
+    ],
+    "pitfalls": [
+      "Do not automatically add Sichuan pepper; Hunan chile heat is usually not defined by málà.",
+      "Do not make every Hunan dish extremely hot.",
+      "Preserved, smoked and sour flavors are as important as fresh chile."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "cantonese",
+    "kind": "cuisine",
+    "label": "Cantonese",
+    "subtitle": "Freshness, seafood, gentle seasoning",
+    "about": "Cantonese cooking centers on Guangzhou, the Pearl River Delta and related Yue-speaking areas of Guangdong. Dense trade networks, subtropical agriculture and coastal seafood shaped a cuisine that often favors freshness and technical precision; steamed whole fish, white-cut chicken, char siu and dim sum are representative.",
+    "prompt_name": "Cantonese (Chinese)",
+    "flavors": [
+      "ginger (薑, goeng1)",
+      "scallion (蔥, cung1)",
+      "garlic (蒜, syun3)",
+      "light soy sauce (生抽, saang1 cau1)",
+      "oyster sauce (蠔油, hou4 jau4)",
+      "fermented black beans (豆豉, dau6 si6)",
+      "sesame oil (芝麻油, zi1 maa4 jau4)",
+      "white pepper (白胡椒, baak6 wu4 ziu1)",
+      "rice wine (米酒, mai5 zau2)",
+      "dried tangerine peel (陳皮, can4 pei4)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "dried shrimp (蝦米, haa1 mai5) (substitute: none for exact flavor; omit for shellfish-free)",
+      "dried scallop (乾貝, gon1 bui3) (substitute: dried shiitake for umami, not seafood flavor)",
+      "Chinese preserved sausage (臘腸, laap6 coeng2) (substitute: mild sweet sausage, imperfect)",
+      "fresh whole fish (substitute: supermarket sea bass, trout or snapper)"
+    ],
+    "tips": [
+      "Prepared oyster sauce: 15-20 g seasons roughly 500 g food; commonly contributes around 1.5-2.5 g salt equivalent, label-dependent.",
+      "Char siu sauce: 30-40 g per 500 g pork is a practical shortcut; commonly contributes roughly 2-4 g salt plus substantial sugar."
+    ],
+    "pitfalls": [
+      "Do not equate light seasoning with bland food.",
+      "Do not add oyster sauce to every dish.",
+      "Do not require wok hei in steamed or poached foods.",
+      "Do not treat all Guangdong cooking as one undifferentiated Cantonese style."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "shandong",
+    "kind": "cuisine",
+    "label": "Shandong",
+    "subtitle": "Scallion, seafood, powerful broths",
+    "about": "Shandong projects into the Yellow Sea and Bohai Sea in northern China, with the lower Yellow River crossing the province. Lu cuisine is an old and influential northern tradition known for seafood, scallion, broths and exacting heat control; braised sea cucumber with scallion, sweet-and-sour carp, Dezhou braised chicken and quick-fried organ or seafood dishes are representative.",
+    "prompt_name": "Shandong (Chinese)",
+    "flavors": [
+      "scallion (葱, cōng)",
+      "ginger (姜, jiāng)",
+      "garlic (蒜, suàn)",
+      "soy sauce (酱油, jiàngyóu)",
+      "grain vinegar (醋, cù)",
+      "rice or grain wine (料酒, liàojiǔ)",
+      "sesame oil (芝麻油, zhīmayóu)",
+      "white pepper (白胡椒, báihújiāo)",
+      "star anise (八角, bājiǎo)",
+      "scallion oil (葱油, cōngyóu)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "dried sea cucumber (海参, hǎishēn) (substitute: king oyster mushroom for texture only)",
+      "yellow croaker (黄鱼, huángyú) (substitute: sea bass or cod)",
+      "large Shandong scallion (大葱, Dàcōng) (substitute: large leek plus scallion)"
+    ],
+    "tips": [
+      "Prepared chicken stock can replace long-made clear stock when necessary; choose unsalted and add salt separately.",
+      "Five-spice is dish-specific, not a default; 2 g per 500 g braise, normally 0 g salt."
+    ],
+    "pitfalls": [
+      "Do not use wood ear as the defining Shandong ingredient.",
+      "Do not turn all dishes sweet-and-sour.",
+      "Do not describe 'oldest Chinese cuisine' as an uncontested fact."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "jiangsu",
+    "kind": "cuisine",
+    "label": "Jiangsu",
+    "subtitle": "River fish, knife work, balance",
+    "about": "Jiangsu stretches from the lower Yangtze and Grand Canal to lakes and the Yellow Sea; major culinary centers include Huai'an, Yangzhou, Nanjing, Suzhou and Wuxi. Huaiyang prestige cooking is especially known for seasonality and knife work, while southern Jiangsu can run sweeter; lion's-head meatballs, Yangzhou fried rice, Wensi tofu and squirrel-shaped mandarin fish are representative.",
+    "prompt_name": "Jiangsu (Chinese)",
+    "flavors": [
+      "ginger (姜, jiāng)",
+      "scallion (葱, cōng)",
+      "Shaoxing-style rice wine (黄酒, huángjiǔ)",
+      "light soy sauce (生抽, shēngchōu)",
+      "dark soy sauce (老抽, lǎochōu)",
+      "Zhenjiang black vinegar (镇江香醋, Zhènjiāng xiāngcù)",
+      "sugar (糖, táng)",
+      "sesame oil (芝麻油, zhīmayóu)",
+      "white pepper (白胡椒, báihújiāo)"
+    ],
+    "sweet_only": [
+      "osmanthus sugar/syrup (桂花糖, guìhuā táng)"
+    ],
+    "signature_ingredients": [
+      "Zhenjiang black vinegar (substitute: rice vinegar plus a little balsamic)",
+      "water bamboo (茭白, jiāobái) (substitute: asparagus hearts or bamboo shoots, imperfect)",
+      "freshwater crab (substitute: blue crab or Dungeness)",
+      "dried bamboo shoot (干笋, gānsǔn) (substitute: canned bamboo shoot, milder)"
+    ],
+    "tips": [
+      "Bottled Zhenjiang vinegar needs no blend; 10-15 g adds acidity with negligible salt in most brands.",
+      "Commercial braising sauce can replace soy plus sugar in emergency; 30 g may contribute roughly 2-4 g salt, so check label."
+    ],
+    "pitfalls": [
+      "Do not equate all Jiangsu food with Huaiyang.",
+      "Do not make every dish sweet.",
+      "Do not automatically add red fermented tofu.",
+      "Precision of texture and cutting is often more characteristic than aggressive seasoning."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "zhejiang",
+    "kind": "cuisine",
+    "label": "Zhejiang",
+    "subtitle": "Fresh, wine-fragrant, gently sweet",
+    "about": "Zhejiang lies on China's east coast south of Shanghai, with Hangzhou and West Lake inland from the coast, Shaoxing amid waterways and Ningbo facing the sea. Its major subtraditions emphasize fresh seasonal ingredients, seafood, rice wine and restrained sweet-sour seasoning; West Lake fish in vinegar, Dongpo pork, Longjing shrimp and Ningbo-style seafood are representative.",
+    "prompt_name": "Zhejiang (Chinese)",
+    "flavors": [
+      "Shaoxing wine (绍兴酒, Shàoxīng jiǔ)",
+      "Zhejiang rice vinegar (米醋, mǐcù)",
+      "soy sauce (酱油, jiàngyóu)",
+      "ginger (姜, jiāng)",
+      "scallion (葱, cōng)",
+      "sugar (糖, táng)",
+      "sesame oil (芝麻油, zhīmayóu)",
+      "Longjing tea (龙井茶, Lóngjǐng chá)",
+      "fermented rice lees (酒糟, jiǔzāo)"
+    ],
+    "sweet_only": [
+      "osmanthus (桂花, guìhuā)"
+    ],
+    "signature_ingredients": [
+      "Shaoxing wine (substitute: dry sherry)",
+      "Longjing green tea (substitute: another delicate Chinese green tea)",
+      "freshwater fish (substitute: trout or bass)",
+      "fermented rice lees (substitute: sake kasu, imperfect)"
+    ],
+    "tips": [
+      "Shaoxing cooking wine: 15-30 g per 500 g food; salted cooking wines may add 0.5-1.5 g salt, so check label.",
+      "Premixed sweet-sour sauce is a poor default; if used, 25 g generally replaces roughly 10 g vinegar plus 10 g sugar and may add 1-2 g salt."
+    ],
+    "pitfalls": [
+      "Do not make Zhejiang food generically sugary.",
+      "Do not treat Longjing tea as an everyday seasoning.",
+      "Do not collapse Zhejiang into Shanghai or Jiangsu cooking."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "fujian",
+    "kind": "cuisine",
+    "label": "Fujian",
+    "subtitle": "Seafood, broths, fermented savor",
+    "about": "Fujian faces the Taiwan Strait on China's mountainous southeast coast and historically connected China to maritime Southeast Asia. Coastal seafood, mountain produce, soups, red-fermented rice and diaspora networks shape its varied Fuzhou, southern Fujian and western traditions; Buddha Jumps Over the Wall, fish balls, oyster omelet and red-wine-lees dishes are representative.",
+    "prompt_name": "Fujian (Chinese)",
+    "flavors": [
+      "red rice wine lees (红糟, hóngzāo)",
+      "fish sauce (鱼露, yúlù)",
+      "rice wine (米酒, mǐjiǔ)",
+      "ginger (姜, jiāng)",
+      "scallion (葱, cōng)",
+      "garlic (蒜, suàn)",
+      "soy sauce (酱油, jiàngyóu)",
+      "rice vinegar (米醋, mǐcù)",
+      "white pepper (白胡椒, báihújiāo)",
+      "dried seafood seasoning such as dried shrimp (虾米, xiāmǐ)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "red rice wine lees (substitute: sake kasu plus red yeast rice only if available; otherwise none)",
+      "dried scallop (substitute: dried shiitake for umami only)",
+      "fish balls with springy texture (substitute: supermarket fish balls)",
+      "dried razor clam or other dried seafood (substitute: dried shrimp if shellfish allowed)"
+    ],
+    "tips": [
+      "Bottled red-fermented rice cooking sauce can replace homemade hongzao; 20 g may contribute roughly 1-2 g salt depending on brand.",
+      "Commercial fish sauce: 10 g may contribute roughly 1.5-2.5 g salt; reduce added salt aggressively."
+    ],
+    "pitfalls": [
+      "Do not reduce Fujian cuisine to oyster sauce or generic seafood stir-fries.",
+      "Do not assume every Fujian dish is sweet.",
+      "Distinguish coastal Fujian, Fuzhou and Hokkien/diaspora traditions when possible."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "anhui",
+    "kind": "cuisine",
+    "label": "Anhui",
+    "subtitle": "Mountain foods, braises, wild herbs",
+    "about": "Anhui lies inland west of the lower Yangtze, with the Huangshan mountains and historic Huizhou in its south. Hui cuisine grew from mountain ingredients, preserved foods, bamboo shoots, mushrooms and careful braising; stinky mandarin fish, Li Hongzhang mixed stew, braised soft-shell turtle and bamboo-shoot dishes are representative.",
+    "prompt_name": "Anhui (Chinese)",
+    "flavors": [
+      "ginger (姜, jiāng)",
+      "scallion (葱, cōng)",
+      "garlic (蒜, suàn)",
+      "soy sauce (酱油, jiàngyóu)",
+      "rice wine (米酒, mǐjiǔ)",
+      "rock sugar (冰糖, bīngtáng)",
+      "star anise (八角, bājiǎo)",
+      "cassia (桂皮, guìpí)",
+      "dried chile (干辣椒, gānlàjiāo)",
+      "sesame oil (芝麻油, zhīmayóu)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "fresh or dried bamboo shoots (笋, sǔn) (substitute: canned bamboo shoots)",
+      "wild or dried mushrooms (香菇, xiānggū) (substitute: shiitake)",
+      "fermented/stinky mandarin fish (臭鳜鱼, chòu guìyú) (substitute: none)",
+      "soft-shell turtle (substitute: chicken thighs for braising structure only)"
+    ],
+    "tips": [
+      "Chinese braising spice packets can replace whole star anise/cassia/clove; use 3-5 g spices per 1 kg food, usually 0 g salt unless packet is seasoned.",
+      "Prepared soy-braising sauce: 30 g may contribute 3-5 g salt equivalent; use label sodium."
+    ],
+    "pitfalls": [
+      "Do not confuse Anhui with Cantonese or Jiangsu merely because braising is common.",
+      "Do not make all Hui food heavily spiced; ingredient preservation and mountain produce are key.",
+      "Wild-game stereotypes should not be imposed on modern home cooking."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "japan",
+    "kind": "country",
+    "label": "Japan",
+    "subtitle": "Dashi, fermentation, seasonality",
+    "about": "Japan stretches from snowy Hokkaido to subtropical Okinawa, so regional food varies greatly despite common foundations. Rice agriculture, fisheries, Buddhist foodways, fermentation and later continental and Western influences shaped the cuisine; sushi, miso soup, grilled fish and simmered vegetables are representative.",
+    "prompt_name": "",
+    "flavors": [
+      "soy sauce (醤油, shōyu)",
+      "dashi (だし)",
+      "miso (味噌)",
+      "mirin (みりん)",
+      "sake (酒)",
+      "rice vinegar (米酢, komezu)",
+      "ginger (生姜, shōga)",
+      "scallion (葱, negi)",
+      "sesame (胡麻, goma)",
+      "wasabi (山葵)",
+      "sansho pepper (山椒, sanshō)"
+    ],
+    "sweet_only": [
+      "kinako roasted soybean flour (きな粉, kinako)",
+      "kuromitsu black sugar syrup (黒蜜, kuromitsu)"
+    ],
+    "signature_ingredients": [
+      "kombu (昆布) (substitute: none exact; dried mushrooms for vegetarian umami)",
+      "katsuobushi (鰹節) (substitute: instant dashi or dried shiitake for vegetarian version)",
+      "miso (substitute: none exact)",
+      "nori (海苔) (substitute: other toasted seaweed, imperfect)"
+    ],
+    "tips": [
+      "Instant dashi granules: about 3-5 g per liter replaces scratch dashi; many products add roughly 1-3 g salt per liter, so check label.",
+      "Mentsuyu concentrate: dilute according to label; 30 g concentrate may contribute roughly 2-4 g salt depending on strength."
+    ],
+    "pitfalls": [
+      "Do not add teriyaki sauce to unrelated dishes.",
+      "Do not treat sushi as the dominant form of home cooking.",
+      "Dashi can be fish-based, kombu-based, shiitake-based or mixed."
+    ],
+    "avoid": [],
+    "children": [
+      "japan_any",
+      "kanto",
+      "kansai"
+    ]
+  },
+  {
+    "id": "japan_any",
+    "kind": "any",
+    "label": "Any",
+    "subtitle": "Sushi, ramen, teriyaki image",
+    "about": "Internationally, Japanese food is commonly represented by sushi, ramen, tempura, teriyaki, miso soup and rice bowls. These are genuinely Japanese foods, but the export image underrepresents ordinary simmered dishes, grilled fish, pickles, regional foods and home-style vegetable cookery.",
+    "prompt_name": "Japanese",
+    "flavors": [
+      "soy sauce (醤油, shōyu)",
+      "dashi (だし)",
+      "miso (味噌)",
+      "mirin (みりん)",
+      "rice vinegar (米酢, komezu)",
+      "sake (酒)",
+      "ginger (生姜, shōga)",
+      "wasabi (山葵)",
+      "sesame (胡麻, goma)",
+      "scallion (葱, negi)"
+    ],
+    "sweet_only": [
+      "matcha (抹茶)",
+      "kuromitsu (黒蜜)"
+    ],
+    "signature_ingredients": [
+      "nori (substitute: toasted seaweed)",
+      "miso (substitute: none exact)",
+      "short-grain Japanese rice (substitute: California medium-grain)",
+      "katsuobushi (substitute: instant dashi)"
+    ],
+    "tips": [
+      "Bottled teriyaki sauce: 30 g per 500 g food; often contributes 2-4 g salt and significant sugar.",
+      "Instant dashi: 3-5 g per liter; account for label sodium."
+    ],
+    "pitfalls": [
+      "Treat this as an international stereotype/export view, not Japanese home cooking in full.",
+      "Do not make everything sweet teriyaki.",
+      "Do not use sushi ingredients to signal authenticity in unrelated dishes."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "kanto",
+    "kind": "cuisine",
+    "label": "Kanto",
+    "subtitle": "Dark soy, bonito, Edo",
+    "about": "Kanto surrounds Tokyo on eastern Honshu and includes the historic city of Edo. Urban Edo food culture favored darker koikuchi soy sauce and bonito-rich stocks and developed famous street and restaurant foods; Edomae sushi, Edo tempura, soba and grilled eel are representative.",
+    "prompt_name": "Kanto (Japanese)",
+    "flavors": [
+      "koikuchi soy sauce (濃口醤油, koikuchi shōyu)",
+      "bonito dashi (鰹だし, katsuo dashi)",
+      "mirin (みりん)",
+      "sake (酒)",
+      "rice vinegar (米酢, komezu)",
+      "wasabi (山葵)",
+      "scallion (葱, negi)",
+      "ginger (生姜, shōga)",
+      "sansho (山椒, sanshō)",
+      "tsuyu (つゆ)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "katsuobushi (substitute: instant bonito dashi)",
+      "koikuchi soy sauce (substitute: standard Japanese soy sauce)",
+      "red vinegar for Edomae sushi (赤酢, akazu) (substitute: rice vinegar plus a tiny amount brown sugar, imperfect)"
+    ],
+    "tips": [
+      "Mentsuyu: 30 g concentrate can replace soy/mirin/dashi base for noodles; often contributes 2-4 g salt.",
+      "Instant bonito dashi: 3-5 g per liter; salt varies from near zero to several grams per liter."
+    ],
+    "pitfalls": [
+      "Do not claim soba originated as Edo fast food; soba predates Edo stall culture.",
+      "Do not make red miso a mandatory Kanto marker.",
+      "Dark color does not mean every Kanto dish should taste aggressively salty."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "kansai",
+    "kind": "cuisine",
+    "label": "Kansai",
+    "subtitle": "Kombu, light soy, refinement",
+    "about": "Kansai is western-central Japan around Osaka, Kyoto, Kobe and neighboring prefectures. Ancient court culture in Kyoto, merchant culture in Osaka and trade routes carrying kombu helped shape its food; Kyoto kaiseki, kitsune udon, Osaka okonomiyaki and takoyaki are representative.",
+    "prompt_name": "Kansai (Japanese)",
+    "flavors": [
+      "kombu dashi (昆布だし, konbu dashi)",
+      "usukuchi soy sauce (淡口醤油, usukuchi shōyu)",
+      "mirin (みりん)",
+      "sake (酒)",
+      "white miso (白味噌, shiro miso)",
+      "sansho (山椒, sanshō)",
+      "yuzu (柚子)",
+      "scallion (葱, negi)",
+      "shichimi (七味唐辛子, shichimi tōgarashi)",
+      "katsuobushi (鰹節)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "kombu (substitute: none exact)",
+      "usukuchi soy sauce (substitute: koikuchi diluted slightly plus salt, color will differ)",
+      "Kyoto white miso (substitute: mild white miso)"
+    ],
+    "tips": [
+      "Shirodashi concentrate can replace kombu-dashi plus usukuchi; dilute by label and reduce salt because 30 g concentrate may supply roughly 3-5 g salt.",
+      "Instant kombu dashi: 3-5 g per liter; salt varies by brand."
+    ],
+    "pitfalls": [
+      "Do not interpret 'light' soy as low-sodium.",
+      "Do not make white miso universal across Kansai.",
+      "Do not assume every Kansai stock is vegetarian kombu-only."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "india",
+    "kind": "country",
+    "label": "India",
+    "subtitle": "Spices, pulses, regional diversity",
+    "about": "India stretches from the Himalayas and Indo-Gangetic plain to western deserts, tropical coasts and the southern peninsula. Religion, caste, trade, migration, Islamic courts and Portuguese and British colonialism all shaped highly regional cuisines; dal, vegetable sabzi, flatbreads and rice dishes appear widely but in radically different forms.",
+    "prompt_name": "",
+    "flavors": [
+      "cumin (जीरा, jīrā)",
+      "coriander (धनिया, dhaniyā)",
+      "turmeric (हल्दी, haldī)",
+      "chile (मिर्च, mirch)",
+      "ginger (अदरक, adrak)",
+      "garlic (लहसुन, lahsun)",
+      "mustard seed (राई, rāī)",
+      "fenugreek (मेथी, methī)",
+      "asafoetida (हींग, hīng)",
+      "cardamom (इलायची, ilāychī)",
+      "clove (लौंग, lauṅg)",
+      "black pepper (काली मिर्च, kālī mirch)"
+    ],
+    "sweet_only": [
+      "rose water (गुलाब जल, gulāb jal)",
+      "kewra water (केवड़ा, kevṛā)"
+    ],
+    "signature_ingredients": [
+      "asafoetida (substitute: tiny amount garlic/onion where religious rules permit)",
+      "fresh curry leaves (substitute: none exact)",
+      "Indian dried chiles (substitute: cayenne plus paprika depending heat)",
+      "ghee (substitute: clarified butter or neutral oil)"
+    ],
+    "tips": [
+      "Garam masala: 2-5 g per 500 g dish; usually 0 g salt.",
+      "Commercial curry powder: 5-10 g per 500 g; usually 0-1 g salt depending brand, but it is not a universal Indian household blend."
+    ],
+    "pitfalls": [
+      "Do not call every spiced sauce 'curry'.",
+      "Do not assume every dish contains garam masala.",
+      "Do not impose Punjabi restaurant ingredients nationally.",
+      "Vegetarian does not mean vegan because dairy is common in many regions."
+    ],
+    "avoid": [],
+    "children": [
+      "india_any",
+      "north_india",
+      "south_india"
+    ]
+  },
+  {
+    "id": "india_any",
+    "kind": "any",
+    "label": "Any",
+    "subtitle": "Restaurant curry, naan, tandoor",
+    "about": "Internationally recognized Indian food is disproportionately shaped by Punjabi, Delhi and Mughlai restaurant traditions plus globally popular biryanis and southern dishes such as dosa. Butter chicken, chicken tikka masala, naan, paneer dishes and dal are familiar export markers, but this image is far narrower and creamier than everyday Indian cooking.",
+    "prompt_name": "Indian",
+    "flavors": [
+      "cumin (jeera)",
+      "coriander (dhania)",
+      "turmeric (haldi)",
+      "red chile (lal mirch)",
+      "garam masala",
+      "ginger (adrak)",
+      "garlic (lahsun)",
+      "green cardamom (elaichi)",
+      "clove (laung)",
+      "fenugreek (methi)",
+      "kasuri methi"
+    ],
+    "sweet_only": [
+      "rose water (gulab jal)",
+      "cardamom (elaichi)"
+    ],
+    "signature_ingredients": [
+      "paneer (substitute: firm tofu)",
+      "ghee (substitute: clarified butter)",
+      "kasuri methi (substitute: none exact)",
+      "basmati rice (substitute: another long-grain aromatic rice)"
+    ],
+    "tips": [
+      "Garam masala: 2-5 g per 500 g; 0 g salt in most blends.",
+      "Tikka/tandoori seasoning: 10-15 g per 500 g; commercial mixes may supply 1-3 g salt.",
+      "Jarred curry simmer sauce: 150-200 g per 500 g main ingredient; commonly supplies 4-8 g salt depending brand."
+    ],
+    "pitfalls": [
+      "Treat this as an export/restaurant cliché, not a national baseline.",
+      "Do not assume all Indian sauces contain cream or tomato.",
+      "Curry powder is not a universal Indian household seasoning."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "north_india",
+    "kind": "cuisine",
+    "label": "North India",
+    "subtitle": "Wheat, dairy, warm spices",
+    "about": "This broad app category covers the Indo-Gangetic plain, Punjab, Delhi, Rajasthan, Kashmir and Himalayan regions, whose cuisines differ substantially. Persianate and Mughal court traditions strongly shaped some urban northern cooking while farming and pastoral traditions shaped others; roti with dal or vegetables, kebabs, biryani and Punjabi-style tandoori foods are representative but not universal.",
+    "prompt_name": "North Indian",
+    "flavors": [
+      "cumin (जीरा, jeera)",
+      "coriander (धनिया, dhania)",
+      "turmeric (हल्दी, haldi)",
+      "red chile (लाल मिर्च, lal mirch)",
+      "garam masala (गरम मसाला)",
+      "green cardamom (छोटी इलायची, chhoti elaichi)",
+      "black cardamom (बड़ी इलायची, badi elaichi)",
+      "clove (लौंग, laung)",
+      "fenugreek (मेथी, methi)",
+      "asafoetida (हींग, hing)",
+      "dried fenugreek leaf (कसूरी मेथी, kasuri methi)"
+    ],
+    "sweet_only": [
+      "rose water (गुलाब जल, gulab jal)",
+      "saffron (केसर, kesar)"
+    ],
+    "signature_ingredients": [
+      "kasuri methi (substitute: tiny amount dried fenugreek seed is not equivalent; best substitute none)",
+      "paneer (substitute: firm tofu for texture, not flavor)",
+      "black cardamom (substitute: green cardamom plus tiny smoked note, imperfect)",
+      "ghee (substitute: clarified butter)"
+    ],
+    "tips": [
+      "Garam masala: 2-5 g per 500 g, generally 0 g salt.",
+      "Tandoori masala: 10-15 g per 500 g protein; commercial mixes may add 1-3 g salt, so check label.",
+      "Jarred tikka masala sauce: 150 g for roughly 500 g protein/vegetables can contribute 3-6 g salt plus dairy depending brand."
+    ],
+    "pitfalls": [
+      "Do not make naan the everyday bread everywhere.",
+      "Do not put cream and paneer into every northern dish.",
+      "Do not treat Punjabi-Mughlai restaurant food as all North Indian food.",
+      "Black mustard seed is not a mandatory northern signature."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "south_india",
+    "kind": "cuisine",
+    "label": "South India",
+    "subtitle": "Rice, tamarind, curry leaves",
+    "about": "This broad category covers Tamil Nadu, Kerala, Karnataka, Andhra Pradesh and Telangana, from tropical coasts to dry interior plateaus. Dravidian food traditions, temple cultures, maritime trade, Muslim communities and later colonial contacts produced enormous variation; dosa, idli, sambar, rasam and regional rice meals are familiar representatives rather than universal defaults.",
+    "prompt_name": "South Indian",
+    "flavors": [
+      "mustard seed (கடுகு, kadugu / ఆవాలు, āvalu)",
+      "curry leaf (கருவேப்பிலை, karuvēppilai / కరివేపాకు, karivepaku)",
+      "tamarind (புளி, puli / చింతపండు, chintapandu)",
+      "dried red chile (வரமிளகாய், vara milagai / ఎండు మిరప, endu mirapa)",
+      "fenugreek (வெந்தயம், vendhayam / మెంతులు, menthulu)",
+      "asafoetida (பெருங்காயம், perungayam / ఇంగువ, inguva)",
+      "black pepper (மிளகு, milagu)",
+      "coriander seed (மல்லி, malli)",
+      "turmeric (மஞ்சள், manjal)",
+      "cumin (சீரகம், seeragam / జీలకర్ర, jeelakarra)",
+      "fresh ginger (இஞ்சி, inji)"
+    ],
+    "sweet_only": [
+      "cardamom (ஏலக்காய், elakkai)"
+    ],
+    "signature_ingredients": [
+      "fresh curry leaves (substitute: none exact)",
+      "tamarind pulp (substitute: lime plus a little brown sugar, imperfect)",
+      "urad dal (substitute: split mung for some batters, very different)",
+      "fresh coconut (substitute: unsweetened frozen coconut)"
+    ],
+    "tips": [
+      "Sambar powder: 10-15 g per 1 liter; traditionally spice-based and about 0 g salt, but check commercial labels.",
+      "Rasam powder: 5-10 g per liter; normally about 0 g salt.",
+      "Commercial coconut chutney powder varies; 15 g may contribute 0.5-2 g salt."
+    ],
+    "pitfalls": [
+      "Do not assume all South Indian dishes contain coconut.",
+      "Do not call the region uniformly hotter than the north.",
+      "Urad dal is a pulse, not merely a seasoning.",
+      "Tamil 'sukku' means dried ginger, not dried chile."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "korean",
+    "kind": "cuisine",
+    "label": "Korean",
+    "subtitle": "Jang, garlic, chile, fermentation",
+    "about": "Korean cuisine developed on the Korean Peninsula, with cold winters encouraging extensive preservation and fermentation and strong regional differences between coasts, mountains and plains. Rice, soups, banchan and fermented jang form major foundations; kimchi jjigae, bibimbap, bulgogi and doenjang jjigae are representative.",
+    "prompt_name": "Korean",
+    "flavors": [
+      "red pepper flakes (고춧가루, gochutgaru)",
+      "red pepper paste (고추장, gochujang)",
+      "soybean paste (된장, doenjang)",
+      "soy sauce (간장, ganjang)",
+      "garlic (마늘, maneul)",
+      "ginger (생강, saenggang)",
+      "scallion (파, pa)",
+      "sesame oil (참기름, chamgireum)",
+      "sesame seed (참깨, chamkkae)",
+      "perilla oil (들기름, deulgireum)",
+      "fermented seafood (젓갈, jeotgal)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "perilla leaves (깻잎, kkaennip) (substitute: shiso, different flavor)",
+      "Korean radish (무, mu) (substitute: daikon)",
+      "rice cakes (떡, tteok) (substitute: none exact)",
+      "dried anchovies (멸치, myeolchi) (substitute: bonito flakes for stock, different)"
+    ],
+    "tips": [
+      "Kimchi (김치) is in nearly every Korean kitchen. Write the recipe so it works without it, but if the user didn't list it, strongly recommend it in the Tips: served alongside, or cooked in if it suits the dish.",
+      "Gochujang: 20 g contributes roughly 1-2.5 g salt plus sugar depending brand.",
+      "Store-bought ssamjang: 20 g commonly contributes 1.5-3 g salt.",
+      "Soup soy sauce: 10 g may contribute around 1.5-2 g salt."
+    ],
+    "pitfalls": [
+      "Do not make everything red, sweet and gochujang-heavy.",
+      "Not all kimchi contains seafood or chile.",
+      "Korean food is much broader than barbecue and jjigae.",
+      "Use standard spelling 고춧가루, not 고추가루."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "thai",
+    "kind": "cuisine",
+    "label": "Thai",
+    "subtitle": "Herbs, fish sauce, curry pastes",
+    "about": "Thailand runs from northern mountains through the Chao Phraya plain to a long southern peninsula, producing sharply different regional cuisines. Trade with China, India, maritime Southeast Asia and Europeans added techniques and ingredients to older Tai foodways; tom yum, green curry, som tam and pad thai are familiar representatives but come from different regional histories.",
+    "prompt_name": "Thai",
+    "flavors": [
+      "fish sauce (น้ำปลา, nam pla)",
+      "fresh chile (พริก, phrik)",
+      "lemongrass (ตะไคร้, takhrai)",
+      "galangal (ข่า, kha)",
+      "makrut lime leaf (ใบมะกรูด, bai makrut)",
+      "shallot (หอมแดง, hom daeng)",
+      "garlic (กระเทียม, krathiam)",
+      "coriander root (รากผักชี, rak phak chi)",
+      "tamarind (มะขาม, makham)",
+      "palm sugar (น้ำตาลปี๊บ, nam tan pip)",
+      "shrimp paste (กะปิ, kapi)",
+      "Thai basil (โหระพา, horapha)"
+    ],
+    "sweet_only": [
+      "pandan (ใบเตย, bai toei)"
+    ],
+    "signature_ingredients": [
+      "galangal (substitute: ginger plus lime zest, noticeably different)",
+      "makrut lime leaves (substitute: lime zest plus bay leaf, imperfect)",
+      "Thai basil (substitute: Italian basil plus mint, imperfect)",
+      "palm sugar (substitute: light brown sugar)"
+    ],
+    "tips": [
+      "Commercial curry paste: 20-30 g per 400 ml coconut milk is typical; many brands contribute about 2-4 g salt and may contain shrimp.",
+      "Fish sauce: 10 g commonly contributes about 2-2.5 g salt.",
+      "Tom yum paste: 20 g per 500 ml liquid may add 2-4 g salt and often sugar."
+    ],
+    "pitfalls": [
+      "Do not force sweet, sour, salty and spicy into every dish.",
+      "Do not put coconut milk into all Thai curries or soups.",
+      "Do not use peanut sauce as a generic Thai flavor.",
+      "Northern, northeastern, central and southern cuisines differ substantially."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "vietnamese",
+    "kind": "cuisine",
+    "label": "Vietnamese",
+    "subtitle": "Fish sauce, herbs, rice",
+    "about": "Vietnam stretches along the South China Sea from the Red River Delta around Hanoi through central mountains and coast to the Mekong Delta. Chinese rule and exchange, Cham and Khmer contacts, southward Vietnamese migration and French colonialism shaped distinct northern, central and southern cuisines; phở, bún chả, bánh xèo and cá kho are representative.",
+    "prompt_name": "Vietnamese",
+    "flavors": [
+      "fish sauce (nước mắm)",
+      "scallion (hành lá)",
+      "ginger (gừng)",
+      "lemongrass (sả)",
+      "garlic (tỏi)",
+      "shallot (hành tím)",
+      "lime (chanh)",
+      "fresh chile (ớt)",
+      "Vietnamese coriander (rau răm)",
+      "Thai/Vietnamese basil (húng quế)",
+      "mint (húng lủi)",
+      "turmeric (nghệ)"
+    ],
+    "sweet_only": [
+      "pandan (lá dứa)"
+    ],
+    "signature_ingredients": [
+      "Vietnamese fish sauce (substitute: Thai fish sauce, flavor differs)",
+      "rice paper (bánh tráng) (substitute: supermarket rice wrappers)",
+      "rice vermicelli (bún) (substitute: Thai rice vermicelli)",
+      "rau răm (substitute: cilantro plus mint, imperfect)"
+    ],
+    "tips": [
+      "Fish sauce: 10 g commonly contributes roughly 2-2.5 g salt.",
+      "Prepared phở spice packets usually contain star anise, cassia, clove, coriander and cardamom; use 5-10 g spices per 3-4 liters broth, normally 0 g salt unless seasoning mix.",
+      "Bottled nuoc cham may contribute about 1-2 g salt per 30 g, brand-dependent."
+    ],
+    "pitfalls": [
+      "Do not put lime, chile and huge piles of herbs into every dish.",
+      "Do not make all phở heavily spiced or sweet.",
+      "Distinguish northern, central and southern flavor profiles when possible.",
+      "French influence is important but does not explain the cuisine as a whole."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "filipino",
+    "kind": "cuisine",
+    "label": "Filipino",
+    "subtitle": "Vinegar, garlic, sour-savory depth",
+    "about": "The Philippines is an archipelago of more than seven thousand islands between the South China Sea and Pacific, with major Luzon, Visayan and Mindanao traditions. Indigenous Austronesian foodways absorbed Chinese trade and migration, Spanish and Mexican colonial influences and later American influence; adobo, sinigang, pancit and kare-kare are representative.",
+    "prompt_name": "Filipino",
+    "flavors": [
+      "cane or coconut vinegar (sukà)",
+      "soy sauce (toyò)",
+      "fish sauce (patís)",
+      "fermented shrimp or fish paste (bagoóng)",
+      "garlic (bawang)",
+      "onion (sibuyas)",
+      "ginger (luya)",
+      "calamansi (kalamansî)",
+      "black pepper (pamintang itim)",
+      "annatto (atsuete)",
+      "bay leaf (dahon ng laurel)"
+    ],
+    "sweet_only": [
+      "ube",
+      "pandan"
+    ],
+    "signature_ingredients": [
+      "calamansi (substitute: equal parts lime and mandarin/lemon juice)",
+      "bagoong alamang (substitute: shrimp paste, then adjust salt)",
+      "banana ketchup (substitute: tomato ketchup plus small amount sugar and vinegar, imperfect)",
+      "souring agents such as sampalok (substitute: tamarind concentrate)"
+    ],
+    "tips": [
+      "Sinigang soup mix: commonly tamarind/sour flavor, salt and seasonings; 20 g packet may contribute roughly 5-8 g salt, so do not salt separately until tasted.",
+      "Bottled adobo marinade: 30-40 g per 500 g meat; commonly contributes roughly 3-5 g salt.",
+      "Bagoong: 10 g may contribute 1.5-3 g salt."
+    ],
+    "pitfalls": [
+      "Do not describe Filipino food as merely Spanish-Asian fusion.",
+      "Adobo is a technique/family of preparations, not one fixed recipe.",
+      "Not every savory dish is sweet.",
+      "Regional cuisines of Bicol, Ilocos, Visayas and Mindanao differ strongly."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "indonesian",
+    "kind": "cuisine",
+    "label": "Indonesian",
+    "subtitle": "Bumbu, sambal, coconut, fermentation",
+    "about": "Indonesia spans thousands of islands between the Indian and Pacific oceans, so Javanese, Sumatran, Balinese, Sulawesi and eastern Indonesian cuisines can differ dramatically. Austronesian foundations, the spice trade, Indian and Middle Eastern links, Chinese migration and Dutch colonialism all contributed; rendang, nasi goreng, soto and gado-gado are recognizable examples.",
+    "prompt_name": "Indonesian",
+    "flavors": [
+      "chile (cabai)",
+      "shallot (bawang merah)",
+      "garlic (bawang putih)",
+      "galangal (lengkuas)",
+      "lemongrass (serai)",
+      "turmeric (kunyit)",
+      "candlenut (kemiri)",
+      "shrimp paste (terasi)",
+      "sweet soy sauce (kecap manis)",
+      "tamarind (asam jawa)",
+      "makrut lime leaf (daun jeruk)",
+      "coriander seed (ketumbar)"
+    ],
+    "sweet_only": [
+      "pandan (daun pandan)",
+      "palm sugar (gula aren/gula jawa)"
+    ],
+    "signature_ingredients": [
+      "candlenut (substitute: macadamia or cashew for body; allergen profile changes)",
+      "terasi (substitute: Southeast Asian shrimp paste)",
+      "kecap manis (substitute: soy sauce plus palm/brown sugar)",
+      "tempe (substitute: firm tofu, different texture/flavor)"
+    ],
+    "tips": [
+      "Commercial sambal oelek: 15-30 g per 500 g food; may contribute about 1-2 g salt.",
+      "Rendang paste: 40-50 g per 500 g meat; often contributes 2-5 g salt depending brand.",
+      "Kecap manis: 15 g may contribute roughly 1-2 g salt plus substantial sugar."
+    ],
+    "pitfalls": [
+      "Do not make every Indonesian dish sweet with kecap manis.",
+      "Do not use coconut milk universally.",
+      "Do not equate Indonesian cuisine with Javanese food alone.",
+      "Sambal is a category with many regional forms, not one recipe."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "malaysian_singaporean",
+    "kind": "cuisine",
+    "label": "Malaysia & SG",
+    "subtitle": "Malay, Chinese, Indian, Peranakan",
+    "about": "Malaysia and Singapore sit at a historic maritime crossroads linking the Indian Ocean and South China Sea. Malay, Chinese, Indian, Peranakan, indigenous and colonial communities created overlapping but distinct food traditions; nasi lemak, laksa, roti canai, Hainanese chicken rice and char kway teow are representative across the combined app category.",
+    "prompt_name": "Malaysian and Singaporean",
+    "flavors": [
+      "shrimp paste (belacan)",
+      "chile paste/relish (sambal)",
+      "lemongrass (serai)",
+      "galangal (lengkuas)",
+      "turmeric (kunyit)",
+      "pandan (daun pandan)",
+      "makrut lime leaf (daun limau purut)",
+      "tamarind (asam jawa)",
+      "sweet soy sauce (kicap manis)",
+      "light soy sauce (kicap cair)",
+      "curry leaf (daun kari)"
+    ],
+    "sweet_only": [
+      "palm sugar (gula melaka)",
+      "pandan (daun pandan)"
+    ],
+    "signature_ingredients": [
+      "belacan (substitute: Southeast Asian shrimp paste)",
+      "candlenut (buah keras) (substitute: macadamia/cashew for body; allergen change)",
+      "asam gelugur/asam keping (substitute: tamarind)",
+      "buah keluak (substitute: none; do not improvise because improperly processed raw seeds are unsafe)"
+    ],
+    "tips": [
+      "Commercial laksa paste: 30-50 g per 400 ml coconut milk/stock; often contributes 3-6 g salt and may contain shrimp.",
+      "Sambal: 20 g commonly contributes 1-3 g salt depending type.",
+      "Curry powder for meat/fish: 10-15 g per 500 g; usually 0-2 g salt depending brand."
+    ],
+    "pitfalls": [
+      "Do not treat Malaysian and Singaporean cuisine as one ethnic cuisine; both are multiethnic systems.",
+      "Do not call every coconut-chile dish laksa.",
+      "Distinguish Malay, Chinese, Indian and Peranakan lineages when possible.",
+      "Do not substitute ordinary raw kepayang seeds for safely processed buah keluak."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "afghan",
+    "kind": "cuisine",
+    "label": "Afghan",
+    "subtitle": "Palaw, dumplings, yogurt, cumin",
+    "about": "Afghanistan lies among the Hindu Kush mountains between Iran, Central Asia and Pakistan, with foodways shaped by Persianate cities, Turkic and Pashtun communities, farming and pastoral traditions. Many celebrated dishes balance rice, browned onions, aromatic spices, yogurt and sometimes dried fruit, but heat and ingredients differ by region and household. Representative dishes include qabili palaw, mantu, ashak and bolani.",
+    "prompt_name": "Afghan",
+    "flavors": [
+      "cumin (زیره, zīra)",
+      "green cardamom (هل سبز, hel-e sabz)",
+      "black cumin, where available (زیره سیاه, zīra-ye siyāh)",
+      "coriander seed (تخم گشنیز, tokhm-e geshnīz)",
+      "garlic (سیر, sīr)",
+      "onion (پیاز, piyāz)",
+      "dried mint (نعناع خشک, naʿnāʿ-e khoshk)",
+      "black pepper (مرچ سیاه, morch-e siyāh)",
+      "char masala mixed spices (چار مصالحه, chār masāla)",
+      "chakka, thick yogurt sauce (چکه, chakka)",
+      "qurut, salted sour dried dairy (قروت, qurūt)"
+    ],
+    "sweet_only": [
+      "rosewater (گلاب, gulāb)"
+    ],
+    "signature_ingredients": [
+      "gandana, leafy Afghan chives/leeks used as ashak filling (substitute: garlic chives or a mixture of leeks and scallions)",
+      "sella parboiled basmati for selected palaw recipes (substitute: ordinary long-grain basmati; reduce soaking and adjust water and cooking time)",
+      "chakka, very thick strained yogurt used as a major sauce component (substitute: plain whole-milk Greek yogurt, thinned if needed)",
+      "qurut, sour dried dairy used in quruti and related regional dishes (substitute: none for an exact match; plain yogurt with lemon can approximate acidity but not cured flavor)"
+    ],
+    "tips": [
+      "Unsalted Afghan char masala (one documented formula uses equal parts cumin, black cardamom, cinnamon and cloves; family blends vary): use 4 g of the unsalted mixture in place of 4 g of those combined ground spices as a starting point (0 g salt if unsalted).",
+      "Store-bought plain Greek yogurt as a chakka shortcut: start with 100 g thick plain Greek yogurt in place of 100 g chakka, adding water if necessary for sauce texture (0 g added salt if plain unsweetened).",
+      "Packaged Kabuli rice seasoning mix (salt, sugar, cumin, fennel, coriander, pepper, cardamom, cinnamon, clove, ginger, garlic and pine nuts): LOW CONFIDENCE because a typical packaged mix lists 1650 mg sodium per 10 g (about 4.13 g salt per 10 g); check the package label before substituting or deducting salt."
+    ],
+    "pitfalls": [
+      "Do not describe Afghanistan as uniformly mild or prohibit chili and turmeric: both occur in documented recipes.",
+      "Do not require sella rice or qurut for every dish.",
+      "Distinguish mantu (often steamed, commonly meat-filled) from ashak (often boiled, generally gandana-filled).",
+      "Do not treat chakka or qurut as synonyms.",
+      "Afghan food shares Persian, Central Asian and Pashtun features while remaining internally diverse; do not force every dish into an Iranian-only mold.",
+      "Sella and many specific spice-blend ratios are recipe choices, not universal rules."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "pakistani",
+    "kind": "cuisine",
+    "label": "Pakistani",
+    "subtitle": "Karahi, biryani, chilies, aromatics",
+    "about": "Pakistan spans the Indus plains of Punjab and Sindh, the mountains of Khyber Pakhtunkhwa, and Balochistan's dry plateaus and coast. Punjabi, Sindhi, Pashtun, Baloch, Mughal and migrant communities contribute varied rice, flatbread, lentil, vegetable and meat dishes with substantial overlap with North India and Afghanistan. Representative dishes include chicken karahi, nihari, Sindhi biryani and chapli kebab.",
+    "prompt_name": "Pakistani",
+    "flavors": [
+      "fresh ginger (ادرک, adrak)",
+      "garlic (لہسن, lahsan)",
+      "red chili powder or flakes (لال مرچ, lāl mirch)",
+      "green chili (ہری مرچ, harī mirch)",
+      "coriander seed (دھنیا, dhaniyā)",
+      "cumin (زیرہ, zīra)",
+      "turmeric (ہلدی, haldī)",
+      "garam masala spice mixture (گرم مصالحہ, garam masālā)",
+      "dried fenugreek leaves (قصوری میتھی, kasūrī methī)",
+      "black cardamom (بڑی الائچی, baṛī ilāichī)",
+      "fennel seed (سونف, saunf)",
+      "dried sour pomegranate seed (اناردانہ, anārdāna)"
+    ],
+    "sweet_only": [
+      "rosewater (عرق گلاب, ʿarq-e gulāb)",
+      "kewra/screwpine water (کیوڑہ, kewra)"
+    ],
+    "signature_ingredients": [
+      "atta, whole-wheat or high-extraction flour for roti and some stews (substitute: fine whole-wheat flour; protein and milling texture may differ)",
+      "besan, flour from split desi chickpeas, for pakora and batter dishes (substitute: supermarket chickpea flour; test hydration because grind and bean variety differ)",
+      "goat meat for classic regional curries and karahi (substitute: lamb, noting a different flavor and fat content)",
+      "rohu/catla freshwater fish in some Punjabi and Sindhi fish preparations (substitute: catfish or tilapia, adjusted for bones and cooking time)"
+    ],
+    "tips": [
+      "Packaged biryani spice mix (salt, garlic, ginger, cumin, bay leaf, cardamom, cinnamon, carom, cloves, chili, coriander, turmeric): use 10 g blend as a starting dose in place of some separate spices; a typical packaged mix contributes about 4.19 g salt per 10 g (from 1340 mg sodium per 8 g), so check the label and reduce separately added salt accordingly.",
+      "Packaged karahi spice mix (chili, paprika, salt, cardamom, garlic, coriander, fenugreek leaf): use 10 g as a starting dose of seasoning, not as a replacement for the tomato-ginger cooking process; a typical packaged mix contributes about 2.84 g salt per 10 g (from 910 mg sodium per 8 g), so check the label and deduct from added salt.",
+      "Packaged nihari spice mix (chili, salt, paprika, nigella, garlic, onion, cumin, aniseed, cardamom, ginger, fennel): use 10 g as a first trial for the spice component, not to replace meat, stock or thickening; a typical packaged mix contributes about 3.33 g salt per 10 g (from 1330 mg sodium per 10 g), so check the label and adjust added salt."
+    ],
+    "pitfalls": [
+      "Do not define Pakistan simply as beef-heavy, very spicy or cream-free: vegetarian dishes, mild Pashtun cookery and rich Mughal-derived gravies exist.",
+      "Do not call all karahi recipes onion-free; some tomato-forward styles are, while cooks vary.",
+      "Pakistani and North Indian foodways share substantial Punjabi and Mughal continuities; differences are regional rather than categorical.",
+      "Chapli kebab crosses the Afghan-Pakistani Pashtun region and may contain egg or flour depending on recipe.",
+      "Kewra and rosewater are not dessert-exclusive.",
+      "Calculate salt from an exact packaged blend, not from a generic garam masala category."
+    ],
+    "avoid": [],
+    "children": []
+  }
+]

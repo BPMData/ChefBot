@@ -3,6 +3,9 @@
 Ported from RecipeGPT's personas.py (2024), with spelling fixes, a corrected allergen list
 (FALCPA + the 2021 FASTER Act: nine allergens, sesame included) and rules for follow-up edits.
 """
+from __future__ import annotations
+
+from . import cuisines
 
 # ---------------------------------------------------------------- audiences
 
@@ -36,257 +39,14 @@ AUDIENCES: dict[str, str] = {
 DEFAULT_AUDIENCE = "A working professional."
 
 # ---------------------------------------------------------------- cuisines
-# label shown in the app -> (name used in the prompt, its classic seasonings)
 
 NO_CUISINE = "Nothing in particular"
-
-CUISINES: dict[str, tuple[str, str]] = {
-    NO_CUISINE: ("", ""),
-    "American": (
-        "American",
-        "black pepper, salt, garlic, onion, paprika, chili powder, cayenne pepper, cinnamon, oregano, "
-        "vanilla extract and Old Bay"),
-    "American (Cajun)": (
-        "Cajun",
-        "cayenne pepper, paprika, garlic, onion, green bell peppers, celery, bay leaves, thyme, oregano, and "
-        "black and white pepper"),
-    "American (Creole)": (
-        "New Orleans Creole",
-        "onion, celery and green bell peppers, garlic, butter, tomato paste, cayenne pepper, paprika, thyme, bay "
-        "leaves, oregano, basil, parsley, green onions, black and white pepper, and Louisiana hot sauce"),
-    "Chinese (Cantonese - Most common style in US)": (
-        "Cantonese/Guangdong/Yue (Chinese)",
-        "ginger (jiang, 姜), green onions (cong, 葱), garlic (suan, 蒜), soy sauce (jiang you, 酱油), "
-        "oyster sauce (hao you, 蚝油), fermented black beans (douchi, 豆豉), sesame oil (zhi ma you, 芝麻油), "
-        "rice wine (mi jiu or Shaoxing jiu, 米酒 or 绍兴酒), white pepper (bai hu jiao, 白胡椒), and dried "
-        "tangerine peel (chen pi, 陈皮)"),
-    "Chinese (Hong Kong)": (
-        "Hong Kong",
-        "ginger (薑; gēung), green onions or scallions (蔥; chūng), white pepper (白胡椒; baahk wùh jīu), "
-        "soy sauce (醬油; jeung yàuh), oyster sauce (蠔油; hòuh yàuh), garlic (蒜; syun), sesame oil "
-        "(芝麻油; jī màh yàuh), fermented black beans (豆豉; dauh sih), and, for siu mei roast meats such as "
-        "char siu, five-spice powder (五香粉; ńgh hēung fán), star anise (八角; baat gok) and hoisin sauce "
-        "(海鮮醬; hói sīn jeung)"),
-    "Chinese (Sichuan)": (
-        "Sichuan (Chinese)",
-        "Sichuan peppercorns (hua jiao, 花椒), dried chili peppers (gan la jiao, 干辣椒), broad bean chili paste "
-        "(doubanjiang, 豆瓣酱), garlic (suan, 蒜), ginger (jiang, 姜), green onions or scallions (cong, 葱), "
-        "pickled vegetables (pao cai, 泡菜), star anise (ba jiao, 八角), fermented black beans (douchi, 豆豉) "
-        "and five-spice powder (wu xiang fen, 五香粉)"),
-    "Chinese (Shandong)": (
-        "Shandong/Lu (Chinese)",
-        "green onions or scallions (cong, 葱), ginger (jiang, 姜), garlic (suan, 蒜), soy sauce (jiang you, 酱油), "
-        "rice wine (mi jiu, 米酒), sesame oil (zhi ma you, 芝麻油), star anise (ba jiao, 八角), white "
-        "pepper (bai hu jiao, 白胡椒) and vinegar (cu, 醋)"),
-    "Chinese (Jiangsu)": (
-        "Huaiyang/Jianghuai (Chinese)",
-        "ginger (jiang, 姜), green onions or scallions (cong, 葱), rice wine (mi jiu or Shaoxing jiu, 米酒 or "
-        "绍兴酒), soy sauce (jiang you, 酱油), sugar (tang, 糖), vinegar (cu, 醋), sesame oil (zhi ma you, 芝麻油), "
-        "and red fermented tofu (nan ru or fu ru, 南乳 or 腐乳)"),
-    "French": (
-        "French",
-        "thyme (thym), bay leaf (feuille de laurier), parsley (persil), tarragon (estragon), chervil (cerfeuil), "
-        "rosemary (romarin), nutmeg (noix de muscade), Dijon mustard (moutarde de Dijon), garlic (ail) and "
-        "shallots (échalotes)"),
-    "Greek": (
-        "Greek",
-        "oregano (ρίγανη; rígani), olive oil (ελαιόλαδο; elaiólado), lemon (λεμόνι; lemóni), dill (άνηθος; "
-        "ánithos), mint (δυόσμος; dyósmos), bay leaf (φύλλο δάφνης; fýllo dáfnis), cinnamon (κανέλα; kanéla), "
-        "nutmeg (μοσχοκάρυδο; moschokárydo), and fennel (μάραθος; márathos)"),
-    "North Indian": (
-        "North Indian",
-        "turmeric (haldi), cumin (jeera), coriander (dhania), red chili powder (lal mirch), garam masala, "
-        "green cardamom (elaichi), cloves (laung), black mustard seeds (rai), fenugreek (methi), and asafoetida "
-        "(hing)"),
-    "South Indian": (
-        "South Indian",
-        "mustard seeds (rai/kadugu), curry leaves (kadi patta/karuveppilai), tamarind (imli/puli), urad dal "
-        "(ulundu paruppu/uddina bele), dried red chilies (lal mirch/sukku milagai), fenugreek seeds "
-        "(methi/vendhayam/menthulu), asafoetida (hing/perungayam/inguva), black pepper (kali mirch/milagu), "
-        "coriander seeds (dhania/dhaniya/malli), and turmeric (haldi/manjal)"),
-    "Italian": (
-        "Italian",
-        "garlic (aglio), basil (basilico), oregano (origano), rosemary (rosmarino), sage (salvia), parsley "
-        "(prezzemolo), red pepper flakes (peperoncino), fennel seeds (semi di finocchio), anchovies or anchovy "
-        "paste (acciughe, as a seasoning), and nutmeg (noce moscata)"),
-    "Japanese (Kansai)": (
-        "Kansai (Japanese)",
-        "dashi, Kansai shoyu (usukuchi soy sauce), mirin, sake, Kansai-style white miso, shichimi togarashi, "
-        "sansho (Japanese pepper), yuzu, shiso, negi (scallions or green onions), bonito flakes (katsuobushi) "
-        "and konbu"),
-    "Japanese (Kanto)": (
-        "Kanto (Japanese)",
-        "Kanto shoyu (koikuchi soy sauce), dashi, wasabi, negi (scallions or green onions), ginger (shoga), "
-        "nori, sansho (Japanese pepper), red miso (akamiso), sake, and tsuyu"),
-    "Korean": (
-        "Korean",
-        "red pepper flakes (gochugaru, 고추가루), red pepper paste (gochujang, 고추장), soybean "
-        "paste (doenjang, 된장), soy sauce (ganjang, 간장), garlic (maneul, 마늘), ginger (saenggang, 생강), "
-        "green onions or scallions (pa, 파), sesame oil (chamgireum, 참기름), and sesame seeds "
-        "(chamggae, 참깨)"),
-    "Mexican": (
-        "Mexican",
-        "chilies (chiles), cumin (comino), cilantro and coriander (cilantro y coriandro), Mexican oregano "
-        "(orégano), garlic (ajo), epazote, chocolate, cinnamon (canela), annatto (achiote), and lime (limón)"),
-    "Peruvian": (
-        "Peruvian",
-        "ají amarillo, ají panca, cilantro (culantro), huacatay, cumin (comino), garlic (ajo), lime (limón), "
-        "annatto (achiote), oregano (orégano), and ginger (kion)"),
-    "Spanish": (
-        "Spanish",
-        "saffron (azafrán), paprika (pimentón), garlic (ajo), parsley (perejil), bay leaf (laurel), rosemary "
-        "(romero), cumin (comino), thyme (tomillo), olive oil (aceite de oliva), and sherry vinegar (vinagre "
-        "de Jerez)"),
-    "Thai": (
-        "Thai",
-        "chilies (prik), galangal (kha), lemongrass (takrai), kaffir lime leaves (bai makrut), fish sauce "
-        "(nam pla), Thai basil (horapa), coriander and cilantro (pak chi), tamarind (makham), coconut milk "
-        "(nam kati), and palm sugar (nam tan pip)"),
-    "Turkish": (
-        "Turkish",
-        "red pepper flakes (pul biber), sumac (sumak), mint (nane), cumin (kimyon), allspice (yenibahar), "
-        "sesame seeds (susam), pomegranate molasses (nar ekşisi), fenugreek (çemen), oregano (kekik), and bay "
-        "leaf (defne yaprağı)"),
-    "Vietnamese": (
-        "Vietnamese",
-        "fish sauce (nước mắm), lemongrass (sả), lime (chanh), ginger (gừng), turmeric (nghệ), Vietnamese "
-        "coriander (rau răm), Thai basil (húng quế), mint (húng lủi), star anise (đại hồi), and green onions "
-        "or scallions (hành lá)"),
-}
-
-# Classic flavors used only when the user asks for a dessert.
-SWEET_FLAVORS: dict[str, str] = {
-    "Chinese (Jiangsu)": "osmanthus syrup (gui hua tang, 桂花糖)",
-    "Greek": "mastiha (μαστίχα; mastícha)",
-}
-
-# Classic main ingredients, not seasonings: used only if the user has them, otherwise mentioned in the Tips.
-SIGNATURE_INGREDIENTS: dict[str, str] = {
-    "Chinese (Shandong)": "wood ear mushrooms (mu er, 木耳)",
-    "Chinese (Jiangsu)": "dried bamboo shoots (gan sun, 干笋)",
-    "Korean": "perilla leaves (kkaennip, 깻잎)",
-}
 
 # Bryan's rule: no filé. These are the thickeners he uses instead.
 LOUISIANA_THICKENING = (
     "Never use or suggest filé powder. When a dish needs body (gumbo, étouffée), thicken it with okra, with a dark "
     "roux plus a reduced, collagen-rich homemade stock, or with xanthan gum weighed in grams (about 1 to 3 g per "
     "liter of liquid, blended in).")
-
-# Extra lines for the Tips section at the end of a recipe.
-CUISINE_TIPS: dict[str, str] = {
-    "American (Cajun)": (
-        "Use the separate spices in the recipe itself, never a store-bought blend. Then add a tip for cooks short "
-        "on time: most Cajun seasoning is paprika, cayenne, garlic, onion, black pepper, oregano and thyme plus a "
-        "lot of salt, so say how many grams of blend would replace the spices in this recipe, and to cut the "
-        "added salt if they use it. " + LOUISIANA_THICKENING),
-    "American (Creole)": (
-        "Use the separate spices in the recipe itself, never a store-bought blend. Then add a tip for cooks short "
-        "on time: most Creole seasoning is paprika, garlic, onion, cayenne, black and white pepper, oregano, thyme "
-        "and basil plus a lot of salt, so say how many grams of blend would replace the spices in this recipe, "
-        "and to cut the added salt if they use it. " + LOUISIANA_THICKENING),
-    "Italian": (
-        "If the recipe uses anchovies, add a tip that anchovy-only fish sauce works as a substitute (check the "
-        "label: just anchovies and salt), with the amount."),
-    "Korean": (
-        "Kimchi (김치) is in nearly every Korean kitchen. Write the recipe so it works without it, but if the "
-        "user didn't list it, strongly recommend it in the Tips: served alongside, or cooked in if it suits "
-        "the dish."),
-}
-
-# Shown in the app (the info sheet on the picked cuisine chip), never sent to the model.
-CUISINE_ABOUT: dict[str, str] = {
-    "American": (
-        "Home cooking from across the United States: smoky barbecue rubs, Chesapeake Bay seafood seasoned with "
-        "Old Bay, and the warm baking spices of holiday tables. Generous, bold and unfussy."),
-    "American (Cajun)": (
-        "The country cooking of southern Louisiana's bayous and prairies, from the Acadians: French-speaking "
-        "settlers expelled from eastern Canada in the 1750s. Rustic one-pot dishes such as gumbo, jambalaya and "
-        "étouffée, built on a dark roux and the \"holy trinity\" of onion, celery and green bell pepper, with "
-        "cayenne heat. Not the same as Creole, the city cooking of New Orleans, which uses more butter and "
-        "tomatoes."),
-    "American (Creole)": (
-        "The city cooking of New Orleans, shaped by its French and Spanish colonial rulers, by West African and "
-        "Caribbean cooks (many of them enslaved), and later by Italian and German immigrants. Richer and more "
-        "refined than its country cousin Cajun, with more butter, cream and tomatoes on the same base of onion, "
-        "celery and green bell pepper. Shrimp Creole, red beans and rice, grillades and grits, and the city's "
-        "tomato-red jambalaya."),
-    "Chinese (Cantonese - Most common style in US)": (
-        "From Guangdong province in southern China, around the Pearl River Delta and the city of Guangzhou. "
-        "Fresh ingredients and light seasoning that lets them taste of themselves: steamed fish, quick stir-fries "
-        "with wok hei (the smoky \"breath of the wok\"), dim sum. Most early Chinese emigrants came from here, "
-        "which is why it's the style of most Chinese restaurants abroad."),
-    "Chinese (Hong Kong)": (
-        "Cantonese cooking at its root, sharpened by a century and a half as a trading port and British colony. "
-        "Known for siu mei roast meats (char siu, roast goose), fresh seafood, and cha chaan teng diners that "
-        "serve milk tea, macaroni soup and baked pork chop rice."),
-    "Chinese (Sichuan)": (
-        "From Sichuan province and Chongqing, in a mountain-ringed basin on the upper Yangtze River in southwest "
-        "China. Famous for mala, the numbing tingle of Sichuan peppercorn with chili heat, and for fermented "
-        "broad bean paste, but it has dozens of named flavor profiles, many of them not hot at all. Mapo tofu, "
-        "kung pao chicken, twice-cooked pork."),
-    "Chinese (Shandong)": (
-        "Lu cuisine, from Shandong province on China's northeast coast, where the Yellow River meets the sea. "
-        "Often called the oldest of China's great regional styles, and a major influence on Beijing's imperial "
-        "court cooking: salty and savory, scallion-forward, with seafood, clear and milky broths, vinegar, and "
-        "fast high-heat techniques like bao (explosion frying)."),
-    "Chinese (Jiangsu)": (
-        "Huaiyang cuisine, from Jiangsu province on the lower Yangtze River and the Grand Canal (Yangzhou, "
-        "Huai'an, Suzhou, Nanjing), long called a land of fish and rice. Delicate and slightly sweet, with "
-        "precise knife work and slow braising, made to show off freshwater fish, crab and seasonal vegetables. "
-        "Lion's head meatballs, Yangzhou fried rice."),
-    "French": (
-        "The foundation of Western restaurant technique: stocks, mother sauces, butter, wine and slow braises, "
-        "lifted by fresh herbs. Regional styles range from Normandy's butter and cream to Provence's olive oil, "
-        "garlic and tomatoes."),
-    "Greek": (
-        "Mediterranean cooking built on olive oil, lemon and oregano: grilled meat and fish, vegetables, beans, "
-        "yogurt, feta and phyllo. Centuries of Ottoman rule left warm spices like cinnamon in meat dishes such "
-        "as moussaka and stifado."),
-    "North Indian": (
-        "From Punjab and the northern plains, shaped by the Mughal courts: wheat breads like naan and roti, the "
-        "tandoor clay oven, and rich gravies with ghee, cream, yogurt and paneer. Warm whole and ground spices, "
-        "often finished with garam masala."),
-    "South Indian": (
-        "From Tamil Nadu, Kerala, Karnataka, Andhra Pradesh and Telangana: rice and lentils (dosa, idli, sambar), "
-        "coconut and tamarind, and the tempering of mustard seeds and curry leaves sizzled in hot oil. Often "
-        "hotter and more sour than northern cooking."),
-    "Italian": (
-        "Regional to the core: butter, rice and polenta in the north; olive oil, tomatoes and dried pasta in the "
-        "south. A few excellent ingredients, treated simply."),
-    "Japanese (Kansai)": (
-        "From western Japan around Osaka and Kyoto. Kombu-based dashi and light-colored usukuchi soy sauce keep "
-        "food pale and delicate (and, surprisingly, a little saltier). Kyoto's refined kaiseki on one side, "
-        "Osaka's street food like okonomiyaki and takoyaki on the other."),
-    "Japanese (Kanto)": (
-        "From eastern Japan around Tokyo, the old city of Edo. Bolder and darker: dark koikuchi soy sauce, "
-        "bonito-rich dashi and sweet-salty sauces. Edomae sushi, soba with strong tsuyu, and tempura all began "
-        "as Edo fast food."),
-    "Korean": (
-        "Built on fermentation: kimchi and the jang pastes and sauces (gochujang, doenjang, ganjang). A meal is "
-        "rice, soup or stew, and a spread of small banchan side dishes; grilling and long-simmered stews (jjigae) "
-        "are the heart of it."),
-    "Mexican": (
-        "Indigenous Mesoamerican foods (corn, chiles, beans, squash, cacao) blended with Spanish ingredients. "
-        "Corn is nixtamalized for tortillas and masa; dried chiles are toasted and ground into sauces. Strongly "
-        "regional, from Oaxaca's moles to the Yucatán's achiote."),
-    "Peruvian": (
-        "Andean, coastal and Amazonian cooking mixed with Spanish, African, Chinese (chifa) and Japanese "
-        "(Nikkei) influences. Built around ají chiles, hundreds of potatoes, and very fresh fish: ceviche, lomo "
-        "saltado, ají de gallina."),
-    "Spanish": (
-        "Olive oil, garlic, smoked pimentón and saffron. Tapas, rice dishes like Valencia's paella, slow stews, "
-        "and cured ham, with sherry vinegar for brightness."),
-    "Thai": (
-        "A balance of sweet, sour, salty and spicy in every dish, using fresh herbs, pounded curry pastes, fish "
-        "sauce, lime and palm sugar. Coconut milk is common in central and southern dishes."),
-    "Turkish": (
-        "From Anatolia and the Ottoman palace kitchens: kebabs, mezze, yogurt, flatbreads and stuffed "
-        "vegetables, with tangy sumac, pul biber chili flakes and pomegranate molasses."),
-    "Vietnamese": (
-        "Fresh and bright: fish sauce, lime, chili and a pile of fresh herbs at every meal. Clear, fragrant "
-        "broths like pho come from the north around Hanoi; French rule left baguettes (bánh mì) and coffee."),
-}
 
 # ---------------------------------------------------------------- dietary rules
 
@@ -341,9 +101,11 @@ def system_prompt(audience: str, cuisine: str, dessert: bool = False,
                   restrictions: list[str] | None = None) -> str:
     """The standing instructions for one recipe conversation."""
     audience_text = AUDIENCES.get(audience, AUDIENCES[DEFAULT_AUDIENCE])
-    name, flavors = CUISINES.get(cuisine, CUISINES[NO_CUISINE])
-    if dessert and cuisine in SWEET_FLAVORS:
-        flavors += f", and for desserts, {SWEET_FLAVORS[cuisine]}"
+    node = None if cuisine == NO_CUISINE else cuisines.resolve(cuisine)
+    name = node["prompt_name"] if node else ""
+    flavors = ", ".join(node["flavors"]) if node else ""
+    if dessert and node and node["sweet_only"]:
+        flavors += f", and for desserts, {', '.join(node['sweet_only'])}"
 
     if name:
         style = (f"from {name} cuisine, keeping in mind that the audience for your recipe is an enthusiast and "
@@ -355,15 +117,22 @@ def system_prompt(audience: str, cuisine: str, dessert: bool = False,
         style = "from any cuisine or culture"
         staples_extra = ","
 
-    tips = []
-    if cuisine in SIGNATURE_INGREDIENTS:
-        sig = SIGNATURE_INGREDIENTS[cuisine]
+    tips: list[str] = []
+    if node and node["signature_ingredients"]:
+        sig = "; ".join(node["signature_ingredients"])
         tips.append(f"{sig[0].upper() + sig[1:]} are signature {name} ingredients, not a seasoning: use them only if "
                     f"they're in the user's ingredients. If they're not, say in the Tips that if you have them, "
                     f"they're a classic of {name} cooking, but this recipe uses what you actually have on hand.")
-    if cuisine in CUISINE_TIPS:
-        tips.append(CUISINE_TIPS[cuisine])
+    if node and node["tips"]:
+        tips.extend(node["tips"])
     tips_text = ("End the recipe with a short Tips section. " + " ".join(tips)) if tips else ""
+
+    guardrails: list[str] = []
+    if node and node["avoid"]:
+        guardrails.append(f"Never use: {', '.join(node['avoid'])}.")
+    if node and node["pitfalls"]:
+        guardrails.append("Common mistakes to avoid: " + " ".join(node["pitfalls"]))
+    guardrail_text = " ".join(guardrails)
 
     restriction_text = ""
     if restrictions:
@@ -396,6 +165,8 @@ Please suggest a recipe {style}. Your recipe may include other pantry staples su
 but otherwise the primary ingredients for the recipe should come ONLY from the ingredients wrapped in triple
 quotes in the user's first message. {tips_text}
 
+{guardrail_text}
+
 Please keep in mind that you cannot include any non-food or harmful ingredients in your recipe. If you are asked
 to provide a recipe using such ingredients, you will decline, or explain that you will provide a recipe that omits
 the non-food or dangerous ingredients. You do not need to use every ingredient provided, but you should do your
@@ -425,7 +196,7 @@ The user may come back and ask for changes ("no cucumber", "make it for six", "m
 this have been made in 1817?"). When they do, write out the complete revised recipe with the change applied,
 starting with one short line saying what you changed. Keep following every dietary requirement above. Keep the
 "Recipe Title: " line, and change the title if the dish changes. If they only ask a question, just answer it.
-""".replace("\n\n\n", "\n\n")
+""".replace("\n\n\n\n", "\n\n").replace("\n\n\n", "\n\n")
 
 
 def first_message(ingredients: str, must_not: str = "") -> str:

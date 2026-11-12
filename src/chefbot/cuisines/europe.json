@@ -1,0 +1,431 @@
+[
+  {
+    "id": "europe",
+    "kind": "continent",
+    "label": "Europe",
+    "subtitle": "Mediterranean, Western, Central & Eastern Europe",
+    "about": "Cuisines of Mediterranean, Western, Central and Eastern Europe.",
+    "prompt_name": "",
+    "flavors": [],
+    "sweet_only": [],
+    "signature_ingredients": [],
+    "tips": [],
+    "pitfalls": [],
+    "avoid": [],
+    "children": [
+      "italy",
+      "french",
+      "spanish",
+      "greek",
+      "central_european",
+      "russian"
+    ]
+  },
+  {
+    "id": "italy",
+    "kind": "country",
+    "label": "Italy",
+    "subtitle": "Regional pasta, rice, olive oil",
+    "about": "Italy runs from the Alps and Po Valley through the Apennines to long Mediterranean coasts and the islands of Sicily and Sardinia, and its cooking remains intensely local and city-based. Greek, Roman, Arab, Norman, Spanish, Austrian and French rule and trade all left regional traces, while nineteenth- and twentieth-century migration helped create a national and global idea of Italian food. Representative dishes include risotto alla milanese, tagliatelle al ragù, spaghetti alle vongole and pasta alla Norma.",
+    "prompt_name": "",
+    "flavors": [
+      "garlic (aglio)",
+      "parsley (prezzemolo)",
+      "basil (basilico)",
+      "rosemary (rosmarino)",
+      "sage (salvia)",
+      "oregano (origano)",
+      "red chile (peperoncino)",
+      "black pepper (pepe nero)",
+      "bay leaf (alloro)",
+      "anchovy (acciuga/acciughe)",
+      "nutmeg (noce moscata)"
+    ],
+    "sweet_only": [
+      "vanilla (vaniglia)"
+    ],
+    "signature_ingredients": [
+      "Parmigiano Reggiano (substitute: good domestic Parmesan, though flavor differs)",
+      "guanciale (substitute: pancetta; bacon is smokier and less exact)",
+      "00 flour (substitute: all-purpose flour for many preparations, adjusting hydration)",
+      "Carnaroli or Arborio rice (substitute: another short- or medium-grain rice, though risotto texture differs)",
+      "dried porcini (substitute: cremini plus a small amount of mushroom powder)",
+      "fresh egg pasta sheets (substitute: quality dried lasagna sheets where appropriate)"
+    ],
+    "tips": [
+      "If the recipe uses anchovies, add a tip that anchovy-only fish sauce works as a substitute (check the label: just anchovies and salt), with the amount.",
+      "Salt-free 'Italian seasoning' usually combines oregano, basil, thyme and rosemary; replace the same combined dried herbs 1:1 by weight, salt 0 g. It is an export convenience, not a traditional Italian pantry blend.",
+      "Jarred pesto may replace homemade pesto 1:1 by weight when pesto itself is the intended sauce; salt varies by brand, so calculate salt_g = sodium_mg × 2.5 / 1000 for the amount used.",
+      "Anchovy paste can replace finely mashed anchovy by approximately equal weight for seasoning applications; salt varies substantially, so account from the label rather than adding a fixed salt value."
+    ],
+    "pitfalls": [
+      "Do not put oregano, basil, garlic and red pepper into every Italian dish.",
+      "Do not assume tomato sauce is universal, especially in northern dishes, and do not drown pasta in sauce: many traditional preparations depend on emulsification and modest condiment amounts.",
+      "Avoid treating cream-heavy Alfredo, chicken Parmesan, spaghetti with meatballs or pepperoni pizza as normal nationwide Italian home cooking."
+    ],
+    "avoid": [],
+    "children": [
+      "italy_any",
+      "northern_italy",
+      "southern_sicilian_italy"
+    ]
+  },
+  {
+    "id": "italy_any",
+    "kind": "any",
+    "label": "Any",
+    "subtitle": "Garlic, basil, red sauce, cheese",
+    "about": "This node deliberately represents the internationally recognized image of Italian food rather than a geographic region: pizza shops, red-sauce restaurants and diaspora kitchens made pasta, tomato sauce, garlic, basil and grated cheese global symbols of Italy. Much of this image was shaped by Italian migration to the Americas and later tourism and restaurant culture, so several famous dishes are export or Italian-American forms rather than everyday food across Italy. Representative dishes are spaghetti with meatballs, cream-style fettuccine Alfredo, pepperoni pizza and lasagna.",
+    "prompt_name": "Italian",
+    "flavors": [
+      "garlic (aglio)",
+      "basil (basilico)",
+      "oregano (origano)",
+      "red chile flakes (peperoncino)",
+      "parsley (prezzemolo)",
+      "black pepper (pepe nero)",
+      "olive oil (olio d'oliva)",
+      "balsamic vinegar (aceto balsamico)",
+      "anchovy (acciuga)",
+      "rosemary (rosmarino)"
+    ],
+    "sweet_only": [
+      "vanilla (vaniglia)"
+    ],
+    "signature_ingredients": [
+      "Parmigiano-style hard cheese (substitute: supermarket Parmesan)",
+      "fresh mozzarella (substitute: low-moisture mozzarella for baked dishes)",
+      "prosciutto (substitute: thinly sliced cured ham)",
+      "pancetta (substitute: unsmoked bacon if available; ordinary bacon is smokier)",
+      "Arborio rice (substitute: another short-grain rice)"
+    ],
+    "tips": [
+      "If the recipe uses anchovies, add a tip that anchovy-only fish sauce works as a substitute (check the label: just anchovies and salt), with the amount.",
+      "Salt-free 'Italian seasoning' usually contains oregano, basil, thyme and rosemary; substitute 1:1 by weight for the same combined dried herbs, salt 0 g.",
+      "Jarred marinara commonly contains tomato, onion or garlic, herbs, oil and salt; substitute 1:1 by weight for another finished marinara, not for plain tomato. Count salt from the product label.",
+      "Prepared Alfredo sauce is an international shortcut usually containing dairy, cheese, starches and salt; substitute only for the export-style sauce, not traditional Roman fettuccine al burro. Use 1:1 by weight for another finished Alfredo sauce and count label salt."
+    ],
+    "pitfalls": [
+      "This node is intentionally a cliché/export profile, so do not use it to police regional Italian authenticity.",
+      "Spaghetti with meatballs is Italian-American, cream-heavy Alfredo is primarily an export form, and pepperoni pizza is a diaspora/commercial development.",
+      "Avoid presenting these as universal Italian home traditions."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "northern_italy",
+    "kind": "cuisine",
+    "label": "Northern Italy",
+    "subtitle": "Butter, risotto, polenta, sage, cheeses",
+    "about": "Northern Italy stretches from the Alps through Piedmont, Lombardy, Veneto, Trentino-Alto Adige, Friuli-Venezia Giulia, Liguria and the Po Valley around cities such as Turin, Milan, Bologna, Venice and Genoa. Alpine agriculture, the rice-growing Po plain, Adriatic trade and long Austrian, French and Central European contacts shaped a cuisine with more butter, cheese, rice and polenta than the southern stereotype of Italian food suggests. Representative dishes include risotto alla milanese, bagna càuda, polenta concia and bollito misto.",
+    "prompt_name": "Northern Italian",
+    "flavors": [
+      "sage (salvia)",
+      "rosemary (rosmarino)",
+      "parsley (prezzemolo)",
+      "garlic (aglio)",
+      "nutmeg (noce moscata)",
+      "juniper (ginepro)",
+      "black pepper (pepe nero)",
+      "bay leaf (alloro)",
+      "balsamic vinegar (aceto balsamico)",
+      "anchovy (acciuga)",
+      "mustard-fruit condiment (mostarda)"
+    ],
+    "sweet_only": [
+      "vanilla (vaniglia)"
+    ],
+    "signature_ingredients": [
+      "Carnaroli or Vialone Nano rice (substitute: Arborio rice)",
+      "polenta bramata or other coarse polenta (substitute: coarse yellow cornmeal)",
+      "Taleggio or Fontina (substitute: a mild washed-rind cheese or young Gruyère depending dish)",
+      "speck (substitute: prosciutto plus a small smoky element; not exact)",
+      "dried porcini (substitute: cremini plus mushroom powder)",
+      "fresh chestnuts or chestnut flour (substitute: packaged roasted chestnuts or no close flour substitute)"
+    ],
+    "tips": [
+      "If the recipe uses anchovies, add a tip that anchovy-only fish sauce works as a substitute (check the label: just anchovies and salt), with the amount.",
+      "Jarred Ligurian pesto can replace freshly made pesto 1:1 by weight; check salt by label and count milk/tree-nut allergens.",
+      "Prepared broth concentrate can stand in for brodo when time matters; dilute to the manufacturer's stated stock strength rather than replacing stock concentrate 1:1 with finished broth. Salt is label-dependent.",
+      "Salt-free dried sage-rosemary-parsley mixtures may replace the same combined dried herbs 1:1 by weight; salt 0 g."
+    ],
+    "pitfalls": [
+      "Do not automatically add tomato, oregano or chile to northern dishes.",
+      "Risotto should not be treated as boiled rice with cream; its texture traditionally comes from rice starch and mantecatura, and cream is dish-specific.",
+      "Do not assume olive oil is absent: Liguria and other northern areas have strong olive-oil traditions."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "southern_sicilian_italy",
+    "kind": "cuisine",
+    "label": "Southern & Sicilian",
+    "subtitle": "Olive oil, tomato, oregano, capers",
+    "about": "This node covers the Mediterranean-facing south of the Italian peninsula and Sicily, from Naples and Puglia through Calabria and across the Strait of Messina to Palermo and Catania. Greek settlement, Arab and Norman Sicily, Spanish rule, maritime trade and peasant agriculture left a cuisine rich in olive oil, vegetables, durum-wheat pasta, seafood, preserved fish, chile and sweet-sour combinations. Representative dishes include pizza napoletana, orecchiette con cime di rapa, pasta con le sarde and caponata.",
+    "prompt_name": "Southern Italian and Sicilian",
+    "flavors": [
+      "garlic (aglio)",
+      "oregano (origano)",
+      "basil (basilico)",
+      "red chile (peperoncino)",
+      "parsley (prezzemolo)",
+      "wild fennel (finocchietto selvatico)",
+      "capers (capperi)",
+      "anchovy (acciughe)",
+      "mint (menta)",
+      "saffron (zafferano)",
+      "wine vinegar (aceto di vino)"
+    ],
+    "sweet_only": [
+      "orange-blossom water (acqua di fiori d'arancio)"
+    ],
+    "signature_ingredients": [
+      "ricotta salata (substitute: dry feta, less exact)",
+      "caciocavallo (substitute: aged provolone)",
+      "'nduja (substitute: spicy soft salami mixed with a little olive oil; not exact)",
+      "bottarga (substitute: anchovy plus lemon zest for salinity/sea aroma; not texturally equivalent)",
+      "fresh sardines (substitute: good canned sardines when the preparation allows)",
+      "Sicilian durum-wheat semolina pasta shapes (substitute: another high-quality dried semolina pasta)"
+    ],
+    "tips": [
+      "If the recipe uses anchovies, add a tip that anchovy-only fish sauce works as a substitute (check the label: just anchovies and salt), with the amount.",
+      "Anchovy paste can replace mashed anchovy by roughly equal weight in sauces; salt is brand-specific and must be counted from sodium on the label.",
+      "Salt-free dried oregano-basil-peperoncino blends can replace the same dried seasonings 1:1 by weight; salt 0 g. Avoid treating generic 'Italian seasoning' as a traditional southern blend.",
+      "Jarred tomato passata can replace sieved tomato 1:1 by weight when plain and unsalted; if salted, use label-derived salt accounting."
+    ],
+    "pitfalls": [
+      "Do not make every southern dish tomato-red or aggressively garlicky.",
+      "Sicily is not interchangeable with Naples or Calabria: saffron, raisins, pine nuts, wild fennel and agrodolce combinations are especially Sicilian.",
+      "Avoid treating chicken Parmesan, garlic bread or cream Alfredo as native southern staples."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "french",
+    "kind": "cuisine",
+    "label": "French",
+    "subtitle": "Stocks, herbs, butter, wine, mustard",
+    "about": "France stretches from Atlantic and Channel coasts through river valleys and agricultural plains to the Alps, Pyrenees and Mediterranean Provence, with Paris historically central to restaurant and haute-cuisine culture. Court cuisine, regional peasant cooking, wine culture, colonial trade and chefs such as Carême and Escoffier shaped a cuisine that ranges from butter-and-cream Normandy to olive-oil-rich Provence. Representative dishes include boeuf bourguignon, coq au vin, ratatouille and quiche Lorraine.",
+    "prompt_name": "French",
+    "flavors": [
+      "thyme (thym)",
+      "bay leaf (feuille de laurier)",
+      "parsley (persil)",
+      "tarragon (estragon)",
+      "chervil (cerfeuil)",
+      "chives (ciboulette)",
+      "shallot (échalote)",
+      "garlic (ail)",
+      "Dijon-style mustard (moutarde de Dijon)",
+      "nutmeg (noix de muscade)",
+      "black pepper (poivre noir)",
+      "rosemary (romarin)"
+    ],
+    "sweet_only": [
+      "vanilla (vanille)",
+      "orange-blossom water (eau de fleur d'oranger)"
+    ],
+    "signature_ingredients": [
+      "crème fraîche (substitute: sour cream loosened with heavy cream)",
+      "lardons (substitute: thick-cut bacon, preferably not heavily smoked)",
+      "duck confit or duck fat (substitute: roast duck plus rendered poultry fat; not exact)",
+      "fromage blanc (substitute: quark or thick Greek yogurt depending use)",
+      "celeriac (substitute: celery root if available; otherwise turnip plus celery is approximate)"
+    ],
+    "tips": [
+      "Salt-free bouquet garni sachets usually contain thyme, bay and parsley; replace an equivalent dried herb bundle 1:1 by weight, salt 0 g.",
+      "Salt-free herbes de Provence usually contains thyme, rosemary, savory, oregano and/or marjoram; replace the same combined dried herbs 1:1 by weight, salt 0 g. Lavender is an optional commercial addition, not a required traditional component.",
+      "Commercial demi-glace concentrate can replace another finished concentrate 1:1 by weight, but not finished stock. It is often highly salted; calculate salt from label sodium."
+    ],
+    "pitfalls": [
+      "Do not equate all French cooking with haute cuisine or mother sauces.",
+      "Do not add cream and butter automatically to Provençal dishes, and do not add olive oil and garlic automatically to Normandy or Alsace.",
+      "'Herbes de Provence' is useful but should not become a universal French seasoning."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "spanish",
+    "kind": "cuisine",
+    "label": "Spanish",
+    "subtitle": "Olive oil, garlic, paprika, saffron",
+    "about": "Spain occupies most of the Iberian Peninsula, with Atlantic and Mediterranean coasts, dry central plateaus and distinct regions including Galicia, the Basque Country, Catalonia, Valencia, Andalusia and the islands. Roman, Islamic, Jewish and Christian foodways, Atlantic and Mediterranean trade and the Columbian exchange shaped a highly regional cuisine centered on olive oil, vegetables, seafood, pork, legumes, rice and preserved foods. Representative dishes include paella valenciana, tortilla española, gazpacho and cocido.",
+    "prompt_name": "Spanish",
+    "flavors": [
+      "olive oil (aceite de oliva)",
+      "garlic (ajo)",
+      "paprika (pimentón)",
+      "saffron (azafrán)",
+      "parsley (perejil)",
+      "bay leaf (laurel)",
+      "rosemary (romero)",
+      "thyme (tomillo)",
+      "cumin (comino)",
+      "sherry vinegar (vinagre de Jerez)",
+      "wine vinegar (vinagre de vino)"
+    ],
+    "sweet_only": [
+      "orange-blossom water (agua de azahar)"
+    ],
+    "signature_ingredients": [
+      "bomba or Calasparra rice (substitute: another absorbent Spanish-style medium-grain rice)",
+      "garrofó beans (substitute: large lima beans)",
+      "Spanish cooking chorizo (substitute: another cured paprika sausage; Mexican fresh chorizo is not equivalent)",
+      "jamón serrano (substitute: prosciutto)",
+      "ñora peppers (substitute: ancho chile plus sweet paprika, an approximation)",
+      "salt cod (substitute: home-salted fresh cod when time allows; plain fresh cod lacks the same texture)"
+    ],
+    "tips": [
+      "Jarred sofrito usually contains tomato, onion and/or garlic, olive oil and salt; replace homemade finished sofrito 1:1 by weight when texture permits. Count salt from the label.",
+      "Paella seasoning packets usually combine paprika, coloring and sometimes saffron, garlic or salt; formulas vary too much for a universal substitution. If replacing an explicitly specified mixed spice blend, use equal weight and calculate salt from label sodium.",
+      "Prepared allioli/alioli can replace another finished garlic emulsion 1:1 by weight; commercial versions often contain egg and salt, so account for both."
+    ],
+    "pitfalls": [
+      "Do not call all paprika smoked: Pimentón de la Vera is smoke-dried, while other Spanish pimentón traditions are not.",
+      "Do not put seafood and chorizo into every paella; classic Valencian paella has its own meat-and-bean tradition.",
+      "Saffron, cumin, rosemary and sherry vinegar are important but should not be forced into every Spanish recipe."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "greek",
+    "kind": "cuisine",
+    "label": "Greek",
+    "subtitle": "Olive oil, lemon, oregano, herbs",
+    "about": "Greece combines a mountainous Balkan mainland with long Aegean and Ionian coastlines and hundreds of inhabited islands, so local food varies markedly between pastoral interiors, ports and islands. Ancient Greek and Byzantine continuities mixed with Venetian, Ottoman and wider eastern Mediterranean exchange, while Orthodox fasting traditions encouraged extensive vegetable, legume and olive-oil cookery. Representative dishes include horiatiki salad, souvlaki, moussaka and gemista.",
+    "prompt_name": "Greek",
+    "flavors": [
+      "oregano (ρίγανη, rígani)",
+      "olive oil (ελαιόλαδο, elaiólado)",
+      "lemon (λεμόνι, lemóni)",
+      "dill (άνηθος, ánithos)",
+      "mint (δυόσμος, dyósmos)",
+      "bay leaf (φύλλο δάφνης, fýllo dáfnis)",
+      "thyme (θυμάρι, thymári)",
+      "parsley (μαϊντανός, maïntanós)",
+      "cinnamon (κανέλα, kanéla)",
+      "allspice (μπαχάρι, bachári)",
+      "fennel (μάραθος, márathos)",
+      "garlic (σκόρδο, skórdo)"
+    ],
+    "sweet_only": [
+      "mastiha (μαστίχα, mastícha)",
+      "vanilla (βανίλια, vanília)"
+    ],
+    "signature_ingredients": [
+      "kefalotyri or kefalograviera (substitute: pecorino Romano or another firm sheep's-milk cheese)",
+      "tarama (substitute: none; smoked fish roe is not equivalent)",
+      "trahana (substitute: small pasta plus yogurt or cultured dairy gives only an approximation)",
+      "gigantes beans (substitute: large lima beans)",
+      "vine leaves (substitute: jarred grape leaves if fresh are unavailable)",
+      "Greek strained yogurt (substitute: full-fat plain Greek-style yogurt)"
+    ],
+    "tips": [
+      "Salt-free Greek herb blends generally center on oregano, garlic, thyme and pepper; replace the same combined dried herbs 1:1 by weight, salt 0 g. Salted blends require label calculation.",
+      "Bottled ladolemono commonly contains olive oil, lemon juice, oregano and salt; replace a finished lemon-oil dressing 1:1 by weight, then count salt from the label.",
+      "Prepared tzatziki can replace homemade tzatziki 1:1 by weight as a condiment; it usually contains yogurt, cucumber, garlic, herbs and salt."
+    ],
+    "pitfalls": [
+      "Do not reduce Greek food to oregano, lemon and feta or assume every meat is grilled.",
+      "Cinnamon and allspice in savory braises are authentic, but avoid inventing a simple 'Ottoman spice rule' for them.",
+      "Moussaka is not an ancient unchanged national dish, and mastiha is not exclusively a dessert flavor."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "central_european",
+    "kind": "cuisine",
+    "label": "Central European",
+    "subtitle": "Caraway, paprika, dill, horseradish, marjoram",
+    "about": "This app node groups Germany, Austria, Czechia, Hungary and Poland across the North European plain, the Danube basin, the Alps and Carpathian approaches, with major centers including Berlin, Vienna, Prague, Budapest and Warsaw. Germanic, Slavic and Magyar traditions were repeatedly connected through the Holy Roman and Habsburg worlds, trade, Jewish communities and shifting borders, producing overlapping traditions of breads, dumplings, pork, cabbage, souring, paprika and preserved foods. Representative dishes include Wiener Schnitzel, Czech svíčková, Hungarian pörkölt and Polish pierogi.",
+    "prompt_name": "Central European",
+    "flavors": [
+      "caraway (Kümmel)",
+      "marjoram (Majoran)",
+      "paprika",
+      "dill",
+      "horseradish (Meerrettich)",
+      "mustard (Senf)",
+      "garlic (Knoblauch)",
+      "parsley (Petersilie)",
+      "bay leaf (Lorbeerblatt)",
+      "juniper (Wacholder)",
+      "black pepper (schwarzer Pfeffer, černý pepř, fekete bors, pieprz czarny)"
+    ],
+    "sweet_only": [
+      "vanilla sugar (Vanillezucker, vanilkový cukr, vaníliás cukor, cukier waniliowy)"
+    ],
+    "signature_ingredients": [
+      "quark/tvaroh/túró/twaróg fresh curd cheese (substitute: farmer cheese or well-drained cottage cheese)",
+      "Hungarian wax peppers (substitute: banana peppers plus a hotter chile as needed)",
+      "sour rye starter for żur/żurek (substitute: homemade rye-flour ferment; no close instant substitute)",
+      "Central European smoked sausages (substitute: kielbasa or another moderately smoked pork sausage appropriate to the dish)",
+      "dried porcini (substitute: cremini plus mushroom powder)",
+      "bread or potato dumplings (substitute: store-bought spaetzle only when the dish can tolerate a different texture)"
+    ],
+    "tips": [
+      "LOW CONFIDENCE for this merged node: salt-free caraway-marjoram-paprika blends can replace the same combined dried spices 1:1 by weight; salt 0 g.",
+      "Commercial goulash seasoning usually contains paprika, caraway, marjoram, garlic/onion and often salt; substitute only for another specified mixed seasoning at equal weight. Count salt from label sodium.",
+      "Prepared horseradish can replace freshly grated horseradish by equal weight for table-condiment use, but jarred products are milder and may contain vinegar, cream or salt; count label salt."
+    ],
+    "pitfalls": [
+      "LOW CONFIDENCE applies to any rule asserted across all five countries.",
+      "Do not treat paprika as equally dominant in Germany, Austria, Czechia and Poland just because it is central to Hungary.",
+      "Do not call every meat stew 'goulash': Hungarian gulyás, pörkölt and Austrian/Czech adaptations are distinct.",
+      "Likewise, dill, caraway and horseradish vary sharply by dish and country."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "russian",
+    "kind": "cuisine",
+    "label": "Russian",
+    "subtitle": "Dill, sourness, horseradish, pickles, rye",
+    "about": "Russian cuisine developed across an enormous northern Eurasian territory, but this node is best anchored in the historic cooking of European Russia around Moscow, the Volga and northern river systems rather than pretending every cuisine of the Russian Federation is one tradition. Climate, Orthodox fasting, grain agriculture, river fisheries, forest mushrooms and berries, imperial trade and later urban French influence shaped a cuisine rich in soups, porridges, pies, fermentation and oven cooking. Representative dishes include shchi, pelmeni, blini and buckwheat kasha.",
+    "prompt_name": "Russian",
+    "flavors": [
+      "dill (укроп, ukrop)",
+      "parsley (петрушка, petrushka)",
+      "garlic (чеснок, chesnok)",
+      "horseradish (хрен, khren)",
+      "mustard (горчица, gorchitsa)",
+      "black pepper (чёрный перец, chyornyy perets)",
+      "bay leaf (лавровый лист, lavrovyy list)",
+      "caraway (тмин, tmin)",
+      "scallion (зелёный лук, zelyonyy luk)",
+      "vinegar (уксус, uksus)",
+      "pickle brine (рассол, rassol)"
+    ],
+    "sweet_only": [
+      "vanilla sugar (ванильный сахар, vanilnyy sakhar)",
+      "cinnamon (корица, koritsa)"
+    ],
+    "signature_ingredients": [
+      "tvorog (творог) (substitute: farmer cheese or well-drained cottage cheese)",
+      "smetana (сметана) (substitute: full-fat sour cream)",
+      "buckwheat groats (гречка, grechka) (substitute: no close equivalent; use toasted buckwheat/kasha)",
+      "kvass (квас, kvas) (substitute: none for traditional okroshka; light malt beverage plus acidity is only approximate)",
+      "salted herring (сельдь, sel'd') (substitute: another mild salted herring)",
+      "dried porcini (белые грибы, belye griby) (substitute: dried mixed mushrooms plus mushroom powder)"
+    ],
+    "tips": [
+      "Prepared Russian-style mustard can replace another finished mustard 1:1 by weight; formulas range from mild to extremely hot and salt varies by brand.",
+      "Prepared horseradish can replace freshly grated horseradish 1:1 by weight as a condiment, but vinegar and salt in jars change the profile; count salt from the label.",
+      "Bouillon concentrate can shorten soup preparation but is not equivalent to traditional broth; dilute to package stock strength. Commercial products may contribute substantial salt, calculated from label sodium."
+    ],
+    "pitfalls": [
+      "Do not turn every Russian dish into sour cream plus dill, and do not confuse all cuisines of the Russian Federation with ethnic Russian cooking.",
+      "Fermentation, brine, rye, buckwheat, mushrooms, cabbage and fish are major structural signals.",
+      "Avoid presenting borscht as exclusively Russian: it is shared across Eastern Europe and is particularly associated with Ukrainian culinary heritage."
+    ],
+    "avoid": [],
+    "children": []
+  }
+]

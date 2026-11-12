@@ -10,7 +10,7 @@ from pathlib import Path
 import httpx
 import pytest
 
-from chefbot import api, prompts
+from chefbot import api, cuisines, prompts
 from chefbot.history import Conversation, History
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -137,7 +137,9 @@ EMOJI = re.compile("[\U0001F300-\U0001FAFF\U00002600-\U000027BF\U0001F000-\U0001
 
 def test_no_emojis_in_prompts():
     texts = [v for v in vars(prompts).values() if isinstance(v, str)]
-    texts += [prompts.system_prompt(prompts.DEFAULT_AUDIENCE, label) for label in prompts.CUISINES]
+    texts += [prompts.system_prompt(prompts.DEFAULT_AUDIENCE, prompts.NO_CUISINE)]
+    texts += [prompts.system_prompt(prompts.DEFAULT_AUDIENCE, n["id"]) for n in cuisines.leaves()]
+    texts += [prompts.system_prompt(prompts.DEFAULT_AUDIENCE, n["id"], dessert=True) for n in cuisines.leaves()]
     texts += [prompts.first_message("eggs"), prompts.dish_photo_prompt("Soup")]
     assert not [t[:60] for t in texts if EMOJI.search(t)]
 

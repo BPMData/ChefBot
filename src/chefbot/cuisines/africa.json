@@ -1,0 +1,336 @@
+[
+  {
+    "id": "africa",
+    "kind": "continent",
+    "label": "Africa",
+    "subtitle": "North, West & East Africa",
+    "about": "Cuisines of North, West and East Africa.",
+    "prompt_name": "",
+    "flavors": [],
+    "sweet_only": [],
+    "signature_ingredients": [],
+    "tips": [],
+    "pitfalls": [],
+    "avoid": [],
+    "children": [
+      "moroccan_north_african",
+      "tunisian",
+      "algerian",
+      "ethiopian",
+      "egyptian",
+      "nigerian",
+      "senegalese"
+    ]
+  },
+  {
+    "id": "moroccan_north_african",
+    "kind": "cuisine",
+    "label": "Moroccan",
+    "subtitle": "Tagines, couscous, chermoula, preserved lemon",
+    "about": "This node should represent Morocco specifically, on the Atlantic and Mediterranean edges of northwest Africa between the Rif, Atlas Mountains and Sahara, rather than a generic North African blend. Amazigh, Arab, Andalusi, Jewish, sub-Saharan African and Mediterranean histories all shaped a cuisine built around balanced spices, slow-cooked tagines, steamed couscous, preserved foods and herb-rich marinades. Representative dishes include couscous with vegetables, chicken tagine with preserved lemon and olives, harira and pastilla.",
+    "prompt_name": "Moroccan",
+    "flavors": [
+      "cumin (كمون, kammun)",
+      "ground ginger (زنجبيل, zanjabil)",
+      "turmeric (كركم, kurkum)",
+      "saffron (زعفران, zaʿfaran)",
+      "cinnamon (قرفة, qirfa)",
+      "paprika/sweet red pepper (تحميرة, tahmira)",
+      "fresh coriander/cilantro (قزبر, qzbur)",
+      "parsley (معدنوس, maadnous)",
+      "garlic (ثوم, thum)",
+      "salt-preserved lemon (حامض مصير, lhamd msayyar)"
+    ],
+    "sweet_only": [
+      "orange-blossom water (ماء الزهر, ma zhar)",
+      "rose water (ماء الورد, ma ward)"
+    ],
+    "signature_ingredients": [
+      "salt-preserved lemon (substitute: none; fresh lemon gives acidity but not the fermented peel aroma or texture)",
+      "smen, aged salted butter (substitute: clarified butter plus a little salt is only an approximation)",
+      "warqa pastry for pastilla (substitute: phyllo dough, approximate)",
+      "Moroccan green or purple olives (substitute: good-quality brined green olives)"
+    ],
+    "tips": [
+      "Ras el hanout (usually variable mixture that may include cinnamon, ginger, turmeric, pepper, cardamom, nutmeg, mace, cloves, rose or other aromatics; there is no fixed formula): use about 5-10 g per 1 kg of stew ingredients when a recipe calls for a Moroccan mixed-spice profile; start low because blends vary. Salt: 0.0 g if the blend is explicitly salt-free; otherwise calculate from the package label. Do not assume all ras el hanout is salt-free.",
+      "Prepared chermoula (usually cilantro/coriander, parsley, garlic, cumin, paprika or chile, lemon and oil; formulas vary): about 60-100 g prepared chermoula can season 1 kg fish or vegetables in place of a freshly pounded marinade. Salt: LOW CONFIDENCE for generic products: brand-dependent. Calculate salt-equivalent from the sodium label.",
+      "Harissa paste (usually red chile, garlic, spices and oil; it is Tunisian in origin but is used in parts of Morocco and the wider Maghreb): use roughly 10-20 g per 1 kg food when a Moroccan recipe specifically calls for harissa; do not use it as a universal Moroccan seasoning. Salt: LOW CONFIDENCE: commercial pastes vary substantially; calculate from the label."
+    ],
+    "pitfalls": [
+      "Do not treat Moroccan as synonymous with all North African or Maghrebi cooking.",
+      "Do not put harissa into every Moroccan dish; it is much more central to Tunisian cooking.",
+      "Do not treat ras el hanout as one standardized recipe or as a required seasoning for every tagine.",
+      "Do not make every Moroccan savory dish sweet with dried fruit and cinnamon.",
+      "Do not replace preserved lemon with an equal amount of fresh lemon and claim the result is equivalent.",
+      "Do not boil instant couscous and describe that method as the classic Moroccan couscous technique."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "tunisian",
+    "kind": "cuisine",
+    "label": "Tunisian",
+    "subtitle": "Harissa, caraway, olive oil, couscous",
+    "about": "On the Mediterranean coast between Algeria and Libya, Tunisia stretches from Cap Bon and Tunis to the inland steppes and Sahara. Amazigh, Arab, Andalusi, Ottoman and Mediterranean contacts shaped dishes that often feature olive oil, chili, grain dishes and seafood, with substantial regional variation. Representative dishes include fish couscous, lablabi, brik and kamounia.",
+    "prompt_name": "Tunisian",
+    "flavors": [
+      "harissa chili paste (هريسة, harīsa)",
+      "tabil spice mixture or ground coriander (تابل, tābil)",
+      "caraway seed (كروية, karwiyā)",
+      "cumin (كمون, kammūn)",
+      "garlic (ثوم, thūm)",
+      "hot red pepper (فلفل أحمر حار, filfil aḥmar ḥārr)",
+      "black pepper (فلفل أكحل, filfil akḥal)",
+      "flat-leaf parsley (معدنوس, maʿdnūs)",
+      "fresh coriander/cilantro (قصبر, qusbūr)",
+      "dried mint (نعناع يابس, naʿnāʿ yābis)"
+    ],
+    "sweet_only": [
+      "orange blossom water (ماء الزهر, māʾ al-zahr)",
+      "rose-geranium-flavored water (ماء العطرشية, māʾ al-ʿaṭrshiyya)"
+    ],
+    "signature_ingredients": [
+      "malsouka thin pastry sheets for brik (substitute: plain spring-roll wrappers; crispness and thickness differ)",
+      "ripe red Baklouti-type peppers for homemade harissa (substitute: red Fresno chilies, with red bell pepper to moderate heat; not an exact flavor match)",
+      "dried powdered jute mallow (mloukhiya) for its namesake stew (substitute: none; frozen molokhia or spinach produces a different texture and dish)",
+      "durum couscous for traditionally steamed couscous (substitute: plain supermarket couscous; adjust method because many boxes are presteamed)"
+    ],
+    "tips": [
+      "Ready-made harissa (red chili, garlic, coriander, caraway, salt): use 20 g prepared paste in place of 20 g homemade harissa as a starting point, then adjust heat and acidity; a typical packaged mix reporting 1.8 g salt per 100 g contributes about 0.36 g salt per 20 g, so check the label and subtract from separately added salt.",
+      "Pre-ground unsalted tabil or coriander-caraway blend (usually coriander and caraway, sometimes garlic and dried chili): replace 5 g freshly ground dry spice components with 5 g of a verified unsalted blend as a starting point (0 g salt); if salted, calculate salt from the package label."
+    ],
+    "pitfalls": [
+      "Do not ban cumin from meat: kamounia may use it prominently.",
+      "Harissa is not merely a table sauce, but it also is not compulsory in every dish; recipes and heat levels vary.",
+      "Do not claim all Tunisian couscous is red or all Moroccan couscous pale.",
+      "Tabil may mean ground coriander alone or a variable coriander-based spice mix.",
+      "Do not equate hrous with a single standardized fermentation formula; regional details remain LOW CONFIDENCE.",
+      "Pantry defaults are soft assumptions; do not assume rarer specialty ingredients are on hand or that harissa must be used in every dish."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "algerian",
+    "kind": "cuisine",
+    "label": "Algerian",
+    "subtitle": "Dersa, frik, rechta, cinnamon",
+    "about": "Algeria extends from Mediterranean cities such as Algiers, Oran and Constantine across the Atlas Mountains to the Sahara. Amazigh, Arab, Andalusi, Ottoman and later French influences shaped diverse regional traditions, including aromatic white sauces and chili-garlic red sauces. Representative dishes include rechta, chorba frik, chtitha djaj and couscous.",
+    "prompt_name": "Algerian",
+    "flavors": [
+      "dersa garlic-chili paste (درسة, dersa)",
+      "cumin (كمون, kemmoun)",
+      "cinnamon (قرفة, qerfa)",
+      "garlic (ثوم, thūm)",
+      "paprika or dried red pepper (فلفل عكري, felfel ʿakri)",
+      "caraway (كروية, karwiya)",
+      "fresh coriander/cilantro (قصبر, kosbor)",
+      "mint (نعناع, naʿnaʿ)",
+      "black pepper (فلفل كحل, felfel kḥal)",
+      "ras el hanout mixed spices (راس الحانوت, rās el-ḥānūt)",
+      "aged clarified butter (سمن, smen)"
+    ],
+    "sweet_only": [
+      "orange blossom water (ماء الزهر, māʾ ez-zhar)",
+      "rosewater (ماء الورد, māʾ el-ward)"
+    ],
+    "signature_ingredients": [
+      "frik, roasted cracked green wheat, for chorba frik (substitute: coarse bulgur; texture is similar but lacks its green smoky aroma)",
+      "rechta, fine fresh semolina noodles prepared for steaming (substitute: fine fresh wheat noodles or tagliolini, preferably steamed rather than boiled if recipe permits)",
+      "dioul pastry sheets for bourek (substitute: spring-roll wrappers; expect a different texture)",
+      "berkoukes, large rolled semolina granules (substitute: large pearl couscous; size and hydration differ)"
+    ],
+    "tips": [
+      "Commercial unsalted ras el hanout (variable mixture of coriander, cumin, cinnamon, ginger, pepper and other spices): start with 5 g blend for 5 g of compatible dry mixed spices, not as a complete sauce substitute (0 g salt if unsalted; otherwise use labeled sodium).",
+      "Ready-made plain Tunisian harissa as an emergency dersa component (red chili, garlic, coriander, caraway and salt): use 15 g harissa plus about 5 g fresh garlic and 1 g ground cumin as a provisional stand-in for a chili-garlic dersa (not flavor-identical); a typical packaged mix at 1.8 g salt per 100 g contributes about 0.27 g salt per 15 g, so check the label and adjust added salt."
+    ],
+    "pitfalls": [
+      "Avoid portraying one Algiers-style white sauce and one dersa-based red sauce as the entire country.",
+      "Moroccan cooks also have pale sauces and stuffed vegetable dishes; Ottoman history does not create an absolute culinary border.",
+      "Dersa has variants: do not insist paprika or cumin must be present in every mortar paste.",
+      "Rechta and frik are not interchangeable with ordinary boiled pasta and bulgur without changing results.",
+      "European mayonnaise-based Sauce Algérienne is not the same as traditional Algerian dersa.",
+      "Do not claim every recipe uses smen or a lemon-egg liaison."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "ethiopian",
+    "kind": "cuisine",
+    "label": "Ethiopian",
+    "subtitle": "Injera, berbere, wot, spiced butter",
+    "about": "Ethiopia spans highlands around Addis Ababa and the northern plateau, the Rift Valley and hotter eastern and southern regions, so its food is highly regional. Highland Christian fasting practice, Muslim food traditions, indigenous crops and centuries of Red Sea and inland trade all contribute to a cuisine of fermented flatbreads, legumes, long-cooked onion stews, aromatic chile blends and spiced butter. Representative dishes include doro wot, misir wot, siga tibs and injera with vegetable and pulse dishes.",
+    "prompt_name": "Ethiopian",
+    "flavors": [
+      "complex red-chile spice blend (በርበሬ, berbere)",
+      "clarified butter infused with Ethiopian aromatics (ንጥር ቅቤ, niter qibe)",
+      "Ethiopian cardamom (ኮረሪማ, korerima)",
+      "Lippia abyssinica (ኮሰረት, koseret)",
+      "Ethiopian sacred basil (በሶብላ, besobela)",
+      "hot chile seasoning (ሚጥሚጣ, mitmita)",
+      "aromatic finishing-spice mixture (መከለሻ, mekelesha)",
+      "black cumin/nigella terminology varies by market (ጥቁር አዝሙድ, tikur azmud)",
+      "ginger (ዝንጅብል, zinjibil)",
+      "garlic (ነጭ ሽንኩርት, nech shinkurt)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "teff flour (substitute: none for traditional teff injera; buckwheat or millet can imitate some flavor but not the same fermentation, texture or identity)",
+      "shiro flour, roasted ground chickpea or pulse flour seasoned for shiro (substitute: plain chickpea flour plus separately added Ethiopian seasonings, approximate)",
+      "ayib, fresh Ethiopian curd cheese (substitute: well-drained farmer cheese or mild ricotta, approximate)",
+      "korerima, Ethiopian cardamom (substitute: none exact; ordinary green cardamom is distinctly different)"
+    ],
+    "tips": [
+      "Commercial berbere (usually dried chile with varying combinations of fenugreek, ginger, korerima/cardamom, coriander, cloves, cinnamon, garlic and other spices): use about 10-25 g per 1 kg finished stew ingredients depending on heat and concentration; classic wot can use more, so taste and recipe context matter. Salt: 0.0 g only for a product labeled salt-free. Some blends contain salt, so calculate from the label.",
+      "Commercial niter qibe (usually clarified butter infused with combinations of korerima, koseret, besobela, fenugreek, ginger, garlic and other aromatics): replace plain cooking butter or fat 1:1 by weight when the recipe calls for niter qibe; 20 g commercial niter qibe replaces 20 g homemade. Salt: usually little or no added salt in traditional formulations, but packaged products vary; verify label.",
+      "Commercial mekelesha (usually warm finishing spices such as korerima/cardamom, cinnamon, cloves, black pepper, cumin, long pepper or nutmeg): use about 1-3 g per 1 kg stew near the end of cooking rather than substituting it for berbere. Salt: usually 0.0 g if sold as a pure spice blend; verify label."
+    ],
+    "pitfalls": [
+      "Do not put berbere into every Ethiopian dish; alicha and many vegetable or fasting dishes follow different seasoning patterns.",
+      "Do not put butter into Orthodox Christian fasting dishes.",
+      "Do not treat ordinary green cardamom as an exact replacement for korerima.",
+      "Do not call an unfermented pancake or wheat tortilla injera.",
+      "Do not make wot like a quick curry; extended onion cooking is a defining structural technique.",
+      "Do not collapse Ethiopian and Eritrean cuisines into one undifferentiated recipe tradition even though they share many foods."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "egyptian",
+    "kind": "cuisine",
+    "label": "Egyptian",
+    "subtitle": "Ful, ta'ameya, molokhia, cumin, garlic",
+    "about": "Egyptian cooking follows the Nile Valley and Delta from Upper Egypt to Cairo, Alexandria and the Mediterranean coast, with additional traditions in oases and desert communities. Ancient agricultural continuity, Coptic and Islamic traditions, Ottoman rule and Mediterranean migration all contributed to a cuisine especially rich in breads, legumes, vegetables, garlic, cumin and coriander. Representative dishes include ful medames, fava-bean ta'ameya, molokhia and koshari.",
+    "prompt_name": "Egyptian",
+    "flavors": [
+      "cumin (كمون, kammun)",
+      "coriander seed and fresh coriander (كزبرة, kozbara)",
+      "garlic (ثوم, tom)",
+      "onion (بصل, basal)",
+      "hot chile/chile condiment (شطة, shatta)",
+      "pounded spice-and-seed mixture with highly variable formulas (دقة, duqqa)",
+      "sesame paste (طحينة, tahina)",
+      "vinegar (خل, khal)",
+      "lemon (ليمون, lamoun)",
+      "nigella seed (حبة البركة, habbet el-baraka)"
+    ],
+    "sweet_only": [
+      "rose water (ماء الورد, ma ward)",
+      "orange-blossom water (ماء الزهر, ma zahr)",
+      "mastic (مستكة, mastika)"
+    ],
+    "signature_ingredients": [
+      "molokhia leaves, Corchorus/Jute mallow (substitute: none exact; spinach does not reproduce the characteristic mucilaginous texture)",
+      "small dried fava beans for ful (substitute: canned fava beans, with loss of some texture from long simmering)",
+      "split dried fava beans for ta'ameya (substitute: none if the dish is to remain classically Egyptian ta'ameya; chickpeas produce a different falafel tradition)",
+      "baladi bread (substitute: whole-wheat pita, approximate)"
+    ],
+    "tips": [
+      "Prepared dukkah/dokka (usually variable toasted coriander, cumin, sesame and pepper; many versions add nigella, nuts, sumac or other seeds): use 5-15 g as a finishing seasoning rather than as a universal Egyptian spice blend. Salt: LOW CONFIDENCE for generic dukkah because formulas vary. Pure unsalted mixes contribute 0.0 g; packaged salted versions require label calculation.",
+      "Prepared tahini (usually ground sesame seed, sometimes only sesame and sometimes added salt): replace homemade sesame paste 1:1 by weight; 30 g prepared tahini replaces 30 g homemade. Salt: 0.0 g only if the ingredient list is sesame alone; otherwise calculate from label.",
+      "Canned ful/fava beans (usually cooked fava beans, water and often salt): about 240 g drained canned fava beans can replace roughly 80-100 g dry beans after cooking, but texture and flavor differ. Salt: LOW CONFIDENCE: highly brand-dependent; rinse and calculate from label rather than assuming a fixed value."
+    ],
+    "pitfalls": [
+      "Do not use chickpeas as the default base for Egyptian ta'ameya; fava beans are the classic Egyptian distinction.",
+      "Do not treat dukkah as a single standardized recipe.",
+      "Do not replace molokhia with spinach and call the texture equivalent.",
+      "Do not force a generic Levantine hummus-tabbouleh flavor template onto Egyptian dishes.",
+      "Do not turn koshari into one-pot spiced rice; its separately prepared components and sauces are central to the dish.",
+      "Do not assume Egyptian savory food is heavily perfumed with cinnamon, cardamom and allspice; garlic, cumin, coriander, onion, chile, lemon and vinegar are often more characteristic."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "nigerian",
+    "kind": "cuisine",
+    "label": "Nigerian",
+    "subtitle": "Peppers, fermented beans, soups, smoke",
+    "about": "Nigeria stretches from the Atlantic mangrove and Niger Delta coast through humid forest zones to the savanna and Sahel, with Lagos, the Yoruba southwest, Igbo southeast and Hausa-speaking north representing only part of its culinary diversity. Hundreds of ethnic communities, long-distance West African trade, Atlantic exchange and British colonial history created many distinct soup, stew, grain, tuber, bean and grilled-food traditions rather than one uniform national pantry. Representative dishes include jollof rice, egusi soup, pepper soup and suya.",
+    "prompt_name": "Nigerian",
+    "flavors": [
+      "Scotch-bonnet-type hot pepper (àtà rodo)",
+      "fermented African locust bean condiment (ìrù)",
+      "fermented African locust bean condiment (daddawa)",
+      "category of pungent fermented seed condiments (ogiri)",
+      "grains of Selim/Xylopia aethiopica (uda)",
+      "Piper guineense seed or leaf (uziza)",
+      "calabash nutmeg (ehuru)",
+      "dry spice mixture associated especially with suya (yaji)",
+      "chile/pepper (barkono)",
+      "Nigerian curry powder"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "egusi, oil-rich melon seeds (substitute: hulled pepitas can approximate body and nuttiness but are not equivalent)",
+      "ogbono, Irvingia kernels (substitute: none; its characteristic draw/slippery thickening behavior is distinctive)",
+      "garri, roasted fermented cassava granules (substitute: none)",
+      "white African yam, Dioscorea rotundata (substitute: none exact; US orange sweet potato is not the same ingredient)",
+      "ugu, fluted pumpkin leaves (substitute: spinach or kale, approximate and dish-dependent)",
+      "unrefined red palm oil (substitute: none exact; neutral oil lacks its flavor and color)"
+    ],
+    "tips": [
+      "Commercial yaji or suya spice (usually chile, ginger and aromatic spices; yajin kuli or many suya blends also contain ground kulikuli/peanut): use about 20-40 g blend per 1 kg sliced meat, depending on concentration. Salt: LOW CONFIDENCE: commercial blends vary and many are salted. Calculate from label; do not assume zero. Treat peanut status as mandatory label data.",
+      "Pepper-soup spice blend (usually variable combinations of uda, ehuru, uziza, alligator pepper and other regional spices): use about 5-12 g per liter of soup as a starting range, then adjust to the blend. Salt: 0.0 g for a clearly labeled pure spice blend; many commercial products add salt, so verify.",
+      "Bouillon cube or seasoning powder (usually salt, flavor enhancers, spices and flavorings; some contain soy, wheat or milk-derived ingredients): do not replace herbs or indigenous fermented seasonings 1:1 with bouillon. When a recipe explicitly uses it, dose according to the label and reduce separate salt. Salt: no reliable generic value. Calculate salt-equivalent from the product's sodium label; brand differences are too large for a safe fixed number."
+    ],
+    "pitfalls": [
+      "Do not model Nigeria as one uniform cuisine; regional and ethnic distinctions are fundamental.",
+      "Do not add egusi, crayfish, palm oil or iru to every Nigerian soup or stew.",
+      "Do not assume all yaji formulations are identical, and do not miss the common peanut component in suya seasoning.",
+      "Do not substitute orange sweet potato for Nigerian white yam and call it yam without qualification.",
+      "Do not use generic Indian curry powder as the defining flavor of Nigerian cooking even though Nigerian-style curry powder and dried thyme are common in some modern dishes.",
+      "Do not describe jollof rice as the sole or universal centerpiece of Nigerian food."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "senegalese",
+    "kind": "cuisine",
+    "label": "Senegalese",
+    "subtitle": "Rice, fish, onion, peanut, fermentation",
+    "about": "Senegal faces the Atlantic at Africa's westernmost bulge, with Dakar on the Cap-Vert peninsula, Saint-Louis near the Senegal River and Casamance south of The Gambia. Wolof, Lebou, Serer, Fulani, Mandinka, Jola and other communities, Atlantic trade, Islam and French colonial commerce all shaped a cuisine famous for deeply seasoned rice, fish, onion sauces, peanuts and fermented condiments. Representative dishes include ceebu jën, yassa, mafé and soupou kandia.",
+    "prompt_name": "Senegalese",
+    "flavors": [
+      "fermented African locust bean (nététou)",
+      "dried or fermented fish used as a savory seasoning (guedj)",
+      "dried fermented cymbium sea snail/mollusk (yët)",
+      "pounded parsley-garlic-chile herb mixture used especially to season or stuff fish (rof)",
+      "pounded aromatic seasoning base, formulas varying by cook (nokoss)",
+      "hot chile/pepper (kaani)",
+      "onion (soble)",
+      "salt (xorom)",
+      "tamarind (daxaar)",
+      "mustard (moutarde)"
+    ],
+    "sweet_only": [
+      "orange-blossom water (fleur d'oranger)"
+    ],
+    "signature_ingredients": [
+      "broken rice used for ceebu jën (substitute: ordinary long-grain rice is usable but gives a different absorption and texture)",
+      "jaxatu/diakhatou, small bitter African eggplant (substitute: none exact; small eggplant plus a bitter green is only an approximation)",
+      "fonio (substitute: quinoa or fine couscous can fill a structural role but are not flavor-equivalent)",
+      "cassava root (substitute: none exact; potato changes both texture and flavor)",
+      "natural unsweetened peanut paste (substitute: unsweetened smooth peanut butter)"
+    ],
+    "tips": [
+      "Prepared nokoss (usually garlic, onion or scallion, chile, pepper and parsley, sometimes ginger, nététou, bay or other aromatics): use about 40-80 g prepared nokoss per 1 kg main ingredients as a starting point, depending on concentration. Salt: LOW CONFIDENCE: homemade nokoss may be unsalted or salted, while commercial products vary. Calculate from label.",
+      "Commercial bouillon cube or seasoning powder (usually salt, flavor enhancers, spices and flavorings; ingredient profiles vary widely): use only when the intended Senegalese recipe calls for bouillon; do not treat it as a replacement for nététou, guedj or yët. Salt: no safe generic value. Calculate salt-equivalent from sodium on the label and reduce separate salt accordingly.",
+      "Prepared peanut butter for mafé (usually ground peanuts; US products may additionally contain sugar, salt and stabilizers): use natural unsweetened peanut butter 1:1 by weight for Senegalese peanut paste; 100 g peanut butter replaces 100 g peanut paste. Salt: 0.0 g if made from peanuts only; otherwise use the nutrition label."
+    ],
+    "pitfalls": [
+      "Do not turn every Senegalese dish into a peanut stew; mafé is one important family, not the whole cuisine.",
+      "Do not treat yassa as simply lemon chicken; the large quantity of onions, marination and often grilling are defining.",
+      "Do not replace the fermented savory ingredients in ceebu jën automatically with soy sauce or Southeast Asian fish sauce.",
+      "Do not treat rof and nokoss as identical even though their ingredients overlap.",
+      "Do not hard-code the story that Penda Mbaye definitively invented ceebu jën; Saint-Louis origin is well established, while single-inventor attribution is better treated as tradition.",
+      "Do not assume ceebu jën, yassa, mafé and dibi all use the same seasoning profile."
+    ],
+    "avoid": [],
+    "children": []
+  }
+]

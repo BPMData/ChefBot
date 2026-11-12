@@ -94,6 +94,15 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
    `docs/REFACTOR_CUISINE_TREE.md` (data under `src/chefbot/cuisines/`, a loader, the drill-down picker, recent
    picks, legacy ids for saved chats, tests). Claude's job afterwards: review its pull request, fix its mistakes,
    then do the house-style pass on the entries.
+   **2026-11-12:** Gemini's `gemini-step1` attempt (BPMData/ChefBot_Gemini_Experimental) was ported in as-is on
+   branch `cuisine-browser` (list drill-down in a bottom sheet). Changed: continent subtitles are geographic only
+   (no flavor profiles), and "Near & Middle East" is now "Near East". Still to do: review the port closely and
+   the house-style pass.
+   **Next: "Browse by map"**, a separate button beside "Browse cuisines". Choosing it hides the list browser until
+   Back, and the map takes the whole phone screen (pan/zoom, tap a region). Use open-source map SVGs (e.g. Natural
+   Earth-derived, public domain) rather than hand-drawn ones; tiny regions (Palestine, Lebanon, Cajun vs Creole
+   Louisiana, Singapore) get labelled call-out arrows that are themselves tap targets. The `gemini` branch of the
+   experimental repo has Bryan's first SVG-map attempt (good idea, weak implementation).
 
 ## Run, test, verify
 

@@ -33,7 +33,7 @@ CONTINENTS = {   # slug: (taxonomy heading, "Any" rule, the app's current cuisin
     "europe": ("Europe",
                '"Any" OPTIONS: Italy has an "Any" option; no other node does. ' + ANY_COUNTRY.format(example=""),
                ["French", "Greek", "Italian", "Spanish"]),
-    "near-east": ("Near & Middle East", '"Any" OPTIONS: none on this continent. Every node is a single cuisine.',
+    "near-east": ("Near East", '"Any" OPTIONS: none on this continent. Every node is a single cuisine.',
                   ["Turkish"]),
     "africa": ("Africa", '"Any" OPTIONS: none on this continent. Every node is a single cuisine.', []),
     # Cuisines added after the first five runs, researched together. Their ids are fixed so the build script

@@ -1,0 +1,170 @@
+[
+  {
+    "id": "near_east",
+    "kind": "continent",
+    "label": "Near East",
+    "subtitle": "Levant, Iran & Anatolia",
+    "about": "Cuisines of the Levant, Iran and Anatolia.",
+    "prompt_name": "",
+    "flavors": [],
+    "sweet_only": [],
+    "signature_ingredients": [],
+    "tips": [],
+    "pitfalls": [],
+    "avoid": [],
+    "children": [
+      "palestinian_levantine",
+      "persian",
+      "turkish"
+    ]
+  },
+  {
+    "id": "palestinian_levantine",
+    "kind": "cuisine",
+    "label": "Palestinian & Levant",
+    "subtitle": "Sumac, olive oil, allspice, tahini",
+    "about": "Centered on Palestine and the southern Levant along the eastern Mediterranean coast and the inland hills around Jerusalem, the West Bank and Gaza, this cuisine belongs to a wider food region shared with Jordan, Lebanon and Syria. Palestinian Arab village and city traditions, Ottoman-era exchange, trade and migration all shaped it; classic dishes include musakhan, maqluba, maftoul and mujaddara. Many foods are shared across the Levant, so these dishes should not automatically be described as uniquely Palestinian.",
+    "prompt_name": "Palestinian and Levantine",
+    "flavors": [
+      "allspice (بهار حلو, bahār ḥilw)",
+      "sumac (سماق, summāq)",
+      "za'atar (زعتر, zaʿtar)",
+      "cumin (كمون, kammūn)",
+      "cinnamon (قرفة, qirfa)",
+      "cardamom (هيل, hayl)",
+      "black pepper (فلفل أسود, filfil aswad)",
+      "mint, fresh or dried (نعناع, naʿnāʿ)",
+      "garlic (ثوم, thūm)",
+      "tahini (طحينة, ṭaḥīna)",
+      "lemon juice (عصير ليمون, ʿaṣīr laymūn)",
+      "pomegranate molasses (دبس الرمان, dibs al-rummān)"
+    ],
+    "sweet_only": [
+      "orange-blossom water (ماء الزهر, māʾ al-zahr)",
+      "rosewater (ماء الورد, māʾ al-ward)",
+      "mahlab (محلب, maḥlab)"
+    ],
+    "signature_ingredients": [
+      "hand-rolled Palestinian wheat granules (مفتول, maftūl) (substitute: pearl couscous for texture only; flavor and production are not equivalent)",
+      "roasted green wheat (فريكة, farīka/freekeh) (substitute: bulgur, preferably coarse; less smoky)",
+      "jute mallow leaves (ملوخية, mulūkhiyya) (substitute: frozen molokhia if fresh is unavailable; spinach is only a functional substitute and lacks the characteristic texture)",
+      "taboon bread (خبز طابون, khubz ṭābūn) (substitute: thick pita or naan; neither reproduces taboon flavor exactly)",
+      "gundelia, a seasonal wild thistle used in some Palestinian cooking (عكوب, ʿakkūb) (substitute: artichoke hearts for a rough functional substitute; none is exact)"
+    ],
+    "tips": [
+      "Store-bought za'atar: commonly contains za'atar-type herb, sumac, sesame and salt. Substitute 1:1 by weight for a homemade za'atar condiment. Because salt varies by brand, calculate salt from the label: salt_g = sodium_mg × 0.0025 for the quantity used, and reduce added recipe salt by that amount.",
+      "Baharat or Lebanese seven-spice: Reem Kassis specifically recommends these as convenient substitutes for her family's Palestinian nine-spice, with a slightly different flavor. Use 1:1 by weight for the ground spice quantity; many versions contain no salt, but verify the label. If sodium is 0 mg, salt contribution is 0 g.",
+      "Prepared tahini sauce is not the same as plain tahini. If a recipe calls for tahini paste, substitute only plain sesame tahini 1:1 by weight; prepared sauces may already contain lemon, garlic, water and salt. Use the package sodium to calculate salt_g = sodium_mg × 0.0025."
+    ],
+    "pitfalls": [
+      "Do not call every shared Levantine dish uniquely Palestinian, Lebanese, Syrian or Jordanian; borders are newer than many dishes.",
+      "Do not treat za'atar as simply dried thyme: the word can mean the herb itself or a condiment usually combining the herb with sumac, sesame and salt.",
+      "Do not make Reem Kassis's family nine-spice a universal Palestinian formula.",
+      "Do not add pomegranate molasses, tahini or za'atar to every dish merely to make it seem 'Middle Eastern.'",
+      "Do not insert shakshuka as a Palestinian default; it is North African in origin even though versions are now eaten elsewhere.",
+      "Do not flatten Gazan cooking into the same profile as Jerusalem or the northern West Bank; Gaza has especially strong seafood, chili, dill and sour traditions."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "persian",
+    "kind": "cuisine",
+    "label": "Persian",
+    "subtitle": "Herbs, saffron, dried lime, sour fruit",
+    "about": "Persian cooking developed across the Iranian plateau between the Caspian Sea and Persian Gulf, divided by the Alborz and Zagros mountain ranges and containing sharply different climates. Persian-speaking court and urban traditions interacted for centuries with Iran's many regional peoples and with trade routes linking Central Asia, the Caucasus, Mesopotamia and the Indian Ocean. Representative dishes include ghormeh sabzi, fesenjan, chelow kabab and tahchin.",
+    "prompt_name": "Persian",
+    "flavors": [
+      "turmeric (زردچوبه, zardchūbeh)",
+      "saffron (زعفران, zaʿfarān)",
+      "black pepper (فلفل سیاه, felfel-e siyāh)",
+      "cinnamon (دارچین, dārchīn)",
+      "dried lime (لیمو عمانی, līmū-ye ʿomānī)",
+      "mint (نعناع, naʿnāʿ)",
+      "dill (شوید, shevid)",
+      "coriander/cilantro (گشنیز, geshnīz)",
+      "parsley (جعفری, jaʿfari)",
+      "fenugreek leaf (شنبلیله, shanbalīleh)",
+      "unripe sour grapes or verjuice (غوره, ghūreh)",
+      "pomegranate concentrate/molasses (رب انار, robb-e anār)"
+    ],
+    "sweet_only": [
+      "rosewater (گلاب, golāb)",
+      "cardamom (هل, hel)",
+      "dried Damask rose petals (گل محمدی, gol-e moḥammadi)"
+    ],
+    "signature_ingredients": [
+      "barberries (زرشک, zereshk) (substitute: dried cranberries soaked briefly in lemon juice; sweeter and not equivalent)",
+      "dried limes (لیمو عمانی, līmū-ye ʿomānī) (substitute: fresh lime juice plus a small amount of lime zest; misses the fermented earthy bitterness)",
+      "fermented dried dairy product, usually reconstituted (کشک, kashk) (substitute: strained Greek yogurt mixed with a little feta for body; flavor is not equivalent)",
+      "Persian shallot (موسیر, mūsīr) (substitute: ordinary shallot plus a small amount of garlic)",
+      "unripe sour grapes (غوره, ghūreh) (substitute: verjuice if available; otherwise lemon juice diluted slightly with water)"
+    ],
+    "tips": [
+      "Commercial advieh: formulas vary by dish and producer and may contain cinnamon, cardamom, cumin, rose, nutmeg or other spices. Substitute 1:1 by weight only when the blend is intended for the same dish family; do not treat 'advieh' as one universal formula. If the label shows 0 mg sodium, salt contribution is 0 g; otherwise salt_g = sodium_mg × 0.0025.",
+      "Prepared or frozen ghormeh-sabzi herb mixtures can replace the same prepared herb component by weight, but verify whether they are raw, fried or salted before substitution. For a salted product, calculate salt_g from sodium_mg × 0.0025.",
+      "Bottled pomegranate molasses may replace homemade reduced pomegranate concentrate 1:1 by weight as a starting point, but sweetness and acidity vary substantially by brand; adjust sourness rather than adding sugar automatically."
+    ],
+    "pitfalls": [
+      "Do not make every Persian dish sweet, floral or saffron-heavy.",
+      "Do not make Persian food generically hot with large amounts of chile; classic seasoning is usually aromatic rather than strongly fiery.",
+      "Do not replace dried lime with fresh lime and claim the flavor is identical.",
+      "Do not omit the parboil-and-steam process when a classic chelow texture is intended.",
+      "Do not assume all Iranian regional cuisines are identical to a Tehran-centered Persian canon; Caspian, Azeri, Kurdish, southern and other regional traditions differ substantially.",
+      "Do not use the word 'tahdig' for any crispy rice without preserving the deliberate bottom-crust technique."
+    ],
+    "avoid": [],
+    "children": []
+  },
+  {
+    "id": "turkish",
+    "kind": "cuisine",
+    "label": "Turkish",
+    "subtitle": "Pul biber, yogurt, sumac, herbs",
+    "about": "Turkish cuisine spans Anatolia between the Black Sea, Aegean and Mediterranean and includes Istanbul at the Bosporus, with major regional differences from the southeast to the Aegean coast. It was shaped by Anatolian foodways, Turkic migrations, Seljuk and Ottoman kitchens, and long interaction with Balkan, Caucasian, Mediterranean and Middle Eastern communities. Representative dishes include mantı, dolma and sarma, kebabs, börek and olive-oil vegetable dishes.",
+    "prompt_name": "Turkish",
+    "flavors": [
+      "dried red-pepper flakes (pul biber)",
+      "black pepper (karabiber)",
+      "Turkish oregano/thyme-type dried herb (kekik)",
+      "mint (nane)",
+      "cumin (kimyon)",
+      "sumac (sumak)",
+      "allspice (yenibahar)",
+      "concentrated red-pepper paste (biber salçası)",
+      "tomato paste (domates salçası)",
+      "garlic (sarımsak)",
+      "pomegranate molasses/sour pomegranate concentrate (nar ekşisi)",
+      "bay leaf (defne yaprağı)"
+    ],
+    "sweet_only": [
+      "mastic (damla sakızı)",
+      "rosewater (gül suyu)",
+      "mahlab (mahlep)"
+    ],
+    "signature_ingredients": [
+      "thin rolled flatbread or pastry sheets (yufka) (substitute: lavash for flatbread uses or phyllo for layered pastry uses; neither is universally interchangeable)",
+      "fermented dried grain-yogurt soup base (tarhana) (substitute: none)",
+      "highly seasoned cured sausage (sucuk) (substitute: a garlicky beef sausage; chorizo is only a rough functional substitute and has a different spice profile)",
+      "pressed, cured beef coated with çemen (pastırma) (substitute: bresaola plus garlic and fenugreek for a rough functional substitute; none is exact)",
+      "Turkish cut egg noodles (erişte) (substitute: wide supermarket egg noodles)"
+    ],
+    "tips": [
+      "Biber salçası: commercial pepper paste can replace homemade pepper paste 1:1 by weight as a starting point. Many jars are salted, so calculate salt_g = sodium_mg × 0.0025 from the nutrition label for the weight used and subtract that salt from the recipe.",
+      "Domates salçası: concentrated supermarket tomato paste can usually replace Turkish tomato paste 1:1 by weight, but concentration varies; adjust liquid and browning rather than assuming identical strength. Account for labeled sodium using salt_g = sodium_mg × 0.0025.",
+      "Nar ekşisi: use a product whose main ingredient is pomegranate rather than a generic sweet 'pomegranate sauce' when classic sourness is intended. Substitute 1:1 by weight as a starting point; sweetness, acidity and salt vary by product.",
+      "Köfte baharı: commercial meatball-spice blends vary; one documented traditional formulation combines coriander, black pepper, cloves, bay and wild thyme. Use 1:1 by weight only in recipes that actually call for köfte seasoning. If salted, derive salt from the label using salt_g = sodium_mg × 0.0025."
+    ],
+    "pitfalls": [
+      "Do not reduce Turkish cuisine to kebab, hummus and baklava; vegetable dishes, legumes, grains, soups, yogurt dishes and regional foods are equally important.",
+      "Do not describe modern Turkish cuisine as deriving solely from Ottoman palace cooking.",
+      "Do not add pomegranate molasses to every Turkish dish; it is particularly important in southern and southeastern traditions.",
+      "Do not add fenugreek to ordinary Turkish recipes merely because çemen is traditional; its use is specialized and regional.",
+      "Do not assume kekik always means the exact same botanical herb as supermarket English thyme.",
+      "Do not treat all pul biber as Aleppo pepper; Turkish red-pepper flakes vary substantially by region and processing, and isot is a distinct Şanlıurfa pepper product.",
+      "Do not make every meze tahini-based; yogurt, vegetables, legumes, olive oil, herbs and seafood also form major meze families."
+    ],
+    "avoid": [],
+    "children": []
+  }
+]
