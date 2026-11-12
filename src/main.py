@@ -338,6 +338,28 @@ class ChefBotApp:
                                options=[ft.DropdownOption(key=k, text=m.label) for k, m in api.MODELS.items()])
         effort_dd = ft.Dropdown(label="Thinking", value=self.effort, expand=True,
                                 options=[ft.DropdownOption(key=k, text=EFFORT_LABELS[k]) for k in api.EFFORTS])
+        # Some models run at one thinking level only (Kimi K3.1 Pro: medium). Show that level, greyed out, but keep
+        # the choice made for the other models, so switching back restores it.
+        chosen_effort = {"value": self.effort}
+
+        def show_effort_for_model():
+            allowed = api.MODELS.get(model_dd.value or api.DEFAULT_MODEL, api.MODELS[api.DEFAULT_MODEL]).efforts
+            locked = len(allowed) == 1
+            effort_dd.disabled = locked
+            effort_dd.value = allowed[0] if locked else api.effort_for(model_dd.value, chosen_effort["value"])
+            effort_dd.helper_text = f"This model only runs at {EFFORT_LABELS[allowed[0]]}." if locked else None
+
+        def on_model(_):
+            show_effort_for_model()
+            effort_dd.update()
+
+        def on_effort(_):
+            if not effort_dd.disabled and effort_dd.value:
+                chosen_effort["value"] = effort_dd.value
+
+        model_dd.on_select = on_model
+        effort_dd.on_select = on_effort
+        show_effort_for_model()
         theme_seg = ft.SegmentedButton(
             selected=[self.theme], allow_multiple_selection=False,
             segments=[ft.Segment(value="dark", label="Dark", icon=ft.Icons.DARK_MODE_OUTLINED),
@@ -388,7 +410,7 @@ class ChefBotApp:
 
         async def save(_):
             values = {PREF_KEY: (key_field.value or "").strip(),
-                      PREF_MODEL: model_dd.value or api.DEFAULT_MODEL, PREF_EFFORT: effort_dd.value or api.DEFAULT_EFFORT,
+                      PREF_MODEL: model_dd.value or api.DEFAULT_MODEL, PREF_EFFORT: chosen_effort["value"] or api.DEFAULT_EFFORT,
                       PREF_THEME: (list(theme_seg.selected) or ["dark"])[0],
                       PREF_EMAIL_TO: (to_field.value or "").strip(), PREF_SMTP_USER: (user_field.value or "").strip(),
                       PREF_SMTP_PASSWORD: (pass_field.value or "").replace(" ", ""),

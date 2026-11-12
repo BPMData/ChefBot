@@ -270,3 +270,32 @@ def test_missing_cert_file_falls_back_to_certifi(tmp_path, monkeypatch):
     monkeypatch.setenv("SSL_CERT_FILE", str(tmp_path / "gone.pem"))
     monkeypatch.setattr(api, "_SSL_CONTEXT", None)
     assert api.ssl_context().cert_store_stats()["x509_ca"] > 0
+
+
+def test_kimi_always_thinks_at_medium_with_temperature_1():
+    """Kimi K3.1 Pro: medium thinking only (Bryan's pick, 2026-11-09) and temperature 1 (Moonshot's rule)."""
+    sent = []
+
+    def handler(request):
+        body = json.loads(request.content)
+        sent.append((body["model"], body["reasoning"]["effort"], body["temperature"]))
+        return httpx.Response(200, content=b"data: [DONE]\n\n")
+
+    async def run():
+        chef = _chef(handler)
+        for effort in api.EFFORTS:
+            [c async for c in chef.stream_chat([], "kimi-k3.1-pro", effort)]
+            [c async for c in chef.stream_chat([], api.DEFAULT_MODEL, effort)]
+    asyncio.run(run())
+    kimi = api.MODELS["kimi-k3.1-pro"].id
+    assert {(e, t) for m, e, t in sent if m == kimi} == {("medium", 1.0)}
+    assert [e for m, e, t in sent if m != kimi] == api.EFFORTS       # the others still get what was picked
+
+
+def test_effort_for_keeps_valid_choices_and_fixes_the_rest():
+    assert api.effort_for(api.DEFAULT_MODEL, "low") == "low"
+    assert api.effort_for(api.DEFAULT_MODEL, "bogus") == api.DEFAULT_EFFORT
+    assert api.effort_for("kimi-k3.1-pro", "high") == "medium"
+    assert api.effort_for("retired-model", "low") == "low"           # unknown model: the default model's rules
+    for m in api.MODELS.values():
+        assert m.efforts and set(m.efforts) <= set(api.EFFORTS)
