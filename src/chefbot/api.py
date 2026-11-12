@@ -17,12 +17,18 @@ API_URL = "https://openrouter.ai/api/v1/chat/completions"
 APP_TITLE = "ChefBot"
 
 
+EFFORTS = ["low", "medium", "high"]
+DEFAULT_EFFORT = "high"
+
+
 @dataclass(frozen=True)
 class Model:
     id: str            # OpenRouter model id
     label: str         # shown in Settings
     provider: str      # preferred host: the company that made the model
     vision: bool       # can read photos
+    temperature: float = 0.7   # some hosts insist on their own value (Moonshot: Kimi K3.1 Pro takes only 1)
+    efforts: tuple[str, ...] = tuple(EFFORTS)   # thinking levels offered for it in Settings
 
 
 # Picked from blind taste tests in Oct 2026 (see README). Requests go to the maker's own servers first,
@@ -31,15 +37,24 @@ MODELS: dict[str, Model] = {
     "glm-5.3": Model("z-ai/glm-5.3", "GLM 5.3 (Z.ai)", "z-ai", vision=False),
     "glm-5.3-flash": Model("z-ai/glm-5.3-flash", "GLM 5.3 Flash (Z.ai), fastest", "z-ai", vision=True),
     "kimi-k3.1-pro": Model("moonshotai/kimi-k3.1-pro", "Kimi K3.1 Pro (Moonshot), slow and thorough",
-                           "moonshotai", vision=True),
+                           # Moonshot refuses any temperature but 1 (since 2026-11-03). Medium thinking only:
+                           # it scored best in Bryan's tests (6.6 vs 5.8 for high) and is far faster (51 s vs 92 s).
+                           "moonshotai", vision=True, temperature=1.0, efforts=("medium",)),
 }
 DEFAULT_MODEL = "glm-5.3"
 PHOTO_MODEL = "glm-5.3-flash"
 IMAGE_MODEL = "google/gemini-3.1-flash-lite-image"
 
-EFFORTS = ["low", "medium", "high"]
-DEFAULT_EFFORT = "high"
 MAX_TOKENS = 32000   # includes hidden thinking; generous so a recipe is never cut off
+
+
+def effort_for(model_key: str, effort: str) -> str:
+    """The thinking level actually sent: the chosen one if this model allows it, otherwise the model's own
+    (Kimi K3.1 Pro: always medium), so a saved choice from another model can never send it something it rejects."""
+    model = MODELS.get(model_key, MODELS[DEFAULT_MODEL])
+    if effort in model.efforts:
+        return effort
+    return DEFAULT_EFFORT if DEFAULT_EFFORT in model.efforts else model.efforts[0]
 
 
 class ApiError(Exception):
@@ -58,9 +73,27 @@ class Chunk:
     usage: dict | None = None
 
 
+def _provider_detail(error: dict) -> str:
+    """OpenRouter's "Provider returned error" hides the useful part in metadata: who failed, and their own words."""
+    meta = error.get("metadata") or {}
+    if not isinstance(meta, dict):
+        return ""
+    raw = meta.get("raw")
+    if isinstance(raw, str):
+        try:                                       # usually the provider's JSON error, as a string
+            parsed = json.loads(raw)
+            inner = parsed.get("error", parsed) if isinstance(parsed, dict) else parsed
+            raw = inner.get("message", raw) if isinstance(inner, dict) else raw
+        except (json.JSONDecodeError, AttributeError):
+            pass
+    parts = [str(p) for p in (meta.get("provider_name"), raw) if p]
+    return " (" + ": ".join(parts)[:300] + ")" if parts else ""
+
+
 def _friendly(status: int, body: str) -> str:
     try:
-        msg = json.loads(body).get("error", {}).get("message", "")
+        error = json.loads(body).get("error", {})
+        msg = (error.get("message", "") + _provider_detail(error)) if isinstance(error, dict) else str(error)
     except Exception:
         msg = body[:200]
     if status == 401:
@@ -131,8 +164,8 @@ class ChefBotAPI:
             "messages": messages,
             "stream": True,
             "max_tokens": MAX_TOKENS,
-            "temperature": 0.7,
-            "reasoning": {"effort": effort if effort in EFFORTS else DEFAULT_EFFORT},
+            "temperature": model.temperature,
+            "reasoning": {"effort": effort_for(model_key, effort)},
             "provider": {"order": [model.provider], "allow_fallbacks": True},
             "usage": {"include": True},
         }
@@ -151,7 +184,9 @@ class ChefBotAPI:
                     except json.JSONDecodeError:
                         continue
                     if "error" in obj:
-                        raise ApiError(f"The model stopped with an error: {obj['error'].get('message', obj['error'])}")
+                        err = obj["error"]
+                        detail = (err.get("message", "") + _provider_detail(err)) if isinstance(err, dict) else err
+                        raise ApiError(f"The model stopped with an error: {detail}")
                     if obj.get("usage"):
                         yield Chunk("usage", usage=obj["usage"])
                     for choice in obj.get("choices") or []:
