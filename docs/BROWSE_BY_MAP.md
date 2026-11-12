@@ -89,7 +89,9 @@ Bryan has downloaded the source data, unzipped, into `assets/maps/source/`:
   only (state code `STATEFP` 22, 64 parishes).
 
 They are shapefiles; read them with a Python library you add to the dev dependencies only (for example
-`pyshp`), never to the app's own dependencies. Don't download anything else without asking. Write a build step, `tools/build_map_data.py`, that reads those
+`pyshp`), never to the app's own dependencies. Don't download anything else without asking.
+
+Write a build step, `tools/build_map_data.py`, that reads those
 files and writes small, simplified map data the app ships (for example `src/chefbot/maps/*.json`): one file per
 level, already projected to screen coordinates and simplified so the app stays light on a phone. Commit the
 build script and its output, not the raw downloads (add `assets/maps/source/` to `.gitignore`).
