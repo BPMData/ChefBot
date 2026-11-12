@@ -85,8 +85,8 @@ Bryan has downloaded the source data, unzipped, into `assets/maps/source/`:
 - `ne_10m_admin_1_states_provinces/`: Natural Earth 1:10m states and provinces (public domain). This covers
   US and Mexican states, Chinese provinces, Japanese prefectures, Indian states and Italian provinces (group
   those into regions with the file's `region` field).
-- `cb_2023_us_county_500k/`: US Census Bureau county boundaries (public domain), for the Louisiana parishes
-  only.
+- `cb_2025_us_county_500k/`: US Census Bureau county boundaries (public domain), for the Louisiana parishes
+  only (state code `STATEFP` 22, 64 parishes).
 
 They are shapefiles; read them with a Python library you add to the dev dependencies only (for example
 `pyshp`), never to the app's own dependencies. Don't download anything else without asking. Write a build step, `tools/build_map_data.py`, that reads those
