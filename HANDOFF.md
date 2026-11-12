@@ -130,8 +130,12 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
      builder reproduces committed JSON when source shapefiles are present, and the UI drill-down/pick/Back flow works
      at phone and desktop sizes.
    - **Still to do:** House-style pass on cuisine entries (including the 12 tips with raw `salt_g` formula notation),
-     pantry defaults decision with Bryan, and testing the map browser on the physical Android phone after an APK
-     rebuild.
+     pantry defaults decision with Bryan.
+   - **2026-11-12, tested on the phone:** works well. Fixed (PR #23): at 1x the map could be dragged around;
+     the viewer's boundary margin is now 0, so it only pans while pinch-zoomed, within the map's edges.
+   - **Next (Bryan's idea, 2026-11-12):** replace the flat world level with a spinnable, zoomable globe that
+     flies to the chosen continent. Brief for Gemini (Antigravity): `docs/GLOBE_BROWSER.md`. Claude reviews
+     its pull request afterwards.
 
 ## Run, test, verify
 
