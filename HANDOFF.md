@@ -133,9 +133,27 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
      pantry defaults decision with Bryan.
    - **2026-11-12, tested on the phone:** works well. Fixed (PR #23): at 1x the map could be dragged around;
      the viewer's boundary margin is now 0, so it only pans while pinch-zoomed, within the map's edges.
-   - **Next (Bryan's idea, 2026-11-12):** replace the flat world level with a spinnable, zoomable globe that
-     flies to the chosen continent. Brief for Gemini (Antigravity): `docs/GLOBE_BROWSER.md`. Claude reviews
-     its pull request afterwards.
+   - **2026-11-12 (Globe browser on branch `globe-browser`, `docs/GLOBE_BROWSER.md`):** Replaced the flat world
+     level of "Browse by map" with a 3D orthographic spinnable, pinch-zoomable globe while keeping `world.json`
+     for continent mini-maps and all continent/country flat maps unchanged.
+     - **Data (`tools/build_map_data.py` -> `src/chefbot/maps/globe.json`):** Coarse lat/lon outlines (28.2 KB,
+       1,910 points total) built from the Natural Earth country shapefile with dissolved continent borders,
+       `cos(lat)`-weighted RDP simplification, 6-degree edge subdivision for smooth spherical curvature,
+       Chukotka kept with Asia, and south-polar simplification for Antarctica (no 180-degree pole seam).
+     - **Projection & hit-testing (`src/chefbot/maps.py`):** Precomputed 3D unit vectors + bounding-cone culling,
+       front-hemisphere (`z >= 0`) polygon clipping with circular limb arcs, 30-degree graticule lines, and
+       inverse orthographic projection (`inverse_globe_point`, `hit_test_globe`) with 6 px coastal tolerance so
+       back-side continents are never visible or tappable.
+     - **UI & physics (`src/main.py`):** `flet.canvas.Canvas` with radial 3D sphere shading/limb vignette, merged
+       subpaths per region (~16 shapes/frame), `GestureDetector` (`on_scale_*` + `on_tap_up` + `on_scroll`) for
+       drag with clamped north-south tilt (`±65°`), flick momentum with exponential friction, pinch/wheel zoom
+       (`0.85x–2.6x`), ~35 fps redraw throttling with minor-island culling during active spin, a configurable
+       `GLOBE_IDLE_SPIN_DPS = 6.0` (set to `0.0` to disable) slow idle spin until first touch, and a ~0.5 s
+       cubic-eased fly-to rotation & zoom animation on continent tap before handing off to the continent's flat
+       map (Back returns to the globe still facing that continent).
+     - **Still to do:** Claude PR review; test APK smoothness on Bryan's phone and live web interaction in the
+       browser (automated browser origin permission timed out during this session; verified via pytest + Python
+       projection rendering).
 
 ## Run, test, verify
 
