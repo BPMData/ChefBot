@@ -270,6 +270,7 @@ class ChefBotApp:
         self._globe_vel_lat = 0.0
         self._globe_last_drag_t = 0.0
         self._globe_last_draw_t = 0.0
+        self._globe_draw_cost = 0.0
         self._globe_view_size: tuple[float, float] = (360.0, 520.0)
         self._globe_canvas: cv.Canvas | None = None
         self._globe_stack: ft.Stack | None = None
@@ -970,21 +971,33 @@ class ChefBotApp:
         fill_color: str,
         stroke_color: str,
         stroke_width: float = 1.2,
+        outline: bool = True,
+        step: int = 1,
     ) -> list[cv.Shape]:
+        # Every path point is a Flet control that gets diffed and sent to the screen each frame, which is
+        # what makes the spinning globe slow on a phone. While it moves, callers pass step=2 (every other
+        # point) and outline=False (the outline path would send every point a second time).
         elems: list[cv.Path.PathElement] = []
         for poly in polygons:
             if len(poly) < 3:
                 continue
-            elems.append(cv.Path.MoveTo(poly[0][0], poly[0][1]))
+            if step > 1 and len(poly) > 8 * step:
+                poly = poly[::step]
+            elems.append(cv.Path.MoveTo(round(poly[0][0], 1), round(poly[0][1], 1)))
             for pt in poly[1:]:
-                elems.append(cv.Path.LineTo(pt[0], pt[1]))
+                elems.append(cv.Path.LineTo(round(pt[0], 1), round(pt[1], 1)))
             elems.append(cv.Path.Close())
         if not elems:
             return []
-        return [
+        shapes: list[cv.Shape] = [
             cv.Path(elements=elems, paint=ft.Paint(color=fill_color, style=ft.PaintingStyle.FILL)),
-            cv.Path(elements=elems, paint=ft.Paint(color=stroke_color, stroke_width=stroke_width, style=ft.PaintingStyle.STROKE)),
         ]
+        if outline:
+            shapes.append(cv.Path(
+                elements=elems,
+                paint=ft.Paint(color=stroke_color, stroke_width=stroke_width, style=ft.PaintingStyle.STROKE),
+            ))
+        return shapes
 
     def _build_globe_shapes(self, fast: bool = False) -> list[cv.Shape]:
         cx, cy, radius = self._globe_geometry()
@@ -1011,7 +1024,7 @@ class ChefBotApp:
 
         # Faint spherical lat/lon graticule
         grat_elems: list[cv.Path.PathElement] = []
-        for seg in maps.project_globe_graticule(self.globe_lon, self.globe_lat, cx, cy, radius):
+        for seg in [] if fast else maps.project_globe_graticule(self.globe_lon, self.globe_lat, cx, cy, radius):
             grat_elems.append(cv.Path.MoveTo(seg[0][0], seg[0][1]))
             for pt in seg[1:]:
                 grat_elems.append(cv.Path.LineTo(pt[0], pt[1]))
@@ -1029,6 +1042,8 @@ class ChefBotApp:
             fill_color=ft.Colors.with_opacity(0.38, ft.Colors.BLUE_GREY_500),
             stroke_color=ft.Colors.with_opacity(0.42, ft.Colors.BLUE_GREY_300),
             stroke_width=0.9,
+            outline=not fast,
+            step=2 if fast else 1,
         ))
 
         for reg in maps.get_globe()["regions"]:
@@ -1043,6 +1058,8 @@ class ChefBotApp:
                 fill_color=ft.Colors.PRIMARY if is_hi else ft.Colors.with_opacity(0.76, c_fill),
                 stroke_color=ft.Colors.ON_PRIMARY if is_hi else c_stroke,
                 stroke_width=2.2 if is_hi else 1.3,
+                outline=is_hi or not fast,
+                step=2 if fast else 1,
             ))
 
         # 3D limb darkening / specular shading + crisp sphere rim
@@ -1102,7 +1119,8 @@ class ChefBotApp:
     def _redraw_globe(self, fast: bool = False):
         if not self.on_map or self.map_stack[-1] != "world" or self._globe_canvas is None:
             return
-        self._globe_last_draw_t = time.monotonic()
+        t0 = time.monotonic()
+        self._globe_last_draw_t = t0
         self._globe_canvas.shapes = self._build_globe_shapes(fast=fast)
         self._update_globe_labels()
         if self._globe_stack is not None and isinstance(self.page, ft.Page):
@@ -1112,6 +1130,12 @@ class ChefBotApp:
                 self.page.update()
         else:
             self.page.update()
+        # How long a redraw took; the motion loops wait at least this long so a slow phone isn't flooded
+        # with frames it can't keep up with.
+        self._globe_draw_cost = time.monotonic() - t0
+
+    def _globe_frame_interval(self) -> float:
+        return max(0.028, min(0.12, self._globe_draw_cost * 1.25))
 
     def _on_globe_tap(self, e: ft.TapEvent):
         if not self.on_map or self._globe_flying or self.map_stack[-1] != "world" or not e.local_position:
@@ -1167,7 +1191,7 @@ class ChefBotApp:
                 self._globe_vel_lat = 0.55 * self._globe_vel_lat + 0.45 * (dlat / dt)
             self._globe_last_drag_t = now
 
-        if now - self._globe_last_draw_t >= 0.028:
+        if now - self._globe_last_draw_t >= self._globe_frame_interval():
             self._redraw_globe(fast=True)
 
     def _on_globe_scale_end(self, e: ft.ScaleEndEvent):
@@ -1216,7 +1240,7 @@ class ChefBotApp:
             and gen == self._globe_motion_gen
             and GLOBE_IDLE_SPIN_DPS > 0.0
         ):
-            await asyncio.sleep(0.042)
+            await asyncio.sleep(max(0.042, self._globe_frame_interval()))
             if (
                 not self.on_map
                 or self.map_stack != ["world"]
@@ -1240,7 +1264,7 @@ class ChefBotApp:
             and not self._globe_flying
             and gen == self._globe_motion_gen
         ):
-            await asyncio.sleep(0.028)
+            await asyncio.sleep(self._globe_frame_interval())
             if (
                 not self.on_map
                 or self.map_stack != ["world"]
@@ -1300,7 +1324,7 @@ class ChefBotApp:
                 self._redraw_globe(fast=(u < 1.0))
                 if u >= 1.0:
                     break
-                await asyncio.sleep(0.025)
+                await asyncio.sleep(self._globe_frame_interval())
                 if not self.on_map or gen != self._globe_motion_gen:
                     self._globe_flying = False
                     return
