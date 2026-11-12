@@ -81,7 +81,7 @@
     "id": "china_any",
     "kind": "any",
     "label": "Any",
-    "subtitle": "International Chinese restaurant image",
+    "subtitle": "Takeout favorites, stir-fries",
     "about": "Outside China, 'Chinese food' often means an export repertoire shaped first by Cantonese-speaking migrants and later by Sichuan, Hunan, Taiwanese and other influences. Fried rice, dumplings, chow mein, sweet-and-sour dishes and stir-fries are recognizable international examples, but this is an export category rather than a faithful national summary.",
     "prompt_name": "Chinese",
     "flavors": [
@@ -140,7 +140,6 @@
     "signature_ingredients": [
       "Pixian doubanjiang (substitute: chile-bean sauce plus a little miso, imperfect)",
       "yacai preserved mustard greens (substitute: finely chopped Tianjin preserved vegetable or mild pickled mustard)",
-      "Sichuan pepper (substitute: none for numbing aroma)",
       "caiziyou roasted rapeseed oil (substitute: neutral oil plus a small amount toasted sesame oil, imperfect)"
     ],
     "tips": [
@@ -291,7 +290,6 @@
       "osmanthus sugar/syrup (桂花糖, guìhuā táng)"
     ],
     "signature_ingredients": [
-      "Zhenjiang black vinegar (substitute: rice vinegar plus a little balsamic)",
       "water bamboo (茭白, jiāobái) (substitute: asparagus hearts or bamboo shoots, imperfect)",
       "freshwater crab (substitute: blue crab or Dungeness)",
       "dried bamboo shoot (干笋, gānsǔn) (substitute: canned bamboo shoot, milder)"
@@ -331,10 +329,8 @@
       "osmanthus (桂花, guìhuā)"
     ],
     "signature_ingredients": [
-      "Shaoxing wine (substitute: dry sherry)",
       "Longjing green tea (substitute: another delicate Chinese green tea)",
-      "freshwater fish (substitute: trout or bass)",
-      "fermented rice lees (substitute: sake kasu, imperfect)"
+      "freshwater fish (substitute: trout or bass)"
     ],
     "tips": [
       "Shaoxing cooking wine: 15-30 g per 500 g food; salted cooking wines may add 0.5-1.5 g salt, so check label.",
@@ -369,7 +365,6 @@
     ],
     "sweet_only": [],
     "signature_ingredients": [
-      "red rice wine lees (substitute: sake kasu plus red yeast rice only if available; otherwise none)",
       "dried scallop (substitute: dried shiitake for umami only)",
       "fish balls with springy texture (substitute: supermarket fish balls)",
       "dried razor clam or other dried seafood (substitute: dried shrimp if shellfish allowed)"
@@ -451,7 +446,6 @@
     "signature_ingredients": [
       "kombu (昆布) (substitute: none exact; dried mushrooms for vegetarian umami)",
       "katsuobushi (鰹節) (substitute: instant dashi or dried shiitake for vegetarian version)",
-      "miso (substitute: none exact)",
       "nori (海苔) (substitute: other toasted seaweed, imperfect)"
     ],
     "tips": [
@@ -474,7 +468,7 @@
     "id": "japan_any",
     "kind": "any",
     "label": "Any",
-    "subtitle": "Sushi, ramen, teriyaki image",
+    "subtitle": "Sushi, ramen, teriyaki",
     "about": "Internationally, Japanese food is commonly represented by sushi, ramen, tempura, teriyaki, miso soup and rice bowls. These are genuinely Japanese foods, but the export image underrepresents ordinary simmered dishes, grilled fish, pickles, regional foods and home-style vegetable cookery.",
     "prompt_name": "Japanese",
     "flavors": [
@@ -495,7 +489,6 @@
     ],
     "signature_ingredients": [
       "nori (substitute: toasted seaweed)",
-      "miso (substitute: none exact)",
       "short-grain Japanese rice (substitute: California medium-grain)",
       "katsuobushi (substitute: instant dashi)"
     ],
@@ -533,7 +526,6 @@
     "sweet_only": [],
     "signature_ingredients": [
       "katsuobushi (substitute: instant bonito dashi)",
-      "koikuchi soy sauce (substitute: standard Japanese soy sauce)",
       "red vinegar for Edomae sushi (赤酢, akazu) (substitute: rice vinegar plus a tiny amount brown sugar, imperfect)"
     ],
     "tips": [
@@ -570,7 +562,6 @@
     "sweet_only": [],
     "signature_ingredients": [
       "kombu (substitute: none exact)",
-      "usukuchi soy sauce (substitute: koikuchi diluted slightly plus salt, color will differ)",
       "Kyoto white miso (substitute: mild white miso)"
     ],
     "tips": [
@@ -611,7 +602,6 @@
       "kewra water (केवड़ा, kevṛā)"
     ],
     "signature_ingredients": [
-      "asafoetida (substitute: tiny amount garlic/onion where religious rules permit)",
       "fresh curry leaves (substitute: none exact)",
       "Indian dried chiles (substitute: cayenne plus paprika depending heat)",
       "ghee (substitute: clarified butter or neutral oil)"
@@ -660,7 +650,6 @@
     "signature_ingredients": [
       "paneer (substitute: firm tofu)",
       "ghee (substitute: clarified butter)",
-      "kasuri methi (substitute: none exact)",
       "basmati rice (substitute: another long-grain aromatic rice)"
     ],
     "tips": [
@@ -703,7 +692,6 @@
     "signature_ingredients": [
       "kasuri methi (substitute: tiny amount dried fenugreek seed is not equivalent; best substitute none)",
       "paneer (substitute: firm tofu for texture, not flavor)",
-      "black cardamom (substitute: green cardamom plus tiny smoked note, imperfect)",
       "ghee (substitute: clarified butter)"
     ],
     "tips": [
@@ -830,10 +818,7 @@
       "pandan (ใบเตย, bai toei)"
     ],
     "signature_ingredients": [
-      "galangal (substitute: ginger plus lime zest, noticeably different)",
-      "makrut lime leaves (substitute: lime zest plus bay leaf, imperfect)",
-      "Thai basil (substitute: Italian basil plus mint, imperfect)",
-      "palm sugar (substitute: light brown sugar)"
+      "makrut lime leaves (substitute: lime zest plus bay leaf, imperfect)"
     ],
     "tips": [
       "Commercial curry paste: 20-30 g per 400 ml coconut milk is typical; many brands contribute about 2-4 g salt and may contain shrimp.",
@@ -918,7 +903,6 @@
       "pandan"
     ],
     "signature_ingredients": [
-      "calamansi (substitute: equal parts lime and mandarin/lemon juice)",
       "bagoong alamang (substitute: shrimp paste, then adjust salt)",
       "banana ketchup (substitute: tomato ketchup plus small amount sugar and vinegar, imperfect)",
       "souring agents such as sampalok (substitute: tamarind concentrate)"
@@ -963,7 +947,6 @@
       "palm sugar (gula aren/gula jawa)"
     ],
     "signature_ingredients": [
-      "candlenut (substitute: macadamia or cashew for body; allergen profile changes)",
       "terasi (substitute: Southeast Asian shrimp paste)",
       "kecap manis (substitute: soy sauce plus palm/brown sugar)",
       "tempe (substitute: firm tofu, different texture/flavor)"

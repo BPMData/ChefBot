@@ -662,7 +662,7 @@ class ChefBotApp:
                 ], spacing=4, vertical_alignment=ft.CrossAxisAlignment.CENTER),
                 *self._cuisine_info_lines(node),
                 ft.Container(
-                    gradient_button(f"Let's Cook! ({label})", ft.Icons.RESTAURANT_MENU,
+                    gradient_button(f"Pick {label}", ft.Icons.RESTAURANT_MENU,
                                     lambda _, lid=leaf_id: pick_leaf(lid)),
                     padding=ft.Padding(left=0, right=0, top=8, bottom=0),
                 ),

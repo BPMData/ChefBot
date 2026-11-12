@@ -42,12 +42,6 @@ DEFAULT_AUDIENCE = "A working professional."
 
 NO_CUISINE = "Nothing in particular"
 
-# Bryan's rule: no filé. These are the thickeners he uses instead.
-LOUISIANA_THICKENING = (
-    "Never use or suggest filé powder. When a dish needs body (gumbo, étouffée), thicken it with okra, with a dark "
-    "roux plus a reduced, collagen-rich homemade stock, or with xanthan gum weighed in grams (about 1 to 3 g per "
-    "liter of liquid, blended in).")
-
 # ---------------------------------------------------------------- dietary rules
 
 RESTRICTIONS: dict[str, str] = {

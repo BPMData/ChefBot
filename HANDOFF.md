@@ -96,8 +96,11 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
    then do the house-style pass on the entries.
    **2026-11-12:** Gemini's `gemini-step1` attempt (BPMData/ChefBot_Gemini_Experimental) was ported in as-is on
    branch `cuisine-browser` (list drill-down in a bottom sheet). Changed: continent subtitles are geographic only
-   (no flavor profiles), and "Near & Middle East" is now "Near East". Still to do: review the port closely and
-   the house-style pass.
+   (no flavor profiles), and "Near & Middle East" is now "Near East". Reviewed and fixed: 19 cuisines listed
+   the same item as a classic flavor and as a "signature ingredient, use only if you have it" (contradictory
+   prompt); the builder now drops the duplicate. Data files were CRLF, now LF. Open questions for Bryan: saved
+   "Hong Kong" chats map to Cantonese (no Hong Kong node in the research); 12 cuisines' tips carry raw research
+   notation (`salt_g ≈ sodium_mg × 0.00254`) into the prompt. Still to do: the house-style pass on the entries.
    **Next: "Browse by map"**, a separate button beside "Browse cuisines". Choosing it hides the list browser until
    Back, and the map takes the whole phone screen (pan/zoom, tap a region). Use open-source map SVGs (e.g. Natural
    Earth-derived, public domain) rather than hand-drawn ones; tiny regions (Palestine, Lebanon, Cajun vs Creole

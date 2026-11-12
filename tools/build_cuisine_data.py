@@ -480,6 +480,11 @@ def build_node(raw: dict, kind: str, children: list[str], overrides: dict[str, d
     }
     if nid in overrides:
         apply_overrides(node, overrides[nid])
+    # A classic flavor can't also be a "signature ingredient, use only if the user has it": the prompt would
+    # tell the model both to season with it and to leave it out. Keep it as a flavor.
+    flavor_names = {f.split(" (")[0].strip().lower() for f in node["flavors"]}
+    node["signature_ingredients"] = [s for s in node["signature_ingredients"]
+                                     if s.split(" (")[0].strip().lower() not in flavor_names]
     return node
 
 

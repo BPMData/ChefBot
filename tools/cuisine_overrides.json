@@ -109,5 +109,11 @@
     "allergen_notes": [
       "Milk occurs in ghee, yogurt, cream and khoya; wheat in atta roti, naan and flour-thickened nihari, with possible wheat in boxed blends; egg sometimes binds chapli kebab or is added to dishes. Tree nuts may occur in korma, rice and sweets, and peanuts or sesame may appear in snacks, chutneys, bakery goods or cross-contact. Fish and shellfish feature in some coastal and Sindhi seafood dishes. Packaged spice mixes often contain hydrolyzed soy protein and may warn of sesame, gluten and tree-nut traces. Labels and recipes vary; never infer allergen safety from a cuisine name."
     ]
+  },
+  "china_any": {
+    "subtitle": "Takeout favorites, stir-fries"
+  },
+  "japan_any": {
+    "subtitle": "Sushi, ramen, teriyaki"
   }
 }
