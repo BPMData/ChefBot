@@ -1,0 +1,119 @@
+{
+  "us_cajun": {
+    "avoid": [
+      "filé powder"
+    ],
+    "remove_flavors": [
+      "filé",
+      "sassafras"
+    ],
+    "remove_signature_ingredients": [
+      "filé",
+      "sassafras"
+    ],
+    "prepend_tips": [
+      "Use the separate spices in the recipe itself, never a store-bought blend. Then add a tip for cooks short on time: most Cajun seasoning is paprika, cayenne, garlic, onion, black pepper, oregano and thyme plus a lot of salt, so say how many grams of blend would replace the spices in this recipe, and to cut the added salt if they use it.",
+      "Never use or suggest filé powder. When a dish needs body (gumbo, étouffée), thicken it with okra, with a dark roux plus a reduced, collagen-rich homemade stock, or with xanthan gum weighed in grams (about 1 to 3 g per liter of liquid, blended in)."
+    ],
+    "pitfalls": [
+      "Do not require a dark roux in every Cajun dish; étouffées, fricassées and gumbos vary, and some gumbos are thickened with okra.",
+      "Do not enforce 'Cajun never uses tomatoes': tomato use is less associated with classic Cajun than Creole cooking, but the rural/urban and tomato/no-tomato divide is an oversimplification.",
+      "Excessive cayenne is another stereotype; seasoning is often layered rather than simply hot."
+    ]
+  },
+  "us_creole": {
+    "avoid": [
+      "filé powder"
+    ],
+    "remove_flavors": [
+      "filé"
+    ],
+    "remove_signature_ingredients": [
+      "filé"
+    ],
+    "prepend_tips": [
+      "Use the separate spices in the recipe itself, never a store-bought blend. Then add a tip for cooks short on time: most Creole seasoning is paprika, garlic, onion, cayenne, black and white pepper, oregano, thyme and basil plus a lot of salt, so say how many grams of blend would replace the spices in this recipe, and to cut the added salt if they use it.",
+      "Never use or suggest filé powder. When a dish needs body (gumbo, étouffée), thicken it with okra, with a dark roux plus a reduced, collagen-rich homemade stock, or with xanthan gum weighed in grams (about 1 to 3 g per liter of liquid, blended in)."
+    ]
+  },
+  "us_any": {
+    "add_flavors": [
+      "cinnamon",
+      "vanilla extract",
+      "Old Bay"
+    ],
+    "sweet_only": []
+  },
+  "italy": {
+    "prepend_tips": [
+      "If the recipe uses anchovies, add a tip that anchovy-only fish sauce works as a substitute (check the label: just anchovies and salt), with the amount."
+    ]
+  },
+  "italy_any": {
+    "prepend_tips": [
+      "If the recipe uses anchovies, add a tip that anchovy-only fish sauce works as a substitute (check the label: just anchovies and salt), with the amount."
+    ]
+  },
+  "northern_italy": {
+    "prepend_tips": [
+      "If the recipe uses anchovies, add a tip that anchovy-only fish sauce works as a substitute (check the label: just anchovies and salt), with the amount."
+    ]
+  },
+  "southern_sicilian_italy": {
+    "prepend_tips": [
+      "If the recipe uses anchovies, add a tip that anchovy-only fish sauce works as a substitute (check the label: just anchovies and salt), with the amount."
+    ]
+  },
+  "korean": {
+    "prepend_tips": [
+      "Kimchi (김치) is in nearly every Korean kitchen. Write the recipe so it works without it, but if the user didn't list it, strongly recommend it in the Tips: served alongside, or cooked in if it suits the dish."
+    ]
+  },
+  "malaysian_singaporean": {
+    "remove_flavors": [
+      "coconut milk"
+    ],
+    "sweet_only": [
+      "palm sugar (gula melaka)",
+      "pandan (daun pandan)"
+    ]
+  },
+  "moroccan_north_african": {
+    "label": "Moroccan"
+  },
+  "tunisian": {
+    "tips": [
+      "Ready-made harissa (red chili, garlic, coriander, caraway, salt): use 20 g prepared paste in place of 20 g homemade harissa as a starting point, then adjust heat and acidity; a typical packaged mix reporting 1.8 g salt per 100 g contributes about 0.36 g salt per 20 g, so check the label and subtract from separately added salt.",
+      "Pre-ground unsalted tabil or coriander-caraway blend (usually coriander and caraway, sometimes garlic and dried chili): replace 5 g freshly ground dry spice components with 5 g of a verified unsalted blend as a starting point (0 g salt); if salted, calculate salt from the package label."
+    ]
+  },
+  "algerian": {
+    "tips": [
+      "Commercial unsalted ras el hanout (variable mixture of coriander, cumin, cinnamon, ginger, pepper and other spices): start with 5 g blend for 5 g of compatible dry mixed spices, not as a complete sauce substitute (0 g salt if unsalted; otherwise use labeled sodium).",
+      "Ready-made plain Tunisian harissa as an emergency dersa component (red chili, garlic, coriander, caraway and salt): use 15 g harissa plus about 5 g fresh garlic and 1 g ground cumin as a provisional stand-in for a chili-garlic dersa (not flavor-identical); a typical packaged mix at 1.8 g salt per 100 g contributes about 0.27 g salt per 15 g, so check the label and adjust added salt."
+    ]
+  },
+  "afghan": {
+    "tips": [
+      "Unsalted Afghan char masala (one documented formula uses equal parts cumin, black cardamom, cinnamon and cloves; family blends vary): use 4 g of the unsalted mixture in place of 4 g of those combined ground spices as a starting point (0 g salt if unsalted).",
+      "Store-bought plain Greek yogurt as a chakka shortcut: start with 100 g thick plain Greek yogurt in place of 100 g chakka, adding water if necessary for sauce texture (0 g added salt if plain unsweetened).",
+      "Packaged Kabuli rice seasoning mix (salt, sugar, cumin, fennel, coriander, pepper, cardamom, cinnamon, clove, ginger, garlic and pine nuts): LOW CONFIDENCE because a typical packaged mix lists 1650 mg sodium per 10 g (about 4.13 g salt per 10 g); check the package label before substituting or deducting salt."
+    ]
+  },
+  "pakistani": {
+    "tips": [
+      "Packaged biryani spice mix (salt, garlic, ginger, cumin, bay leaf, cardamom, cinnamon, carom, cloves, chili, coriander, turmeric): use 10 g blend as a starting dose in place of some separate spices; a typical packaged mix contributes about 4.19 g salt per 10 g (from 1340 mg sodium per 8 g), so check the label and reduce separately added salt accordingly.",
+      "Packaged karahi spice mix (chili, paprika, salt, cardamom, garlic, coriander, fenugreek leaf): use 10 g as a starting dose of seasoning, not as a replacement for the tomato-ginger cooking process; a typical packaged mix contributes about 2.84 g salt per 10 g (from 910 mg sodium per 8 g), so check the label and deduct from added salt.",
+      "Packaged nihari spice mix (chili, salt, paprika, nigella, garlic, onion, cumin, aniseed, cardamom, ginger, fennel): use 10 g as a first trial for the spice component, not to replace meat, stock or thickening; a typical packaged mix contributes about 3.33 g salt per 10 g (from 1330 mg sodium per 10 g), so check the label and adjust added salt."
+    ],
+    "allergen_notes": [
+      "Milk occurs in ghee, yogurt, cream and khoya; wheat in atta roti, naan and flour-thickened nihari, with possible wheat in boxed blends; egg sometimes binds chapli kebab or is added to dishes. Tree nuts may occur in korma, rice and sweets, and peanuts or sesame may appear in snacks, chutneys, bakery goods or cross-contact. Fish and shellfish feature in some coastal and Sindhi seafood dishes. Packaged spice mixes often contain hydrolyzed soy protein and may warn of sesame, gluten and tree-nut traces. Labels and recipes vary; never infer allergen safety from a cuisine name."
+    ]
+  },
+  "china_any": {
+    "subtitle": "Takeout favorites, stir-fries"
+  },
+  "japan_any": {
+    "subtitle": "Sushi, ramen, teriyaki"
+  }
+}

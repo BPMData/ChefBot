@@ -399,4 +399,41 @@ def test_no_context_at_all_says_why(android):
 
 
 def test_every_cuisine_has_a_chip():
-    assert set(main.CUISINE_NAMES) == set(main.prompts.CUISINES)
+    for node in main.cuisines.leaves():
+        label = main.cuisines.chip_label(node["id"])
+        assert label and len(label) <= 24
+    assert set(main.CONTINENT_ICONS) == {c["id"] for c in main.cuisines.continents()}
+
+
+def test_recent_cuisines_and_legacy_history_resolution(tmp_path):
+    app = main.ChefBotApp.__new__(main.ChefBotApp)
+    app.page = SimpleNamespace(show_dialog=lambda d: setattr(app, "_last_dialog", d), pop_dialog=lambda: None)
+    app.prefs_loaded = False
+    app.cuisine = main.prompts.NO_CUISINE
+    app.recent_cuisines = []
+    app.cuisine_chips = {}
+    app.cuisine_chips_row = main.ft.Row()
+    app._rebuild_cuisine_chips()
+
+    for cid in ("sichuan", "french", "us_cajun", "korean", "thai", "peruvian"):
+        app._pick_cuisine(cid)
+    assert app.cuisine == "peruvian"
+    assert app.recent_cuisines == ["peruvian", "thai", "korean", "us_cajun", "french"]
+    assert list(app.cuisine_chips) == [main.prompts.NO_CUISINE, "peruvian", "thai", "korean", "us_cajun", "french"]
+
+    # Info sheet and picker build cleanly
+    app._cuisine_info("us_cajun")
+    assert isinstance(app._last_dialog, main.ft.BottomSheet)
+    app.open_cuisine_picker()
+    assert isinstance(app._last_dialog, main.ft.BottomSheet)
+
+    # Saved recipes with new cuisine_id, legacy cuisine label, and unknown cuisine never crash
+    app.history = main.History(tmp_path)
+    app.recent = main.ft.Column()
+    app.working = {}
+    app.history.save(Conversation(title="Dim Sum", settings={"cuisine": "Chinese (Hong Kong)"}))
+    app.history.save(Conversation(title="Gumbo", settings={"cuisine_id": "us_cajun"}))
+    app.history.save(Conversation(title="Mystery", settings={"cuisine": "Martian"}))
+    app._refresh_recent()
+    assert len(app.recent.controls) == 4  # header + 3 recipe rows
+

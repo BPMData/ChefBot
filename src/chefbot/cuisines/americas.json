@@ -1,0 +1,849 @@
+[
+  {
+    "id": "americas",
+    "kind": "continent",
+    "label": "The Americas",
+    "subtitle": "North, Central & South America, Caribbean",
+    "about": "Cuisines of North, Central and South America and the Caribbean.",
+    "prompt_name": "",
+    "flavors": [],
+    "sweet_only": [],
+    "signature_ingredients": [],
+    "tips": [],
+    "pitfalls": [],
+    "avoid": [],
+    "children": [
+      "united_states",
+      "mexico",
+      "caribbean",
+      "brazilian",
+      "peruvian",
+      "argentinian"
+    ]
+  },
+  {
+    "id": "united_states",
+    "kind": "country",
+    "label": "United States",
+    "subtitle": "Regional, immigrant, Indigenous, diverse",
+    "about": "The United States stretches from Atlantic and Gulf coasts through the Great Plains and Rockies to the Pacific, with Alaska and Hawai‘i adding still more distinct foodways. Native peoples, enslaved Africans, European colonists and successive migrations from Latin America, Asia and elsewhere shaped a highly regional cuisine; industrial food and restaurant culture later created national forms. Representative dishes include barbecue, fried chicken, clam chowder and hamburgers, but no seasoning set represents all US home cooking.",
+    "prompt_name": "",
+    "flavors": [
+      "black pepper",
+      "garlic",
+      "onion",
+      "paprika",
+      "chile powder",
+      "mustard",
+      "vinegar",
+      "bay leaf",
+      "oregano",
+      "hot sauce"
+    ],
+    "sweet_only": [
+      "vanilla extract",
+      "cinnamon"
+    ],
+    "signature_ingredients": [
+      "regional smoked meats (substitute: supermarket smoked sausage or bacon when appropriate)",
+      "hominy/grits (substitute: polenta only for texture, not exact flavor)",
+      "regional chile products (substitute: closest available chile)"
+    ],
+    "tips": [
+      "Commercial barbecue rub: often salt, sugar, paprika, chile, garlic and onion; replace an equal weight of recipe dry rub and reduce added salt using salt_g ≈ sodium_mg × 0.00254 from the label. Commercial poultry/seasoned-salt blends vary too much for a national rule; use 1:1 by weight only after checking sodium and ingredient order."
+    ],
+    "pitfalls": [
+      "Do not equate US cuisine with fast food or with one Southern/Tex-Mex profile.",
+      "'American' restaurant exports overrepresent burgers, pizza, fried chicken, barbecue and sweet sauces, while home cooking is far more regional and immigrant-shaped."
+    ],
+    "avoid": [],
+    "children": [
+      "us_any",
+      "us_cajun",
+      "us_creole",
+      "us_southern_soul",
+      "us_tex_mex",
+      "us_new_england_seafood"
+    ]
+  },
+  {
+    "id": "us_any",
+    "kind": "any",
+    "label": "Any",
+    "subtitle": "Burgers, barbecue, fried chicken",
+    "about": "Outside the United States, 'American food' is often pictured through nationally exported restaurant and media forms rather than regional home cooking: burgers, hot dogs, pizza, barbecue, fried chicken, steaks and diner-style comfort food. That image grew alongside mass production, fast-food systems and postwar restaurant culture, but it is a cliché of a much more diverse country. Representative export-image dishes include hamburgers, hot dogs, barbecue ribs and fried chicken.",
+    "prompt_name": "American",
+    "flavors": [
+      "black pepper",
+      "garlic powder",
+      "onion powder",
+      "paprika",
+      "chili powder",
+      "mustard",
+      "ketchup",
+      "barbecue sauce",
+      "hot sauce",
+      "pickle relish",
+      "cinnamon",
+      "vanilla extract",
+      "Old Bay"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "American-style processed cheese (substitute: mild cheddar plus Monterey Jack)",
+      "liquid smoke (substitute: smoked paprika for aroma only, not true smoke)",
+      "cornmeal grits (substitute: coarse polenta)"
+    ],
+    "tips": [
+      "Bottled barbecue sauce can replace a homemade sweet-tart barbecue glaze 1:1 by weight, but reduce added sugar, vinegar and salt after tasting. Burger/grill seasoning blends can replace combined salt/spices 1:1 by weight; derive salt from sodium on the label."
+    ],
+    "pitfalls": [
+      "Treat this as the international export stereotype, not a claim about what Americans usually cook at home.",
+      "Do not force Old Bay, ranch, maple syrup or bacon into unrelated dishes merely because they read as 'American.' Pizza in this node means Americanized pizza styles, not Italian cuisine."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "us_cajun",
+    "kind": "cuisine",
+    "label": "Cajun",
+    "subtitle": "Roux, trinity, smoke, cayenne",
+    "about": "Cajun food is rooted in Acadiana, the bayous and prairies of southern Louisiana west and southwest of New Orleans. Acadian descendants mixed French traditions with Indigenous, African, Spanish, German and other local influences, using rice, pork, game and Gulf or swamp foods in practical country cooking. Gumbo, jambalaya, crawfish étouffée and boudin are representative; many, but not all, savory dishes begin with onion, celery and green bell pepper.",
+    "prompt_name": "Cajun",
+    "flavors": [
+      "onion",
+      "celery",
+      "green bell pepper",
+      "garlic",
+      "cayenne",
+      "paprika",
+      "bay leaf",
+      "thyme",
+      "black pepper"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "andouille sausage (substitute: smoked kielbasa plus extra black pepper/cayenne)",
+      "tasso (substitute: smoked ham)",
+      "crawfish (substitute: shrimp, though flavor changes)"
+    ],
+    "tips": [
+      "Use the separate spices in the recipe itself, never a store-bought blend. Then add a tip for cooks short on time: most Cajun seasoning is paprika, cayenne, garlic, onion, black pepper, oregano and thyme plus a lot of salt, so say how many grams of blend would replace the spices in this recipe, and to cut the added salt if they use it.",
+      "Never use or suggest filé powder. When a dish needs body (gumbo, étouffée), thicken it with okra, with a dark roux plus a reduced, collagen-rich homemade stock, or with xanthan gum weighed in grams (about 1 to 3 g per liter of liquid, blended in).",
+      "Jarred roux: typically flour cooked in fat; use roughly the same weight as finished roux called for, then thin into hot liquid. Cajun seasoning: often salt, paprika, cayenne, garlic/onion and herbs; replace the same weight of combined dry seasonings and reduce salt by salt_g ≈ sodium_mg × 0.00254 from the label."
+    ],
+    "pitfalls": [
+      "Do not require a dark roux in every Cajun dish; étouffées, fricassées and gumbos vary, and some gumbos are thickened with okra.",
+      "Do not enforce 'Cajun never uses tomatoes': tomato use is less associated with classic Cajun than Creole cooking, but the rural/urban and tomato/no-tomato divide is an oversimplification.",
+      "Excessive cayenne is another stereotype; seasoning is often layered rather than simply hot."
+    ],
+    "avoid": [
+      "filé powder"
+    ],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "us_creole",
+    "kind": "cuisine",
+    "label": "Creole",
+    "subtitle": "Tomato, trinity, herbs, sauces",
+    "about": "Louisiana Creole cooking is most strongly associated with New Orleans and the lower Mississippi River/Gulf world, though Creole identity also exists in rural Louisiana. It developed through French and Spanish colonial rule and the cooking knowledge of African and Afro-Creole people, with Caribbean, Native American, German, Italian and other influences. Shrimp Creole, gumbo, red beans and rice, grillades and jambalaya are representative, and restaurant, home and working-class Creole traditions are not identical.",
+    "prompt_name": "New Orleans Creole",
+    "flavors": [
+      "onion",
+      "celery",
+      "green bell pepper",
+      "garlic",
+      "tomato",
+      "cayenne",
+      "paprika",
+      "thyme",
+      "bay leaf",
+      "parsley",
+      "green onion",
+      "Louisiana hot sauce"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "creole mustard (substitute: Dijon plus a little whole-grain mustard)",
+      "andouille (substitute: smoked kielbasa)",
+      "tasso (substitute: smoked ham)"
+    ],
+    "tips": [
+      "Use the separate spices in the recipe itself, never a store-bought blend. Then add a tip for cooks short on time: most Creole seasoning is paprika, garlic, onion, cayenne, black and white pepper, oregano, thyme and basil plus a lot of salt, so say how many grams of blend would replace the spices in this recipe, and to cut the added salt if they use it.",
+      "Never use or suggest filé powder. When a dish needs body (gumbo, étouffée), thicken it with okra, with a dark roux plus a reduced, collagen-rich homemade stock, or with xanthan gum weighed in grams (about 1 to 3 g per liter of liquid, blended in).",
+      "Creole seasoning: usually salt, paprika, cayenne, garlic/onion and herbs; swap 1:1 by weight for the recipe's dry seasoning mix and reduce added salt from label sodium with salt_g ≈ sodium_mg × 0.00254. Bottled Creole mustard can replace prepared mustard 1:1 by weight but is sharper and grainier."
+    ],
+    "pitfalls": [
+      "Do not define Creole as simply 'fancy Cajun' or claim it always uses cream, butter or tomatoes.",
+      "Historians emphasize overlap and continual change; New Orleans Creole cooking also includes Black working-class traditions.",
+      "Red jambalaya is common in New Orleans, but jambalaya exists in many forms, including brown versions."
+    ],
+    "avoid": [
+      "filé powder"
+    ],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "us_southern_soul",
+    "kind": "cuisine",
+    "label": "Southern & Soul",
+    "subtitle": "Greens, corn, smoke, hot sauce",
+    "about": "Southern food spans the Atlantic seaboard, Appalachia, the Deep South and Gulf states; soul food is a related African American tradition rooted especially in the South and carried nationwide during the Great Migrations. Indigenous crops and techniques, West and Central African knowledge, European settlement, enslavement and later migration all shaped these cuisines. Fried chicken, greens with potlikker, cornbread, Hoppin' John and barbecue are representative, but Southern food and soul food are overlapping rather than interchangeable.",
+    "prompt_name": "Southern and Soul Food (American)",
+    "flavors": [
+      "black pepper",
+      "cayenne",
+      "hot sauce",
+      "garlic",
+      "onion",
+      "smoked paprika",
+      "mustard",
+      "vinegar",
+      "bay leaf",
+      "thyme"
+    ],
+    "sweet_only": [
+      "vanilla",
+      "cinnamon",
+      "nutmeg"
+    ],
+    "signature_ingredients": [
+      "stone-ground grits (substitute: coarse polenta, with flavor/texture loss)",
+      "country ham (substitute: prosciutto plus a little smoke, or smoked ham)",
+      "sorghum syrup (substitute: molasses, sweeter and stronger)",
+      "benne seeds (substitute: sesame seeds)"
+    ],
+    "tips": [
+      "Seasoned salt: replace the same weight of recipe salt-plus-spices, but calculate its salt from label sodium (salt_g ≈ sodium_mg × 0.00254). Bottled hot sauce can replace vinegar plus cayenne only approximately; start around 1:1 by weight with the vinegar component and reduce separately added cayenne to taste."
+    ],
+    "pitfalls": [
+      "Do not reduce soul food to 'slave scraps' or portray it as uniformly unhealthy; scholarship documents skilled Black cooks, agriculture, entrepreneurship and celebration.",
+      "Do not merge all Southern barbecue into one sauce or meat style, and do not assume every Southern dish belongs specifically to soul food."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "us_tex_mex",
+    "kind": "cuisine",
+    "label": "Tex-Mex",
+    "subtitle": "Chile gravy, cumin, cheese, tortillas",
+    "about": "Tex-Mex developed in Texas, especially San Antonio and South Texas, from long-standing Mexican and Tejano foodways interacting with Anglo-American commerce and later restaurant culture. It is a Mexican American regional cuisine, not a mistaken version of Mexican food. Chili con carne, cheese enchiladas with chile gravy, nachos, breakfast tacos and fajitas are representative.",
+    "prompt_name": "Tex-Mex",
+    "flavors": [
+      "cumin (comino)",
+      "ancho chile (chile ancho)",
+      "chile powder blend (chile en polvo)",
+      "garlic (ajo)",
+      "onion (cebolla)",
+      "oregano (orégano)",
+      "paprika (pimentón)",
+      "cilantro",
+      "jalapeño chile",
+      "lime (lima)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "yellow or processed melting cheese (substitute: mild cheddar plus Monterey Jack)",
+      "masa harina (substitute: fresh masa; no close wheat substitute)",
+      "dried ancho chiles (substitute: mild New Mexico dried chile)",
+      "Mexican chorizo (substitute: fresh pork sausage seasoned with chile, vinegar and garlic)"
+    ],
+    "tips": [
+      "Commercial chili powder: usually ground chile plus cumin, oregano, garlic and sometimes salt; replace the same weight of those dry spices, then adjust salt from sodium. Taco seasoning packets: often chile, cumin, garlic/onion, starch and substantial salt; use about 8–10 g per 450 g meat as a starting shortcut, LOW CONFIDENCE because brands vary; subtract label-derived salt."
+    ],
+    "pitfalls": [
+      "Do not 'correct' Tex-Mex into interior Mexican cuisine: yellow cheese, cumin-forward chile gravy, combination plates and crispy tacos have their own regional history.",
+      "Conversely, do not label every burrito, chimichanga or fish taco Tex-Mex; some were popularized in other US-Mexican regional traditions."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "us_new_england_seafood",
+    "kind": "cuisine",
+    "label": "New England Seafood",
+    "subtitle": "Clams, lobster, butter, herbs",
+    "about": "New England seafood cooking follows the cold Atlantic coast from Connecticut and Rhode Island through Massachusetts, New Hampshire and Maine, with ports, tidal flats and fishing towns central to the style. Indigenous coastal foodways, English colonial cooking, maritime trade and later immigrant fishing communities all contributed. New England clam chowder, lobster rolls, clambakes and baked or fried cod/haddock are representative.",
+    "prompt_name": "New England Seafood",
+    "flavors": [
+      "black pepper",
+      "bay leaf",
+      "thyme",
+      "parsley",
+      "chives",
+      "onion",
+      "celery",
+      "lemon",
+      "mustard",
+      "Worcestershire sauce"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "quahogs/hard clams (substitute: littleneck or canned clams for chowder)",
+      "Maine/New England lobster (substitute: other cold-water lobster; shrimp only changes the dish substantially)",
+      "salt cod (substitute: fresh cod plus added salt only for some preparations)",
+      "haddock (substitute: cod or pollock)"
+    ],
+    "tips": [
+      "Canned clam broth/juice can replace homemade clam liquor by equal weight, but taste for salt. Seafood seasoning blends can replace the recipe's dry spice mix 1:1 by weight only if flavor profile fits; subtract label-derived salt using salt_g ≈ sodium_mg × 0.00254."
+    ],
+    "pitfalls": [
+      "Do not assume every chowder is cream-thickened: Rhode Island clear chowders and tomato-based styles exist in the wider region.",
+      "Do not turn every seafood dish into Old Bay/Chesapeake seasoning; that profile belongs more strongly to the Mid-Atlantic.",
+      "Avoid overcooking lobster and clams."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "mexico",
+    "kind": "country",
+    "label": "Mexico",
+    "subtitle": "Maize, chiles, beans, regional sauces",
+    "about": "Mexico spans northern deserts, central highlands, tropical Gulf and Pacific coasts and the Yucatán Peninsula, and its food is intensely regional. Indigenous Mesoamerican systems centered on maize, beans, squash and chiles combined with ingredients and techniques introduced under Spanish colonial rule and later migrations. Tortillas, tamales, pozole and mole are representative national forms, but their ingredients and methods vary widely by region.",
+    "prompt_name": "",
+    "flavors": [
+      "chile pepper",
+      "garlic (ajo)",
+      "onion (cebolla)",
+      "Mexican oregano (orégano mexicano)",
+      "cilantro",
+      "epazote",
+      "annatto (achiote)",
+      "Mexican lime (limón)",
+      "cumin (comino)",
+      "Mexican/Ceylon cinnamon (canela)"
+    ],
+    "sweet_only": [
+      "vanilla (vainilla)",
+      "cinnamon (canela)"
+    ],
+    "signature_ingredients": [
+      "masa/nixtamalized maize (substitute: masa harina)",
+      "tomatillo (substitute: canned tomatillos; green tomato plus lime is only a rough fallback)",
+      "fresh and dried Mexican chiles (substitute: closest chile by heat, fruitiness and smoke)",
+      "hoja santa (substitute: none; fennel leaf plus tarragon is only a flavor approximation)"
+    ],
+    "tips": [
+      "Achiote paste: usually annatto with garlic, spices, acid and salt; for 10 g homemade annatto-spice paste use about 10 g commercial paste, then reduce added salt from label sodium. Prepared mole paste can replace homemade mole base only recipe-by-recipe; start about 1:1 by weight for the concentrated paste specified, then thin according to label or recipe. Commercial adobo/seasoning powders vary; use 1:1 by weight only with salt correction."
+    ],
+    "pitfalls": [
+      "Do not treat cumin as the defining national Mexican spice; its prominence varies and is often exaggerated by Tex-Mex templates.",
+      "Do not assume all tortillas are flour, all food is very hot, or all moles contain chocolate.",
+      "Regional chile choices matter and are not interchangeable without changing the dish."
+    ],
+    "avoid": [],
+    "children": [
+      "mx_any",
+      "mx_northern_baja",
+      "mx_central_oaxacan",
+      "mx_yucatan"
+    ]
+  },
+  {
+    "id": "mx_any",
+    "kind": "any",
+    "label": "Any",
+    "subtitle": "Tacos, salsa, chiles, lime",
+    "about": "Outside Mexico, the internationally recognized picture centers on tacos, tortillas, salsa, guacamole, enchiladas and chile-forward sauces. That image mixes genuine Mexican national forms with restaurant exports and, especially in the United States and Europe, Tex-Mex elements such as heavy cumin, yellow cheese and hard-shell combination plates. Representative export-image dishes are tacos, enchiladas, guacamole and salsa, but the real national cuisine is far more regionally specific.",
+    "prompt_name": "Mexican",
+    "flavors": [
+      "chile pepper",
+      "garlic (ajo)",
+      "onion (cebolla)",
+      "cilantro",
+      "lime (limón)",
+      "Mexican oregano (orégano mexicano)",
+      "cumin (comino)",
+      "jalapeño chile",
+      "smoked jalapeño (chipotle)",
+      "annatto (achiote)"
+    ],
+    "sweet_only": [
+      "vanilla (vainilla)",
+      "cinnamon (canela)"
+    ],
+    "signature_ingredients": [
+      "masa harina (substitute: fresh masa)",
+      "tomatillos (substitute: canned tomatillos)",
+      "Mexican dried chiles (substitute: closest named chile where possible)",
+      "queso fresco (substitute: mild feta with less salt, imperfect)"
+    ],
+    "tips": [
+      "Taco seasoning packets are an export shortcut, not a Mexican default: if used, replace the recipe's combined chile/cumin/garlic/onion/salt by equal weight and subtract label-derived salt. Jarred salsa can replace table salsa 1:1 by weight when convenience matters, but should not stand in for mole or a dish-specific cooked sauce."
+    ],
+    "pitfalls": [
+      "Flag hard-shell tacos with ground beef, large amounts of yellow cheese and cumin-heavy packet seasoning as Tex-Mex/American export conventions rather than universal Mexican norms.",
+      "Do not call every chile sauce 'mole' or assume chocolate, sour cream and cheddar belong in all Mexican dishes."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "mx_northern_baja",
+    "kind": "cuisine",
+    "label": "Northern & Baja",
+    "subtitle": "Wheat, grilled meat, seafood, chiles",
+    "about": "Northern Mexico covers arid border states such as Sonora, Chihuahua, Coahuila and Nuevo León, while Baja California is a long Pacific/Gulf peninsula with strong fishing and border-city traditions. Indigenous foodways, Spanish ranching and wheat agriculture, cattle culture, border exchange and in Baja later Asian and Mediterranean influences all matter. Carne asada, flour tortillas, machaca and cabrito are northern signatures; Baja fish tacos and seafood tostadas represent the peninsula.",
+    "prompt_name": "Northern Mexican and Baja",
+    "flavors": [
+      "chiltepin chile",
+      "dried red chile (chile colorado)",
+      "garlic (ajo)",
+      "onion (cebolla)",
+      "Mexican oregano (orégano mexicano)",
+      "cumin (comino)",
+      "cilantro",
+      "lime (limón)",
+      "vinegar (vinagre)",
+      "black pepper (pimienta negra)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "large Sonoran-style flour tortillas (substitute: thin burrito-size flour tortillas)",
+      "chiltepin (substitute: pequin chile, then crushed red pepper as rough fallback)",
+      "machaca (substitute: shredded dried beef or jerky rehydrated, LOW CONFIDENCE)",
+      "fresh Pacific shellfish (substitute: locally fresh shrimp, scallops or white fish)"
+    ],
+    "tips": [
+      "Carne-asada seasoning: often salt, garlic, pepper, chile/cumin; use equal weight for the recipe's dry seasoning and reduce salt from label sodium. Bottled hot sauce or salsa can stand in for a simple chile-acid table sauce 1:1 by weight, but not for a cooked salsa with specific chiles."
+    ],
+    "pitfalls": [
+      "Do not collapse northern Mexico into Tex-Mex: cumin and yellow cheese should not be automatic.",
+      "Northern Mexico itself is diverse, and Baja seafood is not simply 'carne asada by the sea.' The claim that flour tortillas are 'inauthentic Mexican' is wrong in northern regions, where wheat has a long history."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "mx_central_oaxacan",
+    "kind": "cuisine",
+    "label": "Central & Oaxacan",
+    "subtitle": "Masa, moles, herbs, dried chiles",
+    "about": "This node combines the central Mexican highlands with Oaxaca to the south, so it contains multiple Indigenous and mestizo cuisines rather than one style. Central markets and maize cookery connect with Oaxaca's exceptionally diverse Zapotec, Mixtec and other Indigenous traditions, alongside Afro-Mexican and Spanish influences. Tacos and tlacoyos, pozole, mole poblano, mole negro, tlayudas and memelas are representative across parts of this broad zone.",
+    "prompt_name": "Central Mexican and Oaxacan",
+    "flavors": [
+      "guajillo chile (chile guajillo)",
+      "ancho chile (chile ancho)",
+      "pasilla chile (chile pasilla)",
+      "garlic (ajo)",
+      "onion (cebolla)",
+      "epazote",
+      "hoja santa",
+      "Mexican oregano (orégano mexicano)",
+      "Mexican/Ceylon cinnamon (canela)",
+      "clove (clavo)",
+      "coriander seed (semilla de cilantro)"
+    ],
+    "sweet_only": [
+      "vanilla (vainilla)",
+      "cinnamon (canela)"
+    ],
+    "signature_ingredients": [
+      "chilhuacle chiles (substitute: ancho plus pasilla; not exact)",
+      "quesillo/Oaxaca cheese (substitute: low-moisture mozzarella)",
+      "masa fresca (substitute: reconstituted masa harina)"
+    ],
+    "tips": [
+      "Prepared mole paste: use as the recipe's concentrated mole base by weight, commonly diluted several-fold; because brands vary greatly, follow the package ratio and treat salt/sugar as already present. Jarred salsa can replace a simple table salsa 1:1 by weight only when its chile and roast profile match."
+    ],
+    "pitfalls": [
+      "Do not market Oaxaca as 'the land of seven moles' as if there were only seven; the cuisine is much more diverse.",
+      "Do not assume every mole contains chocolate or is sweet.",
+      "This combined node can hide major differences between Puebla/Mexico City/central highlands and Oaxaca, so use dish-specific chile and herb choices."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": [
+      "hoja santa: no close substitute (fennel/tarragon approximation only)"
+    ]
+  },
+  {
+    "id": "mx_yucatan",
+    "kind": "cuisine",
+    "label": "Yucatán",
+    "subtitle": "Achiote, sour orange, habanero",
+    "about": "The Yucatán Peninsula sits between the Gulf of Mexico and Caribbean, centered on the states of Yucatán, Campeche and Quintana Roo. Maya culinary foundations mix with Spanish colonial, Caribbean, Middle Eastern and other immigrant influences; underground pit cooking and recados are especially distinctive. Cochinita pibil, relleno negro, sopa de lima and papadzules are representative.",
+    "prompt_name": "Yucatecan (Mexican)",
+    "flavors": [
+      "annatto (achiote)",
+      "sour orange (naranja agria)",
+      "habanero chile (chile habanero)",
+      "Yucatecan oregano (orégano yucateco)",
+      "garlic (ajo)",
+      "allspice (pimienta gorda)",
+      "cumin (comino)",
+      "clove (clavo)",
+      "cinnamon (canela)",
+      "epazote"
+    ],
+    "sweet_only": [
+      "vanilla (vainilla)"
+    ],
+    "signature_ingredients": [
+      "seville/sour orange (substitute: roughly equal parts orange and lime juice, then adjust acidity)",
+      "banana leaves (substitute: parchment plus foil for enclosure, but aroma is lost)",
+      "xcatic chile (substitute: anaheim plus a little habanero)",
+      "achiote seeds/paste (substitute: annatto powder; paprika gives color but not flavor)"
+    ],
+    "tips": [
+      "Commercial recado rojo/achiote paste: replace homemade recado 1:1 by weight as a starting point, then reduce salt and acid because brands vary. For sour-orange marinade, bottled naranja agria can replace fresh juice 1:1 by weight; check salt if seasoned. Salt correction: salt_g ≈ sodium_mg × 0.00254."
+    ],
+    "pitfalls": [
+      "Do not replace achiote with generic chili powder or make cochinita simply 'spicy pulled pork.' Habanero is often served in salsa or condiment form rather than making every dish searingly hot.",
+      "Yucatecan cuisine is not merely Mexican food plus citrus; recados, Maya techniques and local herbs matter."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "caribbean",
+    "kind": "country",
+    "label": "Caribbean",
+    "subtitle": "Scallion, thyme, chile, allspice",
+    "about": "The Caribbean is an island region stretching from the Greater Antilles to the Lesser Antilles and nearby mainland-facing islands, so it contains many cuisines rather than one. Indigenous Caribbean foodways, European empires, the forced migration of Africans, indentured South Asian labor, Chinese migration and intra-Caribbean movement created overlapping but distinct traditions. Jerk, rice-and-peas dishes, roast pork, curries and plantain preparations are representative across different islands, not universal to all.",
+    "prompt_name": "",
+    "flavors": [
+      "scallion",
+      "thyme",
+      "allspice",
+      "hot chile",
+      "garlic",
+      "ginger",
+      "lime",
+      "vinegar",
+      "culantro or cilantro",
+      "bay leaf"
+    ],
+    "sweet_only": [
+      "vanilla",
+      "nutmeg"
+    ],
+    "signature_ingredients": [
+      "culantro/recao (substitute: cilantro, weaker and different)",
+      "Scotch bonnet (substitute: habanero)",
+      "saltfish (substitute: other salted cod)",
+      "pigeon peas/gandules (substitute: canned pigeon peas; black-eyed peas only as a texture fallback)"
+    ],
+    "tips": [
+      "Caribbean green seasoning and sofrito jars vary by island: use 1:1 by weight only when the product matches the target cuisine, then reduce fresh aromatics. Jerk paste can replace a homemade jerk marinade concentrate roughly 1:1 by weight; salt varies, so derive salt from label sodium."
+    ],
+    "pitfalls": [
+      "Never flatten the Caribbean into 'jerk + coconut + rum.' Cuba, Puerto Rico, Jamaica, Trinidad and Tobago, Haiti, Barbados and other islands have different colonial, linguistic and migration histories.",
+      "Use a country/island child node whenever possible."
+    ],
+    "avoid": [],
+    "children": [
+      "caribbean_any",
+      "caribbean_cuban",
+      "caribbean_puerto_rican",
+      "caribbean_jamaican"
+    ]
+  },
+  {
+    "id": "caribbean_any",
+    "kind": "any",
+    "label": "Any",
+    "subtitle": "Jerk, coconut, rum, tropical spice",
+    "about": "Outside the region, 'Caribbean food' is often imagined as a bright tropical blend of jerk spice, coconut, rum, rice and peas, plantains, seafood and hot pepper. That shared picture borrows heavily from Jamaican and tourist-facing island cuisines and obscures major differences among Spanish-, English-, French-, Dutch- and Creole-speaking islands. Representative export-image dishes include jerk chicken, rice and peas, fried plantains and coconut-based seafood stews.",
+    "prompt_name": "Caribbean",
+    "flavors": [
+      "allspice",
+      "hot chile",
+      "thyme",
+      "scallion",
+      "garlic",
+      "ginger",
+      "lime",
+      "rum",
+      "curry powder",
+      "browning"
+    ],
+    "sweet_only": [
+      "vanilla",
+      "nutmeg"
+    ],
+    "signature_ingredients": [
+      "Scotch bonnet (substitute: habanero)",
+      "culantro/recao (substitute: cilantro)",
+      "green plantain (substitute: none exact)",
+      "saltfish (substitute: salted cod)"
+    ],
+    "tips": [
+      "Jerk seasoning or paste can shortcut only Jamaican-leaning dishes, not 'Caribbean' cuisine generally; use equal weight to the homemade paste and correct salt from sodium. Canned coconut milk can replace freshly squeezed coconut milk 1:1 by weight but may be richer; thin with water if needed."
+    ],
+    "pitfalls": [
+      "This is deliberately an outsider stereotype node.",
+      "Do not apply jerk, coconut or rum to Cuban or Puerto Rican dishes automatically, and do not present 'island food' as one cuisine.",
+      "Many Caribbean cooks would object to collapsing their distinct national and ethnic traditions into this profile."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "caribbean_cuban",
+    "kind": "cuisine",
+    "label": "Cuban",
+    "subtitle": "Garlic, sour orange, cumin, oregano",
+    "about": "Cuban cuisine developed on the large island of Cuba, between Florida, the Gulf of Mexico and the Caribbean. Taíno continuities, Spanish colonial foodways, African and Afro-Cuban traditions, Caribbean exchange and later Chinese and other migrations all contributed. Ropa vieja, lechón asado, moros y cristianos or congrí, picadillo and ajiaco are representative.",
+    "prompt_name": "Cuban",
+    "flavors": [
+      "garlic (ajo)",
+      "sour orange (naranja agria)",
+      "cumin (comino)",
+      "oregano (orégano)",
+      "onion (cebolla)",
+      "bell pepper (pimiento)",
+      "bay leaf (laurel)",
+      "black pepper (pimienta negra)",
+      "vinegar (vinagre)",
+      "cilantro"
+    ],
+    "sweet_only": [
+      "vanilla (vainilla)",
+      "cinnamon (canela)"
+    ],
+    "signature_ingredients": [
+      "malanga (substitute: taro, closest; potato is a weaker texture substitute)",
+      "boniato (substitute: white sweet potato)",
+      "culantro (substitute: cilantro)"
+    ],
+    "tips": [
+      "Bottled mojo criollo can replace homemade mojo 1:1 by weight for marinade volume, but check salt and acidity; reduce salt using label sodium. Jarred sofrito can replace freshly sautéed sofrito roughly 1:1 by weight, LOW CONFIDENCE because formulas and water content vary."
+    ],
+    "pitfalls": [
+      "Do not make all Cuban food hot; chile heat is usually less central than garlic, citrus, cumin and oregano.",
+      "Do not assume the Miami Cuban sandwich is identical to all Cuban home cooking, and do not erase African or Chinese contributions by describing the cuisine as simply Spanish-Caribbean."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": [
+      "sour orange: orange juice plus lime juice"
+    ]
+  },
+  {
+    "id": "caribbean_puerto_rican",
+    "kind": "cuisine",
+    "label": "Puerto Rican",
+    "subtitle": "Sofrito, adobo, achiote, culantro",
+    "about": "Puerto Rican cuisine comes from the mountainous and coastal island of Puerto Rico in the Greater Antilles. Taíno ingredients and techniques, Spanish colonization, African and Afro-Puerto Rican foodways and later US influence all shaped it. Arroz con gandules, pernil, pasteles, mofongo and asopao are representative.",
+    "prompt_name": "Puerto Rican",
+    "flavors": [
+      "culantro (recao)",
+      "sweet chile (ají dulce)",
+      "garlic (ajo)",
+      "oregano (orégano)",
+      "annatto (achiote)",
+      "aromatic herb-pepper base (sofrito)",
+      "garlic-oregano seasoning (adobo)",
+      "cilantro",
+      "black pepper (pimienta negra)",
+      "vinegar (vinagre)"
+    ],
+    "sweet_only": [
+      "vanilla (vainilla)",
+      "cinnamon (canela)",
+      "nutmeg (nuez moscada)"
+    ],
+    "signature_ingredients": [
+      "ají dulce (substitute: mini sweet pepper plus a tiny piece of habanero for aroma, LOW CONFIDENCE)",
+      "culantro/recao (substitute: cilantro)",
+      "gandules (substitute: canned pigeon peas)",
+      "green plantain (substitute: none for mofongo; starchy banana is not equivalent)"
+    ],
+    "tips": [
+      "Jarred sofrito: use about the same weight as fresh blended sofrito, then cook it out; salt content varies. Packet sazón: often salt, coriander/garlic, annatto and sometimes MSG; replace an equal weight of recipe dry seasoning only after calculating salt from label sodium. Adobo seasoning likewise needs sodium-based salt correction."
+    ],
+    "pitfalls": [
+      "Do not confuse Puerto Rican sofrito with tomato-heavy Italian soffritto or assume it is the same as every Caribbean sofrito.",
+      "Do not call mofongo Dominican or Cuban by default; related mashed-plantain dishes exist elsewhere, but mofongo is strongly identified with Puerto Rico.",
+      "Heat from hot chiles is optional in much home cooking."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "caribbean_jamaican",
+    "kind": "cuisine",
+    "label": "Jamaican",
+    "subtitle": "Pimento, Scotch bonnet, thyme, scallion",
+    "about": "Jamaican cuisine comes from the mountainous island of Jamaica in the Greater Antilles. Indigenous Taíno legacies, British colonial rule, African and Maroon foodways, and later Indian, Chinese and other migrations shaped a cuisine with strong live-fire, curry and one-pot traditions. Jerk pork or chicken, ackee and saltfish, curry goat, rice and peas and escovitch fish are representative.",
+    "prompt_name": "Jamaican",
+    "flavors": [
+      "pimento",
+      "Scotch bonnet",
+      "thyme",
+      "scallion",
+      "ginger",
+      "garlic",
+      "black pepper",
+      "Jamaican curry powder",
+      "browning",
+      "vinegar",
+      "soy sauce"
+    ],
+    "sweet_only": [
+      "nutmeg",
+      "vanilla"
+    ],
+    "signature_ingredients": [
+      "ackee (substitute: none for identity; hearts of palm only mimics texture poorly)",
+      "pimento wood/leaves (substitute: allspice berries plus hardwood smoke, imperfect)",
+      "saltfish (substitute: other salted cod)"
+    ],
+    "tips": [
+      "Jerk paste: use roughly the same weight as a concentrated homemade jerk paste, then reduce fresh chile/scallion/thyme and salt; brands vary widely. Jamaican curry powder can replace the combined ground curry spices 1:1 by weight, but bloom it in fat and adjust salt separately if the blend is salted."
+    ],
+    "pitfalls": [
+      "Do not reduce jerk to a dry 'jerk spice' of cayenne and cinnamon; pimento, Scotch bonnet, thyme, scallion and smoke are central signals.",
+      "Do not assume all Jamaican food is very hot or all curry is Indian-style; Jamaican curry powders and techniques developed locally.",
+      "Avoid calling generic barbecue 'jerk.'"
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": [
+      "Scotch bonnet: habanero"
+    ]
+  },
+  {
+    "id": "brazilian",
+    "kind": "cuisine",
+    "label": "Brazilian",
+    "subtitle": "Garlic, dendê, chiles, herbs",
+    "about": "Brazil spans the Amazon basin, Atlantic coast, dry Northeast, central savannas and temperate South, so its cuisine is strongly regional. Indigenous food systems, Portuguese colonization, enslaved Africans and later Italian, Japanese, German, Arab and other migrations shaped different local tables. Feijoada, moqueca, acarajé, pão de queijo and churrasco are representative national or regional icons rather than a single unified style.",
+    "prompt_name": "Brazilian",
+    "flavors": [
+      "garlic (alho)",
+      "onion (cebola)",
+      "malagueta chile (pimenta-malagueta)",
+      "red palm oil (azeite de dendê)",
+      "parsley/scallion herb mix (cheiro-verde)",
+      "cilantro (coentro)",
+      "cumin (cominho)",
+      "bay leaf (louro)",
+      "annatto (urucum)",
+      "lime (limão)",
+      "vinegar (vinagre)"
+    ],
+    "sweet_only": [
+      "vanilla (baunilha)",
+      "cinnamon (canela)",
+      "clove (cravo)"
+    ],
+    "signature_ingredients": [
+      "farinha de mandioca (substitute: coarse cassava flour; no wheat-flour equivalent for farofa)",
+      "azeite de dendê (substitute: none exact; neutral oil plus paprika only mimics color)",
+      "polvilho azedo/doce (substitute: tapioca starch, but sour starch flavor is lost)",
+      "queijo coalho (substitute: halloumi or low-moisture grilling cheese)"
+    ],
+    "tips": [
+      "Tempero completo: commercial garlic/onion/herb seasoning often contains substantial salt; replace equal weight of the recipe's garlic-onion-salt seasoning and subtract salt from label sodium. Bottled molho de pimenta can replace a simple chile-vinegar condiment 1:1 by weight, not fresh malagueta in cooked dishes."
+    ],
+    "pitfalls": [
+      "Do not make all Brazilian food Bahian: dendê, coconut and strong malagueta are regionally important, not universal.",
+      "Do not treat feijoada as the sole national template or assume every Brazilian dish contains black beans.",
+      "Distinguish Bahian moqueca from Espírito Santo moqueca, which traditionally uses different fat and coloring choices."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "peruvian",
+    "kind": "cuisine",
+    "label": "Peruvian",
+    "subtitle": "Ají, lime, cilantro, huacatay",
+    "about": "Peru runs from a cold, seafood-rich Pacific coast across the Andes to the Amazon, and its cuisine reflects all three ecological zones. Indigenous Andean and coastal traditions combined with Spanish and African influences and, from the nineteenth century onward, major Chinese and Japanese migrations that helped shape chifa and Nikkei cuisines. Ceviche, lomo saltado, ají de gallina and causa are representative.",
+    "prompt_name": "Peruvian",
+    "flavors": [
+      "yellow ají chile (ají amarillo)",
+      "panca chile (ají panca)",
+      "rocoto chile",
+      "cilantro (culantro)",
+      "black mint (huacatay)",
+      "garlic (ajo)",
+      "cumin (comino)",
+      "Peruvian lime (limón)",
+      "oregano (orégano)",
+      "ginger (kion)",
+      "soy sauce (sillao)"
+    ],
+    "sweet_only": [
+      "cinnamon (canela)",
+      "vanilla (vainilla)",
+      "clove (clavo)"
+    ],
+    "signature_ingredients": [
+      "ají amarillo paste (substitute: yellow bell pepper plus habanero, rough only)",
+      "huacatay (substitute: mint plus basil/tarragon, rough only)",
+      "choclo (substitute: large-kernel frozen corn; standard sweet corn is sweeter)",
+      "cancha/chulpe corn (substitute: corn nuts only as a texture shortcut)",
+      "chuño (substitute: potato starch only for thickening, not identity)"
+    ],
+    "tips": [
+      "Jarred ají amarillo or ají panca paste can replace homemade chile paste 1:1 by weight if it is a plain paste; salted/acidified brands require salt/acid adjustment. Bottled sillao can replace soy sauce 1:1 by weight; note soy and wheat. Commercial anticucho paste can replace a homemade chile-garlic-vinegar marinade concentrate approximately 1:1 by weight, LOW CONFIDENCE because formulas vary."
+    ],
+    "pitfalls": [
+      "Do not describe all Peruvian food as ceviche plus hundreds of potatoes.",
+      "Chifa and Nikkei are Peruvian traditions with their own histories, not garnish-level 'Asian fusion.' Ginger is important especially in chifa/Nikkei and some ceviche styles but is not a universal everyday seasoning; annatto is less central nationally than ají amarillo/panca."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "argentinian",
+    "kind": "cuisine",
+    "label": "Argentinian",
+    "subtitle": "Beef, parsley, oregano, ají",
+    "about": "Argentina stretches from subtropical northwestern valleys and pampas grasslands to Patagonia and the South Atlantic coast. Indigenous Andean and Guaraní traditions, Spanish colonial foodways, gaucho cattle culture and especially large Italian and other European migrations shaped modern regional cooking. Asado, empanadas, locro, milanesa and pasta are representative, with strong provincial variation.",
+    "prompt_name": "Argentinian",
+    "flavors": [
+      "garlic (ajo)",
+      "parsley (perejil)",
+      "oregano (orégano)",
+      "crushed mild red chile (ají molido)",
+      "paprika (pimentón)",
+      "cumin (comino)",
+      "bay leaf (laurel)",
+      "black pepper (pimienta negra)",
+      "vinegar (vinagre)",
+      "herb-garlic-vinegar condiment (chimichurri)"
+    ],
+    "sweet_only": [
+      "vanilla (vainilla)",
+      "cinnamon (canela)"
+    ],
+    "signature_ingredients": [
+      "matambre cut (substitute: flank steak, butterflied)",
+      "provoleta (substitute: thick-cut provolone suitable for grilling)",
+      "ají molido argentino (substitute: mild crushed red pepper plus paprika)",
+      "charqui (substitute: unsweetened dried beef/jerky, rehydrated)"
+    ],
+    "tips": [
+      "Prepared chimichurri can replace homemade chimichurri 1:1 by weight, but bottled versions may be saltier/oilier; correct salt from sodium. Empanada seasoning blends often combine paprika, cumin, oregano and chile; use equal weight for the dry spices and adjust salt if included."
+    ],
+    "pitfalls": [
+      "Do not make Argentine food uniformly spicy; ají molido is often mild and hot chile is not the national default.",
+      "Do not treat chimichurri as a mandatory marinade for every steak: it is commonly a table condiment.",
+      "Northwest locro/empanadas differ markedly from Buenos Aires Italian-influenced cooking and Patagonian lamb traditions."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  }
+]

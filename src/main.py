@@ -1,5 +1,6 @@
 """ChefBot: tell it what's in your fridge, get a recipe, then keep refining it in conversation."""
 import asyncio
+import json
 import logging
 import os
 import random
@@ -8,7 +9,7 @@ from datetime import datetime
 
 import flet as ft
 
-from chefbot import android, api, export, prompts
+from chefbot import android, api, cuisines, export, prompts
 from chefbot.history import Conversation, History
 from chefbot.keepalive import PICTURE, WRITING, KeepAlive
 from chefbot.recipe import extract_title
@@ -26,13 +27,14 @@ PREF_SMTP_SERVER = "chefbot.smtp_server"
 PREF_RELAY_URL = "chefbot.relay_url"        # ChefBot mail relay (tools/mail-relay.gs), preferred over SMTP
 PREF_RELAY_SECRET = "chefbot.relay_secret"
 PREF_MUST_NOT = "chefbot.must_not"          # the "Never use..." box, remembered (allergies don't go away)
+PREF_RECENT_CUISINES = "chefbot.recent_cuisines"  # JSON list of last 5 picked leaf cuisine ids
 PREF_DEV_MODE = "chefbot.dev_mode"          # "on" shows the hidden email-sending settings (tap Settings 7 times)
 DEV_MODE_TAPS = 7
 PREFS_FAILED = ("ChefBot couldn't read its saved settings (your key is still safe). Close ChefBot and open it "
                 "again.")
 ALL_PREFS = (PREF_KEY, PREF_MODEL, PREF_EFFORT, PREF_THEME, PREF_EMAIL_TO, PREF_SMTP_USER, PREF_SMTP_PASSWORD,
              PREF_SMTP_SERVER, PREF_RELAY_URL, PREF_RELAY_SECRET, PREF_DEV_MODE,
-             PREF_MUST_NOT)
+             PREF_MUST_NOT, PREF_RECENT_CUISINES)
 DEFAULT_SMTP = "smtp.gmail.com:465"
 MAILTO_LIMIT_WINDOWS = 1500   # characters of recipe text in a mailto link on Windows
 
@@ -50,31 +52,14 @@ PHOTO_LABEL = "Photograph my ingredients instead"
 MAX_WIDTH = 780          # content column width on wide screens
 THEMES = {"dark": ft.ThemeMode.DARK, "light": ft.ThemeMode.LIGHT, "system": ft.ThemeMode.SYSTEM}
 
-CUISINE_NAMES = {   # prompt label -> short chip label
-    prompts.NO_CUISINE: "Anything",
-    "American": "American",
-    "American (Cajun)": "Cajun",
-    "American (Creole)": "Creole",
-    "Chinese (Cantonese - Most common style in US)": "Cantonese",
-    "Chinese (Hong Kong)": "Hong Kong",
-    "Chinese (Sichuan)": "Sichuan",
-    "Chinese (Shandong)": "Shandong",
-    "Chinese (Jiangsu)": "Jiangsu",
-    "French": "French",
-    "Greek": "Greek",
-    "North Indian": "North Indian",
-    "South Indian": "South Indian",
-    "Italian": "Italian",
-    "Japanese (Kansai)": "Japanese · Kansai",
-    "Japanese (Kanto)": "Japanese · Kanto",
-    "Korean": "Korean",
-    "Mexican": "Mexican",
-    "Peruvian": "Peruvian",
-    "Spanish": "Spanish",
-    "Thai": "Thai",
-    "Turkish": "Turkish",
-    "Vietnamese": "Vietnamese",
+CONTINENT_ICONS = {
+    "americas": ft.Icons.PUBLIC,
+    "asia": ft.Icons.RAMEN_DINING,
+    "europe": ft.Icons.RESTAURANT,
+    "near_east": ft.Icons.LOCAL_CAFE,
+    "africa": ft.Icons.WB_SUNNY_OUTLINED,
 }
+MAX_RECENT_CUISINES = 5
 AUDIENCE_CARDS = {
     "A working professional.": (ft.Icons.WORK_OUTLINE, "Busy weeknight"),
     "An important person you want to impress!": (ft.Icons.AUTO_AWESOME, "Impress someone"),
@@ -242,6 +227,7 @@ class ChefBotApp:
         android_app = page.platform == ft.PagePlatform.ANDROID and not page.web
         self.keepalive = KeepAlive.for_android() if android_app else KeepAlive()
         self.cuisine = prompts.NO_CUISINE
+        self.recent_cuisines: list[str] = []
         self.audience = prompts.DEFAULT_AUDIENCE
         self.padded: list[ft.Control] = []     # containers whose side padding follows the window width
         self.root = ft.Container(expand=True)
@@ -287,6 +273,18 @@ class ChefBotApp:
         if not (self.must_not.value or "").strip():     # don't overwrite anything typed while settings loaded
             self.must_not.value = self.saved_must_not
             show_clear_button(self.must_not)
+        raw_recent = prefs.get(PREF_RECENT_CUISINES) or ""
+        if raw_recent:
+            try:
+                loaded_recent = json.loads(raw_recent)
+                if isinstance(loaded_recent, list):
+                    valid = [x for x in loaded_recent if isinstance(x, str) and cuisines.resolve(x)]
+                    for cid in reversed(self.recent_cuisines):
+                        valid = [cid] + [x for x in valid if x != cid]
+                    self.recent_cuisines = valid[:MAX_RECENT_CUISINES]
+                    self._rebuild_cuisine_chips()
+            except Exception:
+                pass
         p.theme_mode = THEMES[self.theme]
         self.chef = api.ChefBotAPI(self.key) if self.key else None
         p.update()
@@ -360,11 +358,15 @@ class ChefBotApp:
         model_dd.on_select = on_model
         effort_dd.on_select = on_effort
         show_effort_for_model()
+        # On a phone the dialog is too narrow for icon + label in three segments ("Dar k"), so labels
+        # only, and the fill alone marks the selected one.
+        theme_icons = (self.page.width or 0) >= 480
         theme_seg = ft.SegmentedButton(
-            selected=[self.theme], allow_multiple_selection=False,
-            segments=[ft.Segment(value="dark", label="Dark", icon=ft.Icons.DARK_MODE_OUTLINED),
-                      ft.Segment(value="light", label="Light", icon=ft.Icons.LIGHT_MODE_OUTLINED),
-                      ft.Segment(value="system", label="System", icon=ft.Icons.BRIGHTNESS_AUTO_OUTLINED)])
+            selected=[self.theme], allow_multiple_selection=False, show_selected_icon=theme_icons,
+            segments=[ft.Segment(value=v, label=lab, icon=ic if theme_icons else None)
+                      for v, lab, ic in (("dark", "Dark", ft.Icons.DARK_MODE_OUTLINED),
+                                         ("light", "Light", ft.Icons.LIGHT_MODE_OUTLINED),
+                                         ("system", "System", ft.Icons.BRIGHTNESS_AUTO_OUTLINED))])
         to_field = ft.TextField(label="Send recipes to", value=self.email_to, hint_text="you@example.com",
                                 keyboard_type=ft.KeyboardType.EMAIL, prefix_icon=ft.Icons.EMAIL_OUTLINED)
         user_field = ft.TextField(label="Send from (your Gmail address)", value=self.smtp_user,
@@ -526,14 +528,9 @@ class ChefBotApp:
                                          ft.Container(self.ingredients_clear, right=2, bottom=2)])
         self.photo_btn = ft.FilledTonalButton(PHOTO_LABEL, icon=ft.Icons.PHOTO_CAMERA_OUTLINED,
                                               on_click=self.read_photo)
-        self.cuisine_chips = {
-            label: ft.Chip(label=short, selected=label == self.cuisine, show_checkmark=False,
-                           on_select=lambda e, lab=label: self._pick_cuisine(lab),
-                           delete_icon=ft.Icon(ft.Icons.INFO_OUTLINE, size=18),
-                           delete_icon_tooltip=f"About {short} cooking")
-            for label, short in CUISINE_NAMES.items()}
-        for label, chip in self.cuisine_chips.items():
-            self._show_cuisine_info(chip, label)
+        self.cuisine_chips: dict[str, ft.Chip] = {}
+        self.cuisine_chips_row = ft.Row(wrap=True, spacing=8, run_spacing=8)
+        self._rebuild_cuisine_chips()
         self.audience_tiles: dict[str, ft.Container] = {}
         for label, (icon, short) in AUDIENCE_CARDS.items():
             self.audience_tiles[label] = ft.Container(
@@ -557,33 +554,211 @@ class ChefBotApp:
                                      on_blur=lambda e: self._run(self._remember_must_not))
         self.recent = ft.Column(spacing=10, horizontal_alignment=ft.CrossAxisAlignment.STRETCH)
 
-    def _pick_cuisine(self, label: str):
-        self.cuisine = label
-        for lab, chip in self.cuisine_chips.items():
-            chip.selected = lab == label
-            self._show_cuisine_info(chip, lab)
-            chip.update()
+    def _rebuild_cuisine_chips(self):
+        chip_ids = [prompts.NO_CUISINE] + list(self.recent_cuisines[:MAX_RECENT_CUISINES])
+        if self.cuisine != prompts.NO_CUISINE and self.cuisine not in chip_ids and cuisines.resolve(self.cuisine):
+            chip_ids.insert(1, self.cuisine)
+            chip_ids = chip_ids[: MAX_RECENT_CUISINES + 1]
+        self.cuisine_chips = {}
+        for cid in chip_ids:
+            short = "Anything" if cid == prompts.NO_CUISINE else cuisines.chip_label(cid)
+            chip = ft.Chip(
+                label=short,
+                selected=cid == self.cuisine,
+                show_checkmark=False,
+                on_select=lambda e, c=cid: self._pick_cuisine(c),
+                delete_icon=ft.Icon(ft.Icons.INFO_OUTLINE, size=18),
+                delete_icon_tooltip=f"About {short} cooking",
+            )
+            self._show_cuisine_info(chip, cid)
+            self.cuisine_chips[cid] = chip
+        self.cuisine_chips_row.controls = list(self.cuisine_chips.values())
 
-    def _show_cuisine_info(self, chip: ft.Chip, label: str):
+    async def _remember_recent_cuisines(self):
+        if not self.prefs_loaded:
+            return
+        try:
+            await self.prefs.set(PREF_RECENT_CUISINES, json.dumps(self.recent_cuisines))
+        except Exception:
+            log.warning("Couldn't save recent cuisines", exc_info=True)
+
+    def _pick_cuisine(self, node_id: str):
+        resolved = None if node_id == prompts.NO_CUISINE else cuisines.resolve(node_id)
+        if resolved:
+            cid = resolved["id"]
+            self.cuisine = cid
+            self.recent_cuisines = [cid] + [x for x in self.recent_cuisines if x != cid]
+            self.recent_cuisines = self.recent_cuisines[:MAX_RECENT_CUISINES]
+            if self.prefs_loaded:
+                self._run(self._remember_recent_cuisines)
+        else:
+            self.cuisine = prompts.NO_CUISINE
+        self._rebuild_cuisine_chips()
+        try:
+            self.cuisine_chips_row.update()
+        except Exception:
+            pass
+
+    def _show_cuisine_info(self, chip: ft.Chip, node_id: str):
         """Only the picked cuisine shows the info icon (Flutter shows a chip's trailing icon only with a handler)."""
-        has_info = label == self.cuisine and label in prompts.CUISINE_ABOUT
-        chip.on_delete = (lambda e, lab=label: self._cuisine_info(lab)) if has_info else None
+        node = None if node_id == prompts.NO_CUISINE else cuisines.resolve(node_id)
+        has_info = node_id == self.cuisine and node is not None and bool(node.get("about"))
+        chip.on_delete = (lambda e, cid=node_id: self._cuisine_info(cid)) if has_info else None
 
-    def _cuisine_info(self, label: str):
-        """A sheet about the cuisine: where it's from, its style, and the flavors ChefBot draws on."""
-        name, flavors = prompts.CUISINES[label]
-        lines = [ft.Text(prompts.CUISINE_ABOUT[label], size=15)]
-        def section(title: str, text: str):
+    def _cuisine_info_lines(self, node: dict) -> list[ft.Control]:
+        """Build the info text controls for a cuisine node."""
+        lines: list[ft.Control] = []
+        if node.get("subtitle"):
+            lines.append(ft.Text(node["subtitle"], size=13.5, italic=True, color=ft.Colors.ON_SURFACE_VARIANT))
+        if node.get("about"):
+            lines.append(ft.Text(node["about"], size=15))
+
+        def section(title: str, items: list[str], sep: str = ", "):
+            if not items:
+                return
+            text = sep.join(items)
             lines.append(ft.Text(title, size=13, weight=ft.FontWeight.W_700, color=ft.Colors.PRIMARY))
-            lines.append(ft.Text(text[0].upper() + text[1:] + ".", size=14, color=ft.Colors.ON_SURFACE_VARIANT))
-        section("Classic flavors", flavors)
-        if label in prompts.SWEET_FLAVORS:
-            section("For desserts", prompts.SWEET_FLAVORS[label])
-        if label in prompts.SIGNATURE_INGREDIENTS:
-            section("Signature ingredients (used if you have them)", prompts.SIGNATURE_INGREDIENTS[label])
-        self.page.show_dialog(ft.BottomSheet(show_drag_handle=True, scrollable=True, content=ft.Container(
-            ft.Column([heading(CUISINE_NAMES[label], 22), *lines], spacing=10, tight=True),
-            padding=ft.Padding(left=24, right=24, top=4, bottom=28), width=MAX_WIDTH)))
+            lines.append(ft.Text(text[0].upper() + text[1:] + ("" if text.endswith(".") else "."),
+                                 size=14, color=ft.Colors.ON_SURFACE_VARIANT))
+
+        section("Classic flavors", node.get("flavors", []))
+        section("For desserts", node.get("sweet_only", []))
+        section("Signature ingredients (used if you have them)", node.get("signature_ingredients", []), sep="; ")
+        section("If you're missing one", node.get("substitutes", []), sep="; ")
+        return lines
+
+    def _cuisine_info(self, node_id: str):
+        """A sheet about the cuisine: where it's from, its style, and the flavors ChefBot draws on."""
+        node = cuisines.resolve(node_id) or cuisines.get(node_id)
+        if not node:
+            return
+        lines = self._cuisine_info_lines(node)
+        self.page.show_dialog(ft.BottomSheet(
+            show_drag_handle=True, scrollable=True,
+            content=ft.SafeArea(
+                ft.Container(
+                    ft.Column([heading(cuisines.chip_label(node["id"]), 22), *lines],
+                              spacing=10, tight=True, scroll=ft.ScrollMode.AUTO),
+                    padding=ft.Padding(left=24, right=24, top=8, bottom=80), width=MAX_WIDTH,
+                ),
+            ),
+        ))
+
+    def open_cuisine_picker(self, e=None):
+        """Full-height bottom sheet that drills down Continent -> Country / Cuisine -> Regional Cuisine."""
+        body = ft.Column(spacing=10, tight=True, scroll=ft.ScrollMode.AUTO,
+                         horizontal_alignment=ft.CrossAxisAlignment.STRETCH)
+
+        def pick_leaf(leaf_id: str):
+            self._pick_cuisine(leaf_id)
+            self.page.pop_dialog()
+
+        def render_info(node_id: str, return_branch_id: str | None):
+            node = cuisines.resolve(node_id) or cuisines.get(node_id)
+            if not node:
+                return
+            leaf_id = node["id"]
+            label = cuisines.chip_label(leaf_id)
+            body.controls = [
+                ft.Row([
+                    ft.IconButton(ft.Icons.ARROW_BACK, tooltip="Back",
+                                  on_click=lambda _, bid=return_branch_id: switch_to(bid)),
+                    heading(label, 21),
+                ], spacing=4, vertical_alignment=ft.CrossAxisAlignment.CENTER),
+                *self._cuisine_info_lines(node),
+                ft.Container(
+                    gradient_button(f"Pick {label}", ft.Icons.RESTAURANT_MENU,
+                                    lambda _, lid=leaf_id: pick_leaf(lid)),
+                    padding=ft.Padding(left=0, right=0, top=8, bottom=0),
+                ),
+            ]
+            try:
+                body.update()
+            except Exception:
+                pass
+
+        def render_level(branch_id: str | None = None):
+            controls: list[ft.Control] = []
+            if branch_id is None:
+                controls.append(heading("Browse cuisines", 22))
+                controls.append(ft.Text("Pick a region of the world to explore.", size=13.5,
+                                        color=ft.Colors.ON_SURFACE_VARIANT))
+                for cont in cuisines.continents():
+                    icon = CONTINENT_ICONS.get(cont["id"], ft.Icons.PUBLIC)
+                    controls.append(ft.Container(
+                        ft.Row([
+                            ft.Icon(icon, size=28, color=ft.Colors.PRIMARY),
+                            ft.Column([
+                                ft.Text(cont["label"], size=16, weight=ft.FontWeight.W_700, font_family=HEADING_FONT),
+                                ft.Text(cont["subtitle"], size=13, color=ft.Colors.ON_SURFACE_VARIANT),
+                            ], spacing=2, expand=True, tight=True),
+                            ft.Icon(ft.Icons.CHEVRON_RIGHT, color=ft.Colors.ON_SURFACE_VARIANT),
+                        ], spacing=14),
+                        padding=ft.Padding(left=16, right=12, top=14, bottom=14),
+                        border_radius=18, ink=True, bgcolor=ft.Colors.SURFACE_CONTAINER_HIGH,
+                        on_click=lambda _, cid=cont["id"]: switch_to(cid),
+                    ))
+            else:
+                crumbs = cuisines.path(branch_id)
+                parent_id = None
+                if len(crumbs) > 1:
+                    for cont in cuisines.continents():
+                        if any(c["id"] == branch_id for c in cuisines.children(cont["id"])):
+                            parent_id = cont["id"]
+                            break
+                controls.append(ft.Row([
+                    ft.IconButton(ft.Icons.ARROW_BACK, tooltip="Back",
+                                  on_click=lambda _, pid=parent_id: switch_to(pid)),
+                    heading(" > ".join(crumbs), 19),
+                ], spacing=4, vertical_alignment=ft.CrossAxisAlignment.CENTER))
+                for child in cuisines.children(branch_id):
+                    is_country = child["kind"] == "country"
+                    info_node = cuisines.resolve(child["id"])
+                    has_info = info_node is not None and bool(info_node.get("about"))
+                    trailing: list[ft.Control] = []
+                    if has_info:
+                        trailing.append(ft.IconButton(
+                            ft.Icons.INFO_OUTLINE,
+                            icon_size=20,
+                            icon_color=ft.Colors.PRIMARY,
+                            tooltip=f"About {child['label']}",
+                            on_click=lambda _, cid=child["id"], bid=branch_id: render_info(cid, bid),
+                        ))
+                    if is_country:
+                        trailing.append(ft.Icon(ft.Icons.CHEVRON_RIGHT, color=ft.Colors.ON_SURFACE_VARIANT))
+                    controls.append(ft.Container(
+                        ft.Row([
+                            ft.Column([
+                                ft.Text(child["label"], size=15.5, weight=ft.FontWeight.W_600,
+                                        font_family=HEADING_FONT),
+                                ft.Text(child["subtitle"], size=12.5, color=ft.Colors.ON_SURFACE_VARIANT),
+                            ], spacing=2, expand=True, tight=True),
+                            *trailing,
+                        ], spacing=6),
+                        padding=ft.Padding(left=16, right=8, top=10, bottom=10),
+                        border_radius=16, ink=True, bgcolor=ft.Colors.SURFACE_CONTAINER_HIGH,
+                        on_click=(
+                            (lambda _, cid=child["id"]: switch_to(cid))
+                            if is_country
+                            else (lambda _, cid=child["id"]: pick_leaf(cid))
+                        ),
+                    ))
+            body.controls = controls
+
+        def switch_to(branch_id: str | None):
+            render_level(branch_id)
+            try:
+                body.update()
+            except Exception:
+                pass
+
+        render_level(None)
+        self.page.show_dialog(ft.BottomSheet(
+            show_drag_handle=True, scrollable=True,
+            content=ft.SafeArea(
+                ft.Container(body, padding=ft.Padding(left=20, right=20, top=8, bottom=80), width=MAX_WIDTH),
+            ),
+        ))
 
     def _pick_audience(self, label: str):
         self.audience = label
@@ -605,9 +780,9 @@ class ChefBotApp:
             snack(self.page, f"Pick up to {prompts.MAX_RESTRICTIONS} dietary needs.")
 
     def surprise(self, e):
-        pick = random.choice([c for c in prompts.CUISINES if c != prompts.NO_CUISINE])
-        self._pick_cuisine(pick)
-        snack(self.page, f"Surprise! Going {CUISINE_NAMES[pick]}.")
+        pick = random.choice(cuisines.leaves())
+        self._pick_cuisine(pick["id"])
+        snack(self.page, f"Surprise! Going {cuisines.chip_label(pick['id'])}.")
 
     def _hero(self) -> ft.Control:
         inner = ft.Column([
@@ -640,9 +815,12 @@ class ChefBotApp:
                                                                self.start_recipe)],
                         wrap=True, spacing=10, run_spacing=10)),
             card(ft.Row([section_title(ft.Icons.PUBLIC, "Pick a cuisine"),
-                         ft.TextButton("Surprise me", icon=ft.Icons.CASINO_OUTLINED, on_click=self.surprise)],
-                        alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
-                 ft.Row(list(self.cuisine_chips.values()), wrap=True, spacing=8, run_spacing=8)),
+                         ft.Row([ft.TextButton("Browse cuisines", icon=ft.Icons.EXPLORE_OUTLINED,
+                                               on_click=self.open_cuisine_picker),
+                                 ft.TextButton("Surprise me", icon=ft.Icons.CASINO_OUTLINED,
+                                               on_click=self.surprise)], spacing=4, wrap=True)],
+                        alignment=ft.MainAxisAlignment.SPACE_BETWEEN, wrap=True),
+                 self.cuisine_chips_row),
             card(section_title(ft.Icons.GROUPS, "Who's eating?"),
                  ft.Row(list(self.audience_tiles.values()), wrap=True, spacing=10, run_spacing=10)),
             card(section_title(ft.Icons.HEALTH_AND_SAFETY, "Any dietary needs?"),
@@ -662,7 +840,9 @@ class ChefBotApp:
         convs = self.history.load()
         rows: list[ft.Control] = [section_title(ft.Icons.MENU_BOOK, "Your recipes")] if convs else []
         for c in convs:
-            cuisine = CUISINE_NAMES.get(c.settings.get("cuisine", ""), "")
+            raw_cid = c.settings.get("cuisine_id") or c.settings.get("cuisine", "")
+            resolved = cuisines.resolve(raw_cid) if raw_cid and raw_cid != prompts.NO_CUISINE else None
+            cuisine = cuisines.chip_label(resolved["id"]) if resolved else ""
             when = datetime.fromtimestamp(c.updated).strftime("%b %d")
             sub = " · ".join(x for x in [cuisine if cuisine != "Anything" else "", when] if x)
             rows.append(ft.Container(
@@ -842,9 +1022,11 @@ class ChefBotApp:
             return
         await self._remember_must_not()
         restrictions = [r for r, c in self.diet_chips.items() if c.selected]
-        settings = {"cuisine": self.cuisine, "audience": self.audience, "dessert": bool(self.dessert.selected),
-                    "restrictions": restrictions, "must_not": (self.must_not.value or "").strip()}
-        tags = [CUISINE_NAMES[self.cuisine], AUDIENCE_CARDS[self.audience][1]]
+        settings = {"cuisine_id": self.cuisine, "cuisine": self.cuisine, "audience": self.audience,
+                    "dessert": bool(self.dessert.selected), "restrictions": restrictions,
+                    "must_not": (self.must_not.value or "").strip()}
+        cuisine_tag = "Anything" if self.cuisine == prompts.NO_CUISINE else cuisines.chip_label(self.cuisine)
+        tags = [cuisine_tag, AUDIENCE_CARDS[self.audience][1]]
         if settings["dessert"]:
             tags.append("Dessert")
         tags += restrictions
