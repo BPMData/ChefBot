@@ -4,6 +4,8 @@ Plain httpx instead of the openai package: httpx is pure Python, which keeps the
 """
 import base64
 import json
+import os
+import ssl
 from dataclasses import dataclass
 from typing import AsyncIterator
 
@@ -89,10 +91,39 @@ def _friendly(status: int, body: str) -> str:
     return f"OpenRouter error {status}: {msg}" if msg else f"OpenRouter error {status}."
 
 
+_SSL_CONTEXT: ssl.SSLContext | None = None
+
+
+def ssl_context() -> ssl.SSLContext:
+    """The HTTPS certificates, loaded once and kept in memory.
+
+    Left alone, httpx reads the certificate file (SSL_CERT_FILE, which Flet sets on Android, or certifi's copy)
+    each time a client is made. On Android that file can vanish while the app is open, so saving Settings
+    later crashed with FileNotFoundError. Loading once means later clients never touch the disk.
+    """
+    global _SSL_CONTEXT
+    if _SSL_CONTEXT is None:
+        import certifi
+        for cafile in (os.environ.get("SSL_CERT_FILE"), certifi.where()):
+            if cafile and os.path.isfile(cafile):
+                try:
+                    _SSL_CONTEXT = ssl.create_default_context(cafile=cafile)
+                    break
+                except (OSError, ssl.SSLError):
+                    pass
+        else:
+            try:
+                _SSL_CONTEXT = ssl.create_default_context(cadata=certifi.contents())
+            except (OSError, ssl.SSLError):
+                _SSL_CONTEXT = ssl.create_default_context()
+    return _SSL_CONTEXT
+
+
 class ChefBotAPI:
     def __init__(self, api_key: str, client: httpx.AsyncClient | None = None):
         self.api_key = api_key.strip()
-        self._client = client or httpx.AsyncClient(timeout=httpx.Timeout(600, connect=20))
+        self._client = client or httpx.AsyncClient(
+            timeout=httpx.Timeout(600, connect=20), verify=ssl_context())
 
     def _headers(self) -> dict:
         return {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json",

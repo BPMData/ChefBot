@@ -54,6 +54,7 @@ CUISINE_NAMES = {   # prompt label -> short chip label
     prompts.NO_CUISINE: "Anything",
     "American": "American",
     "American (Cajun)": "Cajun",
+    "American (Creole)": "Creole",
     "Chinese (Cantonese - Most common style in US)": "Cantonese",
     "Chinese (Hong Kong)": "Hong Kong",
     "Chinese (Sichuan)": "Sichuan",
@@ -171,11 +172,30 @@ def snack(page: ft.Page, message: str):
     page.show_dialog(ft.SnackBar(ft.Text(message)))
 
 
+# Quotes and code blocks get theme colors: Flutter's defaults are a fixed light blue (quotes) and a light code
+# background, which put the dark theme's light text on a light box. Models use them to show a corrected step.
+QUOTE_BOX = ft.BoxDecoration(bgcolor=ft.Colors.SURFACE_CONTAINER_HIGH,
+                             border=ft.Border(left=ft.BorderSide(3, ft.Colors.PRIMARY)))
+CODE_BOX = ft.BoxDecoration(bgcolor=ft.Colors.SURFACE_CONTAINER_HIGH, border_radius=12)
+
+
 def md_style() -> ft.MarkdownStyleSheet:
     h = lambda size: ft.TextStyle(font_family=HEADING_FONT, size=size, weight=ft.FontWeight.W_700)
     return ft.MarkdownStyleSheet(h1_text_style=h(24), h2_text_style=h(21), h3_text_style=h(18),
                                  h4_text_style=h(16), p_text_style=ft.TextStyle(size=15, height=1.5),
+                                 blockquote_decoration=QUOTE_BOX, blockquote_padding=ft.Padding.symmetric(vertical=12, horizontal=14),
                                  block_spacing=10)
+
+
+def md_code_style() -> ft.MarkdownStyleSheet:
+    """Code blocks: in a recipe they hold prose (a corrected step), so normal text on a themed box."""
+    return ft.MarkdownStyleSheet(code_text_style=ft.TextStyle(size=15, height=1.5, color=ft.Colors.ON_SURFACE),
+                                 codeblock_decoration=CODE_BOX, codeblock_padding=ft.Padding.all(14))
+
+
+# The code highlighter paints its own background unless `root` sets one; transparent lets CODE_BOX show.
+MD_CODE_THEME = ft.MarkdownCustomCodeTheme(root=ft.TextStyle(color=ft.Colors.ON_SURFACE,
+                                                             bgcolor=ft.Colors.TRANSPARENT))
 
 
 class ChefBotApp:
@@ -472,11 +492,13 @@ class ChefBotApp:
     def _build_home_controls(self):
         self.ingredients_clear = ft.IconButton(ft.Icons.CLOSE, tooltip="Clear", icon_size=18, visible=False,
                                                on_click=self._clear_ingredients)
+        # No `capitalization=` on text fields: Flet implements it by rewriting the text after each keystroke,
+        # which resets the Android keyboard (voice typing stops, caps lock turns off). See test_text_fields.py.
         self.ingredients = ft.TextField(
             on_change=lambda e: show_clear_button(self.ingredients, self.ingredients_clear),
             hint_text="Potatoes, carrots, tomatoes...", multiline=True, min_lines=4, max_lines=8,
             content_padding=ft.Padding(left=16, right=44, top=16, bottom=16),     # room for the x
-            filled=True, border=soft_border(16), capitalization=ft.TextCapitalization.SENTENCES, text_size=16)
+            filled=True, border=soft_border(16), text_size=16)
         # The x sits in the bottom-right corner of this tall box (a suffix icon would center it vertically).
         self.ingredients_box = ft.Stack([self.ingredients,
                                          ft.Container(self.ingredients_clear, right=2, bottom=2)])
@@ -484,8 +506,12 @@ class ChefBotApp:
                                               on_click=self.read_photo)
         self.cuisine_chips = {
             label: ft.Chip(label=short, selected=label == self.cuisine, show_checkmark=False,
-                           on_select=lambda e, lab=label: self._pick_cuisine(lab))
+                           on_select=lambda e, lab=label: self._pick_cuisine(lab),
+                           delete_icon=ft.Icon(ft.Icons.INFO_OUTLINE, size=18),
+                           delete_icon_tooltip=f"About {short} cooking")
             for label, short in CUISINE_NAMES.items()}
+        for label, chip in self.cuisine_chips.items():
+            self._show_cuisine_info(chip, label)
         self.audience_tiles: dict[str, ft.Container] = {}
         for label, (icon, short) in AUDIENCE_CARDS.items():
             self.audience_tiles[label] = ft.Container(
@@ -513,7 +539,29 @@ class ChefBotApp:
         self.cuisine = label
         for lab, chip in self.cuisine_chips.items():
             chip.selected = lab == label
+            self._show_cuisine_info(chip, lab)
             chip.update()
+
+    def _show_cuisine_info(self, chip: ft.Chip, label: str):
+        """Only the picked cuisine shows the info icon (Flutter shows a chip's trailing icon only with a handler)."""
+        has_info = label == self.cuisine and label in prompts.CUISINE_ABOUT
+        chip.on_delete = (lambda e, lab=label: self._cuisine_info(lab)) if has_info else None
+
+    def _cuisine_info(self, label: str):
+        """A sheet about the cuisine: where it's from, its style, and the flavors ChefBot draws on."""
+        name, flavors = prompts.CUISINES[label]
+        lines = [ft.Text(prompts.CUISINE_ABOUT[label], size=15)]
+        def section(title: str, text: str):
+            lines.append(ft.Text(title, size=13, weight=ft.FontWeight.W_700, color=ft.Colors.PRIMARY))
+            lines.append(ft.Text(text[0].upper() + text[1:] + ".", size=14, color=ft.Colors.ON_SURFACE_VARIANT))
+        section("Classic flavors", flavors)
+        if label in prompts.SWEET_FLAVORS:
+            section("For desserts", prompts.SWEET_FLAVORS[label])
+        if label in prompts.SIGNATURE_INGREDIENTS:
+            section("Signature ingredients (used if you have them)", prompts.SIGNATURE_INGREDIENTS[label])
+        self.page.show_dialog(ft.BottomSheet(show_drag_handle=True, scrollable=True, content=ft.Container(
+            ft.Column([heading(CUISINE_NAMES[label], 22), *lines], spacing=10, tight=True),
+            padding=ft.Padding(left=24, right=24, top=4, bottom=28), width=MAX_WIDTH)))
 
     def _pick_audience(self, label: str):
         self.audience = label
@@ -835,7 +883,7 @@ class ChefBotApp:
         self.composer = ft.TextField(
             hint_text="Ask for changes: no cucumber, more garlic...", expand=True, multiline=True,
             min_lines=1, max_lines=5, shift_enter=True, on_submit=self.send_followup, filled=True,
-            border=soft_border(26), capitalization=ft.TextCapitalization.SENTENCES)
+            border=soft_border(26))
         self.send_btn = ft.IconButton(ft.Icons.ARROW_UPWARD, tooltip="Send", on_click=self.send_followup,
                                       bgcolor=ft.Colors.PRIMARY, icon_color=ft.Colors.ON_PRIMARY)
         self.editing_index = None
@@ -897,15 +945,20 @@ class ChefBotApp:
             border_radius=ft.BorderRadius(top_left=22, top_right=22, bottom_left=22, bottom_right=6),
             padding=ft.Padding(left=18, right=18, top=12, bottom=12),
             margin=ft.Margin(left=64, right=0, top=0, bottom=0))
-        if index is None or index < 2:          # the opening request isn't editable here
+        if index is None:
             return bubble
-        tools = ft.Row([ft.IconButton(ft.Icons.EDIT_OUTLINED, tooltip="Edit", icon_size=18,
-                                      on_click=lambda e: self._run(self.edit_message, index)),
-                        ft.IconButton(ft.Icons.DELETE_OUTLINE, tooltip="Delete", icon_size=18,
-                                      on_click=lambda e: self._run(self.delete_message, index))],
-                       spacing=0, alignment=ft.MainAxisAlignment.END, visible=False)
-        self.user_tools[index] = tools
-        return ft.Column([bubble, tools], spacing=0, horizontal_alignment=ft.CrossAxisAlignment.END)
+        copy = ft.IconButton(ft.Icons.CONTENT_COPY, tooltip="Copy", icon_size=18,
+                             on_click=lambda e: self._run(self.copy_user_message, index, e.control))
+        row = ft.Row([copy], spacing=0, alignment=ft.MainAxisAlignment.END)
+        if index >= 2:                          # the opening request isn't editable here
+            tools = ft.Row([ft.IconButton(ft.Icons.EDIT_OUTLINED, tooltip="Edit", icon_size=18,
+                                          on_click=lambda e: self._run(self.edit_message, index)),
+                            ft.IconButton(ft.Icons.DELETE_OUTLINE, tooltip="Delete", icon_size=18,
+                                          on_click=lambda e: self._run(self.delete_message, index))],
+                           spacing=0, visible=False)
+            self.user_tools[index] = tools
+            row.controls.insert(0, tools)
+        return ft.Column([bubble, row], spacing=0, horizontal_alignment=ft.CrossAxisAlignment.END)
 
     def _refresh_user_tools(self):
         """Edit/delete show only under your latest message, and not while ChefBot is answering."""
@@ -966,7 +1019,7 @@ class ChefBotApp:
     def _assistant_card(self, text: str, photo: bytes | None = None, index: int | None = None) -> ft.Container:
         """A ChefBot reply. `index` is its place in conv.messages; replies still streaming get it later."""
         md = ft.Markdown(text, selectable=True, extension_set=ft.MarkdownExtensionSet.GITHUB_WEB,
-                         md_style_sheet=md_style())
+                         md_style_sheet=md_style(), code_style_sheet=md_code_style(), code_theme=MD_CODE_THEME)
         photo_slot = ft.Container(visible=bool(photo))
         if photo:
             photo_slot.content = self._dish_photo(photo)
@@ -1031,6 +1084,7 @@ class ChefBotApp:
     async def send_followup(self, e):
         text = (self.composer.value or "").strip()
         if text:
+            text = text[0].upper() + text[1:]     # the field can't auto-capitalize (see _build_home_controls)
             self.composer.value = ""
             self.composer.update()
             await self.send_text(text)
@@ -1282,6 +1336,13 @@ class ChefBotApp:
     async def copy_message(self, index: int, button=None):
         await self.clipboard.set(self.conv.messages[index]["content"])
         snack(self.page, "Copied as Markdown.")
+        await self._flash(button)
+
+    async def copy_user_message(self, index: int, button=None):
+        """Copies what the bubble shows (the friendly summary for the opening request, not the raw prompt)."""
+        m = self.conv.messages[index]
+        await self.clipboard.set(m.get("display") or m["content"])
+        snack(self.page, "Copied.")
         await self._flash(button)
 
     async def _save(self, data: bytes, file_name: str) -> bool:

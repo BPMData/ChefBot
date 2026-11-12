@@ -159,3 +159,34 @@ def test_prune_photos_spares_kept_files(tmp_path):
     (tmp_path / "photos" / "orphan-9.png").write_bytes(b"x")
     assert h.prune_photos(keep={"pending-4.png"}) == 1
     assert [f.name for f in (tmp_path / "photos").iterdir()] == ["pending-4.png"]
+
+
+def test_dessert_only_flavors_stay_out_of_savory_recipes():
+    for label, sweet in prompts.SWEET_FLAVORS.items():
+        assert sweet not in prompts.system_prompt(prompts.DEFAULT_AUDIENCE, label)
+        assert sweet in prompts.system_prompt(prompts.DEFAULT_AUDIENCE, label, dessert=True)
+
+
+def test_signature_ingredients_only_if_the_user_has_them():
+    for label, sig in prompts.SIGNATURE_INGREDIENTS.items():
+        p = prompts.system_prompt(prompts.DEFAULT_AUDIENCE, label)
+        assert sig[1:] in p and "use them only if they're in the user's ingredients" in p and "Tips" in p
+
+
+def test_cuisine_lists_have_no_shortcuts_or_duplicates():
+    cajun = prompts.system_prompt(prompts.DEFAULT_AUDIENCE, "American (Cajun)")
+    assert "filé" not in prompts.CUISINES["American (Cajun)"][1].lower()
+    assert "never a store-bought blend" in cajun
+    for label, (name, flavors) in prompts.CUISINES.items():
+        if name:
+            assert prompts.system_prompt(prompts.DEFAULT_AUDIENCE, label).count(flavors) == 1
+
+
+def test_every_cuisine_has_an_explainer():
+    assert set(prompts.CUISINE_ABOUT) == set(prompts.CUISINES) - {prompts.NO_CUISINE}
+
+
+def test_louisiana_recipes_never_suggest_file_and_offer_thickeners():
+    for label in ("American (Cajun)", "American (Creole)"):
+        p = prompts.system_prompt(prompts.DEFAULT_AUDIENCE, label)
+        assert "Never use or suggest filé powder" in p and "xanthan gum weighed in grams" in p

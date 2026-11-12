@@ -250,3 +250,23 @@ def test_each_model_gets_its_own_temperature():
     asyncio.run(run())
     assert sent[api.MODELS["kimi-k3.1-pro"].id] == 1.0
     assert sent[api.MODELS[api.DEFAULT_MODEL].id] == 0.7
+
+
+def test_new_clients_survive_the_cert_file_vanishing(tmp_path, monkeypatch):
+    # On Android the SSL_CERT_FILE can disappear while the app is open; saving Settings then crashed.
+    import shutil
+
+    import certifi
+    pem = tmp_path / "cacert.pem"
+    shutil.copy(certifi.where(), pem)
+    monkeypatch.setenv("SSL_CERT_FILE", str(pem))
+    monkeypatch.setattr(api, "_SSL_CONTEXT", None)
+    api.ChefBotAPI("k")
+    pem.unlink()
+    api.ChefBotAPI("k2")  # used to raise FileNotFoundError
+
+
+def test_missing_cert_file_falls_back_to_certifi(tmp_path, monkeypatch):
+    monkeypatch.setenv("SSL_CERT_FILE", str(tmp_path / "gone.pem"))
+    monkeypatch.setattr(api, "_SSL_CONTEXT", None)
+    assert api.ssl_context().cert_store_stats()["x509_ca"] > 0

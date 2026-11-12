@@ -1,4 +1,4 @@
-# ChefBot handoff (as of 2026-10-31)
+# ChefBot handoff (as of 2026-11-07)
 
 Everything a new session needs to keep going without the original conversation. Read this first, then
 `README.md` (features, how models were chosen) and `docs/EMAIL.md` (mail relay setup).
@@ -15,9 +15,16 @@ more than cost.
 - One Python codebase on [Flet](https://flet.dev) **1.0.5** (Flutter UI): desktop, web, Android (sideloaded APK).
 - Models via **OpenRouter**. The key lives in a file outside every repo (see `HANDOFF.local.md`); never commit
   it, never type it into a UI field; pass it as `OPENROUTER_API_KEY` for dev runs.
-- On GitHub as **BPMData/ChefBot**, AGPLv3 (see README). Work goes on a branch with a PR into `main`.
+- On GitHub as **BPMData/ChefBot**, AGPLv3 (see README). Work goes on a branch with a PR into `main`; Claude
+  opens the PR, Bryan merges it.
 
 ## Pinned (do these next, in this order)
+
+**Raise with Bryan at the start of the next ChefBot implementation session** (he asked to be reminded):
+**pantry defaults**, a setting ("Use cuisine pantry defaults") so a photo of only new groceries still gets a
+sensible recipe, assuming the spices and staples a cook of the chosen cuisine usually has. Details and caveats in
+`docs/research/FINDINGS.md` ("About the added-cuisines run"). Not started; drop this note once he decides.
+
 
 1. **Mail relay: deployed (2026-10-28)** as Bryan's own Apps Script web app (`tools/mail-relay.gs`, setup in
    `docs/EMAIL.md`; account and status in `HANDOFF.local.md`). Direct SMTP with an app password fails
@@ -33,6 +40,20 @@ more than cost.
    email was off (fixed: share sheet, see item 1). Re-test Email on the phone after installing the new build. See "Android" below for installing, rebuilding, signing,
    and deleting the ~13 GB toolchain.
 3. **GitHub: public since 2026-10-28** (AGPLv3). Still to do: README screenshots.
+   **Next after the cuisine tree: a public web demo** (Bryan, 2026-11-09: it's a portfolio piece, and recruiters
+   won't run Flet commands). The plan, not started:
+   - **Host it as a server app**, not a static build: Flet's web mode on a small always-on host (Fly.io, Render,
+     Google Cloud Run or similar; pick one when building). A static `flet build web` would put the OpenRouter key in
+     the browser, where anyone can copy it.
+   - **A separate OpenRouter key with a hard credit limit** (openrouter.ai/keys), stored as the host's secret, plus
+     per-visitor limits (a few recipes a day, a short reply cooldown) so a bot can't drain it. Pictures and photo
+     reading are the expensive calls: lower limits there.
+   - **Per-visitor storage.** Today the app keeps one shared history folder; on a public server every visitor
+     would see everyone's recipes. Saved chats must be per browser (Flet's client storage or a visitor id).
+   - **Demo settings:** hide the API key field, the relay and developer options; Email becomes the `mailto:` link;
+     check that photo upload and Save PDF work in a browser (they use FilePicker uploads and downloads).
+   - **A few featured recipes** that open instantly without spending anything, for visitors who just look.
+   - Then README screenshots and the live link at the top of the README.
 4. **Keep replies alive when the app is in the background: works on the phone (2026-11-03).** It took three
    builds: pyjnius couldn't reach the extension's Java code (see "pyjnius can't find the app's own classes").
    Still to try: the screen-locked case and the airplane-mode fallback below.
@@ -53,6 +74,27 @@ more than cost.
    - If anything misbehaves: `adb logcat -d | grep -iE -A12 "keep-alive|keepalive|jnius"` (Python logs under
      the tag `flet.python`, the Java side under `KeepAlive`).
 
+5. **Later: a second-pass recipe audit.** After each recipe, send it to the cheapest, fastest model that does the
+   job well enough, to check only: ingredient weights and ratios, timings, and that the dietary rules and
+   "never use" list were followed. Undecided: what happens when it finds a problem (a note under the reply, or an
+   automatic fix). For now the main prompt has a "check your work" list (`prompts.system_prompt`).
+
+6. **In progress: the cuisine tree.** Replace the flat cuisine chips with a drill-down by continent and region
+   (about 50 cuisines), built from deep research rather than model memory. Plan, decisions and taxonomy:
+   `docs/CUISINE_TREE.md`. Ready-to-paste prompts: `docs/research/<continent>.md` (rebuild with
+   `tools/make_research_prompts.py`).
+   **Where it stands (2026-11-09):** research is **complete for all five continents** (65 nodes, ChatGPT deep
+   research, v2 prompt). Everything learned, including import quirks, open questions for Bryan and corrections to
+   the app's current entries: `docs/research/FINDINGS.md` (read it first; the raw reports in
+   `docs/research/results/raw/` are only for checking a specific claim). Data: `docs/research/results/*.json`.
+   Added 2026-11-09: Tunisian and Algerian (Africa), Afghan and Pakistani (Asia), researched together and saved as
+   `docs/research/results/additions.json` (kept as two nodes, Afghan and Pakistani, per the research). That run
+   also raised an idea for Bryan: per-cuisine "pantry defaults" (see FINDINGS).
+   **Build plan (2026-11-09):** Bryan will have Google AI Studio attempt the refactor from the self-contained brief
+   `docs/REFACTOR_CUISINE_TREE.md` (data under `src/chefbot/cuisines/`, a loader, the drill-down picker, recent
+   picks, legacy ids for saved chats, tests). Claude's job afterwards: review its pull request, fix its mistakes,
+   then do the house-style pass on the entries.
+
 ## Run, test, verify
 
 ```bash
@@ -60,7 +102,8 @@ cd ~/Documents/Github/ChefBot
 .venv/bin/flet run src/main.py                       # desktop window (Bryan's normal way)
 OPENROUTER_API_KEY=... \
   .venv/bin/flet run --web --port 8551 src/main.py   # web: what Claude uses with the browser pane
-.venv/bin/python -m pytest                           # offline tests (also run by GitHub on every PR)
+.venv/bin/python -m pytest                           # offline tests (GitHub runs them on every PR,
+                                                     # push to main, and on demand: Actions > Tests)
                                                      # (CI installs flet too: test_keepalive drives reply())
 OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow-up edit (~1¢)
 ```
@@ -70,6 +113,9 @@ OPENROUTER_API_KEY=... .venv/bin/python tools/smoke.py   # live: recipe + follow
 - **Web dev mode quirks:** first page load takes ~20 s; Flutter draws on a canvas, so `find`/`read_page` see
   nothing: use screenshots and coordinates. After code changes, **restart the server** (hot reload leaves broken
   sessions). Use absolute paths in background shell commands (the shell's cwd drifts).
+  Check no old `main.py` process is still running before testing: a leftover keeps answering on the port. In a
+  cloud session the browser can't reach www.gstatic.com, so Flutter never loads; have Playwright serve
+  `flutter-canvaskit/*` from `flet_web/web/canvaskit/` in the venv (`page.route` + `fulfill`).
 - **Dev storage:** `flet run` keeps recipes/photos in `src/.flet/storage/data/` (gitignored). On a phone it's
   `FLET_APP_STORAGE_DATA`; fallback `~/.chefbot`. Desktop settings (incl. secrets) are in the macOS defaults domain
   `com.appveyor.flet`; read single keys with `defaults read com.appveyor.flet flutter.chefbot.<key>`, never dump
@@ -100,7 +146,8 @@ alone. GitHub never shows secrets in logs or hands them to pull requests from fo
 ```
 src/main.py              UI: home form, recipe conversation, settings, per-reply actions, email dialog
 src/chefbot/prompts.py   audiences, cuisines (+ classic seasonings), dietary rules, prompt text (ported from
-                         RecipeGPT's personas.py; keep his voice)
+                         RecipeGPT's personas.py; since 2026-11-08 the persona is a food scientist and
+                         test kitchen developer, not a food blogger; salt always in grams)
 src/chefbot/api.py       OpenRouter: streaming chat, photo -> ingredients, dish picture
 src/chefbot/history.py   conversations + photos saved as JSON/PNGs; prune_photos()
 src/chefbot/export.py    Markdown -> HTML page / PDF / email; SMTP + relay sending
@@ -186,6 +233,13 @@ Full table in `README.md`. Blind tests (judge: Claude Sonnet 5.5, a non-contesta
 - No cost talk in the UI ("costs about a cent" was removed: cost is his problem).
 - "The 1817 version" quick tweak stays **BETA** with a strong hallucination warning; no year picker.
 - Every reply has Copy (Markdown), PDF, HTML, Email, Share, Picture. Copy/actions act on that reply only.
+- **Cuisines** (`prompts.py`): `CUISINES` (classic flavors, used only where they suit the dish), `SWEET_FLAVORS`
+  (desserts only), `SIGNATURE_INGREDIENTS` (only if the user has them, else a Tips line), `CUISINE_TIPS` (e.g. the
+  Cajun seasoning shortcut goes in Tips, never the ingredients), `CUISINE_ABOUT` (the app's info sheet; never sent
+  to the model). Bryan's calls (2026-11-08): cinnamon, vanilla and Old Bay stay in American savory; filé powder is
+  out; kimchi is "strongly recommended" for Korean, not required. Creole (New Orleans) added beside Cajun.
+- Every user message has Copy (always shown). It copies what the bubble shows: for the opening request that's
+  the friendly `display` summary, not the raw prompt.
 - Plain-language explanations; he's technical but values brevity. He tests thoroughly and reports precisely.
 
 ## Android: build, install, clean up
@@ -199,6 +253,18 @@ cd ~/Documents/Github/ChefBot
 # output: build/apk/chefbot-arm64-v8a.apk (66 MB, for any modern phone),
 #         chefbot-armeabi-v7a.apk (old 32-bit phones), chefbot-x86_64.apk (emulators)
 .venv/bin/flet debug android      # run on a USB-connected phone (developer mode + USB debugging); `--show-devices`
+```
+
+**A second, beta copy beside the normal app** (added 2026-11-09, for trying a branch such as AI Studio's cuisine
+tree): build that branch with its own package id and name. Android treats it as a different app, with its own
+saved recipes and settings (enter the API key again in its Settings); the normal ChefBot is untouched. Not yet
+tried on the phone.
+
+```bash
+git checkout <branch> && rm -rf build
+.venv/bin/flet build apk --yes --bundle-id io.github.bpmdata.chefbotbeta --product "ChefBot Beta"
+~/Android/sdk/platform-tools/adb install build/apk/chefbot-arm64-v8a.apk
+git checkout main                  # and rebuild without the flags for the normal app
 ```
 
 - Config is in `pyproject.toml`: `[tool.flet]` org `io.github.bpmdata` (package `io.github.bpmdata.chefbot`),
@@ -326,6 +392,21 @@ The next `flet build apk` downloads it all again.
   first-run Settings that would save over his real settings) and shows Save failures in the dialog. Before editing
   code, check whether Bryan's app is running (`ps ax | grep ChefBot/src/main.py`) and tell him to restart it
   afterwards.
+- **Android: the HTTPS certificate file can disappear while the app is open (2026-11-07).** httpx re-reads
+  `SSL_CERT_FILE` (Flet sets it on Android) each time a client is made, so saving Settings later crashed with
+  `FileNotFoundError` in `ssl.create_default_context`. `api.ssl_context()` now loads the certificates once into
+  memory (falling back to certifi) and every httpx client uses it. Make any new client with `verify=ssl_context()`.
+  Needs an APK rebuild to reach the phone.
+- **Markdown quotes and code blocks need theme colors (2026-11-11).** Flutter's default quote box is a fixed light
+  blue and code blocks get a light highlighter background, so in the dark theme a quoted or fenced corrected step
+  showed as faint light text on a bright block. `md_style()` sets `blockquote_decoration` (surface box, orange
+  left bar); `md_code_style()` and `MD_CODE_THEME` (a transparent highlighter `root`) do the same for code blocks.
+  Pass all three to any new `ft.Markdown`. Checked in the web build (dark theme).
+- **Never use `capitalization=` on a TextField (2026-11-11).** Flet doesn't tell the keyboard; it adds a formatter
+  that rewrites the text on every keystroke and drops the keyboard's in-progress word, so Android resets the
+  keyboard: voice typing stopped after a few characters and double-tap caps lock lasted one letter. Removed from the
+  ingredients box and the chat box; follow-ups get their first letter capitalized on send instead.
+  `tests/test_text_fields.py` guards it. Needs an APK rebuild to reach the phone.
 
 ## PDF gotchas (fpdf2 2.8.9)
 
@@ -338,6 +419,32 @@ The next `flet build apk` downloads it all again.
 
 ## Backlog (nice to have)
 
+- **Second-model review loop (idea, 2026-11-11, not started).** Bryan's view: asking the model to double-check
+  itself never matches a real second check, so every recipe should pass through a separate, faster model.
+  Test case with the mistakes it must catch: `docs/review-loop/example-lamb-fries.md` (onion cooked but never
+  added; chickpeas "crisped" by simmering in water).
+  - *Flow (Bryan's pick):* **stream first, check after, fix automatically.** The reply streams as now (nobody
+    starts cooking in 30 seconds). When it ends, a status line under the bubble says "Checking..."; the reviewer
+    gets the whole recipe and returns a short list of issues as JSON (issue, location, fix), not a rewrite, so
+    it's fast. No issues: "Checked". Minor issues: targeted edits, swapped in once. Major issues (diet/allergen/
+    must-not violation, missing step): one revision round with the main model, then swap. "Fixed 2 things", tap
+    to see what changed. Text only ever changes once, after the stream ends.
+  - *What it checks:* every ingredient used in the steps is in the list and gets added; quantities match; methods
+    do what the step says (crisp, sear, reduce); times and temperatures are plausible; notes match the steps;
+    diet/allergen/must-not rules; the user's ingredients are actually used.
+  - *Optional loading animation* (for the check and any revision round). **Decided 2026-11-11: use EOMD**, Bryan's
+    own repo (github.com/BPMData/EOMD: 3D canvas motion graphics in single offline HTML files, which an AI writes
+    as small JSON pieces). Chosen over Rive because an AI can write and change EOMD pieces, while Rive's `.riv`
+    files are binary and have to be made by hand in Rive's editor. Plan: bundle a small EOMD piece as an asset
+    in `flet-webview` and drive it live from Python with JavaScript calls (e.g. ingredient names spelled in 3D
+    dots as they stream, a new stage when checking starts). Check first that `flet-webview` 1.0.5 runs on
+    Android and can run JavaScript. Desktop fallback (the web view doesn't run on every desktop): a
+    pre-rendered loop (EOMD's `tools/html_to_mp4.py`, converted to animated WebP for `ft.Image`). The new piece
+    itself is made in the EOMD repo, following its own process. Rive (`flet-rive` 1.0.5) is the backup if the
+    web view doesn't work on Android. Any new extension package means an APK rebuild. No emojis.
+  - *Before shipping:* run the reviewer on the test case, then the existing judged recipe set with and without
+    the review step; compare scores and time it. Reviewer: a fast model from one of Bryan's preferred labs.
+    Pairs with Spoonacular idea 2 below (a hard-data allergen check).
 - "Try again" on a reply; deleting a single older message.
 - If Android kills ChefBot outright mid-reply (not just freezes it; rare with the keep-alive), the follow-up being
   answered is lost: it's only saved together with its reply. Saving the user message first would let the
@@ -345,3 +452,21 @@ The next `flet build apk` downloads it all again.
 - Auto-generate the dish picture after the first recipe (setting).
 - README screenshots; a GitHub description.
 - Old test conversations show raw `**Ingredients:**` in the first bubble (pre-redesign data); harmless.
+- **Spoonacular integration (idea, 2026-11-09, not started).** Use it only for hard data the model guesses at,
+  never for recipe search or meal planning (the chat already does those). It's optional: with no key, hide the
+  extras. The key is handled like the OpenRouter one (Settings, env var for dev, never committed).
+  1. Nutrition panel: a "Nutrition" button on a finished recipe that sends the ingredient list to Spoonacular's
+     nutrition analysis and shows a facts panel. Do this first. Test it offline with a recorded response.
+  2. Dietary/allergen check: Spoonacular is an independent check on the model's output. Parse the recipe's
+     ingredients and flag anything that conflicts with a stated restriction or allergen (e.g. "nut-free" but
+     the recipe has almond flour, "vegetarian" but it uses fish sauce or gelatin). This could run in the app as
+     a warning and in tests as a regression check. Caveat: Spoonacular's allergen/diet tagging is ingredient-
+     based and imperfect (cross-contamination, brand-specific ingredients), so it's a second check, not a
+     guarantee; say so in the UI.
+  3. Lower priority: unit conversion/scaling with real densities (good for baking), substitutes.
+  Free tier is ~150 points/day (a nutrition call is ~1-2), which is fine for one user but not a shared class key.
+- **Kimi K3.1 Pro: keep it, fix it (decided 2026-11-09).** PR #11 (temperature 1, the only value Moonshot accepts
+  for this model) was brought up to date with `main` on 2026-11-12 and is ready to merge; picking Kimi errors
+  until it is. Still to do:
+  lock Kimi to **medium** thinking: hide or disable the low/high choice when Kimi is selected. Medium scored best
+  (6.6 vs 5.8 for high) and is far faster (51 s vs 92 s). Kept because its score was the top one, within the tie.

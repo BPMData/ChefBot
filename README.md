@@ -18,9 +18,12 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
   dish pictures come from Gemini 3.1 Flash Lite Image.
 - **Fixed allergen rules.** "Free of major food allergens" now covers all nine U.S. allergens (FALCPA plus sesame,
   added by the FASTER Act), and dietary rules override a cuisine's classic ingredients.
+- **Cuisine explainers.** Tap the info icon on the cuisine you picked for where it's from, its style, and the
+  flavors ChefBot draws on. Recipes use only the classic flavors that suit the dish; signature ingredients (wood
+  ear mushrooms, perilla leaves...) are used only if you have them, otherwise suggested in the Tips.
 - **"Never use..." is remembered** between recipes and restarts (an allergy doesn't go away) until you clear it.
 - **Under every reply:** Copy (as Markdown), Save as PDF, Save as web page (.html), Email, Share, and
-  Picture this dish. Each acts on that reply only.
+  Picture this dish. Each acts on that reply only. Your own messages have Copy too.
 - **Email** uses your own mail app, no setup needed. On a phone it opens the share sheet with the whole recipe
   and the PDF and photo attached; on a computer it opens a new message with the recipe text. A hidden developer
   setting (tap "Settings" 7 times) lets ChefBot send formatted emails itself through a small Google Apps Script
