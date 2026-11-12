@@ -1102,7 +1102,7 @@ class ChefBotApp:
             content=ft.Container(map_stack, alignment=ft.Alignment.CENTER),
             min_scale=1.0,
             max_scale=4.5,
-            boundary_margin=ft.Margin.all(80),
+            boundary_margin=ft.Margin.all(0),
             expand=True,
         )
 
