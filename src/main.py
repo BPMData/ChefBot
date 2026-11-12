@@ -8,8 +8,9 @@ import time
 from datetime import datetime
 
 import flet as ft
+import flet.canvas as cv
 
-from chefbot import android, api, cuisines, export, prompts
+from chefbot import android, api, cuisines, export, maps, prompts
 from chefbot.history import Conversation, History
 from chefbot.keepalive import PICTURE, WRITING, KeepAlive
 from chefbot.recipe import extract_title
@@ -229,6 +230,10 @@ class ChefBotApp:
         self.cuisine = prompts.NO_CUISINE
         self.recent_cuisines: list[str] = []
         self.audience = prompts.DEFAULT_AUDIENCE
+        self.on_map = False
+        self.map_stack: list[str] = ["world"]
+        self.map_highlight_id: str | None = None
+        self.map_scale = 1.0
         self.padded: list[ft.Control] = []     # containers whose side padding follows the window width
         self.root = ft.Container(expand=True)
         self._build_home_controls()
@@ -320,6 +325,8 @@ class ChefBotApp:
     def _on_resize(self, e):
         for c in self.padded:
             self._apply_pad(c)
+        if self.on_map:
+            self._render_map_level()
         self.page.update()
 
     def open_settings(self, e=None, first_run: bool = False):
@@ -605,9 +612,113 @@ class ChefBotApp:
         has_info = node_id == self.cuisine and node is not None and bool(node.get("about"))
         chip.on_delete = (lambda e, cid=node_id: self._cuisine_info(cid)) if has_info else None
 
+    def _poly_paths(
+        self,
+        polygons: list[list[list[float]]],
+        fill_color: str,
+        stroke_color: str,
+        stroke_width: float = 1.2,
+        tx=lambda x: x,
+        ty=lambda y: y,
+    ) -> list[cv.Shape]:
+        shapes: list[cv.Shape] = []
+        fill_paint = ft.Paint(color=fill_color, style=ft.PaintingStyle.FILL)
+        stroke_paint = ft.Paint(color=stroke_color, stroke_width=stroke_width, style=ft.PaintingStyle.STROKE)
+        for poly in polygons:
+            if len(poly) < 3:
+                continue
+            elems: list[cv.Path.PathElement] = [cv.Path.MoveTo(tx(poly[0][0]), ty(poly[0][1]))]
+            for pt in poly[1:]:
+                elems.append(cv.Path.LineTo(tx(pt[0]), ty(pt[1])))
+            elems.append(cv.Path.Close())
+            shapes.append(cv.Path(elements=elems, paint=fill_paint))
+            shapes.append(cv.Path(elements=elems, paint=stroke_paint))
+        return shapes
+
+    def _cuisine_mini_map(self, node_id: str) -> ft.Control | None:
+        """Small region map at the top of the cuisine info sheet with that cuisine's region highlighted."""
+        found = maps.region_for_cuisine(node_id)
+        if not found:
+            return None
+        lvl, highlight_ids = found
+        highlight_set = set(highlight_ids)
+        all_polys = list(lvl["background"]) + [p for r in lvl["regions"] for p in r["polygons"]]
+        if not all_polys:
+            return None
+        xs = [pt[0] for poly in all_polys for pt in poly]
+        ys = [pt[1] for poly in all_polys for pt in poly]
+        x0, x1 = min(xs), max(xs)
+        y0, y1 = min(ys), max(ys)
+        span_w = max(1.0, x1 - x0)
+        span_h = max(1.0, y1 - y0)
+
+        mini_w, mini_h = 260.0, 156.0
+        pad = 12.0
+        scale = min((mini_w - 2 * pad) / span_w, (mini_h - 2 * pad) / span_h)
+        off_x = (mini_w - span_w * scale) * 0.5
+        off_y = (mini_h - span_h * scale) * 0.5
+        tx = lambda x: off_x + (x - x0) * scale
+        ty = lambda y: off_y + (y - y0) * scale
+
+        shapes: list[cv.Shape] = []
+        shapes.extend(self._poly_paths(
+            lvl["background"],
+            fill_color=ft.Colors.with_opacity(0.45, ft.Colors.SURFACE_CONTAINER_HIGH),
+            stroke_color=ft.Colors.with_opacity(0.45, ft.Colors.OUTLINE_VARIANT),
+            stroke_width=0.8,
+            tx=tx,
+            ty=ty,
+        ))
+        for reg in lvl["regions"]:
+            if reg["id"] in highlight_set:
+                continue
+            shapes.extend(self._poly_paths(
+                reg["polygons"],
+                fill_color=ft.Colors.SURFACE_CONTAINER_HIGH,
+                stroke_color=ft.Colors.OUTLINE_VARIANT,
+                stroke_width=0.9,
+                tx=tx,
+                ty=ty,
+            ))
+        for reg in lvl["regions"]:
+            if reg["id"] not in highlight_set:
+                continue
+            shapes.extend(self._poly_paths(
+                reg["polygons"],
+                fill_color=ft.Colors.PRIMARY,
+                stroke_color=ft.Colors.ON_PRIMARY_CONTAINER,
+                stroke_width=1.6,
+                tx=tx,
+                ty=ty,
+            ))
+            bx0, by0, bx1, by1 = reg["bbox"]
+            if (bx1 - bx0) * scale < 14.0 or (by1 - by0) * scale < 14.0:
+                cx, cy = tx(reg["center"][0]), ty(reg["center"][1])
+                shapes.append(cv.Circle(
+                    cx, cy, radius=5.0,
+                    paint=ft.Paint(color=ft.Colors.PRIMARY, style=ft.PaintingStyle.FILL),
+                ))
+                shapes.append(cv.Circle(
+                    cx, cy, radius=5.0,
+                    paint=ft.Paint(color=ft.Colors.ON_PRIMARY, stroke_width=1.5, style=ft.PaintingStyle.STROKE),
+                ))
+
+        return ft.Container(
+            cv.Canvas(shapes=shapes, width=mini_w, height=mini_h),
+            width=mini_w,
+            height=mini_h,
+            bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+            border_radius=16,
+            border=ft.Border.all(1, ft.Colors.with_opacity(0.2, ft.Colors.OUTLINE)),
+            alignment=ft.Alignment.CENTER,
+        )
+
     def _cuisine_info_lines(self, node: dict) -> list[ft.Control]:
-        """Build the info text controls for a cuisine node."""
+        """Build the info controls for a cuisine node, starting with the small region map."""
         lines: list[ft.Control] = []
+        mini_map = self._cuisine_mini_map(node["id"])
+        if mini_map is not None:
+            lines.append(ft.Row([mini_map], alignment=ft.MainAxisAlignment.CENTER))
         if node.get("subtitle"):
             lines.append(ft.Text(node["subtitle"], size=13.5, italic=True, color=ft.Colors.ON_SURFACE_VARIANT))
         if node.get("about"):
@@ -760,6 +871,275 @@ class ChefBotApp:
             ),
         ))
 
+    def open_map_browser(self, e=None):
+        """Full-screen interactive map browser replacing the screen until Back is pressed."""
+        self.on_map = True
+        self.map_stack = ["world"]
+        self.map_highlight_id = None
+        self.page.views[0].can_pop = False
+        self.page.appbar = None
+        self._render_map_level()
+        self.page.update()
+
+    def _map_back(self, e=None):
+        if len(self.map_stack) > 1:
+            self.map_stack.pop()
+            self.map_highlight_id = None
+            self._render_map_level()
+            self.page.update()
+        else:
+            self.on_map = False
+            self.map_highlight_id = None
+            self.show_home()
+
+    def _on_map_canvas_tap(self, e: ft.TapEvent):
+        if not self.on_map or not e.local_position:
+            return
+        level_id = self.map_stack[-1]
+        s = self.map_scale or 1.0
+        x = e.local_position.x / s
+        y = e.local_position.y / s
+        hit = maps.hit_test(level_id, x, y, tolerance=6.0)
+        if hit:
+            self._run(self._trigger_map_region, hit)
+
+    async def _trigger_map_region(self, region_id: str):
+        if not self.on_map:
+            return
+        self.map_highlight_id = region_id
+        self._render_map_level()
+        self.page.update()
+        await asyncio.sleep(0.15)
+        if not self.on_map:
+            return
+        if maps.has_sublevel(region_id):
+            self.map_stack.append(region_id)
+            self.map_highlight_id = None
+            self._render_map_level()
+            self.page.update()
+        else:
+            self.map_highlight_id = None
+            self._render_map_level()
+            self.page.update()
+            self._open_map_cuisine_sheet(region_id)
+
+    def _open_map_cuisine_sheet(self, node_id: str):
+        node = cuisines.resolve(node_id) or cuisines.get(node_id)
+        if not node:
+            return
+        leaf_id = node["id"]
+        label = cuisines.chip_label(leaf_id)
+
+        def pick_from_map(_):
+            self.page.pop_dialog()
+            self.on_map = False
+            self.map_highlight_id = None
+            self._pick_cuisine(leaf_id)
+            self.show_home()
+
+        self.page.show_dialog(ft.BottomSheet(
+            show_drag_handle=True, scrollable=True,
+            content=ft.SafeArea(
+                ft.Container(
+                    ft.Column([
+                        heading(label, 22),
+                        *self._cuisine_info_lines(node),
+                        ft.Container(
+                            gradient_button(f"Pick {label}", ft.Icons.RESTAURANT_MENU, pick_from_map),
+                            padding=ft.Padding(left=0, right=0, top=8, bottom=0),
+                        ),
+                    ], spacing=10, tight=True, scroll=ft.ScrollMode.AUTO),
+                    padding=ft.Padding(left=24, right=24, top=8, bottom=80), width=MAX_WIDTH,
+                ),
+            ),
+        ))
+
+    def _render_map_level(self):
+        level_id = self.map_stack[-1]
+        lvl = maps.get_level(level_id)
+        if not lvl:
+            return
+        base_w = float(lvl["width"])
+        base_h = float(lvl["height"])
+        pw = float(self.page.width or 375.0)
+        ph = float(self.page.height or 812.0)
+        avail_w = max(340.0, min(pw - 16.0, float(MAX_WIDTH)))
+        avail_h = max(480.0, ph - 120.0)
+        s = max(1.0, min(1.4, avail_w / base_w, avail_h / base_h))
+        self.map_scale = s
+        canvas_w = round(base_w * s, 1)
+        canvas_h = round(base_h * s, 1)
+        tx = lambda x: x * s
+        ty = lambda y: y * s
+
+        shapes: list[cv.Shape] = []
+        shapes.extend(self._poly_paths(
+            lvl["background"],
+            fill_color=ft.Colors.with_opacity(0.45, ft.Colors.SURFACE_CONTAINER_HIGH),
+            stroke_color=ft.Colors.with_opacity(0.45, ft.Colors.OUTLINE_VARIANT),
+            stroke_width=1.0,
+            tx=tx,
+            ty=ty,
+        ))
+
+        for reg in lvl["regions"]:
+            rid = reg["id"]
+            is_hi = rid == self.map_highlight_id
+            shapes.extend(self._poly_paths(
+                reg["polygons"],
+                fill_color=ft.Colors.PRIMARY if is_hi else ft.Colors.PRIMARY_CONTAINER,
+                stroke_color=ft.Colors.ON_PRIMARY if is_hi else ft.Colors.PRIMARY,
+                stroke_width=2.2 if is_hi else 1.4,
+                tx=tx,
+                ty=ty,
+            ))
+
+        # Draw leader lines and anchor dots on canvas underneath call-out chips
+        for reg in lvl["regions"]:
+            callout = reg.get("callout")
+            if not callout:
+                continue
+            ax, ay = tx(callout["anchor"][0]), ty(callout["anchor"][1])
+            lx, ly = tx(callout["pos"][0]), ty(callout["pos"][1])
+            shapes.append(cv.Line(
+                ax, ay, lx, ly,
+                paint=ft.Paint(color=ft.Colors.TERTIARY, stroke_width=1.6, style=ft.PaintingStyle.STROKE),
+            ))
+            shapes.append(cv.Circle(
+                ax, ay, radius=3.2,
+                paint=ft.Paint(color=ft.Colors.TERTIARY, style=ft.PaintingStyle.FILL),
+            ))
+
+        canvas_ctrl = cv.Canvas(shapes=shapes, width=canvas_w, height=canvas_h)
+        gesture = ft.GestureDetector(
+            content=canvas_ctrl,
+            on_tap_up=self._on_map_canvas_tap,
+            width=canvas_w,
+            height=canvas_h,
+        )
+
+        stack_items: list[ft.Control] = [gesture]
+
+        # On-map labels and call-out chips
+        for reg in lvl["regions"]:
+            rid = reg["id"]
+            label = reg["label"]
+            is_hi = rid == self.map_highlight_id
+            callout = reg.get("callout")
+            if callout:
+                lx, ly = tx(callout["pos"][0]), ty(callout["pos"][1])
+                chip_w = max(56.0, len(label) * 7.0 + 18.0)
+                chip_h = 28.0
+                left = max(4.0, min(canvas_w - chip_w - 4.0, lx - chip_w * 0.5))
+                top = max(4.0, min(canvas_h - chip_h - 4.0, ly - chip_h * 0.5))
+                stack_items.append(ft.Container(
+                    ft.Text(
+                        label,
+                        size=11.5,
+                        weight=ft.FontWeight.W_600,
+                        color=ft.Colors.ON_PRIMARY if is_hi else ft.Colors.ON_SURFACE,
+                        no_wrap=True,
+                        text_align=ft.TextAlign.CENTER,
+                    ),
+                    left=round(left, 1),
+                    top=round(top, 1),
+                    width=round(chip_w, 1),
+                    height=chip_h,
+                    alignment=ft.Alignment.CENTER,
+                    bgcolor=ft.Colors.PRIMARY if is_hi else ft.Colors.SURFACE_CONTAINER_HIGH,
+                    border=ft.Border.all(1.3, ft.Colors.ON_PRIMARY if is_hi else ft.Colors.TERTIARY),
+                    border_radius=14,
+                    ink=True,
+                    on_click=lambda _, r_id=rid: self._run(self._trigger_map_region, r_id),
+                ))
+            else:
+                cx, cy = tx(reg["center"][0]), ty(reg["center"][1])
+                lbl_w = max(52.0, len(label) * 7.2 + 12.0)
+                lbl_h = 24.0
+                left = max(4.0, min(canvas_w - lbl_w - 4.0, cx - lbl_w * 0.5))
+                top = max(4.0, min(canvas_h - lbl_h - 4.0, cy - lbl_h * 0.5))
+                stack_items.append(ft.Container(
+                    ft.Text(
+                        label,
+                        size=12,
+                        weight=ft.FontWeight.W_700,
+                        color=ft.Colors.ON_PRIMARY if is_hi else ft.Colors.ON_PRIMARY_CONTAINER,
+                        no_wrap=True,
+                        text_align=ft.TextAlign.CENTER,
+                    ),
+                    left=round(left, 1),
+                    top=round(top, 1),
+                    width=round(lbl_w, 1),
+                    height=lbl_h,
+                    alignment=ft.Alignment.CENTER,
+                    bgcolor=ft.Colors.with_opacity(0.75, ft.Colors.PRIMARY if is_hi else ft.Colors.PRIMARY_CONTAINER),
+                    border_radius=10,
+                    on_click=lambda _, r_id=rid: self._run(self._trigger_map_region, r_id),
+                ))
+
+        map_stack = ft.Stack(stack_items, width=canvas_w, height=canvas_h)
+        viewer = ft.InteractiveViewer(
+            content=ft.Container(map_stack, alignment=ft.Alignment.CENTER),
+            min_scale=1.0,
+            max_scale=4.5,
+            boundary_margin=ft.Margin.all(80),
+            expand=True,
+        )
+
+        if level_id == "world":
+            crumb_title = heading("Browse by map", 20)
+            subtitle_text = "Tap a continent to zoom in, or pinch to zoom."
+        else:
+            crumbs = " > ".join(cuisines.path(level_id))
+            crumb_title = heading(crumbs, 19)
+            node = cuisines.get(level_id)
+            subtitle_text = (node.get("subtitle") or "Tap a region or call-out to explore.") if node else ""
+
+        header_actions: list[ft.Control] = []
+        any_id = lvl.get("any_id")
+        if any_id:
+            any_node = cuisines.get(any_id)
+            if any_node:
+                header_actions.append(ft.FilledTonalButton(
+                    any_node["label"],
+                    icon=ft.Icons.PUBLIC,
+                    on_click=lambda _, aid=any_id: self._open_map_cuisine_sheet(aid),
+                ))
+
+        top_bar = ft.Container(
+            ft.Column([
+                ft.Row([
+                    ft.Row([
+                        ft.IconButton(ft.Icons.ARROW_BACK, tooltip="Back", on_click=self._map_back),
+                        crumb_title,
+                    ], spacing=4, vertical_alignment=ft.CrossAxisAlignment.CENTER),
+                    *header_actions,
+                ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN, wrap=True),
+                ft.Container(
+                    ft.Text(subtitle_text, size=13, color=ft.Colors.ON_SURFACE_VARIANT),
+                    padding=ft.Padding(left=14, right=14, top=0, bottom=2),
+                ),
+            ], spacing=2, tight=True),
+            padding=ft.Padding(left=8, right=12, top=6, bottom=6),
+            bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+            border=ft.Border(bottom=ft.BorderSide(1, ft.Colors.with_opacity(0.08, ft.Colors.ON_SURFACE))),
+        )
+
+        self.root.content = ft.Column(
+            [
+                top_bar,
+                ft.Container(
+                    viewer,
+                    expand=True,
+                    alignment=ft.Alignment.CENTER,
+                    bgcolor=ft.Colors.SURFACE,
+                ),
+            ],
+            spacing=0,
+            expand=True,
+            horizontal_alignment=ft.CrossAxisAlignment.STRETCH,
+        )
+
     def _pick_audience(self, label: str):
         self.audience = label
         self._style_audience()
@@ -803,6 +1183,7 @@ class ChefBotApp:
 
     def show_home(self):
         self.conv = None
+        self.on_map = False
         self.page.views[0].can_pop = True     # back on the home screen leaves the app
         self.padded = []
         self.page.appbar = None
@@ -817,6 +1198,8 @@ class ChefBotApp:
             card(ft.Row([section_title(ft.Icons.PUBLIC, "Pick a cuisine"),
                          ft.Row([ft.TextButton("Browse cuisines", icon=ft.Icons.EXPLORE_OUTLINED,
                                                on_click=self.open_cuisine_picker),
+                                 ft.TextButton("Browse by map", icon=ft.Icons.MAP_OUTLINED,
+                                               on_click=self.open_map_browser),
                                  ft.TextButton("Surprise me", icon=ft.Icons.CASINO_OUTLINED,
                                                on_click=self.surprise)], spacing=4, wrap=True)],
                         alignment=ft.MainAxisAlignment.SPACE_BETWEEN, wrap=True),
@@ -1047,6 +1430,7 @@ class ChefBotApp:
 
     def show_chat(self, conv: Conversation):
         self.conv = conv
+        self.on_map = False
         self.stop_requested = False           # a Stop pressed in another chat doesn't carry over
         self.page.views[0].can_pop = False    # back in a chat goes home instead (see _on_back)
         self.padded = []
@@ -1129,9 +1513,12 @@ class ChefBotApp:
                      ft.FilledButton("I understand, rewrite it", on_click=go)]))
 
     async def _on_back(self, e):
-        """The system back button (Android) while a chat is open: go to the home screen, don't leave the app."""
+        """The system back button (Android) while a chat or map is open: go back, don't leave the app."""
         if getattr(self, "on_camera", False):
             self._close_camera()
+            await e.control.confirm_pop(False)
+        elif getattr(self, "on_map", False):
+            self._map_back()
             await e.control.confirm_pop(False)
         elif self.conv is not None:
             self.go_home()

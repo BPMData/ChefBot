@@ -1,4 +1,4 @@
-# ChefBot handoff (as of 2026-11-07)
+# ChefBot handoff (as of 2026-11-12)
 
 Everything a new session needs to keep going without the original conversation. Read this first, then
 `README.md` (features, how models were chosen) and `docs/EMAIL.md` (mail relay setup).
@@ -101,11 +101,36 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
    prompt); the builder now drops the duplicate. Data files were CRLF, now LF. Saved "Hong Kong" chats map to
    Cantonese (Bryan's call, 2026-11-12: no separate Hong Kong node). Open question: 12 cuisines' tips carry raw research
    notation (`salt_g ≈ sodium_mg × 0.00254`) into the prompt. Still to do: the house-style pass on the entries.
-   **Next: "Browse by map"**, a separate button beside "Browse cuisines". Choosing it hides the list browser until
-   Back, and the map takes the whole phone screen (pan/zoom, tap a region). Use open-source map SVGs (e.g. Natural
-   Earth-derived, public domain) rather than hand-drawn ones; tiny regions (Palestine, Lebanon, Cajun vs Creole
-   Louisiana, Singapore) get labelled call-out arrows that are themselves tap targets. The `gemini` branch of the
-   experimental repo has Bryan's first SVG-map attempt (good idea, weak implementation).
+   **2026-11-12 ("Browse by map" on branch `browse-by-map`):** Built the full-screen interactive map browser beside
+   "Browse cuisines" (`docs/BROWSE_BY_MAP.md`).
+   - **Data & build pipeline (`tools/build_map_data.py`, `src/chefbot/maps/*.json`, `docs/MAP_SOURCES.md`):**
+     Reads the git-ignored public-domain shapefiles in `assets/maps/source/` (`palestine_POV_ne_10m_admin_0_countries_pse`
+     for all country outlines, `ne_10m_admin_1_states_provinces` for states/provinces/Italian regions, and
+     `cb_2025_us_county_500k` `STATEFP == "22"` for the 64 Louisiana parishes) using `pyshp` (dev dependency only).
+     Dissolves shared interior edges within multi-polygon regions, projects to a 360 x 520 phone canvas, and
+     simplifies with Ramer-Douglas-Peucker into 13 lightweight JSON files (`world`, 5 continents, 7 multi-region
+     countries; 236 KB total). Distant island territories (such as Tokyo's southern Pacific islands below 34.5N,
+     Paracel Islands, and overseas European departments) are filtered out of regional bounds so mainland regions
+     fill the frame cleanly.
+   - **Map UI & hit-testing (`src/chefbot/maps.py`, `src/main.py`):**
+     Replaces `self.root.content` with a full-screen map view (top bar with Back arrow, breadcrumb heading, and a
+     plain "Any" button on the 7 country levels; `ft.InteractiveViewer` for pinch-zoom and pan; `flet.canvas.Canvas`
+     wrapped in `ft.GestureDetector` with bounding-box + ray-casting point-in-polygon hit-testing and 6 px coastal
+     tolerance; `ft.Stack` for on-map labels and non-overlapping call-out chips connected by leader lines). Uses
+     Flet theme colors (`ft.Colors.PRIMARY`, `PRIMARY_CONTAINER`, `SURFACE_CONTAINER_HIGH`, `TERTIARY`, etc.) for
+     dark and light theme support, with a brief highlight on tap before drilling down or opening the cuisine info
+     sheet.
+   - **Info sheet mini-map:** Added `_cuisine_mini_map()` at the top of `_cuisine_info_lines()` so both the list
+     browser, the map browser, and the home screen chip's info icon display a small regional map with the selected
+     cuisine highlighted, keeping all existing info sections (including "If you're missing one" substitutes) intact.
+   - **Tests (`tests/test_maps.py`):** Verifies every selectable leaf cuisine, country, and continent has a map
+     region, every map region id exists in the cuisine tree, all small regions (`< 44 x 44` px) and known cases
+     have non-overlapping call-outs, point-in-polygon `hit_test` and `region_for_cuisine` work for all nodes, the
+     builder reproduces committed JSON when source shapefiles are present, and the UI drill-down/pick/Back flow works
+     at phone and desktop sizes.
+   - **Still to do:** House-style pass on cuisine entries (including the 12 tips with raw `salt_g` formula notation),
+     pantry defaults decision with Bryan, and testing the map browser on the physical Android phone after an APK
+     rebuild.
 
 ## Run, test, verify
 
@@ -156,7 +181,9 @@ alone. GitHub never shows secrets in logs or hands them to pull requests from fo
 ## Architecture
 
 ```
-src/main.py              UI: home form, recipe conversation, settings, per-reply actions, email dialog
+src/main.py              UI: home form, list & map cuisine browsers, recipe conversation, settings, email dialog
+src/chefbot/cuisines.py  cuisine tree loader, validator, breadcrumb paths, chip labels (`src/chefbot/cuisines/*.json`)
+src/chefbot/maps.py      map level loader, point-in-polygon hit-testing, mini-map lookup (`src/chefbot/maps/*.json`)
 src/chefbot/prompts.py   audiences, cuisines (+ classic seasonings), dietary rules, prompt text (ported from
                          RecipeGPT's personas.py; since 2026-11-08 the persona is a food scientist and
                          test kitchen developer, not a food blogger; salt always in grams)
@@ -167,6 +194,8 @@ src/chefbot/recipe.py    extract_title() (last "Recipe Title:" line wins)
 src/chefbot/android.py   Android-only pyjnius calls: MediaStore save to Downloads, media scan
 src/chefbot/keepalive.py keeps replies alive in the background (foreground service + notifications)
 packages/flet-keepalive/ ChefBot's own Flet extension: the Android foreground service (Java) behind keepalive.py
+tools/build_cuisine_data.py  builds `src/chefbot/cuisines/*.json` from `docs/research/results/`
+tools/build_map_data.py      builds `src/chefbot/maps/*.json` from `assets/maps/source/` (dev dep `pyshp`)
 tools/mail-relay.gs      Apps Script relay (secret + 40/day cap)
 tools/make_static_fonts.py   cuts static PDF fonts from variable ones (already done; output committed)
 tools/smoke.py           live API check
