@@ -24,21 +24,16 @@ CANVAS_W = 360.0
 CANVAS_H = 520.0
 MIN_TAP_PX = 44.0
 
-# Known cases from docs/BROWSE_BY_MAP.md that must always have a labelled call-out chip.
+# Known cases from docs/BROWSE_BY_MAP.md (and regions < 44 x 44 px on phone) that get a call-out chip.
 FORCE_CALLOUT_IDS = {
-    "europe",
-    "near_east",
-    "mexico",
     "caribbean",
     "peruvian",
-    "argentinian",
     "caribbean_cuban",
     "caribbean_puerto_rican",
     "caribbean_jamaican",
     "us_cajun",
     "us_creole",
     "us_new_england_seafood",
-    "mx_yucatan",
     "shandong",
     "jiangsu",
     "zhejiang",
@@ -55,9 +50,89 @@ FORCE_CALLOUT_IDS = {
     "vietnamese",
     "thai",
     "afghan",
-    "pakistani",
+    "greek",
     "tunisian",
     "senegalese",
+}
+
+# Distinct palette key per region so every continent, country, and regional cuisine is visually distinct.
+REGION_COLORS: dict[str, str] = {
+    # World continents
+    "americas": "coral",
+    "europe": "blue",
+    "near_east": "amber",
+    "africa": "orange",
+    "asia": "teal",
+    # Americas
+    "united_states": "blue",
+    "mexico": "amber",
+    "caribbean": "teal",
+    "brazilian": "green",
+    "peruvian": "coral",
+    "argentinian": "purple",
+    # Asia
+    "china": "coral",
+    "india": "amber",
+    "pakistani": "green",
+    "afghan": "purple",
+    "korean": "blue",
+    "japan": "pink",
+    "thai": "orange",
+    "vietnamese": "lime",
+    "filipino": "cyan",
+    "malaysian_singaporean": "indigo",
+    "indonesian": "teal",
+    # Europe
+    "french": "blue",
+    "spanish": "amber",
+    "italy": "green",
+    "central_european": "purple",
+    "greek": "teal",
+    "russian": "coral",
+    # Near East
+    "turkish": "coral",
+    "palestinian_levantine": "teal",
+    "persian": "amber",
+    # Africa
+    "moroccan_north_african": "coral",
+    "algerian": "amber",
+    "tunisian": "teal",
+    "egyptian": "blue",
+    "senegalese": "purple",
+    "nigerian": "green",
+    "ethiopian": "orange",
+    # United States
+    "us_tex_mex": "amber",
+    "us_cajun": "coral",
+    "us_creole": "purple",
+    "us_southern_soul": "green",
+    "us_new_england_seafood": "blue",
+    # Mexico
+    "mx_northern_baja": "amber",
+    "mx_central_oaxacan": "coral",
+    "mx_yucatan": "teal",
+    # Caribbean
+    "caribbean_cuban": "coral",
+    "caribbean_jamaican": "green",
+    "caribbean_puerto_rican": "amber",
+    # China
+    "sichuan": "coral",
+    "hunan": "amber",
+    "cantonese": "green",
+    "shandong": "blue",
+    "jiangsu": "teal",
+    "anhui": "purple",
+    "zhejiang": "orange",
+    "fujian": "pink",
+    # Japan
+    "kanto": "coral",
+    "kansai": "teal",
+    # India
+    "north_india": "amber",
+    "south_india": "teal",
+    # Italy
+    "northern_italy": "blue",
+    "southern_sicilian_italy": "coral",
 }
 
 NEAR_EAST_A3 = {
@@ -394,51 +469,35 @@ def project_and_simplify(
 # Explicit call-out chip coordinates (lx, ly) on the 360 x 520 phone canvas for each level,
 # carefully placed in margins / sea so leader lines are short and chips never overlap.
 CALLOUT_POSITIONS: dict[str, dict[str, tuple[float, float]]] = {
-    "world": {
-        "europe": (176.0, 148.0),
-        "near_east": (244.0, 148.0),
-    },
+    "world": {},
     "americas": {
-        "mexico": (58.0, 224.0),
         "caribbean": (294.0, 206.0),
         "peruvian": (72.0, 344.0),
-        "argentinian": (152.0, 404.0),
     },
     "asia": {
         "afghan": (52.0, 134.0),
-        "pakistani": (48.0, 286.0),
         "korean": (298.0, 112.0),
-        "japan": (316.0, 160.0),
         "vietnamese": (298.0, 250.0),
         "filipino": (304.0, 308.0),
         "thai": (106.0, 354.0),
         "malaysian_singaporean": (118.0, 416.0),
-        "indonesian": (262.0, 444.0),
     },
     "europe": {
-        "spanish": (52.0, 412.0),
-        "italy": (146.0, 448.0),
         "greek": (244.0, 456.0),
     },
     "near_east": {
         "palestinian_levantine": (88.0, 304.0),
     },
     "africa": {
-        "moroccan_north_african": (58.0, 68.0),
         "tunisian": (204.0, 56.0),
-        "egyptian": (298.0, 96.0),
         "senegalese": (54.0, 252.0),
-        "nigerian": (96.0, 312.0),
-        "ethiopian": (300.0, 272.0),
     },
     "united_states": {
         "us_new_england_seafood": (274.0, 114.0),
         "us_cajun": (176.0, 412.0),
         "us_creole": (268.0, 412.0),
     },
-    "mexico": {
-        "mx_yucatan": (294.0, 244.0),
-    },
+    "mexico": {},
     "caribbean": {
         "caribbean_cuban": (112.0, 148.0),
         "caribbean_jamaican": (116.0, 352.0),
@@ -459,6 +518,23 @@ CALLOUT_POSITIONS: dict[str, dict[str, tuple[float, float]]] = {
     },
     "india": {},
     "italy": {},
+}
+
+LABEL_POS_OVERRIDES: dict[str, dict[str, tuple[float, float]]] = {
+    "world": {
+        "americas": (74.0, 224.0),
+        "europe": (180.0, 198.0),
+        "near_east": (228.0, 238.0),
+        "africa": (186.0, 274.0),
+        "asia": (292.0, 214.0),
+    },
+    "europe": {
+        "italy": (126.0, 348.0),
+    },
+    "africa": {
+        "moroccan_north_african": (54.0, 118.0),
+        "algerian": (122.0, 148.0),
+    },
 }
 
 
@@ -511,6 +587,7 @@ def build_all() -> dict[str, dict]:
             )
 
         level_callouts = CALLOUT_POSITIONS.get(level_id, {})
+        level_label_pos = LABEL_POS_OVERRIDES.get(level_id, {})
         region_objs: list[dict] = []
 
         for rid, polys in proj_regions.items():
@@ -522,24 +599,19 @@ def build_all() -> dict[str, dict]:
             bh = bbox[3] - bbox[1]
 
             best_poly = max(polys, key=lambda p: ring_area([(pt[0], pt[1]) for pt in p]))
-            bp_xs = [pt[0] for pt in best_poly]
-            bp_ys = [pt[1] for pt in best_poly]
-            bp_w = max(bp_xs) - min(bp_xs)
-            bp_h = max(bp_ys) - min(bp_ys)
-
             cx, cy = visual_center([(pt[0], pt[1]) for pt in best_poly])
             ax, ay = cx, cy
             if rid in override_proj and override_proj[rid]:
                 ov_poly = max(override_proj[rid], key=lambda p: ring_area([(pt[0], pt[1]) for pt in p]))
                 ax, ay = visual_center([(pt[0], pt[1]) for pt in ov_poly])
+                if point_in_ring(ax, ay, [(pt[0], pt[1]) for pt in ov_poly]):
+                    cx, cy = ax, ay
 
-            needs_callout = (
+            needs_callout = level_id != "world" and (
                 rid in FORCE_CALLOUT_IDS
                 or rid in level_callouts
                 or bw < MIN_TAP_PX
                 or bh < MIN_TAP_PX
-                or bp_w < MIN_TAP_PX
-                or bp_h < MIN_TAP_PX
             )
             callout = None
             if needs_callout:
@@ -550,12 +622,15 @@ def build_all() -> dict[str, dict]:
                     "label": node["label"],
                 }
 
+            lbl_x, lbl_y = level_label_pos.get(rid, (cx, cy))
             region_objs.append({
                 "id": rid,
                 "kind": node["kind"],
                 "label": node["label"],
+                "color": REGION_COLORS.get(rid, "teal"),
                 "bbox": bbox,
                 "center": [cx, cy],
+                "label_pos": [round(lbl_x, 1), round(lbl_y, 1)],
                 "polygons": polys,
                 "callout": callout,
             })
@@ -587,6 +662,15 @@ def build_all() -> dict[str, dict]:
             world_regions["americas"].extend(rings)
         elif a3 in NEAR_EAST_A3:
             world_regions["near_east"].extend(rings)
+        elif a3 == "RUS":
+            # Split Russia at the Ural Mountains (60E) on the world overview map so Europe and Asia have natural shapes
+            for r in rings:
+                eu_part = clip_ring_rect(r, -180.0, -90.0, 60.0, 90.0)
+                if eu_part:
+                    world_regions["europe"].append(eu_part)
+                as_part = clip_ring_rect(r, 60.0, -90.0, 180.0, 90.0)
+                if as_part:
+                    world_regions["asia"].append(as_part)
         elif cont == "Europe":
             # Exclude French Guiana from Europe on the world map
             for r in rings:
@@ -610,7 +694,12 @@ def build_all() -> dict[str, dict]:
         pad=(8.0, 40.0, 8.0, 40.0),
         epsilon=0.8,
         min_area_px=3.0,
-        anchor_overrides={"europe": countries_by_a3["DEU"] + countries_by_a3["FRA"] + countries_by_a3["POL"]},
+        anchor_overrides={
+            "europe": countries_by_a3["DEU"] + countries_by_a3["FRA"] + countries_by_a3["POL"],
+            "near_east": countries_by_a3["SAU"],
+            "africa": countries_by_a3["COD"] + countries_by_a3["CAF"],
+            "asia": countries_by_a3["CHN"],
+        },
     )
 
     # 2. AMERICAS

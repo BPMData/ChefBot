@@ -76,15 +76,19 @@ def test_small_regions_and_known_cases_have_callouts():
         "shandong",
     }
     seen_callouts: set[str] = set()
+    world_lvl = maps.get_level("world")
+    assert all(r["callout"] is None for r in world_lvl["regions"])
+    assert len({r["color"] for r in world_lvl["regions"]}) == 5
 
     for level_id, lvl in maps.levels().items():
         w, h = lvl["width"], lvl["height"]
         chip_boxes: list[tuple[str, float, float, float, float]] = []
         for reg in lvl["regions"]:
+            assert reg.get("color"), f"Region {reg['id']!r} in {level_id!r} is missing a color"
             x0, y0, x1, y1 = reg["bbox"]
             bw, bh = x1 - x0, y1 - y0
             callout = reg["callout"]
-            if bw < 44.0 or bh < 44.0:
+            if level_id != "world" and (bw < 44.0 or bh < 44.0):
                 assert callout is not None, (
                     f"Small region {reg['id']!r} ({bw:.1f}x{bh:.1f} px) in {level_id!r} is missing a call-out"
                 )

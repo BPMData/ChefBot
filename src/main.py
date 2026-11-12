@@ -60,6 +60,20 @@ CONTINENT_ICONS = {
     "near_east": ft.Icons.LOCAL_CAFE,
     "africa": ft.Icons.WB_SUNNY_OUTLINED,
 }
+# Distinct color families from Flet's built-in palette (fill shade, border/outline shade)
+MAP_PALETTE: dict[str, tuple[str, str]] = {
+    "coral": (ft.Colors.DEEP_ORANGE_400, ft.Colors.DEEP_ORANGE_200),
+    "amber": (ft.Colors.AMBER_500, ft.Colors.AMBER_200),
+    "teal": (ft.Colors.TEAL_400, ft.Colors.TEAL_200),
+    "blue": (ft.Colors.BLUE_400, ft.Colors.BLUE_200),
+    "purple": (ft.Colors.PURPLE_300, ft.Colors.PURPLE_100),
+    "green": (ft.Colors.GREEN_500, ft.Colors.GREEN_200),
+    "pink": (ft.Colors.PINK_300, ft.Colors.PINK_100),
+    "cyan": (ft.Colors.CYAN_500, ft.Colors.CYAN_200),
+    "orange": (ft.Colors.ORANGE_500, ft.Colors.ORANGE_200),
+    "indigo": (ft.Colors.INDIGO_300, ft.Colors.INDIGO_100),
+    "lime": (ft.Colors.LIME_500, ft.Colors.LIME_200),
+}
 MAX_RECENT_CUISINES = 5
 AUDIENCE_CARDS = {
     "A working professional.": (ft.Icons.WORK_OUTLINE, "Busy weeknight"),
@@ -683,10 +697,11 @@ class ChefBotApp:
         for reg in lvl["regions"]:
             if reg["id"] not in highlight_set:
                 continue
+            c_fill, c_stroke = MAP_PALETTE.get(reg.get("color", "coral"), (ft.Colors.PRIMARY, ft.Colors.ON_PRIMARY_CONTAINER))
             shapes.extend(self._poly_paths(
                 reg["polygons"],
-                fill_color=ft.Colors.PRIMARY,
-                stroke_color=ft.Colors.ON_PRIMARY_CONTAINER,
+                fill_color=c_fill,
+                stroke_color=c_stroke,
                 stroke_width=1.6,
                 tx=tx,
                 ty=ty,
@@ -696,11 +711,11 @@ class ChefBotApp:
                 cx, cy = tx(reg["center"][0]), ty(reg["center"][1])
                 shapes.append(cv.Circle(
                     cx, cy, radius=5.0,
-                    paint=ft.Paint(color=ft.Colors.PRIMARY, style=ft.PaintingStyle.FILL),
+                    paint=ft.Paint(color=c_fill, style=ft.PaintingStyle.FILL),
                 ))
                 shapes.append(cv.Circle(
                     cx, cy, radius=5.0,
-                    paint=ft.Paint(color=ft.Colors.ON_PRIMARY, stroke_width=1.5, style=ft.PaintingStyle.STROKE),
+                    paint=ft.Paint(color=c_stroke, stroke_width=1.5, style=ft.PaintingStyle.STROKE),
                 ))
 
         return ft.Container(
@@ -985,10 +1000,11 @@ class ChefBotApp:
         for reg in lvl["regions"]:
             rid = reg["id"]
             is_hi = rid == self.map_highlight_id
+            c_fill, c_stroke = MAP_PALETTE.get(reg.get("color", "teal"), (ft.Colors.PRIMARY_CONTAINER, ft.Colors.PRIMARY))
             shapes.extend(self._poly_paths(
                 reg["polygons"],
-                fill_color=ft.Colors.PRIMARY if is_hi else ft.Colors.PRIMARY_CONTAINER,
-                stroke_color=ft.Colors.ON_PRIMARY if is_hi else ft.Colors.PRIMARY,
+                fill_color=ft.Colors.PRIMARY if is_hi else ft.Colors.with_opacity(0.68, c_fill),
+                stroke_color=ft.Colors.ON_PRIMARY if is_hi else c_stroke,
                 stroke_width=2.2 if is_hi else 1.4,
                 tx=tx,
                 ty=ty,
@@ -999,15 +1015,16 @@ class ChefBotApp:
             callout = reg.get("callout")
             if not callout:
                 continue
+            _, c_stroke = MAP_PALETTE.get(reg.get("color", "teal"), (ft.Colors.PRIMARY, ft.Colors.TERTIARY))
             ax, ay = tx(callout["anchor"][0]), ty(callout["anchor"][1])
             lx, ly = tx(callout["pos"][0]), ty(callout["pos"][1])
             shapes.append(cv.Line(
                 ax, ay, lx, ly,
-                paint=ft.Paint(color=ft.Colors.TERTIARY, stroke_width=1.6, style=ft.PaintingStyle.STROKE),
+                paint=ft.Paint(color=c_stroke, stroke_width=1.6, style=ft.PaintingStyle.STROKE),
             ))
             shapes.append(cv.Circle(
                 ax, ay, radius=3.2,
-                paint=ft.Paint(color=ft.Colors.TERTIARY, style=ft.PaintingStyle.FILL),
+                paint=ft.Paint(color=c_stroke, style=ft.PaintingStyle.FILL),
             ))
 
         canvas_ctrl = cv.Canvas(shapes=shapes, width=canvas_w, height=canvas_h)
@@ -1025,6 +1042,7 @@ class ChefBotApp:
             rid = reg["id"]
             label = reg["label"]
             is_hi = rid == self.map_highlight_id
+            c_fill, c_stroke = MAP_PALETTE.get(reg.get("color", "teal"), (ft.Colors.PRIMARY_CONTAINER, ft.Colors.PRIMARY))
             callout = reg.get("callout")
             if callout:
                 lx, ly = tx(callout["pos"][0]), ty(callout["pos"][1])
@@ -1047,13 +1065,14 @@ class ChefBotApp:
                     height=chip_h,
                     alignment=ft.Alignment.CENTER,
                     bgcolor=ft.Colors.PRIMARY if is_hi else ft.Colors.SURFACE_CONTAINER_HIGH,
-                    border=ft.Border.all(1.3, ft.Colors.ON_PRIMARY if is_hi else ft.Colors.TERTIARY),
+                    border=ft.Border.all(1.5, ft.Colors.ON_PRIMARY if is_hi else c_stroke),
                     border_radius=14,
                     ink=True,
                     on_click=lambda _, r_id=rid: self._run(self._trigger_map_region, r_id),
                 ))
             else:
-                cx, cy = tx(reg["center"][0]), ty(reg["center"][1])
+                lpos = reg.get("label_pos") or reg["center"]
+                cx, cy = tx(lpos[0]), ty(lpos[1])
                 lbl_w = max(52.0, len(label) * 7.2 + 12.0)
                 lbl_h = 24.0
                 left = max(4.0, min(canvas_w - lbl_w - 4.0, cx - lbl_w * 0.5))
@@ -1063,7 +1082,7 @@ class ChefBotApp:
                         label,
                         size=12,
                         weight=ft.FontWeight.W_700,
-                        color=ft.Colors.ON_PRIMARY if is_hi else ft.Colors.ON_PRIMARY_CONTAINER,
+                        color=ft.Colors.ON_PRIMARY if is_hi else ft.Colors.ON_SURFACE,
                         no_wrap=True,
                         text_align=ft.TextAlign.CENTER,
                     ),
@@ -1072,7 +1091,8 @@ class ChefBotApp:
                     width=round(lbl_w, 1),
                     height=lbl_h,
                     alignment=ft.Alignment.CENTER,
-                    bgcolor=ft.Colors.with_opacity(0.75, ft.Colors.PRIMARY if is_hi else ft.Colors.PRIMARY_CONTAINER),
+                    bgcolor=ft.Colors.with_opacity(0.84, ft.Colors.PRIMARY if is_hi else ft.Colors.SURFACE_CONTAINER_HIGH),
+                    border=ft.Border.all(1.1, ft.Colors.ON_PRIMARY if is_hi else c_stroke),
                     border_radius=10,
                     on_click=lambda _, r_id=rid: self._run(self._trigger_map_region, r_id),
                 ))

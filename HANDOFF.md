@@ -116,10 +116,11 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
      Replaces `self.root.content` with a full-screen map view (top bar with Back arrow, breadcrumb heading, and a
      plain "Any" button on the 7 country levels; `ft.InteractiveViewer` for pinch-zoom and pan; `flet.canvas.Canvas`
      wrapped in `ft.GestureDetector` with bounding-box + ray-casting point-in-polygon hit-testing and 6 px coastal
-     tolerance; `ft.Stack` for on-map labels and non-overlapping call-out chips connected by leader lines). Uses
-     Flet theme colors (`ft.Colors.PRIMARY`, `PRIMARY_CONTAINER`, `SURFACE_CONTAINER_HIGH`, `TERTIARY`, etc.) for
-     dark and light theme support, with a brief highlight on tap before drilling down or opening the cuisine info
-     sheet.
+     tolerance; `ft.Stack` for on-map labels and non-overlapping call-out chips connected by leader lines). Each
+     continent, country, and regional cuisine is assigned a distinct color from `MAP_PALETTE` (built-in `ft.Colors`
+     shades: coral, blue, amber, orange, teal, green, purple, pink, cyan, indigo, lime) so neighboring regions and
+     the five world continents are scannable at a glance without needing call-outs for Europe or Near East on the
+     world map, with a brief highlight on tap before drilling down or opening the cuisine info sheet.
    - **Info sheet mini-map:** Added `_cuisine_mini_map()` at the top of `_cuisine_info_lines()` so both the list
      browser, the map browser, and the home screen chip's info icon display a small regional map with the selected
      cuisine highlighted, keeping all existing info sections (including "If you're missing one" substitutes) intact.
