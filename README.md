@@ -18,9 +18,12 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
   dish pictures come from Gemini 3.1 Flash Lite Image.
 - **Fixed allergen rules.** "Free of major food allergens" now covers all nine U.S. allergens (FALCPA plus sesame,
   added by the FASTER Act), and dietary rules override a cuisine's classic ingredients.
-- **Cuisine explainers.** Tap the info icon on the cuisine you picked for where it's from, its style, and the
-  flavors ChefBot draws on. Recipes use only the classic flavors that suit the dish; signature ingredients (wood
-  ear mushrooms, perilla leaves...) are used only if you have them, otherwise suggested in the Tips.
+- **Cuisine explainers and map browser.** Browse 58 regional cuisines by list or on an interactive world map
+  ("Browse by map") with continent and country drill-down, pinch-zoom, and call-out chips for small regions. Tap the
+  info icon on any cuisine for a regional mini-map, where it's from, its style, the flavors ChefBot draws on, and
+  substitutes if you're missing a signature ingredient. Recipes use only the classic flavors that suit the dish;
+  signature ingredients (wood ear mushrooms, perilla leaves...) are used only if you have them, otherwise suggested in
+  the Tips.
 - **"Never use..." is remembered** between recipes and restarts (an allergy doesn't go away) until you clear it.
 - **Under every reply:** Copy (as Markdown), Save as PDF, Save as web page (.html), Email, Share, and
   Picture this dish. Each acts on that reply only. Your own messages have Copy too.
@@ -96,7 +99,11 @@ always sets thinking explicitly and allows 32,000 tokens.
 ## Layout
 
 ```
-src/main.py              the app (home screen, recipe conversation, settings)
+src/main.py              the app (home screen, map browser, recipe conversation, settings)
+src/chefbot/cuisines.py  cuisine tree loader, breadcrumb paths, chip labels
+src/chefbot/cuisines/    cuisine tree data (58 selectable leaves across 5 continents)
+src/chefbot/maps.py      map level loader, point-in-polygon hit-testing, mini-map lookup
+src/chefbot/maps/        projected, simplified polygon data for all 13 map levels
 src/chefbot/prompts.py   audiences, cuisines, dietary rules, prompt text
 src/chefbot/api.py       OpenRouter: streaming recipes, photo reading, dish pictures
 src/chefbot/history.py   saved conversations and photos
@@ -104,6 +111,8 @@ src/chefbot/recipe.py    reading the "Recipe Title:" line
 src/chefbot/export.py    Markdown, HTML page, PDF and email versions of a reply
 src/chefbot/keepalive.py keeps a reply going while the app is in the background (Android)
 packages/flet-keepalive/ the Android foreground service behind it (a Flet extension)
+tools/build_cuisine_data.py builds src/chefbot/cuisines/*.json from research results
+tools/build_map_data.py  builds src/chefbot/maps/*.json from public-domain shapefiles
 tools/make_static_fonts.py  cuts the fixed-weight fonts PDFs use
 src/assets/              logo and bundled fonts (Fraunces, DM Sans; SIL Open Font License)
 ```
@@ -122,3 +131,8 @@ either way. If you contribute code, you agree that I may also ship your contribu
 the store's terms.
 
 The recipes and pictures you make are yours. The bundled fonts keep their own license (SIL Open Font License).
+Map boundaries in `src/chefbot/maps/` are derived from public-domain data by
+[Natural Earth](https://www.naturalearthdata.com/) (1:10m Cultural Vectors, including the Palestine POV country
+edition and Admin 1 states/provinces) and the
+[U.S. Census Bureau](https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html)
+(2025 Cartographic Boundary File for Louisiana parishes); see [docs/MAP_SOURCES.md](docs/MAP_SOURCES.md).

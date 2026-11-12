@@ -19,6 +19,7 @@ dev = [
     "flet[all]==1.0.5",
     "pytest>=8",
     "pypdf>=5",
+    "pyshp>=2.3",
 ]
 
 [tool.flet]
