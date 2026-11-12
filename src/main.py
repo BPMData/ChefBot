@@ -358,11 +358,15 @@ class ChefBotApp:
         model_dd.on_select = on_model
         effort_dd.on_select = on_effort
         show_effort_for_model()
+        # On a phone the dialog is too narrow for icon + label in three segments ("Dar k"), so labels
+        # only, and the fill alone marks the selected one.
+        theme_icons = (self.page.width or 0) >= 480
         theme_seg = ft.SegmentedButton(
-            selected=[self.theme], allow_multiple_selection=False,
-            segments=[ft.Segment(value="dark", label="Dark", icon=ft.Icons.DARK_MODE_OUTLINED),
-                      ft.Segment(value="light", label="Light", icon=ft.Icons.LIGHT_MODE_OUTLINED),
-                      ft.Segment(value="system", label="System", icon=ft.Icons.BRIGHTNESS_AUTO_OUTLINED)])
+            selected=[self.theme], allow_multiple_selection=False, show_selected_icon=theme_icons,
+            segments=[ft.Segment(value=v, label=lab, icon=ic if theme_icons else None)
+                      for v, lab, ic in (("dark", "Dark", ft.Icons.DARK_MODE_OUTLINED),
+                                         ("light", "Light", ft.Icons.LIGHT_MODE_OUTLINED),
+                                         ("system", "System", ft.Icons.BRIGHTNESS_AUTO_OUTLINED))])
         to_field = ft.TextField(label="Send recipes to", value=self.email_to, hint_text="you@example.com",
                                 keyboard_type=ft.KeyboardType.EMAIL, prefix_icon=ft.Icons.EMAIL_OUTLINED)
         user_field = ft.TextField(label="Send from (your Gmail address)", value=self.smtp_user,
