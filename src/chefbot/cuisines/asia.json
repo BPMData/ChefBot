@@ -113,7 +113,8 @@
       "American chop suey and similar dishes are diaspora developments, not proof of a mainland regional tradition."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "sichuan",
@@ -153,7 +154,10 @@
       "Star anise and five-spice are not universal Sichuan defaults."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "Sichuan pepper: no close substitute (for numbing aroma)"
+    ]
   },
   {
     "id": "hunan",
@@ -190,7 +194,8 @@
       "Preserved, smoked and sour flavors are as important as fresh chile."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "cantonese",
@@ -229,7 +234,8 @@
       "Do not treat all Guangdong cooking as one undifferentiated Cantonese style."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "shandong",
@@ -266,7 +272,8 @@
       "Do not describe 'oldest Chinese cuisine' as an uncontested fact."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "jiangsu",
@@ -305,7 +312,10 @@
       "Precision of texture and cutting is often more characteristic than aggressive seasoning."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "Zhenjiang black vinegar: rice vinegar plus a little balsamic"
+    ]
   },
   {
     "id": "zhejiang",
@@ -342,7 +352,11 @@
       "Do not collapse Zhejiang into Shanghai or Jiangsu cooking."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "Shaoxing wine: dry sherry",
+      "fermented rice lees: sake kasu, imperfect"
+    ]
   },
   {
     "id": "fujian",
@@ -379,7 +393,10 @@
       "Distinguish coastal Fujian, Fuzhou and Hokkien/diaspora traditions when possible."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "red rice wine lees: sake kasu plus red yeast rice only if available; otherwise none"
+    ]
   },
   {
     "id": "anhui",
@@ -417,7 +434,8 @@
       "Wild-game stereotypes should not be imposed on modern home cooking."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "japan",
@@ -502,7 +520,10 @@
       "Do not use sushi ingredients to signal authenticity in unrelated dishes."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "miso: no close substitute"
+    ]
   },
   {
     "id": "kanto",
@@ -538,7 +559,10 @@
       "Dark color does not mean every Kanto dish should taste aggressively salty."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "koikuchi soy sauce: standard Japanese soy sauce"
+    ]
   },
   {
     "id": "kansai",
@@ -574,7 +598,10 @@
       "Do not assume every Kansai stock is vegetarian kombu-only."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "usukuchi soy sauce: koikuchi diluted slightly plus salt, color will differ"
+    ]
   },
   {
     "id": "india",
@@ -663,7 +690,10 @@
       "Curry powder is not a universal Indian household seasoning."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "kasuri methi: no close substitute"
+    ]
   },
   {
     "id": "north_india",
@@ -706,7 +736,10 @@
       "Black mustard seed is not a mandatory northern signature."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "black cardamom: green cardamom plus tiny smoked note, imperfect"
+    ]
   },
   {
     "id": "south_india",
@@ -749,7 +782,8 @@
       "Tamil 'sukku' means dried ginger, not dried chile."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "korean",
@@ -791,7 +825,8 @@
       "Use standard spelling 고춧가루, not 고추가루."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "thai",
@@ -817,9 +852,7 @@
     "sweet_only": [
       "pandan (ใบเตย, bai toei)"
     ],
-    "signature_ingredients": [
-      "makrut lime leaves (substitute: lime zest plus bay leaf, imperfect)"
-    ],
+    "signature_ingredients": [],
     "tips": [
       "Commercial curry paste: 20-30 g per 400 ml coconut milk is typical; many brands contribute about 2-4 g salt and may contain shrimp.",
       "Fish sauce: 10 g commonly contributes about 2-2.5 g salt.",
@@ -832,7 +865,13 @@
       "Northern, northeastern, central and southern cuisines differ substantially."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "galangal: ginger plus lime zest, noticeably different",
+      "makrut lime leaves: lime zest plus bay leaf, imperfect",
+      "Thai basil: Italian basil plus mint, imperfect",
+      "palm sugar: light brown sugar"
+    ]
   },
   {
     "id": "vietnamese",
@@ -876,7 +915,8 @@
       "French influence is important but does not explain the cuisine as a whole."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "filipino",
@@ -919,7 +959,10 @@
       "Regional cuisines of Bicol, Ilocos, Visayas and Mindanao differ strongly."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "calamansi: equal parts lime and mandarin/lemon juice"
+    ]
   },
   {
     "id": "indonesian",
@@ -963,7 +1006,10 @@
       "Sambal is a category with many regional forms, not one recipe."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "candlenut: macadamia or cashew for body; allergen profile changes"
+    ]
   },
   {
     "id": "malaysian_singaporean",
@@ -1007,7 +1053,8 @@
       "Do not substitute ordinary raw kepayang seeds for safely processed buah keluak."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "afghan",
@@ -1052,7 +1099,8 @@
       "Sella and many specific spice-blend ratios are recipe choices, not universal rules."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "pakistani",
@@ -1099,6 +1147,7 @@
       "Calculate salt from an exact packaged blend, not from a generic garam masala category."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   }
 ]

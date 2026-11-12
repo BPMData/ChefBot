@@ -102,7 +102,8 @@
       "Do not force Old Bay, ranch, maple syrup or bacon into unrelated dishes merely because they read as 'American.' Pizza in this node means Americanized pizza styles, not Italian cuisine."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "us_cajun",
@@ -141,7 +142,8 @@
     "avoid": [
       "filé powder"
     ],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "us_creole",
@@ -183,7 +185,8 @@
     "avoid": [
       "filé powder"
     ],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "us_southern_soul",
@@ -223,7 +226,8 @@
       "Do not merge all Southern barbecue into one sauce or meat style, and do not assume every Southern dish belongs specifically to soul food."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "us_tex_mex",
@@ -259,7 +263,8 @@
       "Conversely, do not label every burrito, chimichanga or fish taco Tex-Mex; some were popularized in other US-Mexican regional traditions."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "us_new_england_seafood",
@@ -296,7 +301,8 @@
       "Avoid overcooking lobster and clams."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "mexico",
@@ -380,7 +386,8 @@
       "Do not call every chile sauce 'mole' or assume chocolate, sour cream and cheddar belong in all Mexican dishes."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "mx_northern_baja",
@@ -416,7 +423,8 @@
       "Northern Mexico itself is diverse, and Baja seafood is not simply 'carne asada by the sea.' The claim that flour tortillas are 'inauthentic Mexican' is wrong in northern regions, where wheat has a long history."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "mx_central_oaxacan",
@@ -456,7 +464,10 @@
       "This combined node can hide major differences between Puebla/Mexico City/central highlands and Oaxaca, so use dish-specific chile and herb choices."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "hoja santa: no close substitute (fennel/tarragon approximation only)"
+    ]
   },
   {
     "id": "mx_yucatan",
@@ -494,7 +505,8 @@
       "Yucatecan cuisine is not merely Mexican food plus citrus; recados, Maya techniques and local herbs matter."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "caribbean",
@@ -578,7 +590,8 @@
       "Many Caribbean cooks would object to collapsing their distinct national and ethnic traditions into this profile."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "caribbean_cuban",
@@ -616,7 +629,10 @@
       "Do not assume the Miami Cuban sandwich is identical to all Cuban home cooking, and do not erase African or Chinese contributions by describing the cuisine as simply Spanish-Caribbean."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "sour orange: orange juice plus lime juice"
+    ]
   },
   {
     "id": "caribbean_puerto_rican",
@@ -657,7 +673,8 @@
       "Heat from hot chiles is optional in much home cooking."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "caribbean_jamaican",
@@ -697,7 +714,10 @@
       "Avoid calling generic barbecue 'jerk.'"
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "Scotch bonnet: habanero"
+    ]
   },
   {
     "id": "brazilian",
@@ -739,7 +759,8 @@
       "Distinguish Bahian moqueca from Espírito Santo moqueca, which traditionally uses different fat and coloring choices."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "peruvian",
@@ -781,7 +802,8 @@
       "Chifa and Nikkei are Peruvian traditions with their own histories, not garnish-level 'Asian fusion.' Ginger is important especially in chifa/Nikkei and some ceviche styles but is not a universal everyday seasoning; annatto is less central nationally than ají amarillo/panca."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "argentinian",
@@ -821,6 +843,7 @@
       "Northwest locro/empanadas differ markedly from Buenos Aires Italian-influenced cooking and Patagonian lamb traditions."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   }
 ]

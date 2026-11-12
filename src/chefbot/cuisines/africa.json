@@ -64,7 +64,10 @@
       "Do not boil instant couscous and describe that method as the classic Moroccan couscous technique."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "salt-preserved lemon: no close substitute (fresh lemon gives acidity but not the fermented peel aroma or texture)"
+    ]
   },
   {
     "id": "tunisian",
@@ -108,7 +111,8 @@
       "Pantry defaults are soft assumptions; do not assume rarer specialty ingredients are on hand or that harissa must be used in every dish."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "algerian",
@@ -153,7 +157,8 @@
       "Do not claim every recipe uses smen or a lemon-egg liaison."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "ethiopian",
@@ -195,7 +200,8 @@
       "Do not collapse Ethiopian and Eritrean cuisines into one undifferentiated recipe tradition even though they share many foods."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "egyptian",
@@ -241,7 +247,8 @@
       "Do not assume Egyptian savory food is heavily perfumed with cinnamon, cardamom and allspice; garlic, cumin, coriander, onion, chile, lemon and vinegar are often more characteristic."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "nigerian",
@@ -285,7 +292,8 @@
       "Do not describe jollof rice as the sole or universal centerpiece of Nigerian food."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "senegalese",
@@ -330,6 +338,7 @@
       "Do not assume ceebu jën, yassa, mafé and dibi all use the same seasoning profile."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   }
 ]

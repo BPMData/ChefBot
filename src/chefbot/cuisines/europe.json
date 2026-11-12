@@ -111,7 +111,8 @@
       "Avoid presenting these as universal Italian home traditions."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "northern_italy",
@@ -156,7 +157,8 @@
       "Do not assume olive oil is absent: Liguria and other northern areas have strong olive-oil traditions."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "southern_sicilian_italy",
@@ -201,7 +203,8 @@
       "Avoid treating chicken Parmesan, garlic bread or cream Alfredo as native southern staples."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "french",
@@ -246,7 +249,8 @@
       "'Herbes de Provence' is useful but should not become a universal French seasoning."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "spanish",
@@ -290,7 +294,8 @@
       "Saffron, cumin, rosemary and sherry vinegar are important but should not be forced into every Spanish recipe."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "greek",
@@ -336,7 +341,8 @@
       "Moussaka is not an ancient unchanged national dish, and mastiha is not exclusively a dessert flavor."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "central_european",
@@ -381,7 +387,8 @@
       "Likewise, dill, caraway and horseradish vary sharply by dish and country."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "russian",
@@ -426,6 +433,7 @@
       "Avoid presenting borscht as exclusively Russian: it is shared across Eastern Europe and is particularly associated with Ukrainian culinary heritage."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   }
 ]

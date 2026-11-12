@@ -620,6 +620,7 @@ class ChefBotApp:
         section("Classic flavors", node.get("flavors", []))
         section("For desserts", node.get("sweet_only", []))
         section("Signature ingredients (used if you have them)", node.get("signature_ingredients", []), sep="; ")
+        section("If you're missing one", node.get("substitutes", []), sep="; ")
         return lines
 
     def _cuisine_info(self, node_id: str):

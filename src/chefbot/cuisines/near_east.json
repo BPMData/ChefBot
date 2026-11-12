@@ -65,7 +65,8 @@
       "Do not flatten Gazan cooking into the same profile as Jerusalem or the northern West Bank; Gaza has especially strong seafood, chili, dill and sour traditions."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   },
   {
     "id": "persian",
@@ -95,7 +96,6 @@
     ],
     "signature_ingredients": [
       "barberries (زرشک, zereshk) (substitute: dried cranberries soaked briefly in lemon juice; sweeter and not equivalent)",
-      "dried limes (لیمو عمانی, līmū-ye ʿomānī) (substitute: fresh lime juice plus a small amount of lime zest; misses the fermented earthy bitterness)",
       "fermented dried dairy product, usually reconstituted (کشک, kashk) (substitute: strained Greek yogurt mixed with a little feta for body; flavor is not equivalent)",
       "Persian shallot (موسیر, mūsīr) (substitute: ordinary shallot plus a small amount of garlic)",
       "unripe sour grapes (غوره, ghūreh) (substitute: verjuice if available; otherwise lemon juice diluted slightly with water)"
@@ -114,7 +114,10 @@
       "Do not use the word 'tahdig' for any crispy rice without preserving the deliberate bottom-crust technique."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": [
+      "dried limes (لیمو عمانی, līmū-ye ʿomānī): fresh lime juice plus a small amount of lime zest; misses the fermented earthy bitterness"
+    ]
   },
   {
     "id": "turkish",
@@ -165,6 +168,7 @@
       "Do not make every meze tahini-based; yogurt, vegetables, legumes, olive oil, herbs and seafood also form major meze families."
     ],
     "avoid": [],
-    "children": []
+    "children": [],
+    "substitutes": []
   }
 ]

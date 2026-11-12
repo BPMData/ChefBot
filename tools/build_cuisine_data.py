@@ -482,9 +482,25 @@ def build_node(raw: dict, kind: str, children: list[str], overrides: dict[str, d
         apply_overrides(node, overrides[nid])
     # A classic flavor can't also be a "signature ingredient, use only if the user has it": the prompt would
     # tell the model both to season with it and to leave it out. Keep it as a flavor.
-    flavor_names = {f.split(" (")[0].strip().lower() for f in node["flavors"]}
-    node["signature_ingredients"] = [s for s in node["signature_ingredients"]
-                                     if s.split(" (")[0].strip().lower() not in flavor_names]
+    # Its substitute is still worth showing, so it moves to "substitutes" (info sheet only, never the prompt).
+    def base(x: str) -> str:   # "Makrut lime leaves (...)" and "makrut lime leaf (...)" are the same thing
+        b = x.split(" (")[0].strip().lower()
+        return b[:-3] + "f" if b.endswith("ves") else b.rstrip("s")
+    flavor_names = {base(f) for f in node["flavors"]}
+    kept, substitutes = [], []
+    for s in node["signature_ingredients"]:
+        if base(s) not in flavor_names:
+            kept.append(s)
+        elif "(substitute: " in s:
+            item, sub = s.split(" (substitute: ", 1)
+            sub = sub.rstrip(")").strip()
+            if sub.lower().startswith("none"):
+                rest = sub[4:].lstrip(" ;,").removeprefix("exact").lstrip(" ;,")
+                sub = "no close substitute" + (f" ({rest})" if rest else "")
+            substitutes.append(f"{item.strip()}: {sub}")
+    node["signature_ingredients"] = kept
+    if node["kind"] in ("cuisine", "any"):
+        node["substitutes"] = substitutes
     return node
 
 

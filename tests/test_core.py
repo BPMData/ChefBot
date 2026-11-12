@@ -270,3 +270,16 @@ def test_build_cuisine_data_reproduces_committed_json():
         committed = json.loads((ROOT / "src" / "chefbot" / "cuisines" / f"{cont_id}.json").read_text(encoding="utf-8"))
         assert built[cont_id] == committed
 
+
+
+def test_no_item_is_both_a_flavor_and_a_conditional_signature_ingredient():
+    for node in cuisines.leaves():
+        def base(x):
+            b = x.split(" (")[0].strip().lower()
+            return b[:-3] + "f" if b.endswith("ves") else b.rstrip("s")
+        flavors = {base(f) for f in node["flavors"]}
+        for s in node["signature_ingredients"]:
+            assert base(s) not in flavors, (node["id"], s)
+    thai = cuisines.get("thai")
+    assert any(s.startswith("galangal: ") for s in thai["substitutes"])
+    assert "light brown sugar" not in prompts.system_prompt(prompts.DEFAULT_AUDIENCE, "thai")
