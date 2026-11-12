@@ -15,4 +15,3 @@ storage/
 
 # Raw map downloads for the Browse by map build (docs/BROWSE_BY_MAP.md); only the built output is committed
 assets/maps/source/
-.DS_Store
