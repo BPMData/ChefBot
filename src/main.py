@@ -2,6 +2,7 @@
 import asyncio
 import json
 import logging
+import math
 import os
 import random
 import time
@@ -75,6 +76,14 @@ MAP_PALETTE: dict[str, tuple[str, str]] = {
     "lime": (ft.Colors.LIME_500, ft.Colors.LIME_200),
 }
 MAX_RECENT_CUISINES = 5
+# Slow idle spin (degrees/sec) until the first touch on the globe; set to 0.0 to disable.
+GLOBE_IDLE_SPIN_DPS = 6.0
+GLOBE_MIN_ZOOM = 0.85
+GLOBE_MAX_ZOOM = 2.6
+GLOBE_MAX_LAT = 65.0
+GLOBE_INITIAL_LON = 22.0
+GLOBE_INITIAL_LAT = 20.0
+GLOBE_FLY_SECONDS = 0.50
 AUDIENCE_CARDS = {
     "A working professional.": (ft.Icons.WORK_OUTLINE, "Busy weeknight"),
     "An important person you want to impress!": (ft.Icons.AUTO_AWESOME, "Impress someone"),
@@ -248,6 +257,23 @@ class ChefBotApp:
         self.map_stack: list[str] = ["world"]
         self.map_highlight_id: str | None = None
         self.map_scale = 1.0
+        self.globe_lon = GLOBE_INITIAL_LON
+        self.globe_lat = GLOBE_INITIAL_LAT
+        self.globe_zoom = 1.0
+        self.globe_touched = False
+        self._globe_flying = False
+        self._globe_pre_fly_zoom = 1.0
+        self._globe_motion_gen = 0
+        self._globe_pinch_base_zoom = 1.0
+        self._globe_last_focal: tuple[float, float] | None = None
+        self._globe_vel_lon = 0.0
+        self._globe_vel_lat = 0.0
+        self._globe_last_drag_t = 0.0
+        self._globe_last_draw_t = 0.0
+        self._globe_view_size: tuple[float, float] = (360.0, 520.0)
+        self._globe_canvas: cv.Canvas | None = None
+        self._globe_stack: ft.Stack | None = None
+        self._globe_labels: dict[str, ft.Container] = {}
         self.padded: list[ft.Control] = []     # containers whose side padding follows the window width
         self.root = ft.Container(expand=True)
         self._build_home_controls()
@@ -891,20 +917,33 @@ class ChefBotApp:
         self.on_map = True
         self.map_stack = ["world"]
         self.map_highlight_id = None
+        self.globe_lon = GLOBE_INITIAL_LON
+        self.globe_lat = GLOBE_INITIAL_LAT
+        self.globe_zoom = 1.0
+        self.globe_touched = False
+        self._globe_flying = False
+        self._globe_pre_fly_zoom = 1.0
+        self._globe_motion_gen += 1
         self.page.views[0].can_pop = False
         self.page.appbar = None
         self._render_map_level()
         self.page.update()
+        if GLOBE_IDLE_SPIN_DPS > 0.0 and isinstance(self.page, ft.Page):
+            self._run(self._globe_idle_loop)
 
     def _map_back(self, e=None):
+        self._globe_motion_gen += 1
+        self._globe_flying = False
+        self.map_highlight_id = None
         if len(self.map_stack) > 1:
             self.map_stack.pop()
-            self.map_highlight_id = None
+            if self.map_stack[-1] == "world":
+                self.globe_zoom = self._globe_pre_fly_zoom
+                self.globe_touched = True
             self._render_map_level()
             self.page.update()
         else:
             self.on_map = False
-            self.map_highlight_id = None
             self.show_home()
 
     def _on_map_canvas_tap(self, e: ft.TapEvent):
@@ -918,9 +957,363 @@ class ChefBotApp:
         if hit:
             self._run(self._trigger_map_region, hit)
 
+    def _globe_geometry(self) -> tuple[float, float, float]:
+        view_w, view_h = self._globe_view_size
+        cx = view_w * 0.5
+        cy = view_h * 0.5
+        base_r = min(view_w, view_h) * 0.43
+        return cx, cy, base_r * self.globe_zoom
+
+    def _combined_poly_paths(
+        self,
+        polygons: list[list[tuple[float, float]]],
+        fill_color: str,
+        stroke_color: str,
+        stroke_width: float = 1.2,
+    ) -> list[cv.Shape]:
+        elems: list[cv.Path.PathElement] = []
+        for poly in polygons:
+            if len(poly) < 3:
+                continue
+            elems.append(cv.Path.MoveTo(poly[0][0], poly[0][1]))
+            for pt in poly[1:]:
+                elems.append(cv.Path.LineTo(pt[0], pt[1]))
+            elems.append(cv.Path.Close())
+        if not elems:
+            return []
+        return [
+            cv.Path(elements=elems, paint=ft.Paint(color=fill_color, style=ft.PaintingStyle.FILL)),
+            cv.Path(elements=elems, paint=ft.Paint(color=stroke_color, stroke_width=stroke_width, style=ft.PaintingStyle.STROKE)),
+        ]
+
+    def _build_globe_shapes(self, fast: bool = False) -> list[cv.Shape]:
+        cx, cy, radius = self._globe_geometry()
+        shapes: list[cv.Shape] = [
+            # Subtle atmospheric halo around the sphere
+            cv.Circle(
+                cx, cy, radius + 3.0,
+                paint=ft.Paint(color=ft.Colors.with_opacity(0.10, ft.Colors.BLUE_200), style=ft.PaintingStyle.FILL),
+            ),
+            # Shaded dark ocean disc
+            cv.Circle(
+                cx, cy, radius,
+                paint=ft.Paint(
+                    style=ft.PaintingStyle.FILL,
+                    gradient=ft.PaintRadialGradient(
+                        center=(cx - radius * 0.28, cy - radius * 0.28),
+                        radius=radius * 1.18,
+                        colors=[ft.Colors.BLUE_GREY_800, ft.Colors.BLUE_GREY_900, ft.Colors.BLACK],
+                        color_stops=[0.0, 0.65, 1.0],
+                    ),
+                ),
+            ),
+        ]
+
+        # Faint spherical lat/lon graticule
+        grat_elems: list[cv.Path.PathElement] = []
+        for seg in maps.project_globe_graticule(self.globe_lon, self.globe_lat, cx, cy, radius):
+            grat_elems.append(cv.Path.MoveTo(seg[0][0], seg[0][1]))
+            for pt in seg[1:]:
+                grat_elems.append(cv.Path.LineTo(pt[0], pt[1]))
+        if grat_elems:
+            shapes.append(cv.Path(
+                elements=grat_elems,
+                paint=ft.Paint(color=ft.Colors.with_opacity(0.10, ft.Colors.WHITE), stroke_width=0.9, style=ft.PaintingStyle.STROKE),
+            ))
+
+        bg_polys, reg_polys = maps.project_globe_polygons(
+            self.globe_lon, self.globe_lat, cx, cy, radius, fast=fast,
+        )
+        shapes.extend(self._combined_poly_paths(
+            bg_polys,
+            fill_color=ft.Colors.with_opacity(0.38, ft.Colors.BLUE_GREY_500),
+            stroke_color=ft.Colors.with_opacity(0.42, ft.Colors.BLUE_GREY_300),
+            stroke_width=0.9,
+        ))
+
+        for reg in maps.get_globe()["regions"]:
+            rid = reg["id"]
+            polys = reg_polys.get(rid)
+            if not polys:
+                continue
+            is_hi = rid == self.map_highlight_id
+            c_fill, c_stroke = MAP_PALETTE.get(reg.get("color", "teal"), (ft.Colors.PRIMARY_CONTAINER, ft.Colors.PRIMARY))
+            shapes.extend(self._combined_poly_paths(
+                polys,
+                fill_color=ft.Colors.PRIMARY if is_hi else ft.Colors.with_opacity(0.76, c_fill),
+                stroke_color=ft.Colors.ON_PRIMARY if is_hi else c_stroke,
+                stroke_width=2.2 if is_hi else 1.3,
+            ))
+
+        # 3D limb darkening / specular shading + crisp sphere rim
+        shapes.append(cv.Circle(
+            cx, cy, radius,
+            paint=ft.Paint(
+                style=ft.PaintingStyle.FILL,
+                gradient=ft.PaintRadialGradient(
+                    center=(cx - radius * 0.25, cy - radius * 0.25),
+                    radius=radius * 1.05,
+                    colors=[
+                        ft.Colors.with_opacity(0.06, ft.Colors.WHITE),
+                        ft.Colors.TRANSPARENT,
+                        ft.Colors.with_opacity(0.36, ft.Colors.BLACK),
+                    ],
+                    color_stops=[0.0, 0.58, 1.0],
+                ),
+            ),
+        ))
+        shapes.append(cv.Circle(
+            cx, cy, radius,
+            paint=ft.Paint(
+                color=ft.Colors.with_opacity(0.35, ft.Colors.BLUE_200),
+                stroke_width=1.4,
+                style=ft.PaintingStyle.STROKE,
+            ),
+        ))
+        return shapes
+
+    def _update_globe_labels(self):
+        view_w, view_h = self._globe_view_size
+        cx, cy, radius = self._globe_geometry()
+        for reg in maps.get_globe()["regions"]:
+            rid = reg["id"]
+            pill = self._globe_labels.get(rid)
+            if pill is None:
+                continue
+            lon, lat = reg["center"]
+            x3, y3, z3 = maps.project_globe_vector(lon, lat, self.globe_lon, self.globe_lat)
+            sx = cx + radius * x3
+            sy = cy - radius * y3
+            if z3 <= 0.28 or sx < -20.0 or sx > view_w + 20.0 or sy < -20.0 or sy > view_h + 20.0:
+                pill.visible = False
+                continue
+            lbl_w = pill.width or 72.0
+            lbl_h = pill.height or 24.0
+            pill.left = round(max(4.0, min(view_w - lbl_w - 4.0, sx - lbl_w * 0.5)), 1)
+            pill.top = round(max(4.0, min(view_h - lbl_h - 4.0, sy - lbl_h * 0.5)), 1)
+            is_hi = rid == self.map_highlight_id
+            _, c_stroke = MAP_PALETTE.get(reg.get("color", "teal"), (ft.Colors.PRIMARY_CONTAINER, ft.Colors.PRIMARY))
+            pill.bgcolor = ft.Colors.with_opacity(0.92, ft.Colors.PRIMARY if is_hi else ft.Colors.SURFACE_CONTAINER_HIGH)
+            pill.border = ft.Border.all(1.2, ft.Colors.ON_PRIMARY if is_hi else c_stroke)
+            if isinstance(pill.content, ft.Text):
+                pill.content.color = ft.Colors.ON_PRIMARY if is_hi else ft.Colors.ON_SURFACE
+            pill.visible = True
+
+    def _redraw_globe(self, fast: bool = False):
+        if not self.on_map or self.map_stack[-1] != "world" or self._globe_canvas is None:
+            return
+        self._globe_last_draw_t = time.monotonic()
+        self._globe_canvas.shapes = self._build_globe_shapes(fast=fast)
+        self._update_globe_labels()
+        if self._globe_stack is not None and isinstance(self.page, ft.Page):
+            try:
+                self._globe_stack.update()
+            except RuntimeError:
+                self.page.update()
+        else:
+            self.page.update()
+
+    def _on_globe_tap(self, e: ft.TapEvent):
+        if not self.on_map or self._globe_flying or self.map_stack[-1] != "world" or not e.local_position:
+            return
+        self.globe_touched = True
+        self._globe_motion_gen += 1
+        cx, cy, radius = self._globe_geometry()
+        hit = maps.hit_test_globe(
+            e.local_position.x, e.local_position.y,
+            self.globe_lon, self.globe_lat, cx, cy, radius, tolerance_px=6.0,
+        )
+        if hit:
+            self._run(self._trigger_map_region, hit)
+        else:
+            self._redraw_globe(fast=False)
+
+    def _on_globe_scale_start(self, e: ft.ScaleStartEvent):
+        if not self.on_map or self._globe_flying or self.map_stack[-1] != "world":
+            return
+        self.globe_touched = True
+        self._globe_motion_gen += 1
+        self._globe_pinch_base_zoom = self.globe_zoom
+        self._globe_last_focal = (e.local_focal_point.x, e.local_focal_point.y) if e.local_focal_point else None
+        self._globe_vel_lon = 0.0
+        self._globe_vel_lat = 0.0
+        self._globe_last_drag_t = time.monotonic()
+
+    def _on_globe_scale_update(self, e: ft.ScaleUpdateEvent):
+        if not self.on_map or self._globe_flying or self.map_stack[-1] != "world":
+            return
+        now = time.monotonic()
+        if e.pointer_count >= 2 or abs(e.scale - 1.0) > 1e-4:
+            self.globe_zoom = max(GLOBE_MIN_ZOOM, min(GLOBE_MAX_ZOOM, self._globe_pinch_base_zoom * e.scale))
+
+        dx = dy = 0.0
+        if e.focal_point_delta is not None:
+            dx, dy = e.focal_point_delta.x, e.focal_point_delta.y
+        elif e.local_focal_point is not None and self._globe_last_focal is not None:
+            dx = e.local_focal_point.x - self._globe_last_focal[0]
+            dy = e.local_focal_point.y - self._globe_last_focal[1]
+        if e.local_focal_point is not None:
+            self._globe_last_focal = (e.local_focal_point.x, e.local_focal_point.y)
+
+        if e.pointer_count <= 1 and (dx != 0.0 or dy != 0.0):
+            _, _, radius = self._globe_geometry()
+            dlon = -math.degrees(dx / max(40.0, radius))
+            dlat = math.degrees(dy / max(40.0, radius))
+            self.globe_lon = ((self.globe_lon + dlon + 180.0) % 360.0) - 180.0
+            self.globe_lat = max(-GLOBE_MAX_LAT, min(GLOBE_MAX_LAT, self.globe_lat + dlat))
+            dt = now - self._globe_last_drag_t
+            if 0.002 <= dt <= 0.25:
+                self._globe_vel_lon = 0.55 * self._globe_vel_lon + 0.45 * (dlon / dt)
+                self._globe_vel_lat = 0.55 * self._globe_vel_lat + 0.45 * (dlat / dt)
+            self._globe_last_drag_t = now
+
+        if now - self._globe_last_draw_t >= 0.028:
+            self._redraw_globe(fast=True)
+
+    def _on_globe_scale_end(self, e: ft.ScaleEndEvent):
+        if not self.on_map or self._globe_flying or self.map_stack[-1] != "world":
+            return
+        now = time.monotonic()
+        if now - self._globe_last_drag_t > 0.09:
+            self._globe_vel_lon = 0.0
+            self._globe_vel_lat = 0.0
+        elif math.hypot(self._globe_vel_lon, self._globe_vel_lat) < 10.0 and getattr(e, "velocity", None):
+            _, _, radius = self._globe_geometry()
+            self._globe_vel_lon = -math.degrees(e.velocity.x / max(40.0, radius))
+            self._globe_vel_lat = math.degrees(e.velocity.y / max(40.0, radius))
+
+        speed = math.hypot(self._globe_vel_lon, self._globe_vel_lat)
+        if speed > 320.0:
+            scale = 320.0 / speed
+            self._globe_vel_lon *= scale
+            self._globe_vel_lat *= scale
+            speed = 320.0
+
+        if speed >= 12.0 and isinstance(self.page, ft.Page):
+            self._run(self._globe_momentum_loop)
+        else:
+            self._redraw_globe(fast=False)
+
+    def _on_globe_scroll(self, e: ft.ScrollEvent):
+        if not self.on_map or self._globe_flying or self.map_stack[-1] != "world" or not e.scroll_delta:
+            return
+        self.globe_touched = True
+        self._globe_motion_gen += 1
+        self.globe_zoom = max(
+            GLOBE_MIN_ZOOM,
+            min(GLOBE_MAX_ZOOM, self.globe_zoom * math.exp(-e.scroll_delta.y * 0.0015)),
+        )
+        self._redraw_globe(fast=False)
+
+    async def _globe_idle_loop(self):
+        gen = self._globe_motion_gen
+        last_t = time.monotonic()
+        while (
+            self.on_map
+            and self.map_stack == ["world"]
+            and not self.globe_touched
+            and not self._globe_flying
+            and gen == self._globe_motion_gen
+            and GLOBE_IDLE_SPIN_DPS > 0.0
+        ):
+            await asyncio.sleep(0.042)
+            if (
+                not self.on_map
+                or self.map_stack != ["world"]
+                or self.globe_touched
+                or self._globe_flying
+                or gen != self._globe_motion_gen
+            ):
+                break
+            now = time.monotonic()
+            dt = min(0.1, now - last_t)
+            last_t = now
+            self.globe_lon = ((self.globe_lon + GLOBE_IDLE_SPIN_DPS * dt + 180.0) % 360.0) - 180.0
+            self._redraw_globe(fast=True)
+
+    async def _globe_momentum_loop(self):
+        gen = self._globe_motion_gen
+        last_t = time.monotonic()
+        while (
+            self.on_map
+            and self.map_stack == ["world"]
+            and not self._globe_flying
+            and gen == self._globe_motion_gen
+        ):
+            await asyncio.sleep(0.028)
+            if (
+                not self.on_map
+                or self.map_stack != ["world"]
+                or self._globe_flying
+                or gen != self._globe_motion_gen
+            ):
+                return
+            now = time.monotonic()
+            dt = min(0.08, now - last_t)
+            last_t = now
+            self.globe_lon = ((self.globe_lon + self._globe_vel_lon * dt + 180.0) % 360.0) - 180.0
+            new_lat = self.globe_lat + self._globe_vel_lat * dt
+            if new_lat >= GLOBE_MAX_LAT or new_lat <= -GLOBE_MAX_LAT:
+                self.globe_lat = max(-GLOBE_MAX_LAT, min(GLOBE_MAX_LAT, new_lat))
+                self._globe_vel_lat = 0.0
+            else:
+                self.globe_lat = new_lat
+            decay = math.exp(-3.2 * dt)
+            self._globe_vel_lon *= decay
+            self._globe_vel_lat *= decay
+            if math.hypot(self._globe_vel_lon, self._globe_vel_lat) < 2.5:
+                self._redraw_globe(fast=False)
+                return
+            self._redraw_globe(fast=True)
+
     async def _trigger_map_region(self, region_id: str):
         if not self.on_map:
             return
+        if self.map_stack[-1] == "world" and maps.has_sublevel(region_id):
+            if self._globe_flying:
+                return
+            self.globe_touched = True
+            self._globe_motion_gen += 1
+            gen = self._globe_motion_gen
+            self._globe_flying = True
+            self._globe_pre_fly_zoom = self.globe_zoom
+            self.map_highlight_id = region_id
+            self._redraw_globe(fast=False)
+
+            reg = maps.globe_region(region_id)
+            target_lon, target_lat = (reg["focus"] if reg else (self.globe_lon, self.globe_lat))
+            target_lat = max(-GLOBE_MAX_LAT, min(GLOBE_MAX_LAT, target_lat))
+            start_lon = self.globe_lon
+            start_lat = self.globe_lat
+            start_zoom = self.globe_zoom
+            target_zoom = max(start_zoom, 1.48)
+            dlon = ((target_lon - start_lon + 180.0) % 360.0) - 180.0
+
+            t0 = time.monotonic()
+            while True:
+                elapsed = time.monotonic() - t0
+                u = min(1.0, elapsed / GLOBE_FLY_SECONDS)
+                eased = 4.0 * u * u * u if u < 0.5 else 1.0 - ((-2.0 * u + 2.0) ** 3) / 2.0
+                self.globe_lon = ((start_lon + dlon * eased + 180.0) % 360.0) - 180.0
+                self.globe_lat = start_lat + (target_lat - start_lat) * eased
+                self.globe_zoom = start_zoom + (target_zoom - start_zoom) * eased
+                self._redraw_globe(fast=(u < 1.0))
+                if u >= 1.0:
+                    break
+                await asyncio.sleep(0.025)
+                if not self.on_map or gen != self._globe_motion_gen:
+                    self._globe_flying = False
+                    return
+
+            self._globe_flying = False
+            if not self.on_map or gen != self._globe_motion_gen:
+                return
+            self.map_stack.append(region_id)
+            self.map_highlight_id = None
+            self._render_map_level()
+            self.page.update()
+            return
+
         self.map_highlight_id = region_id
         self._render_map_level()
         self.page.update()
@@ -948,6 +1341,8 @@ class ChefBotApp:
         def pick_from_map(_):
             self.page.pop_dialog()
             self.on_map = False
+            self._globe_motion_gen += 1
+            self._globe_flying = False
             self.map_highlight_id = None
             self._pick_cuisine(leaf_id)
             self.show_home()
@@ -971,160 +1366,229 @@ class ChefBotApp:
 
     def _render_map_level(self):
         level_id = self.map_stack[-1]
-        lvl = maps.get_level(level_id)
-        if not lvl:
-            return
-        base_w = float(lvl["width"])
-        base_h = float(lvl["height"])
         pw = float(self.page.width or 375.0)
         ph = float(self.page.height or 812.0)
         avail_w = max(340.0, min(pw - 16.0, float(MAX_WIDTH)))
         avail_h = max(480.0, ph - 120.0)
-        s = max(1.0, min(1.4, avail_w / base_w, avail_h / base_h))
-        self.map_scale = s
-        canvas_w = round(base_w * s, 1)
-        canvas_h = round(base_h * s, 1)
-        tx = lambda x: x * s
-        ty = lambda y: y * s
 
-        shapes: list[cv.Shape] = []
-        shapes.extend(self._poly_paths(
-            lvl["background"],
-            fill_color=ft.Colors.with_opacity(0.45, ft.Colors.SURFACE_CONTAINER_HIGH),
-            stroke_color=ft.Colors.with_opacity(0.45, ft.Colors.OUTLINE_VARIANT),
-            stroke_width=1.0,
-            tx=tx,
-            ty=ty,
-        ))
+        if level_id == "world":
+            self.map_scale = max(1.0, min(1.4, avail_w / 360.0, avail_h / 520.0))
+            view_w = round(avail_w, 1)
+            view_h = round(max(440.0, ph - 112.0), 1)
+            self._globe_view_size = (view_w, view_h)
 
-        for reg in lvl["regions"]:
-            rid = reg["id"]
-            is_hi = rid == self.map_highlight_id
-            c_fill, c_stroke = MAP_PALETTE.get(reg.get("color", "teal"), (ft.Colors.PRIMARY_CONTAINER, ft.Colors.PRIMARY))
-            shapes.extend(self._poly_paths(
-                reg["polygons"],
-                fill_color=ft.Colors.PRIMARY if is_hi else ft.Colors.with_opacity(0.68, c_fill),
-                stroke_color=ft.Colors.ON_PRIMARY if is_hi else c_stroke,
-                stroke_width=2.2 if is_hi else 1.4,
-                tx=tx,
-                ty=ty,
-            ))
-
-        # Draw leader lines and anchor dots on canvas underneath call-out chips
-        for reg in lvl["regions"]:
-            callout = reg.get("callout")
-            if not callout:
-                continue
-            _, c_stroke = MAP_PALETTE.get(reg.get("color", "teal"), (ft.Colors.PRIMARY, ft.Colors.TERTIARY))
-            ax, ay = tx(callout["anchor"][0]), ty(callout["anchor"][1])
-            lx, ly = tx(callout["pos"][0]), ty(callout["pos"][1])
-            shapes.append(cv.Line(
-                ax, ay, lx, ly,
-                paint=ft.Paint(color=c_stroke, stroke_width=1.6, style=ft.PaintingStyle.STROKE),
-            ))
-            shapes.append(cv.Circle(
-                ax, ay, radius=3.2,
-                paint=ft.Paint(color=c_stroke, style=ft.PaintingStyle.FILL),
-            ))
-
-        canvas_ctrl = cv.Canvas(shapes=shapes, width=canvas_w, height=canvas_h)
-        gesture = ft.GestureDetector(
-            content=canvas_ctrl,
-            on_tap_up=self._on_map_canvas_tap,
-            width=canvas_w,
-            height=canvas_h,
-        )
-
-        stack_items: list[ft.Control] = [gesture]
-
-        # On-map labels and call-out chips
-        for reg in lvl["regions"]:
-            rid = reg["id"]
-            label = reg["label"]
-            is_hi = rid == self.map_highlight_id
-            c_fill, c_stroke = MAP_PALETTE.get(reg.get("color", "teal"), (ft.Colors.PRIMARY_CONTAINER, ft.Colors.PRIMARY))
-            callout = reg.get("callout")
-            if callout:
-                lx, ly = tx(callout["pos"][0]), ty(callout["pos"][1])
-                chip_w = max(56.0, len(label) * 7.0 + 18.0)
-                chip_h = 28.0
-                left = max(4.0, min(canvas_w - chip_w - 4.0, lx - chip_w * 0.5))
-                top = max(4.0, min(canvas_h - chip_h - 4.0, ly - chip_h * 0.5))
-                stack_items.append(ft.Container(
-                    ft.Text(
-                        label,
-                        size=11.5,
-                        weight=ft.FontWeight.W_600,
-                        color=ft.Colors.ON_PRIMARY if is_hi else ft.Colors.ON_SURFACE,
-                        no_wrap=True,
-                        text_align=ft.TextAlign.CENTER,
-                    ),
-                    left=round(left, 1),
-                    top=round(top, 1),
-                    width=round(chip_w, 1),
-                    height=chip_h,
-                    alignment=ft.Alignment.CENTER,
-                    bgcolor=ft.Colors.PRIMARY if is_hi else ft.Colors.SURFACE_CONTAINER_HIGH,
-                    border=ft.Border.all(1.5, ft.Colors.ON_PRIMARY if is_hi else c_stroke),
-                    border_radius=14,
-                    ink=True,
-                    on_click=lambda _, r_id=rid: self._run(self._trigger_map_region, r_id),
-                ))
-            else:
-                lpos = reg.get("label_pos") or reg["center"]
-                cx, cy = tx(lpos[0]), ty(lpos[1])
-                lbl_w = max(52.0, len(label) * 7.2 + 12.0)
+            self._globe_canvas = cv.Canvas(shapes=[], width=view_w, height=view_h)
+            globe_gesture = ft.GestureDetector(
+                content=self._globe_canvas,
+                on_tap_up=self._on_globe_tap,
+                on_scale_start=self._on_globe_scale_start,
+                on_scale_update=self._on_globe_scale_update,
+                on_scale_end=self._on_globe_scale_end,
+                on_scroll=self._on_globe_scroll,
+                trackpad_scroll_causes_scale=True,
+                width=view_w,
+                height=view_h,
+            )
+            self._globe_labels = {}
+            label_controls: list[ft.Control] = []
+            for reg in maps.get_globe()["regions"]:
+                rid = reg["id"]
+                label = reg["label"]
+                lbl_w = round(max(56.0, len(label) * 7.2 + 16.0), 1)
                 lbl_h = 24.0
-                left = max(4.0, min(canvas_w - lbl_w - 4.0, cx - lbl_w * 0.5))
-                top = max(4.0, min(canvas_h - lbl_h - 4.0, cy - lbl_h * 0.5))
-                stack_items.append(ft.Container(
+                pill = ft.Container(
                     ft.Text(
                         label,
                         size=12,
                         weight=ft.FontWeight.W_700,
-                        color=ft.Colors.ON_PRIMARY if is_hi else ft.Colors.ON_SURFACE,
+                        color=ft.Colors.ON_SURFACE,
                         no_wrap=True,
                         text_align=ft.TextAlign.CENTER,
                     ),
-                    left=round(left, 1),
-                    top=round(top, 1),
-                    width=round(lbl_w, 1),
+                    width=lbl_w,
                     height=lbl_h,
                     alignment=ft.Alignment.CENTER,
-                    bgcolor=ft.Colors.with_opacity(0.84, ft.Colors.PRIMARY if is_hi else ft.Colors.SURFACE_CONTAINER_HIGH),
-                    border=ft.Border.all(1.1, ft.Colors.ON_PRIMARY if is_hi else c_stroke),
-                    border_radius=10,
+                    border_radius=12,
+                    visible=False,
                     on_click=lambda _, r_id=rid: self._run(self._trigger_map_region, r_id),
+                )
+                self._globe_labels[rid] = pill
+                label_controls.append(pill)
+
+            self._globe_stack = ft.Stack(
+                [globe_gesture, *label_controls],
+                width=view_w,
+                height=view_h,
+                clip_behavior=ft.ClipBehavior.HARD_EDGE,
+            )
+            self._globe_canvas.shapes = self._build_globe_shapes(fast=False)
+            self._update_globe_labels()
+            map_body = ft.Container(
+                self._globe_stack,
+                expand=True,
+                alignment=ft.Alignment.CENTER,
+                bgcolor=ft.Colors.SURFACE,
+                clip_behavior=ft.ClipBehavior.HARD_EDGE,
+            )
+            crumb_title = heading("Browse by map", 20)
+            subtitle_text = "Spin the globe and tap a continent."
+            header_actions: list[ft.Control] = []
+        else:
+            self._globe_canvas = None
+            self._globe_stack = None
+            self._globe_labels = {}
+            lvl = maps.get_level(level_id)
+            if not lvl:
+                return
+            base_w = float(lvl["width"])
+            base_h = float(lvl["height"])
+            s = max(1.0, min(1.4, avail_w / base_w, avail_h / base_h))
+            self.map_scale = s
+            canvas_w = round(base_w * s, 1)
+            canvas_h = round(base_h * s, 1)
+            tx = lambda x: x * s
+            ty = lambda y: y * s
+
+            shapes: list[cv.Shape] = []
+            shapes.extend(self._poly_paths(
+                lvl["background"],
+                fill_color=ft.Colors.with_opacity(0.45, ft.Colors.SURFACE_CONTAINER_HIGH),
+                stroke_color=ft.Colors.with_opacity(0.45, ft.Colors.OUTLINE_VARIANT),
+                stroke_width=1.0,
+                tx=tx,
+                ty=ty,
+            ))
+
+            for reg in lvl["regions"]:
+                rid = reg["id"]
+                is_hi = rid == self.map_highlight_id
+                c_fill, c_stroke = MAP_PALETTE.get(reg.get("color", "teal"), (ft.Colors.PRIMARY_CONTAINER, ft.Colors.PRIMARY))
+                shapes.extend(self._poly_paths(
+                    reg["polygons"],
+                    fill_color=ft.Colors.PRIMARY if is_hi else ft.Colors.with_opacity(0.68, c_fill),
+                    stroke_color=ft.Colors.ON_PRIMARY if is_hi else c_stroke,
+                    stroke_width=2.2 if is_hi else 1.4,
+                    tx=tx,
+                    ty=ty,
                 ))
 
-        map_stack = ft.Stack(stack_items, width=canvas_w, height=canvas_h)
-        viewer = ft.InteractiveViewer(
-            content=ft.Container(map_stack, alignment=ft.Alignment.CENTER),
-            min_scale=1.0,
-            max_scale=4.5,
-            boundary_margin=ft.Margin.all(0),
-            expand=True,
-        )
+            # Draw leader lines and anchor dots on canvas underneath call-out chips
+            for reg in lvl["regions"]:
+                callout = reg.get("callout")
+                if not callout:
+                    continue
+                _, c_stroke = MAP_PALETTE.get(reg.get("color", "teal"), (ft.Colors.PRIMARY, ft.Colors.TERTIARY))
+                ax, ay = tx(callout["anchor"][0]), ty(callout["anchor"][1])
+                lx, ly = tx(callout["pos"][0]), ty(callout["pos"][1])
+                shapes.append(cv.Line(
+                    ax, ay, lx, ly,
+                    paint=ft.Paint(color=c_stroke, stroke_width=1.6, style=ft.PaintingStyle.STROKE),
+                ))
+                shapes.append(cv.Circle(
+                    ax, ay, radius=3.2,
+                    paint=ft.Paint(color=c_stroke, style=ft.PaintingStyle.FILL),
+                ))
 
-        if level_id == "world":
-            crumb_title = heading("Browse by map", 20)
-            subtitle_text = "Tap a continent to zoom in, or pinch to zoom."
-        else:
+            canvas_ctrl = cv.Canvas(shapes=shapes, width=canvas_w, height=canvas_h)
+            gesture = ft.GestureDetector(
+                content=canvas_ctrl,
+                on_tap_up=self._on_map_canvas_tap,
+                width=canvas_w,
+                height=canvas_h,
+            )
+
+            stack_items: list[ft.Control] = [gesture]
+
+            # On-map labels and call-out chips
+            for reg in lvl["regions"]:
+                rid = reg["id"]
+                label = reg["label"]
+                is_hi = rid == self.map_highlight_id
+                c_fill, c_stroke = MAP_PALETTE.get(reg.get("color", "teal"), (ft.Colors.PRIMARY_CONTAINER, ft.Colors.PRIMARY))
+                callout = reg.get("callout")
+                if callout:
+                    lx, ly = tx(callout["pos"][0]), ty(callout["pos"][1])
+                    chip_w = max(56.0, len(label) * 7.0 + 18.0)
+                    chip_h = 28.0
+                    left = max(4.0, min(canvas_w - chip_w - 4.0, lx - chip_w * 0.5))
+                    top = max(4.0, min(canvas_h - chip_h - 4.0, ly - chip_h * 0.5))
+                    stack_items.append(ft.Container(
+                        ft.Text(
+                            label,
+                            size=11.5,
+                            weight=ft.FontWeight.W_600,
+                            color=ft.Colors.ON_PRIMARY if is_hi else ft.Colors.ON_SURFACE,
+                            no_wrap=True,
+                            text_align=ft.TextAlign.CENTER,
+                        ),
+                        left=round(left, 1),
+                        top=round(top, 1),
+                        width=round(chip_w, 1),
+                        height=chip_h,
+                        alignment=ft.Alignment.CENTER,
+                        bgcolor=ft.Colors.PRIMARY if is_hi else ft.Colors.SURFACE_CONTAINER_HIGH,
+                        border=ft.Border.all(1.5, ft.Colors.ON_PRIMARY if is_hi else c_stroke),
+                        border_radius=14,
+                        ink=True,
+                        on_click=lambda _, r_id=rid: self._run(self._trigger_map_region, r_id),
+                    ))
+                else:
+                    lpos = reg.get("label_pos") or reg["center"]
+                    cx, cy = tx(lpos[0]), ty(lpos[1])
+                    lbl_w = max(52.0, len(label) * 7.2 + 12.0)
+                    lbl_h = 24.0
+                    left = max(4.0, min(canvas_w - lbl_w - 4.0, cx - lbl_w * 0.5))
+                    top = max(4.0, min(canvas_h - lbl_h - 4.0, cy - lbl_h * 0.5))
+                    stack_items.append(ft.Container(
+                        ft.Text(
+                            label,
+                            size=12,
+                            weight=ft.FontWeight.W_700,
+                            color=ft.Colors.ON_PRIMARY if is_hi else ft.Colors.ON_SURFACE,
+                            no_wrap=True,
+                            text_align=ft.TextAlign.CENTER,
+                        ),
+                        left=round(left, 1),
+                        top=round(top, 1),
+                        width=round(lbl_w, 1),
+                        height=lbl_h,
+                        alignment=ft.Alignment.CENTER,
+                        bgcolor=ft.Colors.with_opacity(0.84, ft.Colors.PRIMARY if is_hi else ft.Colors.SURFACE_CONTAINER_HIGH),
+                        border=ft.Border.all(1.1, ft.Colors.ON_PRIMARY if is_hi else c_stroke),
+                        border_radius=10,
+                        on_click=lambda _, r_id=rid: self._run(self._trigger_map_region, r_id),
+                    ))
+
+            map_stack = ft.Stack(stack_items, width=canvas_w, height=canvas_h)
+            viewer = ft.InteractiveViewer(
+                content=ft.Container(map_stack, alignment=ft.Alignment.CENTER),
+                min_scale=1.0,
+                max_scale=4.5,
+                boundary_margin=ft.Margin.all(0),
+                expand=True,
+            )
+            map_body = ft.Container(
+                viewer,
+                expand=True,
+                alignment=ft.Alignment.CENTER,
+                bgcolor=ft.Colors.SURFACE,
+            )
+
             crumbs = " > ".join(cuisines.path(level_id))
             crumb_title = heading(crumbs, 19)
             node = cuisines.get(level_id)
             subtitle_text = (node.get("subtitle") or "Tap a region or call-out to explore.") if node else ""
 
-        header_actions: list[ft.Control] = []
-        any_id = lvl.get("any_id")
-        if any_id:
-            any_node = cuisines.get(any_id)
-            if any_node:
-                header_actions.append(ft.FilledTonalButton(
-                    any_node["label"],
-                    icon=ft.Icons.PUBLIC,
-                    on_click=lambda _, aid=any_id: self._open_map_cuisine_sheet(aid),
-                ))
+            header_actions = []
+            any_id = lvl.get("any_id")
+            if any_id:
+                any_node = cuisines.get(any_id)
+                if any_node:
+                    header_actions.append(ft.FilledTonalButton(
+                        any_node["label"],
+                        icon=ft.Icons.PUBLIC,
+                        on_click=lambda _, aid=any_id: self._open_map_cuisine_sheet(aid),
+                    ))
 
         top_bar = ft.Container(
             ft.Column([
@@ -1148,12 +1612,7 @@ class ChefBotApp:
         self.root.content = ft.Column(
             [
                 top_bar,
-                ft.Container(
-                    viewer,
-                    expand=True,
-                    alignment=ft.Alignment.CENTER,
-                    bgcolor=ft.Colors.SURFACE,
-                ),
+                map_body,
             ],
             spacing=0,
             expand=True,
@@ -1204,6 +1663,8 @@ class ChefBotApp:
     def show_home(self):
         self.conv = None
         self.on_map = False
+        self._globe_motion_gen += 1
+        self._globe_flying = False
         self.page.views[0].can_pop = True     # back on the home screen leaves the app
         self.padded = []
         self.page.appbar = None
@@ -1451,6 +1912,8 @@ class ChefBotApp:
     def show_chat(self, conv: Conversation):
         self.conv = conv
         self.on_map = False
+        self._globe_motion_gen += 1
+        self._globe_flying = False
         self.stop_requested = False           # a Stop pressed in another chat doesn't carry over
         self.page.views[0].can_pop = False    # back in a chat goes home instead (see _on_back)
         self.padded = []

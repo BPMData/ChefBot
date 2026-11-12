@@ -1107,6 +1107,165 @@ def build_all() -> dict[str, dict]:
     return levels_out
 
 
+GLOBE_META: dict[str, dict[str, list[float]]] = {
+    "americas": {"center": [-74.0, 4.5], "focus": [-78.0, 14.0]},
+    "europe": {"center": [15.0, 50.0], "focus": [15.0, 50.0]},
+    "near_east": {"center": [44.0, 26.0], "focus": [44.0, 26.0]},
+    "africa": {"center": [20.0, 6.0], "focus": [20.0, 6.0]},
+    "asia": {"center": [102.0, 35.0], "focus": [102.0, 35.0]},
+}
+
+
+def _simplify_and_subdivide_lonlat(
+    rings: list[list[tuple[float, float]]],
+    epsilon_deg: float,
+    min_area_deg2: float,
+    max_step_deg: float = 6.0,
+) -> list[list[list[float]]]:
+    """Dissolve shared borders, simplify in cos(lat)-weighted degrees, and subdivide long edges."""
+    dissolved = dissolve_rings(rings, precision=4)
+    out: list[list[list[float]]] = []
+    for ring in dissolved:
+        if len(ring) < 4:
+            continue
+        mean_lat = sum(p[1] for p in ring[:-1]) / max(1, len(ring) - 1)
+        cos_lat = max(0.15, math.cos(math.radians(mean_lat)))
+        if ring_area(ring) * cos_lat < min_area_deg2:
+            continue
+        scaled = [(lon * cos_lat, lat) for lon, lat in ring]
+        simp_scaled = simplify_ring(scaled, epsilon_deg)
+        if not simp_scaled:
+            continue
+        simp = [(x / cos_lat, y) for x, y in simp_scaled]
+        subdivided = [simp[0]]
+        for p2 in simp[1:]:
+            p1 = subdivided[-1]
+            span = math.hypot((p2[0] - p1[0]) * cos_lat, p2[1] - p1[1])
+            if span > max_step_deg:
+                steps = int(math.ceil(span / max_step_deg))
+                for k in range(1, steps):
+                    t = k / steps
+                    subdivided.append((
+                        p1[0] + t * (p2[0] - p1[0]),
+                        p1[1] + t * (p2[1] - p1[1]),
+                    ))
+            subdivided.append(p2)
+        rounded = [[round(x, 2), round(y, 2)] for x, y in subdivided]
+        if len(rounded) >= 4:
+            rounded[-1] = list(rounded[0])
+            out.append(rounded)
+    out.sort(key=lambda r: ring_area([(pt[0], pt[1]) for pt in r]), reverse=True)
+    return out
+
+
+def _simplify_antarctica_polar(rings: list[list[tuple[float, float]]], epsilon_deg: float = 0.6) -> list[list[list[float]]]:
+    """Simplify Antarctica in south-polar stereographic coordinates so no +/-180 pole seam remains."""
+    out: list[list[list[float]]] = []
+    for r in rings:
+        coast = [
+            (lon, lat)
+            for lon, lat in r[:-1]
+            if lat > -85.5 and not (abs(abs(lon) - 180.0) < 0.01 and lat < -78.5)
+        ]
+        if len(coast) < 4:
+            continue
+        polar = [
+            ((90.0 + lat) * math.cos(math.radians(lon)), (90.0 + lat) * math.sin(math.radians(lon)))
+            for lon, lat in coast
+        ]
+        if ring_area(polar) < 2.0:
+            continue
+        polar.append(polar[0])
+        simp = simplify_ring(polar, epsilon_deg)
+        if len(simp) < 4:
+            continue
+        ring_ll = [
+            [round(math.degrees(math.atan2(y, x)), 2), round(math.hypot(x, y) - 90.0, 2)]
+            for x, y in simp
+        ]
+        ring_ll[-1] = list(ring_ll[0])
+        out.append(ring_ll)
+    return out
+
+
+def build_globe() -> dict:
+    """Build coarse lat/lon continent and background outlines for the 3D orthographic globe."""
+    nodes = load_node_labels()
+    sf0 = shapefile.Reader(str(COUNTRIES_SHP))
+    globe_regions: dict[str, list[list[tuple[float, float]]]] = {
+        "americas": [],
+        "europe": [],
+        "near_east": [],
+        "asia": [],
+        "africa": [],
+    }
+    globe_bg: list[list[tuple[float, float]]] = []
+    antarctica_rings: list[list[tuple[float, float]]] = []
+
+    for sr in sf0.shapeRecords():
+        rec = sr.record.as_dict()
+        rings = extract_rings(sr.shape)
+        a3 = rec["ADM0_A3"]
+        cont = rec["CONTINENT"]
+        if cont == "Antarctica":
+            antarctica_rings.extend(rings)
+            continue
+        if cont in ("North America", "South America") or rec["REGION_UN"] == "Americas":
+            globe_regions["americas"].extend(rings)
+        elif a3 in NEAR_EAST_A3:
+            globe_regions["near_east"].extend(rings)
+        elif a3 == "RUS":
+            # Keep Chukotka (west of 180 / negative lon) with Asia; split European Russia at 60E
+            for r in rings:
+                eu_part = clip_ring_rect(r, 0.0, -90.0, 60.0, 90.0)
+                if eu_part:
+                    globe_regions["europe"].append(eu_part)
+                as_east = clip_ring_rect(r, 60.0, -90.0, 180.0, 90.0)
+                if as_east:
+                    globe_regions["asia"].append(as_east)
+                as_west = clip_ring_rect(r, -180.0, -90.0, 0.0, 90.0)
+                if as_west:
+                    globe_regions["asia"].append(as_west)
+        elif cont == "Europe":
+            for r in rings:
+                if ring_bbox(r)[2] < -30:
+                    globe_regions["americas"].append(r)
+                else:
+                    globe_regions["europe"].append(r)
+        elif cont == "Africa":
+            globe_regions["africa"].extend(rings)
+        elif cont == "Asia":
+            globe_regions["asia"].extend(rings)
+        else:
+            globe_bg.extend(rings)
+
+    region_objs: list[dict] = []
+    for rid, raw_rings in globe_regions.items():
+        polys = _simplify_and_subdivide_lonlat(raw_rings, epsilon_deg=0.5, min_area_deg2=1.5)
+        meta = GLOBE_META[rid]
+        cx, cy = meta["center"]
+        if not any(point_in_ring(cx, cy, [(pt[0], pt[1]) for pt in p]) for p in polys):
+            raise ValueError(f"Globe center {meta['center']} is not inside {rid} polygons")
+        node = nodes[rid]
+        region_objs.append({
+            "id": rid,
+            "kind": node["kind"],
+            "label": node["label"],
+            "color": REGION_COLORS.get(rid, "teal"),
+            "center": meta["center"],
+            "focus": meta["focus"],
+            "polygons": polys,
+        })
+
+    bg_polys = _simplify_and_subdivide_lonlat(globe_bg, epsilon_deg=0.6, min_area_deg2=2.0)
+    bg_polys.extend(_simplify_antarctica_polar(antarctica_rings, epsilon_deg=0.6))
+    return {
+        "id": "globe",
+        "background": bg_polys,
+        "regions": region_objs,
+    }
+
+
 def main() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     built = build_all()
@@ -1118,7 +1277,16 @@ def main() -> None:
         total_bytes += len(text.encode("utf-8"))
         callouts = [r["id"] for r in data["regions"] if r["callout"]]
         print(f"wrote {path.relative_to(ROOT)} ({len(text) / 1024:.1f} KB, {len(data['regions'])} regions, callouts={callouts})")
-    print(f"total size across {len(built)} map files: {total_bytes / 1024:.1f} KB")
+    globe_data = build_globe()
+    globe_path = OUT_DIR / "globe.json"
+    globe_text = json.dumps(globe_data, ensure_ascii=False, separators=(",", ":")) + "\n"
+    globe_path.write_text(globe_text, encoding="utf-8")
+    total_bytes += len(globe_text.encode("utf-8"))
+    globe_pts = sum(len(p) for p in globe_data["background"]) + sum(
+        len(p) for r in globe_data["regions"] for p in r["polygons"]
+    )
+    print(f"wrote {globe_path.relative_to(ROOT)} ({len(globe_text) / 1024:.1f} KB, {globe_pts} points)")
+    print(f"total size across {len(built) + 1} map files: {total_bytes / 1024:.1f} KB")
 
 
 if __name__ == "__main__":

@@ -273,3 +273,158 @@ def test_map_browser_and_info_sheet_ui_flow(monkeypatch, tmp_path):
     app._map_back()
     assert app.on_map is False
 
+
+def test_globe_projection_round_trip_and_backside():
+    cx, cy, radius = 180.0, 260.0, 150.0
+    rotations = [(0.0, 0.0), (15.0, 20.0), (-80.0, 15.0), (110.0, -25.0), (-150.0, 45.0)]
+    sample_points = [(10.0, 48.0), (-74.0, 4.5), (102.0, 35.0), (20.0, 6.0), (44.0, 26.0)]
+
+    for clon, clat in rotations:
+        for lon, lat in sample_points:
+            _, _, z3 = maps.project_globe_vector(lon, lat, clon, clat)
+            pt = maps.project_globe_point(lon, lat, clon, clat, cx, cy, radius)
+            if z3 >= 0.0:
+                assert pt is not None
+                inv = maps.inverse_globe_point(pt[0], pt[1], clon, clat, cx, cy, radius)
+                assert inv is not None
+                assert abs(((inv[0] - lon + 180.0) % 360.0) - 180.0) < 1e-5
+                assert abs(inv[1] - lat) < 1e-5
+            else:
+                assert pt is None
+
+    # Point on exact back of globe is not visible and not tappable as that back continent
+    # When centered on Central Pacific (-160, -15), Africa (20, 6) is on the back side.
+    assert maps.project_globe_point(20.0, 6.0, -160.0, -15.0, cx, cy, radius) is None
+    assert maps.hit_test_globe(cx, cy, -160.0, -15.0, cx, cy, radius) is None
+
+    # Point outside the globe disc returns None
+    assert maps.inverse_globe_point(cx + radius + 5.0, cy, 0.0, 0.0, cx, cy, radius) is None
+    assert maps.hit_test_globe(cx + radius + 5.0, cy, 0.0, 0.0, cx, cy, radius) is None
+
+
+def test_globe_continent_centers_and_cuisine_tree_coverage():
+    globe = maps.get_globe()
+    globe_ids = {r["id"] for r in globe["regions"]}
+    cuisine_continent_ids = {c["id"] for c in cuisines.continents()}
+    assert globe_ids == cuisine_continent_ids
+    assert len({r["color"] for r in globe["regions"]}) == 5
+
+    cx, cy, radius = 180.0, 260.0, 150.0
+    for reg in globe["regions"]:
+        rid = reg["id"]
+        lon, lat = reg["center"]
+        assert maps.hit_test_globe_latlon(lon, lat) == rid
+        for dlon, dlat in ((0.0, 0.0), (22.0, -12.0), (-22.0, 14.0), (0.0, 28.0)):
+            clon = ((lon + dlon + 180.0) % 360.0) - 180.0
+            clat = max(-65.0, min(65.0, lat + dlat))
+            pt = maps.project_globe_point(lon, lat, clon, clat, cx, cy, radius)
+            assert pt is not None, f"Center of {rid!r} unexpectedly hidden at rotation ({clon}, {clat})"
+            hit = maps.hit_test_globe(pt[0], pt[1], clon, clat, cx, cy, radius)
+            assert hit == rid, f"Tap at projected center of {rid!r} at ({clon}, {clat}) hit {hit!r}"
+
+    # Verify projected polygons and graticule build cleanly across diverse rotations
+    for clon in (-150.0, -60.0, 15.0, 100.0):
+        for clat in (-55.0, 0.0, 55.0):
+            bg, regs = maps.project_globe_polygons(clon, clat, cx, cy, radius)
+            assert sum(len(v) for v in regs.values()) + len(bg) > 0
+            grat = maps.project_globe_graticule(clon, clat, cx, cy, radius)
+            assert len(grat) > 0
+
+
+@pytest.mark.skipif(
+    not (ROOT / "assets" / "maps" / "source" / "palestine_POV_ne_10m_admin_0_countries_pse").exists(),
+    reason="Raw shapefiles in assets/maps/source/ are git-ignored",
+)
+def test_build_globe_data_reproduces_committed_json():
+    spec = importlib.util.spec_from_file_location("build_map_data", ROOT / "tools" / "build_map_data.py")
+    builder = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(builder)
+    built = builder.build_globe()
+    committed = json.loads((ROOT / "src" / "chefbot" / "maps" / "globe.json").read_text(encoding="utf-8"))
+    assert built == committed
+
+
+def test_globe_ui_drag_zoom_fly_back_and_labels(monkeypatch, tmp_path):
+    import asyncio
+    from types import SimpleNamespace
+    import flet as ft
+    import main as app_main
+
+    monkeypatch.setenv("FLET_APP_STORAGE_DATA", str(tmp_path))
+    fake_view = SimpleNamespace(can_pop=True, on_confirm_pop=None)
+    fake_page = SimpleNamespace(
+        platform=ft.PagePlatform.MACOS,
+        web=True,
+        width=375.0,
+        height=812.0,
+        views=[fake_view],
+        appbar=None,
+        theme_mode=ft.ThemeMode.DARK,
+        update=lambda: None,
+        show_dialog=lambda d: None,
+        pop_dialog=lambda: None,
+        run_task=lambda fn, *a: asyncio.run(fn(*a)),
+    )
+
+    app = app_main.ChefBotApp(fake_page)
+    app.open_map_browser()
+    assert app.map_stack == ["world"]
+    assert app._globe_canvas is not None
+    # At initial rotation (15E, 20N), Europe/Africa/Near East face the viewer; Americas (-74, 4.5) is on the limb/back
+    assert app._globe_labels["europe"].visible is True
+    assert app._globe_labels["africa"].visible is True
+
+    # Drag east-west and extreme north/south -> tilt stays clamped to [-GLOBE_MAX_LAT, GLOBE_MAX_LAT]
+    app._on_globe_scale_start(SimpleNamespace(local_focal_point=ft.Offset(180.0, 260.0)))
+    assert app.globe_touched is True
+    start_lon = app.globe_lon
+    app._on_globe_scale_update(SimpleNamespace(
+        pointer_count=1,
+        scale=1.0,
+        focal_point_delta=ft.Offset(80.0, 2000.0),
+        local_focal_point=ft.Offset(260.0, 2260.0),
+    ))
+    assert app.globe_lon != start_lon
+    assert app.globe_lat == app_main.GLOBE_MAX_LAT
+
+    app._on_globe_scale_update(SimpleNamespace(
+        pointer_count=1,
+        scale=1.0,
+        focal_point_delta=ft.Offset(0.0, -5000.0),
+        local_focal_point=ft.Offset(260.0, -2740.0),
+    ))
+    assert app.globe_lat == -app_main.GLOBE_MAX_LAT
+
+    # Pinch zoom clamps to [GLOBE_MIN_ZOOM, GLOBE_MAX_ZOOM]
+    app._on_globe_scale_start(SimpleNamespace(local_focal_point=ft.Offset(180.0, 260.0)))
+    app._on_globe_scale_update(SimpleNamespace(
+        pointer_count=2, scale=10.0, focal_point_delta=None, local_focal_point=ft.Offset(180.0, 260.0),
+    ))
+    assert app.globe_zoom == app_main.GLOBE_MAX_ZOOM
+    app._on_globe_scale_update(SimpleNamespace(
+        pointer_count=2, scale=0.05, focal_point_delta=None, local_focal_point=ft.Offset(180.0, 260.0),
+    ))
+    assert app.globe_zoom == app_main.GLOBE_MIN_ZOOM
+    app._on_globe_scale_end(SimpleNamespace(pointer_count=0, velocity=ft.Offset(0.0, 0.0)))
+
+    # Fly to Americas, hand over to flat Americas map, then Back stays facing Americas
+    asyncio.run(app._trigger_map_region("americas"))
+    assert app.map_stack == ["world", "americas"]
+    americas_focus = maps.globe_region("americas")["focus"]
+    assert abs(app.globe_lon - americas_focus[0]) < 1e-3
+    assert abs(app.globe_lat - americas_focus[1]) < 1e-3
+
+    # Flat continent map still uses InteractiveViewer with boundary_margin=0
+    map_body_ctrl = app.root.content.controls[1].content
+    assert isinstance(map_body_ctrl, ft.InteractiveViewer)
+    assert map_body_ctrl.boundary_margin == ft.Margin.all(0)
+
+    # Back returns to globe still facing Americas (not reset to GLOBE_INITIAL_LON/LAT)
+    app._map_back()
+    assert app.map_stack == ["world"]
+    assert app._globe_canvas is not None
+    assert abs(app.globe_lon - americas_focus[0]) < 1e-3
+    assert abs(app.globe_lat - americas_focus[1]) < 1e-3
+    assert app._globe_labels["americas"].visible is True
+    assert app._globe_labels["asia"].visible is False
+
