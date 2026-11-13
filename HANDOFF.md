@@ -170,8 +170,11 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
    - **2026-11-13:** The China map level shows an extra line, "The Eight Great Cuisines (八大菜系)" (Bryan's
      wording, no pinyin), above the usual subtitle. It's an optional `heading` field on a branch node, set in
      `tools/cuisine_overrides.json` so rebuilds keep it; any other level can get one the same way.
-     **Next: more cuisines** (Bryan wants more European and American ones now that the globe makes room). Each
-     new node needs a research run (`docs/research/`, like the 2026-11-09 additions) and a map region.
+     **Next: a second batch of 14 cuisines** (decided with Bryan 2026-11-13; list and to-dos in
+     `docs/CUISINE_TREE.md`, "Second batch"). Central European is split into five; British and Irish are separate.
+     Prompts are ready to paste: `docs/research/additions-europe.md`, `docs/research/additions-americas.md`
+     (`tools/make_research_prompts.py <slug>` rebuilds just those; with no slugs the full run stops at
+     near-east, because the taxonomy heading there is still "Near & Middle East"). Waiting on Bryan's research runs.
 
 7. **Next big to-do (2026-11-12): consider the Spoonacular API**, for example for nutrition data per recipe.
    Not started; first work out what it would add, what it needs (an API key kept like the OpenRouter one, limits)

@@ -41,7 +41,21 @@ The data for it comes from deep research runs (prompt below), not from a model's
 - **Africa:** Moroccan; Tunisian; Algerian; Ethiopian; Egyptian; Nigerian; Senegalese. ("Moroccan & North
   African" became Moroccan on the research's advice; Tunisian, for harissa, and Algerian were added 2026-11-09.)
 
-## Next steps
+### Second batch (decided 2026-11-13)
+
+Fourteen more cuisines, now that the globe and maps make room. Prompts: `docs/research/additions-europe.md` and
+`docs/research/additions-americas.md` (two runs; results go to `results/additions_europe.json` and
+`results/additions_americas.json`).
+
+- **Europe:** Central European is **split** into German, Austrian, Hungarian, Polish and Czech. Also Portuguese,
+  British, Irish (separate from British), Nordic, Georgian (Europe or Near East: the research recommends).
+- **The Americas:** Québécois (Canada), New Mexican and Hawaiian (under the United States), Colombian.
+- **To do when the results are in:** the builder reads only `additions.json` today, so it needs the two new files
+  and their placement; saved chats that used Central European need a mapping (as Hong Kong maps to Cantonese);
+  each new node needs a map region (countries come free from the outlines; Hawaii and New Mexico need US state
+  groupings).
+- **Later candidates:** Central Italian; France and Spain as countries with regions; Barbecue, Lowcountry and
+  Pacific Northwest (US); Chilean, Central American, Dominican, Haitian, Trinidadian; Balkan.
 
 1. **Research (Bryan):** the five prompts in `docs/research/` are ready to paste whole (select all), one per continent, with the
    taxonomy and the current entries already filled in. Paste one into a deep research tool (for example
