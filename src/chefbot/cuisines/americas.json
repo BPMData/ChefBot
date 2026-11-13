@@ -14,8 +14,10 @@
     "avoid": [],
     "children": [
       "united_states",
+      "quebecois",
       "mexico",
       "caribbean",
+      "colombian",
       "brazilian",
       "peruvian",
       "argentinian"
@@ -50,7 +52,7 @@
       "regional chile products (substitute: closest available chile)"
     ],
     "tips": [
-      "Commercial barbecue rub: often salt, sugar, paprika, chile, garlic and onion; replace an equal weight of recipe dry rub and reduce added salt using salt_g ≈ sodium_mg × 0.00254 from the label. Commercial poultry/seasoned-salt blends vary too much for a national rule; use 1:1 by weight only after checking sodium and ingredient order."
+      "Commercial barbecue rub: often salt, sugar, paprika, chile, garlic and onion; replace an equal weight of recipe dry rub and reduce added salt (about 2.5 g salt per 1,000 mg sodium) from the label. Commercial poultry/seasoned-salt blends vary too much for a national rule; use 1:1 by weight only after checking sodium and ingredient order."
     ],
     "pitfalls": [
       "Do not equate US cuisine with fast food or with one Southern/Tex-Mex profile.",
@@ -59,6 +61,8 @@
     "avoid": [],
     "children": [
       "us_any",
+      "us_new_mexican",
+      "us_hawaiian",
       "us_cajun",
       "us_creole",
       "us_southern_soul",
@@ -106,6 +110,104 @@
     "substitutes": []
   },
   {
+    "id": "us_new_mexican",
+    "kind": "cuisine",
+    "label": "New Mexican",
+    "subtitle": "Red and green chile, blue corn",
+    "about": "Centered along the high-desert Rio Grande corridor and Sangre de Cristo foothills, from Hatch and Las Cruces in southern New Mexico through Albuquerque, Santa Fe, and Chimayó in the north, New Mexican cuisine grew out of Pueblo, Navajo, and Apache farming fused with 16th–17th-century Spanish colonial traditions in long isolation from central Mexico, later absorbing ranching and Route 66 diner culture. Its cooking revolves around clean, un-smoked sauces made from flame-roasted green or sun-dried red New Mexico Capsicum annuum chiles, paired with pinto beans, blue corn, and wheat-flour tortillas or sopapillas. Representative dishes include carne adovada, stacked red/green/'Christmas' enchiladas, green chile stew, and posole.",
+    "prompt_name": "New Mexican",
+    "flavors": [
+      "roasted green New Mexico chile (chile verde de Nuevo México)",
+      "sun-dried red New Mexico chile (chile rojo / Chimayó)",
+      "crushed red New Mexico chile flakes (chile caribe)",
+      "garlic (ajo)",
+      "Mexican oregano (orégano mexicano)",
+      "yellow or white onion (cebolla)",
+      "Corrales safflower (azafrán de Corrales)",
+      "cumin (comino, sparingly outside pure sauces)",
+      "cilantro (sparingly in northern cooking)",
+      "honey (miel, for sopaipillas)"
+    ],
+    "sweet_only": [
+      "anise seed (anís)",
+      "cinnamon & nutmeg (canela y nuez moscada)",
+      "piloncillo cane sugar"
+    ],
+    "signature_ingredients": [
+      "flame-roasted New Mexico green chile (substitute: canned diced green chiles, drained with salt reduced, or roasted Anaheim chiles plus a small serrano)",
+      "dried New Mexico / Chimayó red chile pods (substitute: dried New Mexico or guajillo pods blended with a small pinch of pasilla)",
+      "blue cornmeal / masa (harina de maíz azul) (substitute: yellow or white masa harina or stone-ground cornmeal; loses blue corn's nutty aroma)",
+      "dried or frozen un-popped white hominy (posole) (substitute: drained canned white or golden hominy; softer texture and faster cooking)",
+      "New Mexican piñon pine nuts (substitute: Mediterranean pignoli pine nuts, milder and less resinous)",
+      "wild lamb's quarters greens (quelites) (substitute: fresh spinach or Swiss chard)"
+    ],
+    "tips": [
+      "Canned fire-roasted diced green chiles supply about 1.0 to 1.1 g salt per 113 g (4 oz) can, whereas plain flash-frozen roasted green chile is typically unsalted; check the package before reducing salt.",
+      "Canned red chile sauce supplies about 2.3 g salt per 240 g cup, and jarred green chile sauce averages about 3.4 g salt per 240 g cup; reduce recipe salt accordingly.",
+      "Pure ground New Mexico red chile powder contains 0 g salt, whereas generic US chili powder mixes cumin, oregano, garlic and salt and alters authentic New Mexican red chile flavor."
+    ],
+    "pitfalls": [
+      "Do not confuse New Mexican cooking with Tex-Mex: keep red and green chile sauces clean with chile, garlic and oregano rather than heavy cumin or commercial chili-powder blends, and favor stacked corn enchiladas and sopaipillas.",
+      "Do not swap tomatillo salsa verde for roasted New Mexico green chile sauce or default to black beans instead of pinto or bolita beans.",
+      "Use 'Christmas' to mean half red and half green chile sauce on the plate, not a December holiday dish, and avoid smoky chipotle in classic sun-dried red chile sauces."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "us_hawaiian",
+    "kind": "cuisine",
+    "label": "Hawaiian & Local",
+    "subtitle": "Shoyu, poke, kālua, local plates",
+    "about": "Across the Hawaiian islands, culinary life spans two distinct layers: contemporary Hawaii island 'local food' forged in 19th- and 20th-century plantation camps and diners, and Indigenous Native Hawaiian (Kānaka ʻŌiwi) foodways built on taro (kalo), sweet potato, breadfruit, reef fish, and imu earth-oven roasting. ChefBot defaults to everyday Hawaii local food (blending Native Hawaiian staples with Japanese, Chinese, Filipino, Korean, and Portuguese influences alongside island pantry classics) while clearly naming Native Hawaiian dishes when making Indigenous heritage food. Representative dishes include shoyu or ʻinamona poke, kālua pork, laulau, loco moco, saimin, and two-scoop rice-and-mac-salad plate lunches.",
+    "prompt_name": "Hawaiian & Local",
+    "flavors": [
+      "Hawaiian sea salt (paʻakai / ʻalaea salt)",
+      "soy sauce (shōyu)",
+      "roasted kukui nut relish (ʻinamona)",
+      "seaweed (limu / ogo)",
+      "ginger (shōga)",
+      "toasted sesame oil (goma abura)",
+      "furikake",
+      "Maui sweet onion & green onion (negi)",
+      "oyster sauce",
+      "Filipino fish sauce or shrimp paste (patis / bagoong)",
+      "cane vinegar & garlic (suka & bawang)",
+      "chili pepper water (nīoi)"
+    ],
+    "sweet_only": [
+      "coconut milk (waiū niu, mainly sweets like haupia and kūlolo)",
+      "dried salted plum powder (li hing mui)",
+      "roasted soy flour & red bean paste (kinako & azuki)",
+      "cinnamon-sugar (for malasadas)"
+    ],
+    "signature_ingredients": [
+      "kalo taro corm, poi & lūʻau taro leaves (substitute: fresh taro root for boiled kalo; simmered baby spinach or collard greens for lūʻau leaves; no supermarket substitute for poi)",
+      "limu kohu / fresh ogo seaweed (substitute: plain unseasoned wakame or hijiki; softer texture and milder flavor)",
+      "ʻinamona roasted kukui nut (substitute: finely chopped toasted macadamia nuts mixed with flaky sea salt; note tree-nut allergy)",
+      "sashimi-grade ʻahi tuna or tako octopus (substitute: sushi-grade ahi tuna or wild salmon)",
+      "Hawaii-style Portuguese sausage (substitute: Portuguese linguiça or Spanish chorizo, usually less smoky)",
+      "ti leaves (kī) (substitute: banana leaves or parchment paper wrapped in heavy foil)",
+      "saimin noodles & dried shrimp dashi (substitute: thin crinkled ramen noodles without the packet, plus dashi from dried shrimp and kombu)"
+    ],
+    "tips": [
+      "Hawaii-brewed shoyu is slightly milder and about 15 to 20% less salty than standard Japanese soy sauce (about 2.0 g salt per 15 ml tbsp vs. 2.4 g): add a touch of extra salt or a tiny pinch of sugar if swapping standard soy sauce.",
+      "Packaged Hawaiian poke seasoning mixes (about 11 g per 450 g fish) supply around 6.7 g salt per packet: omit added paʻakai and reduce shōyu when using one.",
+      "Packaged smoke-salt kālua seasoning mixes run about 63% salt by weight (roughly 1.6 g mix per 1 g table salt omitted), and packaged char siu mixes supply roughly 7.2 g salt per 71 g packet.",
+      "Standard Cantonese-style oyster sauce supplies about 2.2 g salt per 15 ml tbsp."
+    ],
+    "pitfalls": [
+      "Skip the pineapple-on-everything tourist cliché: canned pineapple chunks or juice in savory chicken, burgers or poke is export marketing, not Native Hawaiian or everyday local cooking.",
+      "Keep Indigenous Native Hawaiian dishes (poi, kalo, laulau, kālua pork) clearly distinguished from plantation-era multiethnic local food (Spam musubi, loco moco, plate lunches).",
+      "Let traditional poke highlight fresh fish, shōyu, toasted sesame oil, ogo, Maui onion and ʻinamona over plain rice rather than burying it under mayo sauces and unrelated toppings.",
+      "Traditional Hawaiian and local savory dishes rarely use coconut milk; cook kalo thoroughly and roast kukui nuts completely."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
     "id": "us_cajun",
     "kind": "cuisine",
     "label": "Cajun",
@@ -132,7 +234,7 @@
     "tips": [
       "Use the separate spices in the recipe itself, never a store-bought blend. Then add a tip for cooks short on time: most Cajun seasoning is paprika, cayenne, garlic, onion, black pepper, oregano and thyme plus a lot of salt, so say how many grams of blend would replace the spices in this recipe, and to cut the added salt if they use it.",
       "Never use or suggest filé powder. When a dish needs body (gumbo, étouffée), thicken it with okra, with a dark roux plus a reduced, collagen-rich homemade stock, or with xanthan gum weighed in grams (about 1 to 3 g per liter of liquid, blended in).",
-      "Jarred roux: typically flour cooked in fat; use roughly the same weight as finished roux called for, then thin into hot liquid. Cajun seasoning: often salt, paprika, cayenne, garlic/onion and herbs; replace the same weight of combined dry seasonings and reduce salt by salt_g ≈ sodium_mg × 0.00254 from the label."
+      "Jarred roux: typically flour cooked in fat; use roughly the same weight as finished roux called for, then thin into hot liquid. Cajun seasoning: often salt, paprika, cayenne, garlic/onion and herbs; replace the same weight of combined dry seasonings and reduce salt by about 2.5 g salt per 1,000 mg sodium from the label."
     ],
     "pitfalls": [
       "Do not require a dark roux in every Cajun dish; étouffées, fricassées and gumbos vary, and some gumbos are thickened with okra.",
@@ -175,7 +277,7 @@
     "tips": [
       "Use the separate spices in the recipe itself, never a store-bought blend. Then add a tip for cooks short on time: most Creole seasoning is paprika, garlic, onion, cayenne, black and white pepper, oregano, thyme and basil plus a lot of salt, so say how many grams of blend would replace the spices in this recipe, and to cut the added salt if they use it.",
       "Never use or suggest filé powder. When a dish needs body (gumbo, étouffée), thicken it with okra, with a dark roux plus a reduced, collagen-rich homemade stock, or with xanthan gum weighed in grams (about 1 to 3 g per liter of liquid, blended in).",
-      "Creole seasoning: usually salt, paprika, cayenne, garlic/onion and herbs; swap 1:1 by weight for the recipe's dry seasoning mix and reduce added salt from label sodium with salt_g ≈ sodium_mg × 0.00254. Bottled Creole mustard can replace prepared mustard 1:1 by weight but is sharper and grainier."
+      "Creole seasoning: usually salt, paprika, cayenne, garlic/onion and herbs; swap 1:1 by weight for the recipe's dry seasoning mix and reduce added salt from label sodium (about 2.5 g salt per 1,000 mg sodium). Bottled Creole mustard can replace prepared mustard 1:1 by weight but is sharper and grainier."
     ],
     "pitfalls": [
       "Do not define Creole as simply 'fancy Cajun' or claim it always uses cream, butter or tomatoes.",
@@ -219,7 +321,7 @@
       "benne seeds (substitute: sesame seeds)"
     ],
     "tips": [
-      "Seasoned salt: replace the same weight of recipe salt-plus-spices, but calculate its salt from label sodium (salt_g ≈ sodium_mg × 0.00254). Bottled hot sauce can replace vinegar plus cayenne only approximately; start around 1:1 by weight with the vinegar component and reduce separately added cayenne to taste."
+      "Seasoned salt: replace the same weight of recipe salt-plus-spices, but calculate its salt from label sodium (about 2.5 g salt per 1,000 mg sodium). Bottled hot sauce can replace vinegar plus cayenne only approximately; start around 1:1 by weight with the vinegar component and reduce separately added cayenne to taste."
     ],
     "pitfalls": [
       "Do not reduce soul food to 'slave scraps' or portray it as uniformly unhealthy; scholarship documents skilled Black cooks, agriculture, entrepreneurship and celebration.",
@@ -256,7 +358,7 @@
       "Mexican chorizo (substitute: fresh pork sausage seasoned with chile, vinegar and garlic)"
     ],
     "tips": [
-      "Commercial chili powder: usually ground chile plus cumin, oregano, garlic and sometimes salt; replace the same weight of those dry spices, then adjust salt from sodium. Taco seasoning packets: often chile, cumin, garlic/onion, starch and substantial salt; use about 8–10 g per 450 g meat as a starting shortcut, LOW CONFIDENCE because brands vary; subtract label-derived salt."
+      "Commercial chili powder: usually ground chile plus cumin, oregano, garlic and sometimes salt; replace the same weight of those dry spices, then adjust salt from sodium. Taco seasoning packets: often chile, cumin, garlic/onion, starch and substantial salt; use about 8–10 g per 450 g meat as a starting shortcut, varies widely because brands vary; subtract label-derived salt."
     ],
     "pitfalls": [
       "Do not 'correct' Tex-Mex into interior Mexican cuisine: yellow cheese, cumin-forward chile gravy, combination plates and crispy tacos have their own regional history.",
@@ -293,12 +395,60 @@
       "haddock (substitute: cod or pollock)"
     ],
     "tips": [
-      "Canned clam broth/juice can replace homemade clam liquor by equal weight, but taste for salt. Seafood seasoning blends can replace the recipe's dry spice mix 1:1 by weight only if flavor profile fits; subtract label-derived salt using salt_g ≈ sodium_mg × 0.00254."
+      "Canned clam broth/juice can replace homemade clam liquor by equal weight, but taste for salt. Seafood seasoning blends can replace the recipe's dry spice mix 1:1 by weight only if flavor profile fits; subtract label-derived salt (about 2.5 g salt per 1,000 mg sodium)."
     ],
     "pitfalls": [
       "Do not assume every chowder is cream-thickened: Rhode Island clear chowders and tomato-based styles exist in the wider region.",
       "Do not turn every seafood dish into Old Bay/Chesapeake seasoning; that profile belongs more strongly to the Mid-Atlantic.",
       "Avoid overcooking lobster and clams."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "quebecois",
+    "kind": "cuisine",
+    "label": "Québécois",
+    "subtitle": "Maple, summer savory, warm spices",
+    "about": "Rooted along the St. Lawrence River valley, the Saguenay-Lac-Saint-Jean basin, and the Appalachian foothills around Montreal and Quebec City, Québécois cuisine fuses 17th-century northwestern French settler cooking with Indigenous maple sugar making, British and Irish influences, and 20th-century Montreal traditions. Unlike classical French cooking with wine and cream reductions, traditional Quebec home kitchens rely on dry-toasted flour (farine grillée), summer savory, warm baking spices (clove, cinnamon, nutmeg, allspice), lard, maple, and molasses across hearty everyday dishes like soupe aux pois, pâté chinois, cretons, tourtière, and ragoût de boulettes, alongside seasonal sugar-shack fare (fèves au lard, oreilles de Christ / fried salt pork) and classic diner dishes like poutine.",
+    "prompt_name": "Québécois",
+    "flavors": [
+      "summer savory (sarriette d'été)",
+      "clove (clou de girofle)",
+      "cinnamon (cannelle)",
+      "nutmeg (muscade)",
+      "allspice (piment de la Jamaïque)",
+      "maple syrup (sirop d'érable)",
+      "molasses (mélasse)",
+      "bay leaf (feuille de laurier)",
+      "yellow onion & celery (oignon jaune et céleri)",
+      "green-tomato fruit ketchup (ketchup aux fruits)"
+    ],
+    "sweet_only": [
+      "vanilla extract (extrait de vanille)",
+      "ground ginger (gingembre moulu)",
+      "artificial maple essence (essence d'érable artificielle)"
+    ],
+    "signature_ingredients": [
+      "fresh unaged cheddar cheese curds (fromage en grains frais) (substitute: mild white cheddar cut into 2.5 cm chunks or fresh mozzarella pearls; loses the signature squeak)",
+      "dried whole or split yellow peas (pois jaunes) (substitute: dried yellow split peas)",
+      "cured salt pork / fatback (lard salé) (substitute: packaged US salt pork, or uncured pork belly / slab bacon with added salt reduced)",
+      "small white navy beans (haricots ronds blancs) (substitute: dried navy beans or Great Northern beans)",
+      "pork hocks / trotters (pattes de cochon) (substitute: fresh or smoked pork hocks)",
+      "Montreal smoked beef brisket (viande fumée de Montréal) (substitute: deli pastrami, though sweeter and less pepper-coriander crusted)"
+    ],
+    "tips": [
+      "Prepared poutine gravy mix pouches (around 52 g making 625 ml) supply roughly 8.7 g salt per pouch: if swapping in homemade beef-chicken stock thickened with cornstarch or toasted flour, add about 8 to 9 g salt per 625 ml batch.",
+      "Concentrated liquid beef broth supplies about 1.9 g salt per 7.5 ml (1.5 tsp): replace 250 ml beef stock with 250 ml water plus 7.5 ml concentrate and omit about 1.9 g table salt.",
+      "Commercial tourtière spice blends combine cinnamon, nutmeg, allspice, cloves, pepper, bay and savory; artisan blends are unsalted (use 10 to 15 g per 1 kg meat), while some commercial jars list sea salt first, so check the label before salting."
+    ],
+    "pitfalls": [
+      "Keep seasonal sugar-shack dishes (oreilles de Christ / fried salt pork, fèves au lard) and 1950s casse-croûte fast food (poutine) distinct from everyday home cooking.",
+      "Avoid writing generic French recipes with wine reductions, tarragon cream sauces or garlic-herb butter for traditional habitant dishes where warm baking spices, summer savory, toasted flour and molasses belong.",
+      "Distinguish shallow ground-pork tourtière (pâté à la viande in Saguenay) from deep-dish Tourtière du Lac-Saint-Jean made with cubed meats, potatoes and broth.",
+      "Serve poutine with room-temperature fresh curds rather than melted mozzarella, and avoid pouring maple syrup indiscriminately into savory dishes like soupe aux pois or pâté chinois.",
+      "Quebec cretons are simmered gently with milk and oats or breadcrumbs for toast, not confited solely in lard like French rillettes."
     ],
     "avoid": [],
     "children": [],
@@ -412,7 +562,7 @@
     "signature_ingredients": [
       "large Sonoran-style flour tortillas (substitute: thin burrito-size flour tortillas)",
       "chiltepin (substitute: pequin chile, then crushed red pepper as rough fallback)",
-      "machaca (substitute: shredded dried beef or jerky rehydrated, LOW CONFIDENCE)",
+      "machaca (substitute: shredded dried beef or jerky rehydrated, uncertain across brands)",
       "fresh Pacific shellfish (substitute: locally fresh shrimp, scallops or white fish)"
     ],
     "tips": [
@@ -498,7 +648,7 @@
       "achiote seeds/paste (substitute: annatto powder; paprika gives color but not flavor)"
     ],
     "tips": [
-      "Commercial recado rojo/achiote paste: replace homemade recado 1:1 by weight as a starting point, then reduce salt and acid because brands vary. For sour-orange marinade, bottled naranja agria can replace fresh juice 1:1 by weight; check salt if seasoned. Salt correction: salt_g ≈ sodium_mg × 0.00254."
+      "Commercial recado rojo/achiote paste: replace homemade recado 1:1 by weight as a starting point, then reduce salt and acid because brands vary. For sour-orange marinade, bottled naranja agria can replace fresh juice 1:1 by weight; check salt if seasoned. Check label sodium to adjust added salt (about 2.5 g salt per 1,000 mg sodium)."
     ],
     "pitfalls": [
       "Do not replace achiote with generic chili powder or make cochinita simply 'spicy pulled pork.' Habanero is often served in salsa or condiment form rather than making every dish searingly hot.",
@@ -622,7 +772,7 @@
       "culantro (substitute: cilantro)"
     ],
     "tips": [
-      "Bottled mojo criollo can replace homemade mojo 1:1 by weight for marinade volume, but check salt and acidity; reduce salt using label sodium. Jarred sofrito can replace freshly sautéed sofrito roughly 1:1 by weight, LOW CONFIDENCE because formulas and water content vary."
+      "Bottled mojo criollo can replace homemade mojo 1:1 by weight for marinade volume, but check salt and acidity; reduce salt using label sodium. Jarred sofrito can replace freshly sautéed sofrito roughly 1:1 by weight, varies widely because formulas and water content vary."
     ],
     "pitfalls": [
       "Do not make all Cuban food hot; chile heat is usually less central than garlic, citrus, cumin and oregano.",
@@ -659,7 +809,7 @@
       "nutmeg (nuez moscada)"
     ],
     "signature_ingredients": [
-      "ají dulce (substitute: mini sweet pepper plus a tiny piece of habanero for aroma, LOW CONFIDENCE)",
+      "ají dulce (substitute: mini sweet pepper plus a tiny piece of habanero for aroma, uncertain across brands)",
       "culantro/recao (substitute: cilantro)",
       "gandules (substitute: canned pigeon peas)",
       "green plantain (substitute: none for mofongo; starchy banana is not equivalent)"
@@ -717,6 +867,59 @@
     "children": [],
     "substitutes": [
       "Scotch bonnet: habanero"
+    ]
+  },
+  {
+    "id": "colombian",
+    "kind": "cuisine",
+    "label": "Colombian",
+    "subtitle": "Hogao, cilantro, panela, plantains",
+    "about": "Stretching across the Andean cordilleras and valleys (Bogotá, Medellín, Cali, Santander), a tropical Caribbean coast, a Pacific rainforest coast, and the Orinoco plains, Colombia brings together Indigenous, Spanish, Afro-Colombian, and coastal Levantine traditions. Everyday Andean home cooking, built around a simple scallion-and-tomato hogao base (often with cumin and achiote as common additions), cilantro, panela, rice, potatoes, beans, and plantains across dishes like ajiaco santafereño, sancocho, and bandeja paisa, serves as the default baseline, while coastal cooking shifts to Caribbean coconut milk, titoté, and suero costeño or Pacific hierbas de azotea seafood stews (encocado).",
+    "prompt_name": "Colombian",
+    "flavors": [
+      "scallion (cebolla larga / junca)",
+      "tomato (for hogao)",
+      "cilantro",
+      "ground cumin (comino)",
+      "annatto (achiote / color)",
+      "garlic (ajo)",
+      "guascas herb (for ajiaco)",
+      "sweet ají dulce pepper",
+      "tabletop ají picante sauce",
+      "Pacific coastal herbs (hierbas de azotea)",
+      "panela unrefined cane sugar",
+      "lime (limón criollo)",
+      "sweet bell pepper (pimentón)"
+    ],
+    "sweet_only": [
+      "arequipe caramelized milk",
+      "vanilla extract (esencia de vainilla)",
+      "anise seed (anís en grano, mostly sweets and warm drinks)"
+    ],
+    "signature_ingredients": [
+      "papa criolla small yellow potato (substitute: peeled baby Yukon Gold potatoes; simmer longer and mash a few to thicken broth)",
+      "precooked cornmeal (masarepa) (substitute: precooked white or yellow arepa cornmeal; do not swap Mexican masa harina)",
+      "queso costeño & cuajada (substitute: lightly rinsed feta mixed with queso fresco for queso costeño; drained ricotta or farmer cheese for cuajada)",
+      "suero costeño cultured coastal cream (substitute: Mexican crema or sour cream thinned slightly with buttermilk and a pinch of salt)",
+      "chillangua sawtooth coriander (substitute: culantro, or double fresh cilantro stems and leaves)",
+      "sour cassava starch (almidón de yuca agrio) (substitute: sweet tapioca starch; gives chewiness without fermented tang)",
+      "cassava & green or ripe plantains (yuca & plátano) (substitute: fresh or frozen cassava and green or black-spotted plantains)"
+    ],
+    "tips": [
+      "Complete condiment packets (cumin, garlic, annatto, turmeric) vary widely in salt by market: domestic Colombian packets reach about 28 g salt per 100 g (reduce table salt by about 1.4 g per 5 g tsp), whereas US-export packets are often much lower in sodium, so check the label.",
+      "Beef-rib or chicken bouillon cubes run about 54 to 56% salt by weight (about 5 to 6 g salt per 9 to 11 g cube): dissolve 1 to 2 cubes per liter of soup and omit 1 to 2 tsp table salt.",
+      "Commercial annatto color packets vary from 0 to 5% salt across brands; check the label for sodium."
+    ],
+    "pitfalls": [
+      "Avoid making classic Colombian dishes chile-hot: everyday ajiaco, bandeja paisa, sancocho and sudado are mild and savory, with chile heat served on the side as raw ají.",
+      "Everyday Colombian arepas (such as arepa paisa) are thinner griddled patties eaten plain, buttered or topped with cheese rather than thick split stuffed pockets.",
+      "Avoid inserting Mexican jalapeños, chipotle, flour tortillas, tomatillos or black beans (Colombia favors cargamanto red/pinto beans or lentils and builds savory bases on scallion-and-tomato hogao).",
+      "Keep regional styles intact: do not add heavy dairy to a Pacific coconut-milk encocado, do not swap parsley or basil for guascas in ajiaco, and thicken Colombian natilla with cornstarch rather than eggs."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": [
+      "guascas herb (Galinsoga parviflora): no close substitute (dried oregano, parsley and a touch of cilantro only roughly approximate ajiaco)"
     ]
   },
   {
@@ -795,7 +998,7 @@
       "chuño (substitute: potato starch only for thickening, not identity)"
     ],
     "tips": [
-      "Jarred ají amarillo or ají panca paste can replace homemade chile paste 1:1 by weight if it is a plain paste; salted/acidified brands require salt/acid adjustment. Bottled sillao can replace soy sauce 1:1 by weight; note soy and wheat. Commercial anticucho paste can replace a homemade chile-garlic-vinegar marinade concentrate approximately 1:1 by weight, LOW CONFIDENCE because formulas vary."
+      "Jarred ají amarillo or ají panca paste can replace homemade chile paste 1:1 by weight if it is a plain paste; salted/acidified brands require salt/acid adjustment. Bottled sillao can replace soy sauce 1:1 by weight; note soy and wheat. Commercial anticucho paste can replace a homemade chile-garlic-vinegar marinade concentrate approximately 1:1 by weight, varies widely because formulas vary."
     ],
     "pitfalls": [
       "Do not describe all Peruvian food as ceviche plus hundreds of potatoes.",

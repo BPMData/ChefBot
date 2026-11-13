@@ -34,6 +34,7 @@ FORCE_CALLOUT_IDS = {
     "us_cajun",
     "us_creole",
     "us_new_england_seafood",
+    "us_hawaiian",
     "shandong",
     "jiangsu",
     "zhejiang",
@@ -51,6 +52,12 @@ FORCE_CALLOUT_IDS = {
     "thai",
     "afghan",
     "greek",
+    "georgian",
+    "portuguese",
+    "irish",
+    "austrian",
+    "czech",
+    "hungarian",
     "tunisian",
     "senegalese",
 }
@@ -64,9 +71,11 @@ REGION_COLORS: dict[str, str] = {
     "africa": "orange",
     "asia": "teal",
     # Americas
+    "quebecois": "green",
     "united_states": "blue",
     "mexico": "amber",
     "caribbean": "teal",
+    "colombian": "amber",
     "brazilian": "green",
     "peruvian": "coral",
     "argentinian": "purple",
@@ -83,12 +92,21 @@ REGION_COLORS: dict[str, str] = {
     "malaysian_singaporean": "indigo",
     "indonesian": "teal",
     # Europe
-    "french": "blue",
+    "portuguese": "teal",
     "spanish": "amber",
+    "french": "blue",
+    "british": "coral",
+    "irish": "green",
+    "nordic": "cyan",
     "italy": "green",
-    "central_european": "purple",
+    "german": "purple",
+    "austrian": "orange",
+    "czech": "amber",
+    "polish": "teal",
+    "hungarian": "pink",
     "greek": "teal",
     "russian": "coral",
+    "georgian": "amber",
     # Near East
     "turkish": "coral",
     "palestinian_levantine": "teal",
@@ -103,6 +121,8 @@ REGION_COLORS: dict[str, str] = {
     "ethiopian": "orange",
     # United States
     "us_tex_mex": "amber",
+    "us_new_mexican": "teal",
+    "us_hawaiian": "pink",
     "us_cajun": "coral",
     "us_creole": "purple",
     "us_southern_soul": "green",
@@ -138,7 +158,7 @@ REGION_COLORS: dict[str, str] = {
 NEAR_EAST_A3 = {
     "PSX", "ISR", "LBN", "SYR", "JOR", "IRN", "TUR",
     "IRQ", "SAU", "YEM", "OMN", "ARE", "QAT", "BHR", "KWT",
-    "CYP", "GEO", "ARM", "AZE", "ESB", "WSB",
+    "CYP", "ARM", "AZE", "ESB", "WSB",
 }
 
 ACADIANA_PARISHES = {
@@ -471,7 +491,9 @@ def project_and_simplify(
 CALLOUT_POSITIONS: dict[str, dict[str, tuple[float, float]]] = {
     "world": {},
     "americas": {
+        "quebecois": (302.0, 128.0),
         "caribbean": (294.0, 206.0),
+        "colombian": (160.0, 276.0),
         "peruvian": (72.0, 344.0),
     },
     "asia": {
@@ -483,7 +505,16 @@ CALLOUT_POSITIONS: dict[str, dict[str, tuple[float, float]]] = {
         "malaysian_singaporean": (118.0, 416.0),
     },
     "europe": {
-        "greek": (244.0, 456.0),
+        "british": (66.0, 198.0),
+        "irish": (46.0, 248.0),
+        "portuguese": (48.0, 336.0),
+        "german": (146.0, 212.0),
+        "polish": (226.0, 212.0),
+        "austrian": (140.0, 416.0),
+        "hungarian": (230.0, 416.0),
+        "georgian": (314.0, 416.0),
+        "czech": (182.0, 456.0),
+        "greek": (256.0, 456.0),
     },
     "near_east": {
         "palestinian_levantine": (88.0, 304.0),
@@ -494,8 +525,10 @@ CALLOUT_POSITIONS: dict[str, dict[str, tuple[float, float]]] = {
     },
     "united_states": {
         "us_new_england_seafood": (274.0, 114.0),
-        "us_cajun": (176.0, 412.0),
-        "us_creole": (268.0, 412.0),
+        "us_new_mexican": (104.0, 196.0),
+        "us_hawaiian": (72.0, 384.0),
+        "us_cajun": (188.0, 412.0),
+        "us_creole": (282.0, 412.0),
     },
     "mexico": {},
     "caribbean": {
@@ -527,9 +560,6 @@ LABEL_POS_OVERRIDES: dict[str, dict[str, tuple[float, float]]] = {
         "near_east": (228.0, 238.0),
         "africa": (186.0, 274.0),
         "asia": (292.0, 214.0),
-    },
-    "europe": {
-        "italy": (126.0, 348.0),
     },
     "africa": {
         "moroccan_north_african": (54.0, 118.0),
@@ -576,10 +606,29 @@ def build_all() -> dict[str, dict]:
         epsilon: float = 0.65,
         min_area_px: float = 2.5,
         anchor_overrides: dict[str, list[list[tuple[float, float]]]] | None = None,
+        inset_geo_boxes: list[tuple[float, float, float, float]] | None = None,
     ) -> dict:
         proj_regions, proj_bg = project_and_simplify(
             raw_regions, raw_bg, window, pad, epsilon=epsilon, min_area_px=min_area_px
         )
+        inset_boxes: list[list[float]] = []
+        if inset_geo_boxes:
+            lon0, lat0, lon1, lat1 = window
+            pad_l, pad_t, pad_r, pad_b = pad
+            avail_w = CANVAS_W - pad_l - pad_r
+            avail_h = CANVAS_H - pad_t - pad_b
+            cos_lat = math.cos(math.radians((lat0 + lat1) * 0.5))
+            geo_w = (lon1 - lon0) * cos_lat
+            geo_h = lat1 - lat0
+            scale = min(avail_w / geo_w, avail_h / geo_h)
+            off_x = pad_l + (avail_w - geo_w * scale) * 0.5
+            off_y = pad_t + (avail_h - geo_h * scale) * 0.5
+            for bx0, by0, bx1, by1 in inset_geo_boxes:
+                px0 = off_x + (bx0 - lon0) * cos_lat * scale
+                px1 = off_x + (bx1 - lon0) * cos_lat * scale
+                py0 = off_y + (lat1 - by1) * scale
+                py1 = off_y + (lat1 - by0) * scale
+                inset_boxes.append([round(px0, 1), round(py0, 1), round(px1, 1), round(py1, 1)])
         override_proj = {}
         if anchor_overrides:
             override_proj, _ = project_and_simplify(
@@ -635,7 +684,7 @@ def build_all() -> dict[str, dict]:
                 "callout": callout,
             })
 
-        return {
+        out_lvl = {
             "id": level_id,
             "width": int(CANVAS_W),
             "height": int(CANVAS_H),
@@ -643,6 +692,9 @@ def build_all() -> dict[str, dict]:
             "background": proj_bg,
             "regions": region_objs,
         }
+        if inset_boxes:
+            out_lvl["inset_boxes"] = inset_boxes
+        return out_lvl
 
     # 1. WORLD
     world_regions: dict[str, list[list[tuple[float, float]]]] = {
@@ -662,6 +714,8 @@ def build_all() -> dict[str, dict]:
             world_regions["americas"].extend(rings)
         elif a3 in NEAR_EAST_A3:
             world_regions["near_east"].extend(rings)
+        elif a3 == "GEO":
+            world_regions["europe"].extend(rings)
         elif a3 == "RUS":
             # Split Russia at the Ural Mountains (60E) on the world overview map so Europe and Asia have natural shapes
             for r in rings:
@@ -707,14 +761,18 @@ def build_all() -> dict[str, dict]:
         "united_states": {"USA"},
         "mexico": {"MEX"},
         "caribbean": {"CUB", "JAM", "PRI"},
+        "colombian": {"COL"},
         "brazilian": {"BRA"},
         "peruvian": {"PER"},
         "argentinian": {"ARG"},
     }
     am_regions = {k: [] for k in americas_map}
+    am_regions["quebecois"] = []
     am_bg = []
     for rec, rings in country_records:
         a3 = rec["ADM0_A3"]
+        if a3 == "CAN":
+            continue
         matched = False
         for rid, a3_set in americas_map.items():
             if a3 in a3_set:
@@ -722,6 +780,13 @@ def build_all() -> dict[str, dict]:
                 matched = True
                 break
         if not matched and (rec["CONTINENT"] in ("North America", "South America") or rec["REGION_UN"] == "Americas" or a3 == "FRA"):
+            am_bg.extend(rings)
+    for rec, rings in admin1_records:
+        if rec["iso_a2"] != "CA":
+            continue
+        if rec["name"] == "Québec":
+            am_regions["quebecois"].extend(rings)
+        else:
             am_bg.extend(rings)
 
     levels_out["americas"] = finalize_level(
@@ -774,12 +839,21 @@ def build_all() -> dict[str, dict]:
 
     # 4. EUROPE
     europe_map = {
-        "italy": {"ITA"},
-        "french": {"FRA"},
+        "portuguese": {"PRT"},
         "spanish": {"ESP"},
+        "french": {"FRA"},
+        "british": {"GBR"},
+        "irish": {"IRL"},
+        "nordic": {"DNK", "NOR", "SWE", "FIN", "ISL"},
+        "italy": {"ITA"},
+        "german": {"DEU"},
+        "austrian": {"AUT"},
+        "czech": {"CZE"},
+        "polish": {"POL"},
+        "hungarian": {"HUN"},
         "greek": {"GRC"},
-        "central_european": CENTRAL_EUROPE_A3,
         "russian": {"RUS"},
+        "georgian": {"GEO"},
     }
     eu_regions = {k: [] for k in europe_map}
     eu_bg = []
@@ -788,22 +862,25 @@ def build_all() -> dict[str, dict]:
         matched = False
         for rid, a3_set in europe_map.items():
             if a3 in a3_set:
-                # Filter out overseas rings outside Europe
-                eu_rings = [r for r in rings if ring_bbox(r)[2] > -12.0 and ring_bbox(r)[3] > 34.0]
+                if a3 in ("FRA", "ESP", "PRT"):
+                    # Keep European mainland / Balearics; drop Azores, Madeira, Canaries, French Guiana
+                    eu_rings = [r for r in rings if ring_bbox(r)[2] > -11.0 and ring_bbox(r)[3] > 35.0]
+                else:
+                    eu_rings = [r for r in rings if ring_bbox(r)[3] > 34.0 and ring_bbox(r)[0] < 55.0]
                 eu_regions[rid].extend(eu_rings)
                 matched = True
                 break
         if not matched:
-            eu_bg.extend(rings)
+            eu_bg.extend(r for r in rings if ring_bbox(r)[2] > -30.0 and ring_bbox(r)[0] < 60.0 and ring_bbox(r)[3] > 28.0)
 
     levels_out["europe"] = finalize_level(
         "europe",
         eu_regions,
         eu_bg,
-        window=(-11.0, 34.5, 58.0, 71.2),
+        window=(-25.5, 34.5, 49.0, 71.2),
         pad=(14.0, 24.0, 14.0, 36.0),
         epsilon=0.65,
-        min_area_px=2.5,
+        min_area_px=2.0,
     )
 
     # 5. NEAR EAST
@@ -875,7 +952,9 @@ def build_all() -> dict[str, dict]:
         "us_creole": [],
         "us_southern_soul": [],
         "us_tex_mex": [],
+        "us_new_mexican": [],
         "us_new_england_seafood": [],
+        "us_hawaiian": [],
     }
     us_bg: list[list[tuple[float, float]]] = []
     for pname, rings in la_parishes.items():
@@ -886,16 +965,37 @@ def build_all() -> dict[str, dict]:
         else:
             us_regions["us_southern_soul"].extend(rings)
 
+    # Hawaii 8 main islands projected linearly into a Southwest Pacific inset box
+    hi_cos = math.cos(math.radians(20.6)) / math.cos(math.radians(34.55))
+    hi_scale = 1.55
+    hi_vc_lon, hi_vc_lat = -118.5, 24.0
+    hi_rc_lon, hi_rc_lat = -157.5, 20.6
+    hi_inset_geo = (
+        hi_vc_lon + (-160.5 - hi_rc_lon) * hi_cos * hi_scale,
+        hi_vc_lat + (18.7 - hi_rc_lat) * hi_scale,
+        hi_vc_lon + (-154.6 - hi_rc_lon) * hi_cos * hi_scale,
+        hi_vc_lat + (22.5 - hi_rc_lat) * hi_scale,
+    )
+
     for rec, rings in admin1_records:
         if rec["iso_a2"] != "US":
             continue
         postal = rec["postal"]
-        if postal in ("AK", "HI", "LA"):
+        if postal in ("AK", "LA"):
             continue
-        if postal in US_SOUTHEAST_STATES:
+        if postal == "HI":
+            for r in rings:
+                if ring_bbox(r)[0] >= -160.5 and ring_bbox(r)[3] <= 22.5:
+                    us_regions["us_hawaiian"].append([
+                        (hi_vc_lon + (lon - hi_rc_lon) * hi_cos * hi_scale, hi_vc_lat + (lat - hi_rc_lat) * hi_scale)
+                        for lon, lat in r
+                    ])
+        elif postal in US_SOUTHEAST_STATES:
             us_regions["us_southern_soul"].extend(rings)
         elif postal == "TX":
             us_regions["us_tex_mex"].extend(rings)
+        elif postal == "NM":
+            us_regions["us_new_mexican"].extend(rings)
         elif postal in US_NEW_ENGLAND_STATES:
             us_regions["us_new_england_seafood"].extend(rings)
         else:
@@ -905,11 +1005,12 @@ def build_all() -> dict[str, dict]:
         "united_states",
         us_regions,
         us_bg,
-        window=(-125.0, 24.2, -66.5, 49.6),
+        window=(-125.0, 19.5, -66.5, 49.6),
         pad=(10.0, 36.0, 14.0, 56.0),
         any_id="us_any",
         epsilon=0.6,
         min_area_px=1.5,
+        inset_geo_boxes=[hi_inset_geo],
     )
 
     # 8. MEXICO
@@ -1214,6 +1315,8 @@ def build_globe() -> dict:
             globe_regions["americas"].extend(rings)
         elif a3 in NEAR_EAST_A3:
             globe_regions["near_east"].extend(rings)
+        elif a3 == "GEO":
+            globe_regions["europe"].extend(rings)
         elif a3 == "RUS":
             # Keep Chukotka (west of 180 / negative lon) with Asia; split European Russia at 60E
             for r in rings:

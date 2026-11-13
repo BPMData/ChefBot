@@ -31,6 +31,8 @@ LEGACY_IDS: dict[str, str] = {
     "Greek": "greek",
     "Spanish": "spanish",
     "Turkish": "turkish",
+    "central_european": "german",
+    "Central European": "german",
 }
 
 

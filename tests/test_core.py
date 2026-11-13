@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_every_cuisine_builds_a_prompt():
     assert "from any cuisine or culture" in prompts.system_prompt(prompts.DEFAULT_AUDIENCE, prompts.NO_CUISINE)
     leaves = cuisines.leaves()
-    assert len(leaves) >= 58
+    assert len(leaves) >= 71
     for node in leaves:
         p = prompts.system_prompt(prompts.DEFAULT_AUDIENCE, node["id"])
         assert node["prompt_name"] in p
@@ -256,9 +256,21 @@ def test_legacy_ids_map_to_existing_leaves():
     }
     assert expected_old <= set(cuisines.LEGACY_IDS)
     assert cuisines.LEGACY_IDS["Chinese (Hong Kong)"] == "cantonese"
+    assert cuisines.LEGACY_IDS["central_european"] == "german"
+    assert cuisines.LEGACY_IDS["Central European"] == "german"
+    assert cuisines.get("central_european") is None
+    assert cuisines.resolve("Central European")["id"] == "german"
+    assert cuisines.resolve("central_european")["id"] == "german"
     leaf_ids = {n["id"] for n in cuisines.leaves()}
     for old_label, new_id in cuisines.LEGACY_IDS.items():
         assert new_id in leaf_ids, f"{old_label!r} mapped to non-leaf {new_id!r}"
+
+
+def test_no_raw_research_jargon_in_cuisines():
+    for node in cuisines.leaves():
+        raw = json.dumps(node, ensure_ascii=False)
+        for bad in ("salt_g", "sodium_mg", "LOW CONFIDENCE"):
+            assert bad not in raw, (node["id"], bad)
 
 
 def test_build_cuisine_data_reproduces_committed_json():

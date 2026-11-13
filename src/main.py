@@ -661,6 +661,29 @@ class ChefBotApp:
         has_info = node_id == self.cuisine and node is not None and bool(node.get("about"))
         chip.on_delete = (lambda e, cid=node_id: self._cuisine_info(cid)) if has_info else None
 
+    @staticmethod
+    def _inset_frames(
+        lvl: dict,
+        tx,
+        ty,
+        opacity: float,
+        stroke_width: float,
+        radius: float,
+    ) -> list[cv.Shape]:
+        """Outline frames for a level's inset boxes (e.g. Hawaii on the US map)."""
+        frames: list[cv.Shape] = []
+        for bx0, by0, bx1, by1 in lvl.get("inset_boxes", []):
+            rx, ry = tx(bx0), ty(by0)
+            frames.append(cv.Rect(
+                rx, ry, width=tx(bx1) - rx, height=ty(by1) - ry, border_radius=radius,
+                paint=ft.Paint(
+                    color=ft.Colors.with_opacity(opacity, ft.Colors.OUTLINE_VARIANT),
+                    stroke_width=stroke_width,
+                    style=ft.PaintingStyle.STROKE,
+                ),
+            ))
+        return frames
+
     def _poly_paths(
         self,
         polygons: list[list[list[float]]],
@@ -717,6 +740,9 @@ class ChefBotApp:
             stroke_width=0.8,
             tx=tx,
             ty=ty,
+        ))
+        shapes.extend(self._inset_frames(
+            lvl, tx, ty, opacity=0.45, stroke_width=0.9, radius=6,
         ))
         for reg in lvl["regions"]:
             if reg["id"] in highlight_set:
@@ -1547,6 +1573,9 @@ class ChefBotApp:
                 stroke_width=1.0,
                 tx=tx,
                 ty=ty,
+            ))
+            shapes.extend(self._inset_frames(
+                lvl, tx, ty, opacity=0.55, stroke_width=1.1, radius=8,
             ))
 
             for reg in lvl["regions"]:

@@ -21,8 +21,8 @@ CONTINENT_SPECS = [
      "Cuisines of North, Central and South America and the Caribbean."),
     ("asia", "Asia", "East, South, Southeast & Central Asia",
      "Cuisines of East, South, Southeast and Central Asia."),
-    ("europe", "Europe", "Mediterranean, Western, Central & Eastern Europe",
-     "Cuisines of Mediterranean, Western, Central and Eastern Europe."),
+    ("europe", "Europe", "Mediterranean, Western, Central, Northern & Caucasus",
+     "Cuisines of Mediterranean, Western, Central, Northern and Eastern Europe and the Caucasus."),
     ("near_east", "Near East", "Levant, Iran & Anatolia",
      "Cuisines of the Levant, Iran and Anatolia."),
     ("africa", "Africa", "North, West & East Africa",
@@ -33,6 +33,7 @@ CONTINENT_SPECS = [
 COUNTRY_CHILDREN: dict[str, list[str]] = {
     "united_states": [
         "us_any", "us_cajun", "us_creole", "us_southern_soul", "us_tex_mex", "us_new_england_seafood",
+        "us_new_mexican", "us_hawaiian",
     ],
     "mexico": [
         "mx_any", "mx_northern_baja", "mx_central_oaxacan", "mx_yucatan",
@@ -59,7 +60,23 @@ ADDITION_CONTINENT = {
     "algerian": "africa",
     "afghan": "asia",
     "pakistani": "asia",
+    "german": "europe",
+    "austrian": "europe",
+    "hungarian": "europe",
+    "polish": "europe",
+    "czech": "europe",
+    "portuguese": "europe",
+    "british": "europe",
+    "irish": "europe",
+    "nordic": "europe",
+    "georgian": "europe",
+    "quebecois": "americas",
+    "us_new_mexican": "americas",
+    "us_hawaiian": "americas",
+    "colombian": "americas",
 }
+
+CENTRAL_EUROPE_REPLACEMENT = ("german", "austrian", "hungarian", "polish", "czech")
 
 PROMPT_NAMES: dict[str, str] = {
     "us_any": "American",
@@ -68,6 +85,9 @@ PROMPT_NAMES: dict[str, str] = {
     "us_southern_soul": "Southern and Soul Food (American)",
     "us_tex_mex": "Tex-Mex",
     "us_new_england_seafood": "New England Seafood",
+    "us_new_mexican": "New Mexican",
+    "us_hawaiian": "Hawaiian & Local",
+    "quebecois": "Québécois",
     "mx_any": "Mexican",
     "mx_northern_baja": "Northern Mexican and Baja",
     "mx_central_oaxacan": "Central Mexican and Oaxacan",
@@ -76,6 +96,7 @@ PROMPT_NAMES: dict[str, str] = {
     "caribbean_cuban": "Cuban",
     "caribbean_puerto_rican": "Puerto Rican",
     "caribbean_jamaican": "Jamaican",
+    "colombian": "Colombian",
     "brazilian": "Brazilian",
     "peruvian": "Peruvian",
     "argentinian": "Argentinian",
@@ -108,8 +129,17 @@ PROMPT_NAMES: dict[str, str] = {
     "french": "French",
     "spanish": "Spanish",
     "greek": "Greek",
-    "central_european": "Central European",
+    "german": "German",
+    "austrian": "Austrian",
+    "hungarian": "Hungarian",
+    "polish": "Polish",
+    "czech": "Czech",
     "russian": "Russian",
+    "portuguese": "Portuguese",
+    "british": "British",
+    "irish": "Irish",
+    "nordic": "Nordic",
+    "georgian": "Georgian",
     "palestinian_levantine": "Palestinian and Levantine",
     "persian": "Persian",
     "turkish": "Turkish",
@@ -330,9 +360,77 @@ def normalize_flavor(raw: str, node_id: str) -> str:
     return _lower_first(s)
 
 
+def _clean_research_jargon(text: str) -> str:
+    """Scrub raw research formulas (salt_g/sodium_mg) and LOW CONFIDENCE markers."""
+    s = text.strip()
+    # Replace sodium->salt conversion equations with plain English
+    s = re.sub(
+        r"Salt correction:\s*salt_g\s*[≈=]\s*sodium_mg\s*[×x*]\s*0\.0025\d*\.?",
+        "Check label sodium to adjust added salt (about 2.5 g salt per 1,000 mg sodium).",
+        s,
+    )
+    s = re.sub(
+        r"calculate its salt from label sodium \(salt_g\s*[≈=]\s*sodium_mg\s*[×x*]\s*0\.0025\d*\)",
+        "calculate its salt from label sodium (about 2.5 g salt per 1,000 mg sodium)",
+        s,
+    )
+    s = re.sub(
+        r"reduce added salt from label sodium with salt_g\s*[≈=]\s*sodium_mg\s*[×x*]\s*0\.0025\d*",
+        "reduce added salt from label sodium (about 2.5 g salt per 1,000 mg sodium)",
+        s,
+    )
+    s = re.sub(
+        r"(?:using|with)\s+salt_g\s*[≈=]\s*sodium_mg\s*[×x*]\s*(?:0\.00254|0\.0025|2\.5\s*/\s*1000)",
+        "(about 2.5 g salt per 1,000 mg sodium)",
+        s,
+    )
+    s = re.sub(
+        r"calculate salt from the label:\s*salt_g\s*[≈=]\s*sodium_mg\s*[×x*]\s*(?:0\.00254|0\.0025|2\.5\s*/\s*1000)\s*(?:for the quantity used)?",
+        "calculate salt from the label (about 2.5 g salt per 1,000 mg sodium) for the quantity used",
+        s,
+    )
+    s = re.sub(
+        r"calculate salt_g\s*(?:=\s*sodium_mg|from sodium_mg)\s*[×x*]\s*(?:0\.00254|0\.0025|2\.5\s*/\s*1000)",
+        "calculate salt from label sodium (about 2.5 g salt per 1,000 mg sodium)",
+        s,
+    )
+    s = re.sub(
+        r"(?:Use the package sodium to calculate|Account for labeled sodium)\s+(?:using\s+)?salt_g\s*[≈=]\s*sodium_mg\s*[×x*]\s*(?:0\.00254|0\.0025|2\.5\s*/\s*1000)",
+        "Use the package sodium to adjust added salt (about 2.5 g salt per 1,000 mg sodium)",
+        s,
+    )
+    s = re.sub(
+        r"derive salt from the label using salt_g\s*[≈=]\s*sodium_mg\s*[×x*]\s*(?:0\.00254|0\.0025|2\.5\s*/\s*1000)",
+        "derive salt from the label (about 2.5 g salt per 1,000 mg sodium)",
+        s,
+    )
+    s = re.sub(
+        r"otherwise\s+salt_g\s*[≈=]\s*sodium_mg\s*[×x*]\s*(?:0\.00254|0\.0025|2\.5\s*/\s*1000)",
+        "otherwise estimate salt from label sodium (about 2.5 g salt per 1,000 mg sodium)",
+        s,
+    )
+    # Catch-all for any remaining salt_g / sodium_mg formula
+    s = re.sub(
+        r"salt_g\s*[≈=]\s*sodium_mg\s*[×x*]\s*(?:0\.00254|0\.0025|2\.5\s*/\s*1000)",
+        "about 2.5 g salt per 1,000 mg sodium",
+        s,
+    )
+
+    # Clean LOW CONFIDENCE markers into natural phrasing
+    s = s.replace("regional details remain LOW CONFIDENCE.", "regional fermentation details vary by maker.")
+    s = re.sub(r"Salt:\s*LOW CONFIDENCE for generic [^:]+:\s*", "Salt varies by brand: ", s)
+    s = re.sub(r"Salt:\s*LOW CONFIDENCE:\s*", "Salt varies by brand: ", s)
+    s = s.replace("LOW CONFIDENCE because ", "varies widely because ")
+    s = s.replace(", LOW CONFIDENCE)", ", approximate)")
+    s = s.replace(", LOW CONFIDENCE ", ", though amounts vary ")
+    s = re.sub(r"\s*[—–-]\s*LOW CONFIDENCE\b[^)]*", " (varies by brand)", s)
+    s = s.replace("LOW CONFIDENCE", "uncertain across brands")
+    return s
+
+
 def normalize_signature_ingredient(raw: str) -> str:
     """Normalize signature_ingredients to 'item (substitute: ...)' with English first."""
-    s = raw.strip()
+    s = _clean_research_jargon(raw.strip())
     sub = "none"
     if "(substitute:" in s:
         item_part, sub_part = s.split("(substitute:", 1)
@@ -340,6 +438,14 @@ def normalize_signature_ingredient(raw: str) -> str:
     elif " — substitute:" in s:
         item_part, sub_part = s.split(" — substitute:", 1)
         sub = sub_part.strip()
+    elif " -> substitute:" in s:
+        item_part, sub_part = s.split(" -> substitute:", 1)
+        sub = sub_part.strip()
+    elif "; US supermarket substitute:" in s:
+        item_part, sub_part = s.split("; US supermarket substitute:", 1)
+        sub = sub_part.rstrip(")").strip()
+        if "(" in item_part and not item_part.rstrip().endswith(")"):
+            item_part = item_part.rstrip() + ")"
     else:
         item_part = s
 
@@ -404,7 +510,7 @@ def normalize_tips(shortcuts: list[str]) -> list[str]:
         s = re.sub(r"\bLe Phare du Cap Bon\b", "a typical packaged", s)
         s = re.sub(r"\bShan\b", "packaged", s)
         s = s.replace("..", ".")
-        tips.append(s)
+        tips.append(_clean_research_jargon(s))
     return tips
 
 
@@ -420,7 +526,7 @@ def normalize_pitfalls(pitfalls: list[str]) -> list[str]:
         for p in parts:
             p = p.strip()
             if p:
-                out.append(p)
+                out.append(_clean_research_jargon(p))
     return out
 
 
@@ -509,14 +615,15 @@ def build_all() -> dict[str, list[dict]]:
     if OVERRIDES_PATH.exists():
         overrides = json.loads(OVERRIDES_PATH.read_text(encoding="utf-8"))
 
-    # Load additions.json if present
-    additions_by_continent: dict[str, list[dict]] = {"asia": [], "africa": []}
-    additions_path = RESULTS_DIR / "additions.json"
-    if additions_path.exists():
-        for item in json.loads(additions_path.read_text(encoding="utf-8")):
-            target = ADDITION_CONTINENT.get(item["id"])
-            if target:
-                additions_by_continent.setdefault(target, []).append(item)
+    # Load addition files if present
+    additions_by_continent: dict[str, list[dict]] = {"asia": [], "africa": [], "europe": [], "americas": []}
+    for add_name in ("additions.json", "additions_europe.json", "additions_americas.json"):
+        additions_path = RESULTS_DIR / add_name
+        if additions_path.exists():
+            for item in json.loads(additions_path.read_text(encoding="utf-8")):
+                target = ADDITION_CONTINENT.get(item["id"])
+                if target:
+                    additions_by_continent.setdefault(target, []).append(item)
 
     all_child_ids_under_countries = {cid for kids in COUNTRY_CHILDREN.values() for cid in kids}
     output: dict[str, list[dict]] = {}
@@ -536,6 +643,37 @@ def build_all() -> dict[str, list[dict]]:
                     inserted = True
             if not inserted:
                 merged.extend(extra_nodes)
+            raw_list = merged
+        elif cont_id == "europe" and extra_nodes:
+            # Replace central_european in-place with its 5 split countries; append remaining European additions
+            by_id = {n["id"]: n for n in extra_nodes}
+            central_nodes = [by_id[nid] for nid in CENTRAL_EUROPE_REPLACEMENT if nid in by_id]
+            other_eu = [n for n in extra_nodes if n["id"] not in CENTRAL_EUROPE_REPLACEMENT]
+            merged = []
+            replaced = False
+            for r in raw_list:
+                if r["id"] == "central_european":
+                    merged.extend(central_nodes)
+                    replaced = True
+                else:
+                    merged.append(r)
+            if not replaced:
+                merged.extend(central_nodes)
+            raw_list = merged + other_eu
+        elif cont_id == "americas" and extra_nodes:
+            # Place US additions in list, quebecois after united_states, colombian before brazilian
+            by_id = {n["id"]: n for n in extra_nodes}
+            merged = []
+            for r in raw_list:
+                if r["id"] == "brazilian" and "colombian" in by_id:
+                    merged.append(by_id["colombian"])
+                merged.append(r)
+                if r["id"] == "united_states":
+                    if "quebecois" in by_id:
+                        merged.append(by_id["quebecois"])
+                    for us_kid in ("us_new_mexican", "us_hawaiian"):
+                        if us_kid in by_id:
+                            merged.append(by_id[us_kid])
             raw_list = merged
         elif extra_nodes:
             raw_list = raw_list + extra_nodes

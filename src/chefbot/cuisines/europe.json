@@ -3,8 +3,8 @@
     "id": "europe",
     "kind": "continent",
     "label": "Europe",
-    "subtitle": "Mediterranean, Western, Central & Eastern Europe",
-    "about": "Cuisines of Mediterranean, Western, Central and Eastern Europe.",
+    "subtitle": "Mediterranean, Western, Central, Northern & Caucasus",
+    "about": "Cuisines of Mediterranean, Western, Central, Northern and Eastern Europe and the Caucasus.",
     "prompt_name": "",
     "flavors": [],
     "sweet_only": [],
@@ -17,8 +17,17 @@
       "french",
       "spanish",
       "greek",
-      "central_european",
-      "russian"
+      "german",
+      "austrian",
+      "hungarian",
+      "polish",
+      "czech",
+      "russian",
+      "portuguese",
+      "british",
+      "irish",
+      "nordic",
+      "georgian"
     ]
   },
   {
@@ -55,7 +64,7 @@
     "tips": [
       "If the recipe uses anchovies, add a tip that anchovy-only fish sauce works as a substitute (check the label: just anchovies and salt), with the amount.",
       "Salt-free 'Italian seasoning' usually combines oregano, basil, thyme and rosemary; replace the same combined dried herbs 1:1 by weight, salt 0 g. It is an export convenience, not a traditional Italian pantry blend.",
-      "Jarred pesto may replace homemade pesto 1:1 by weight when pesto itself is the intended sauce; salt varies by brand, so calculate salt_g = sodium_mg × 2.5 / 1000 for the amount used.",
+      "Jarred pesto may replace homemade pesto 1:1 by weight when pesto itself is the intended sauce; salt varies by brand, so calculate salt from label sodium (about 2.5 g salt per 1,000 mg sodium) for the amount used.",
       "Anchovy paste can replace finely mashed anchovy by approximately equal weight for seasoning applications; salt varies substantially, so account from the label rather than adding a fixed salt value."
     ],
     "pitfalls": [
@@ -345,46 +354,231 @@
     "substitutes": []
   },
   {
-    "id": "central_european",
+    "id": "german",
     "kind": "cuisine",
-    "label": "Central European",
-    "subtitle": "Caraway, paprika, dill, horseradish, marjoram",
-    "about": "This app node groups Germany, Austria, Czechia, Hungary and Poland across the North European plain, the Danube basin, the Alps and Carpathian approaches, with major centers including Berlin, Vienna, Prague, Budapest and Warsaw. Germanic, Slavic and Magyar traditions were repeatedly connected through the Holy Roman and Habsburg worlds, trade, Jewish communities and shifting borders, producing overlapping traditions of breads, dumplings, pork, cabbage, souring, paprika and preserved foods. Representative dishes include Wiener Schnitzel, Czech svíčková, Hungarian pörkölt and Polish pierogi.",
-    "prompt_name": "Central European",
+    "label": "German",
+    "subtitle": "Mustard, caraway, vinegar, marjoram",
+    "about": "Stretching from the North and Baltic coasts across the Rhine, Elbe, and Danube basins to the Bavarian Alps, German cooking splits noticeably between northern maritime sweet-sour traditions and southern Alpine pork-and-dumpling kitchens. Shaped by Hanseatic trade, regional principalities, wartime rationing, and postwar migration, home cooks favor slow-braised meats, fermented cabbage, dense rye loaves, and regional sausages over heavy spicing. Representative dishes include Sauerbraten (vinegar-marinated pot roast), Schweinshaxe mit Semmelknödeln (roast pork knuckle with bread dumplings), Labskaus (northern cured-beef and potato hash), and Käsespätzle (Swabian cheese noodles).",
+    "prompt_name": "German",
     "flavors": [
-      "caraway (Kümmel)",
-      "marjoram (Majoran)",
-      "paprika",
-      "dill",
-      "horseradish (Meerrettich)",
       "mustard (Senf)",
-      "garlic (Knoblauch)",
-      "parsley (Petersilie)",
+      "caraway (Kümmel)",
+      "spirit or wine vinegar (Branntweinessig / Weinessig)",
+      "juniper berries (Wacholderbeeren)",
       "bay leaf (Lorbeerblatt)",
-      "juniper (Wacholder)",
-      "black pepper (schwarzer Pfeffer, černý pepř, fekete bors, pieprz czarny)"
+      "marjoram (Majoran)",
+      "lovage (Liebstöckel)",
+      "nutmeg & mace (Muskatnuss & Macis)",
+      "allspice (Piment)",
+      "dill (Dill)"
     ],
     "sweet_only": [
-      "vanilla sugar (Vanillezucker, vanilkový cukr, vaníliás cukor, cukier waniliowy)"
+      "vanilla sugar (Vanillezucker)",
+      "bitter almond oil (Bittermandelöl)",
+      "gingerbread spice (Lebkuchengewürz)",
+      "rosewater (Rosenwasser)"
     ],
     "signature_ingredients": [
-      "quark/tvaroh/túró/twaróg fresh curd cheese (substitute: farmer cheese or well-drained cottage cheese)",
-      "Hungarian wax peppers (substitute: banana peppers plus a hotter chile as needed)",
-      "sour rye starter for żur/żurek (substitute: homemade rye-flour ferment; no close instant substitute)",
-      "Central European smoked sausages (substitute: kielbasa or another moderately smoked pork sausage appropriate to the dish)",
-      "dried porcini (substitute: cremini plus mushroom powder)",
-      "bread or potato dumplings (substitute: store-bought spaetzle only when the dish can tolerate a different texture)"
+      "quark (substitute: strained plain Greek yogurt or blended low-fat cottage cheese)",
+      "schmand cultured sour cream (substitute: crème fraîche or full-fat sour cream)",
+      "kasseler smoked pork loin (substitute: smoked center-cut pork chops or Canadian bacon)",
+      "bauchspeck smoked pork belly (substitute: thick-cut slab bacon)",
+      "dark whole-rye pumpernickel bread (substitute: dense German-style dark rye bread)",
+      "mustard pickled cucumbers (Senfgurken) (substitute: bread-and-butter pickles with extra mustard seed)"
     ],
     "tips": [
-      "LOW CONFIDENCE for this merged node: salt-free caraway-marjoram-paprika blends can replace the same combined dried spices 1:1 by weight; salt 0 g.",
-      "Commercial goulash seasoning usually contains paprika, caraway, marjoram, garlic/onion and often salt; substitute only for another specified mixed seasoning at equal weight. Count salt from label sodium.",
-      "Prepared horseradish can replace freshly grated horseradish by equal weight for table-condiment use, but jarred products are milder and may contain vinegar, cream or salt; count label salt."
+      "Liquid hydrolyzed-protein seasoning: contains roughly 18 g salt per 100 ml; swap 10 g (about 2 tsp, supplying about 1.8 g salt) for 1 tsp soy sauce plus a pinch of lovage and 1.2 g salt, and check the label for wheat if cooking gluten-free.",
+      "Commercial seasoned salt blends often reach about 58 g salt per 100 g; swap 5 g (about 1 tsp, supplying about 2.9 g salt) for 2.9 g salt plus onion, garlic and celery powder.",
+      "Instant beef or vegetable bouillon cubes are typically 45 to 50 g salt per 100 g: dissolve one 10 g cube (about 4.5 to 5 g salt) per 500 ml water and withhold added salt until tasting."
     ],
     "pitfalls": [
-      "LOW CONFIDENCE applies to any rule asserted across all five countries.",
-      "Do not treat paprika as equally dominant in Germany, Austria, Czechia and Poland just because it is central to Hungary.",
-      "Do not call every meat stew 'goulash': Hungarian gulyás, pörkölt and Austrian/Czech adaptations are distinct.",
-      "Likewise, dill, caraway and horseradish vary sharply by dish and country."
+      "Default to everyday all-Germany home cooking rather than treating Oktoberfest Bavaria (pretzels, Weißwurst, sweet mustard) as all of Germany; lean Bavarian, Swabian or northern maritime only when ingredients or the request point there.",
+      "Do not put caraway or sauerkraut into every dish, and keep sweet paprika minor outside goulash.",
+      "In classic versions, crisp-breaded Schnitzel is served dry with lemon rather than smothered in gravy, while regional Jägerschnitzel serves mushroom sauce over unbreaded cutlets in the west or breaded sausage with tomato sauce in the east."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "austrian",
+    "kind": "cuisine",
+    "label": "Austrian",
+    "subtitle": "Chives, horseradish, caraway, marjoram",
+    "about": "Centered along the Danube valley and the eastern Alps around Vienna, Graz, and Salzburg, Austrian cooking pairs Alpine dairy farming with the multi-ethnic kitchens of the former Habsburg Empire. Centuries of exchange across Bohemia, Hungary, northern Italy, and the Balkans shaped a tradition equally devoted to delicate simmered beef broths, crisp fried cutlets, and sweet pastry-shop main courses (Mehlspeisen). Representative dishes include Tafelspitz (simmered beef with chive and apple-horseradish sauces), Wiener Schnitzel (breaded veal cutlet), Kaiserschmarrn (caramelized shredded pancake), and Wiener Saftgulasch (onion-braised beef).",
+    "prompt_name": "Austrian",
+    "flavors": [
+      "chives (Schnittlauch)",
+      "horseradish (Kren)",
+      "caraway (Kümmel)",
+      "marjoram (Majoran)",
+      "lovage (Liebstöckel)",
+      "black peppercorns & bay leaf (Pfefferkörner & Lorbeerblatt)",
+      "tarragon mustard (Estragonsenf)",
+      "garlic (Knoblauch)",
+      "Styrian pumpkin seed oil (Steirisches Kürbiskernöl)"
+    ],
+    "sweet_only": [
+      "vanilla sugar (Vanillezucker)",
+      "lemon zest (Zitronenschale)",
+      "cinnamon (Zimt)",
+      "spiced baking rum (Inländer Rum)"
+    ],
+    "signature_ingredients": [
+      "clarified butter (Butterschmalz) (substitute: ghee or neutral oil finished with butter)",
+      "topfen fresh curd cheese (substitute: drained whole-milk cottage cheese blended smooth, or quark)",
+      "Styrian toasted pumpkin seed oil (substitute: none for true flavor, or 1:3 toasted sesame and walnut oil)",
+      "unseasoned dry white bread crumbs (Semmelbrösel) (substitute: plain fine unseasoned breadcrumbs, not Italian-seasoned)",
+      "lingonberry jam (Preiselbeermarmelade) (substitute: whole-berry cranberry sauce)",
+      "top sirloin cap / Tafelspitz cut (substitute: untrimmed top sirloin cap or picanha with the fat cap intact)"
+    ],
+    "tips": [
+      "Austrian beef stock cubes average around 43 g salt per 100 g dry: dissolve one 11 g cube (about 4.7 g salt) per 500 ml water and withhold extra salt until tasting.",
+      "Tarragon mustard contains about 2.3 g salt per 100 g: swap 20 g (about 1 tbsp, supplying about 0.46 g salt) for 1 tbsp Dijon mustard plus a pinch of dried tarragon and a splash of vinegar."
+    ],
+    "pitfalls": [
+      "In classic Viennese cooking, Wiener Schnitzel is served dry with lemon and lingonberries; avoid pouring gravy or mushroom sauce over the crisp crust.",
+      "Do not conflate Austrian cuisine with Bavarian food: Vienna relies on Hungarian paprika-onion technique in Saftgulasch, Bohemian pastries and simmered beef traditions like Tafelspitz.",
+      "Classic Wiener Saftgulasch avoids flour thickening and sour cream (unlike Hungarian paprikás), and classic Semmelbrösel breading omits garlic and Italian herbs."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "hungarian",
+    "kind": "cuisine",
+    "label": "Hungarian",
+    "subtitle": "Sweet paprika, onion, caraway, garlic",
+    "about": "Anchored by the fertile Carpathian Basin along the Danube and Tisza rivers, Hungarian cooking marries pastoral steppe soup-making with Ottoman, Balkan, and Habsburg traditions around Budapest and the Great Plain (Alföld). Its unmistakable flavor base starts with onions softened slowly in pork lard and bloomed off-heat with sweet noble paprika (édesnemes), often finished with tart tejföl sour cream or pale wax peppers. Representative dishes include Gulyásleves (caraway-scented beef and potato soup), Csirkepaprikás (paprika chicken in sour cream sauce), Halászlé (fiery river-fish soup), and Töltött káposzta (stuffed sour cabbage).",
+    "prompt_name": "Hungarian",
+    "flavors": [
+      "sweet noble paprika (édesnemes paprika)",
+      "hot paprika (csípős paprika)",
+      "yellow onion (vöröshagyma)",
+      "garlic (fokhagyma)",
+      "caraway (kömény)",
+      "black pepper (fekete bors)",
+      "marjoram (majoránna)",
+      "bay leaf (babérlevél)",
+      "dill (kapor)",
+      "tarragon (tárkony)",
+      "vinegar (ecet)"
+    ],
+    "sweet_only": [
+      "vanilla sugar (vaníliás cukor)",
+      "cinnamon (fahéj)",
+      "lemon zest (citromhéj)"
+    ],
+    "signature_ingredients": [
+      "tejföl cultured sour cream (substitute: full-fat Mexican crema or sour cream whisked with a little flour)",
+      "pork lard (sertészsír) (substitute: pure leaf lard or duck fat)",
+      "pale sweet wax pepper (TV paprika) (substitute: Cubanelle or Italian frying pepper)",
+      "long hot pale-green chili (hegyes erős paprika) (substitute: serrano or hot banana pepper)",
+      "túró dry farmer's curd cheese (substitute: dry-curd farmer cheese or well-drained cottage cheese)",
+      "smoked paprika-garlic pork sausage (kolbász) (substitute: dry Spanish chorizo, though it lacks caraway balance)"
+    ],
+    "tips": [
+      "Jarred or tubed sweet or hot paprika cream averages about 11.5 g salt per 100 g: swap 16 g (about 1 generous tsp, supplying about 1.8 g salt) for 1.5 tsp sweet paprika plus 1.8 g salt in a 4-serving stew.",
+      "Coarsely crushed hot paprika paste contains about 11.5 g salt per 100 g: swap 10 g (about 2 tsp, supplying about 1.15 g salt) for minced fresh hot chili plus 1.1 g salt.",
+      "Tube goulash paste typically contains 10 to 14 g salt per 100 g: stir into soups before adding any table salt."
+    ],
+    "pitfalls": [
+      "In Hungary, gulyás is a clear brothy soup with potatoes and csipetke, not thick Western beef stew, which is pörkölt (short braised meat without sour cream) or paprikás (braised meat finished with tejföl).",
+      "Keep sour cream out of classic gulyás soup and pörkölt, and bloom unsmoked Hungarian paprika off-heat so it does not scorch bitter.",
+      "Use unsmoked sweet Hungarian paprika rather than smoked Spanish pimentón; note that cooks themselves differ on caraway in gulyás."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "polish",
+    "kind": "cuisine",
+    "label": "Polish",
+    "subtitle": "Dill, sour rye, marjoram, allspice",
+    "about": "Across the Baltic lowlands and the Vistula basin down to the Tatra peaks, Polish cooking pairs woodland mushroom foraging and pork curing with deep lactic fermentation. Shaped by the Polish-Lithuanian Commonwealth's centuries of Ashkenazi Jewish, Ruthenian, German, and Habsburg exchange, everyday meals center on sour soups, boiled dumplings, and braised cabbage rather than hot spice. Representative dishes include Żurek (fermented sour rye soup), Pierogi ruskie (potato-and-farmer-cheese dumplings), Bigos (slow-simmered sauerkraut and meat stew), and Gołąbki (stuffed cabbage rolls).",
+    "prompt_name": "Polish",
+    "flavors": [
+      "dill (koperek)",
+      "marjoram (majeranek)",
+      "allspice (ziele angielskie)",
+      "bay leaf (liść laurowy)",
+      "caraway (kminek)",
+      "juniper berries (jałowiec)",
+      "horseradish (chrzan)",
+      "sour fermented rye starter (zakwas żytni)",
+      "garlic (czosnek)",
+      "spirit vinegar (ocet spirytusowy)"
+    ],
+    "sweet_only": [
+      "vanilla sugar (cukier waniliowy)",
+      "candied orange peel (skórka pomarańczowa)",
+      "gingerbread spice blend (przyprawa do piernika)"
+    ],
+    "signature_ingredients": [
+      "fermented rye starter (zakwas żytni) (substitute: 5-day home ferment of rye flour, garlic and water, or dill-pickle brine as an emergency souring agent)",
+      "unpasteurized lacto-fermented sauerkraut & dill pickles (kiszona kapusta & ogórki kiszone) (substitute: refrigerated live fermented barrel sauerkraut and kosher dill pickles)",
+      "dried wild porcini mushrooms (suszone borowiki) (substitute: dried Italian porcini mushrooms)",
+      "twaróg pressed farmer's cheese (substitute: dry farmer cheese or drained whole-milk ricotta)",
+      "fresh marjoram-garlic pork sausage (biała kiełbasa) (substitute: unsmoked fresh white kielbasa or mild garlic bratwurst)",
+      "18% pourable cultured sour cream (śmietana) (substitute: crème fraîche or thinned full-fat sour cream)"
+    ],
+    "tips": [
+      "Vegetable soup seasoning blends typically contain about 57 to 59 g salt per 100 g: swap 5 g (about 1 tsp, supplying about 2.9 g salt) for 3 g table salt plus mirepoix aromatics, and check labels for milk powder or celery.",
+      "Instant red barszcz powder varies widely in salt across brands: dissolve 15 to 20 g per 250 ml water and withhold added salt until tasted."
+    ],
+    "pitfalls": [
+      "Use lacto-fermented ogórki kiszone rather than vinegar-brined pickles in pickle soup (zupa ogórkowa) or bigos, because vinegar pickles clash with the lactic-tangy flavor profile.",
+      "Classic żurek usually poaches fresh marjoram-and-garlic biała kiełbasa in the sour broth rather than precooked smoked kielbasa.",
+      "Pierogi ruskie are named for historic Red Ruthenia (Galicia), not Russia, and are filled with potato, caramelized onion and twaróg rather than meat.",
+      "Shared Ashkenazi roots mean Polish-Jewish carp, potato kugel (babka ziemniaczana) and latkes (placki ziemniaczane) overlap closely with Christian Polish home cooking."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "czech",
+    "kind": "cuisine",
+    "label": "Czech",
+    "subtitle": "Caraway, marjoram, garlic, tart sauces",
+    "about": "Ringed by forested mountains across Bohemia, Moravia, and Silesia, Czech cooking matured in Prague's bourgeois kitchens and rural pubs alongside close Austrian and Bavarian ties. While sharing Habsburg schnitzels, pastries, and steamed bread dumplings with Vienna, Czech kitchens stand out through velvety sweet-sour root-vegetable sauces (omáčky), heavy caraway and garlic, and beer-braised pork. Representative dishes include Svíčková na smetaně (braised beef in tart root-vegetable cream sauce with bread dumplings), Vepřo knedlo zelo (caraway roast pork, dumplings, and braised cabbage), Bramboračka (garlic-marjoram mushroom soup), and Kulajda (dill-mushroom cream soup).",
+    "prompt_name": "Czech",
+    "flavors": [
+      "caraway (kmín)",
+      "marjoram (majoránka)",
+      "garlic (česnek)",
+      "allspice (nové koření)",
+      "bay leaf (bobkový list)",
+      "juniper berries (jalovec)",
+      "dill (kopr)",
+      "spirit vinegar (ocet)",
+      "mild smooth mustard (hořčice plnotučná)"
+    ],
+    "sweet_only": [
+      "vanilla sugar (vanilkový cukr)",
+      "cinnamon (skořice)",
+      "lemon zest (citronová kůra)",
+      "baking rum flavoring (tuzemák)"
+    ],
+    "signature_ingredients": [
+      "coarse and semi-coarse wheat flour (hrubá / polohrubá mouka) (substitute: Wondra instantized flour blended 1:1 with all-purpose flour)",
+      "parsley root & celeriac (kořenová petržel & celer) (substitute: parsnip for parsley root plus celery root)",
+      "whipping cream & sour cream (smetana) (substitute: heavy whipping cream or sour cream)",
+      "povidla slow-cooked plum butter (substitute: Eastern European powidl or concentrated unsweetened prune butter)",
+      "cold-smoked pork neck or shoulder (uzené maso) (substitute: Kasseler or unglazed smoked pork butt)",
+      "tvaroh fresh curd cheese (substitute: farmer cheese or well-drained cottage cheese)"
+    ],
+    "tips": [
+      "Czech beef bouillon cubes run around 37 g salt per 100 g dry: dissolve one 11 g cube (about 4.1 g salt) per 500 ml liquid and withhold table salt until tasting; check labels for gluten, egg and soy.",
+      "Liquid hydrolyzed-protein seasoning contains about 18 to 20 g salt per 100 ml: dose 5 to 10 ml (about 0.9 to 1.9 g salt) into broths or guláš and reduce table salt accordingly."
+    ],
+    "pitfalls": [
+      "Use caraway (kmín, Carum carvi) rather than cumin (římský kmín); cumin is a different spice that clashes with roast pork, potato soup and cabbage.",
+      "In classic versions, svíčková and Czech guláš are served with steamed bread or potato dumplings (knedlíky) rather than pasta or rice to soak up the sauce.",
+      "Omitting parsley root and celeriac in svíčková leaves the sauce overly orange and sweet instead of deeply savory and pale-gold.",
+      "Unlike soupy Hungarian gulyás with potatoes, Czech guláš is a thick, caraway-and-marjoram-scented onion gravy served with dumplings and raw onion rings."
     ],
     "avoid": [],
     "children": [],
@@ -435,5 +629,236 @@
     "avoid": [],
     "children": [],
     "substitutes": []
+  },
+  {
+    "id": "portuguese",
+    "kind": "cuisine",
+    "label": "Portuguese",
+    "subtitle": "Cilantro, garlic, bay, olive oil",
+    "about": "Facing the Atlantic from green northern Minho valleys to Lisbon's Tagus estuary and the cork plains of Alentejo, Portugal pairs abundant coastal seafood with rustic pork-and-bread cooking. Shaped by Roman olive culture, Moorish citrus and cilantro (coentros), and maritime routes to Brazil, Goa, and Africa, its dishes balance gentle onion-garlic-bay refogado bases with fresh herbs and warm colonial spices. Representative dishes include Bacalhau à Brás (salt cod with crisp matchstick potatoes and eggs), Caldo verde (kale and chouriço potato soup), Carne de porco à Alentejana (wine-marinated pork with clams), and Cozido à Portuguesa (boiled meat and vegetable feast).",
+    "prompt_name": "Portuguese",
+    "flavors": [
+      "cilantro (coentros)",
+      "garlic (alho)",
+      "bay leaf (louro)",
+      "bird's-eye chili (piri-piri / malagueta)",
+      "sweet unsmoked paprika (colorau / pimentão doce)",
+      "cumin (cominhos)",
+      "cinnamon (canela)",
+      "spearmint (hortelã)",
+      "flat-leaf parsley (salsa)",
+      "wine vinegar (vinagre de vinho)"
+    ],
+    "sweet_only": [
+      "anise or fennel seed (erva-doce)",
+      "orange blossom water (água de flor de laranjeira)"
+    ],
+    "signature_ingredients": [
+      "dry salt-cured Atlantic cod (bacalhau salgado seco) (substitute: dry salt cod from Spanish or Caribbean markets; soak 24 to 48 hours in cold water before cooking)",
+      "Galician collard-kale greens (couve galega) (substitute: young tender collard greens or lacinato kale, shredded paper-thin)",
+      "Portuguese chouriço / linguiça sausage (substitute: Portuguese or Brazilian linguiça; raw Mexican chorizo has a completely different spice profile)",
+      "grelos turnip greens (substitute: broccoli rabe / rapini)",
+      "smoked flour-and-bread sausages (farinheira & alheira) (substitute: none)",
+      "salted sweet red pepper paste (massa de pimentão) (substitute: sweet unsmoked paprika mixed with salt and a drop of white wine vinegar)"
+    ],
+    "tips": [
+      "Commercial massa de pimentão red pepper paste contains about 12 g salt per 100 g: swap 15 g (about 1 tbsp, supplying about 1.8 g salt) for 1.5 tsp sweet unsmoked paprika plus 1.8 g salt and a tiny splash of vinegar.",
+      "Prepared massa de alho garlic paste runs about 11 to 14 g salt per 100 g: swap 10 g (about 2 tsp, supplying about 1.2 to 1.4 g salt) for 1 to 2 crushed garlic cloves plus 1.3 g salt.",
+      "Concentrated beef stock jelly pots contain about 12.8 g salt per 100 g (one 28 g pot = 3.6 g salt), while dry stock cubes are much saltier: dissolve before salting."
+    ],
+    "pitfalls": [
+      "Do not treat Portugal as 'mild Spain': Portuguese cooking leans on fresh cilantro, uses unsmoked sweet red pepper paste (massa de pimentão) rather than smoky pimentón, centers on dried salted cod and embraces piri-piri chili and savory cinnamon.",
+      "Portuguese rice dishes (arroz de marisco, arroz de pato) are typically soupy or oven-baked rather than dry saffron paella with crispy socarrat.",
+      "Use smoked Portuguese linguiça or chouriço in caldo verde or feijoada rather than raw Mexican chorizo, and desalt dry bacalhau thoroughly through multiple cold-water changes."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "british",
+    "kind": "cuisine",
+    "label": "British",
+    "subtitle": "Mustard, malt vinegar, sage, parsley",
+    "about": "Across England, Scotland, and Wales, British cooking combines rich lowland cattle pastures, upland sheep grazing, and cold North Atlantic fisheries with centuries of maritime spice trade. While English Sunday roasts, suet puddings, and savory pies form the common core, Scottish cooking stands out for oats, game, and smoked haddock (Cullen skink), and Welsh cooking highlights hill lamb, leeks (cawl), iron-griddle baking, and coastal laverbread. Representative dishes include Roast beef with Yorkshire pudding, Steak and kidney pie, Cullen skink (smoked haddock and potato soup), and Welsh cawl (lamb and leek broth).",
+    "prompt_name": "British",
+    "flavors": [
+      "English mustard",
+      "Worcestershire sauce",
+      "malt vinegar",
+      "fresh sage",
+      "thyme",
+      "mint sauce",
+      "horseradish sauce",
+      "mace & nutmeg",
+      "cloves & allspice",
+      "brown sauce"
+    ],
+    "sweet_only": [
+      "mixed spice blend",
+      "rosewater",
+      "stem ginger / ground ginger"
+    ],
+    "signature_ingredients": [
+      "beef suet (substitute: frozen grated beef tallow or chilled shortening; butter yields denser pastry)",
+      "Welsh laverbread seaweed (substitute: simmered finely minced nori, approximate only)",
+      "undyed smoked haddock (Finnan haddie) (substitute: naturally smoked whitefish or trout)",
+      "pinhead / medium Scottish oatmeal (substitute: steel-cut oats pulsed briefly in a food processor)",
+      "back bacon & gammon (substitute: Canadian bacon for back bacon; uncooked country ham steak for gammon)",
+      "aged British Cheddar / Caerphilly / Stilton (substitute: aged sharp white Cheddar or crumbly feta-Monterey blend)"
+    ],
+    "tips": [
+      "Instant gravy granules run about 11 to 14 g salt per 100 g (classic gravy powders around 24 g): swap 20 g granules (about 2.8 g salt) for 250 ml pan-dripping gravy and omit added salt.",
+      "British beef stock cubes average about 29 to 31 g salt per 100 g (about 1.7 to 1.8 g salt per 6 g cube): dissolve 1 cube per 190 to 250 ml water and skip extra salt.",
+      "UK Worcestershire sauce uses barley malt vinegar (about 2.9 g salt per 100 ml), whereas US bottles swap in white vinegar (gluten-free, slightly sweeter, about 3.25 g salt per 100 ml): use 5 to 15 ml for umami depth.",
+      "Yeast extract paste contains about 10.8 g salt per 100 g: swap 5 g (about 1 tsp, supplying about 0.54 g salt) into vegetarian gravies or Welsh rarebit instead of beef bouillon plus salt."
+    ],
+    "pitfalls": [
+      "Do not collapse all British food into southern English pub fare: Scottish kitchens highlight oats, game and smoked fish (Cullen skink, skirlie), and Welsh kitchens prize lamb, leeks and bakestone griddle breads.",
+      "Note the UK vs. US Worcestershire difference: UK bottles use barley malt vinegar, while US bottles use distilled white vinegar and more sugar.",
+      "In classic versions, steamed suet pastry and hot-water raised pie crust differ from sweet butter pie dough, roast gravy builds from pan drippings rather than plain cornstarch paste, and vinegar-sharp mint sauce differs from sweet mint jelly."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "irish",
+    "kind": "cuisine",
+    "label": "Irish",
+    "subtitle": "Butter, parsley, thyme, malt vinegar",
+    "about": "On Europe's temperate Atlantic rim, Ireland's emerald pastures and wild coasts built a cooking tradition anchored by grass-fed dairy, oats, potatoes, cured pork, and sea vegetables. Although food historians debate how separate early modern Irish cooking was from rural British fare, Ireland's reliance on buttermilk-and-soda griddle baking, cultured butter, coastal dulse and carrageen, and unsmoked boiling bacon defines a distinct everyday repertoire. Representative dishes include Irish stew (unbrowned lamb or mutton simmered with potatoes, onions, and parsley), Colcannon (buttered mashed potatoes with kale or cabbage), Dublin coddle (layered sausage-and-bacon stew), and Traditional soda bread.",
+    "prompt_name": "Irish",
+    "flavors": [
+      "cultured butter",
+      "sea salt (salann mara)",
+      "parsley (peirsil)",
+      "thyme (tím)",
+      "black pepper (piopar dubh)",
+      "allspice (piment)",
+      "malt or cider vinegar (fíneagar braiche / úll)",
+      "wholegrain mustard",
+      "brown sauce (anlann donn)"
+    ],
+    "sweet_only": [
+      "mixed spice / cinnamon",
+      "vanilla & lemon peel",
+      "Irish whiskey"
+    ],
+    "signature_ingredients": [
+      "cultured grass-fed butter & real cultured buttermilk (substitute: imported cultured butter and cultured buttermilk)",
+      "unsmoked boiling bacon / gammon (substitute: unsmoked country ham or picnic shoulder rather than smoky American slab bacon)",
+      "pinhead Irish oatmeal (substitute: steel-cut oats)",
+      "dulse seaweed (duileasc) (substitute: dried Atlantic dulse flakes or lightly toasted nori, approximate only)",
+      "Irish moss seaweed (carraigín) (substitute: agar-agar or unflavored gelatin, lacking sea-mineral notes)",
+      "Cork spiced beef curing blend (substitute: raw corned beef simmered with extra whole allspice, cloves, juniper and brown sugar)"
+    ],
+    "tips": [
+      "Bottled Irish tomato-and-fruit table relish is lightly salted (about 1.4 g per 100 g): if you don't have it, swap 30 g (about 2 tbsp, supplying about 0.42 g salt) for tomato chutney or ketchup stirred with cider vinegar, chopped raisins and mustard seed.",
+      "Spiced apple-barley brown sauce contains about 0.8 g salt per 100 g: swap 20 g (about 1 tbsp, supplying about 0.16 g salt) for another fruit-vinegar brown sauce.",
+      "Prepared stock pots and bouillon vary around 12 to 15 g salt per 100 g: dissolve into stews or chowders before adding extra salt."
+    ],
+    "pitfalls": [
+      "Do not confuse Irish-American corned beef and cabbage (born in 19th-century New York delis) with Ireland's everyday classic, bacon and cabbage (unsmoked boiled pork with parsley sauce).",
+      "In classic versions, traditionalists make Irish stew with lamb or mutton, potatoes, onions, water, parsley or thyme, salt and pepper, keeping stout for beef-and-stout stew; some home cooks add carrots.",
+      "Everyday Irish soda bread is savory (flour, buttermilk, baking soda, salt), not a sweet raisin-and-caraway cake."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "nordic",
+    "kind": "cuisine",
+    "label": "Nordic",
+    "subtitle": "Dill, allspice, caraway, mustard",
+    "about": "Encompassing Denmark, Norway, Sweden, Finland, and Iceland across Atlantic fjords, Baltic archipelagos, and boreal forests, Nordic home cooking reflects centuries of preserving cold-water fish, dairy, and short-season harvests for long winters. Everyday domestic kitchens center on cured and pickled herring, dense rye loaves, warm-spiced meatballs, and creamy fish soups, a world apart from the foraged, restaurant-only avant-garde of the 2004 New Nordic Food Manifesto. Representative home dishes include Danish Smørrebrød (open-faced rye sandwiches), Swedish Köttbullar (allspice-seasoned meatballs with lingonberries), Norwegian Fårikål (peppercorn lamb and cabbage stew), and Finnish Lohikeitto (creamy salmon, potato, and dill soup).",
+    "prompt_name": "Nordic",
+    "flavors": [
+      "dill (dill / tilli)",
+      "allspice (kryddpeppar / allehanda / maustepippuri)",
+      "caraway (kummin / karve / kumina)",
+      "juniper berries (enbär / einerbær / katajanmarja)",
+      "horseradish (pepparrot / pepperrot / piparjuuri)",
+      "mustard (senap / sennep / sinappi)",
+      "white & black pepper (vitpeppar & svartpeppar)",
+      "bay leaf (lagerblad / laakerinlehti)",
+      "spirit vinegar (ättiksprit / eddik / väkiviinaetikka)",
+      "lingonberries (lingon / tyttebær / puolukka)"
+    ],
+    "sweet_only": [
+      "green cardamom (kardemumma / kardemummi)",
+      "bitter almond (bittermandel)",
+      "saffron (saffran)"
+    ],
+    "signature_ingredients": [
+      "whole-rye sourdough bread (rågbröd / rugbrød / ruisleipä) (substitute: dense Scandinavian or German dark rye bread)",
+      "gravad lax cured salmon (substitute: easily home-cured from fresh sashimi-grade salmon with salt, sugar and dill)",
+      "lutfisk / fermented Nordic fish (substitute: imported lutfisk seasonally; none for fermented fish)",
+      "lingonberries & cloudberries (substitute: jarred lingonberry preserves or cranberries for lingonberries; none for cloudberries)",
+      "skyr / filmjölk / piimä cultured dairy (substitute: plain whole-milk skyr, kefir or buttermilk)",
+      "brunost caramelized whey cheese (substitute: imported Norwegian brown cheese or none)"
+    ],
+    "tips": [
+      "Swedish spiced ansjovis (cinnamon-and-allspice-cured sprats, about 7.6 g salt per 100 g) are not plain Mediterranean anchovies: if using plain anchovies in Janssons frestelse, rinse them well and add a pinch of sugar, allspice and cinnamon.",
+      "Smoked cod-roe spread contains about 6.3 g salt per 100 g: swap 15 g (about 1 tbsp, supplying about 0.95 g salt) for mashed salted smoked trout roe plus neutral oil and a pinch of sugar.",
+      "Nordic fish bouillon cubes average around 45 g salt per 100 g (about 4.5 g salt per 10 g cube): dissolve before adding table salt."
+    ],
+    "pitfalls": [
+      "Do not mistake New Nordic fine dining (foraged spruce tips, ants) for everyday Nordic home cooking, which centers on fish, potatoes, pork, rye, cream, dill and allspice.",
+      "Swedish ansjovis are sugar-and-spice-cured sprats, not plain Mediterranean anchovies; using plain salty anchovies unmodified overwhelms Janssons frestelse.",
+      "Avoid treating Finland as identical to coastal Scandinavia: eastern and Karelian Finland highlight oven-pot meats, forest mushrooms, lake fish and rye-crust karjalanpiirakka.",
+      "In classic versions, Swedish meatballs use allspice and white pepper rather than Mediterranean oregano and garlic."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "georgian",
+    "kind": "cuisine",
+    "label": "Georgian",
+    "subtitle": "Walnuts, blue fenugreek, cilantro, sour plum",
+    "about": "Wedged between the Greater Caucasus peaks and the Black Sea, Georgia sits at a Silk Road crossroads where Mediterranean, Anatolian, Persian, and steppe influences converge inside an ancient Orthodox qvevri winemaking culture. Unlike Russian, Turkish, or Persian tables, Georgian cooking builds its signature gravies and vegetable pastes from unheated walnut-and-garlic emulsions, tart wild plum sauces (tkemali), and mountains of fresh herbs laced with blue fenugreek and marigold. Representative dishes include Khachapuri (cheese-filled bread), Khinkali (spiced broth dumplings), Satsivi (chilled poultry in spiced walnut sauce), and Lobio (herb-and-walnut red bean stew).",
+    "prompt_name": "Georgian",
+    "flavors": [
+      "khmeli suneli (ხმელი სუნელი)",
+      "blue fenugreek (უცხო სუნელი, utskho suneli)",
+      "Imeretian saffron / marigold (ყვითელი ყვავილი, qviteli qvavili)",
+      "cilantro & coriander (ქინძი, kindzi)",
+      "tkemali sour plum sauce (ტყემალი)",
+      "ajika chili-herb paste (აჯიკა)",
+      "Svanetian spiced salt (სვანური მარილი, Svanuri marili)",
+      "tarragon (ტარხუნა, tarkhuna)",
+      "purple & green basil (რეჰანი, rehani)",
+      "dried barberries (კოწახური, kotsakhuri)",
+      "garlic (ნიორი, niori)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "Imeretian saffron / dried marigold (ყვითელი ყვავილი) (substitute: pinch turmeric plus a tiny pinch saffron; misses floral hay tone)",
+      "tkemali sour cherry plums (ტყემალი) (substitute: tart unripe plums or gooseberries with lemon juice)",
+      "sulguni & Imeretian cheese (სულგუნი & იმერული ყველი) (substitute: 50/50 low-moisture mozzarella and crumbled feta)",
+      "matsoni fermented milk (მაწონი) (substitute: plain whole-milk Greek yogurt thinned slightly with milk)",
+      "ombalo wild pennyroyal mint (ომბალო) (substitute: fresh spearmint plus a pinch of dried oregano; avoid pennyroyal essential oil)",
+      "badagi reduced grape must (ბადაგი) (substitute: reduced Concord grape juice with a splash of pomegranate juice)"
+    ],
+    "tips": [
+      "Commercial export Svanetian salt runs about 15 g salt per 100 g, while traditional market jars run 50 to 80 g per 100 g: replace table salt 1:1 with artisanal salty blends, or halve added salt for herb-heavy jars.",
+      "Jarred Abkhazian adjika typically runs 3.5 to 4.5 g salt per 100 g (dry salt-cured adjika exceeds 15 to 20 g): swap 10 g paste (about 0.4 g salt) for red pepper flakes, garlic, coriander and salt.",
+      "Jarred tkemali averages about 1.5 g salt per 100 g: swap 30 g (about 2 tbsp, supplying about 0.45 g salt) for tart plum purée plus lemon juice, garlic, cilantro and mint.",
+      "Pure dried khmeli suneli contains 0 g salt unless sold as a seasoned salt."
+    ],
+    "pitfalls": [
+      "Do not mistake fiery tomato-free Abkhaz or Megrelian adjika (chili, garlic, herbs, salt) for the mild cooked tomato-and-bell-pepper Russian relish of the same name.",
+      "Avoid swapping common Indian fenugreek 1:1 for blue fenugreek (utskho suneli), which turns walnut sauces bitter, and do not treat Spanish saffron as an exact match for dried marigold petals.",
+      "Western Megrelian kharcho uses ground walnuts without rice, unlike the eastern beef-rice-tkemali version.",
+      "Georgia is not 'spiced Russian food': it builds flavor on unheated walnut-garlic emulsions, sour plum or pomegranate acidity and fresh tarragon-cilantro herb bouquets."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": [
+      "blue fenugreek (უცხო სუნელი): toasted Indian methi fenugreek seeds at half amount; sharper and more bitter"
+    ]
   }
 ]

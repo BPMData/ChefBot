@@ -67,6 +67,14 @@ def test_small_regions_and_known_cases_have_callouts():
         "caribbean_jamaican",
         "us_cajun",
         "us_creole",
+        "us_new_mexican",
+        "us_hawaiian",
+        "portuguese",
+        "irish",
+        "austrian",
+        "czech",
+        "hungarian",
+        "georgian",
         "kanto",
         "kansai",
         "jiangsu",
@@ -126,6 +134,13 @@ def test_hit_test_and_info_sheet_mini_map_lookup():
         lvl, hi_ids = res
         lvl_rids = {r["id"] for r in lvl["regions"]}
         assert set(hi_ids) <= lvl_rids and len(hi_ids) >= 1
+
+    us_lvl = maps.get_level("united_states")
+    assert us_lvl.get("inset_boxes"), "United States map should include Hawaii inset box"
+    eu_rids = {r["id"] for r in maps.get_level("europe")["regions"]}
+    assert {"german", "austrian", "hungarian", "polish", "czech", "portuguese", "british", "irish", "nordic", "georgian"} <= eu_rids
+    am_rids = {r["id"] for r in maps.get_level("americas")["regions"]}
+    assert {"quebecois", "colombian"} <= am_rids
 
 
 @pytest.mark.skipif(

@@ -52,8 +52,8 @@
     ],
     "tips": [
       "Ras el hanout (usually variable mixture that may include cinnamon, ginger, turmeric, pepper, cardamom, nutmeg, mace, cloves, rose or other aromatics; there is no fixed formula): use about 5-10 g per 1 kg of stew ingredients when a recipe calls for a Moroccan mixed-spice profile; start low because blends vary. Salt: 0.0 g if the blend is explicitly salt-free; otherwise calculate from the package label. Do not assume all ras el hanout is salt-free.",
-      "Prepared chermoula (usually cilantro/coriander, parsley, garlic, cumin, paprika or chile, lemon and oil; formulas vary): about 60-100 g prepared chermoula can season 1 kg fish or vegetables in place of a freshly pounded marinade. Salt: LOW CONFIDENCE for generic products: brand-dependent. Calculate salt-equivalent from the sodium label.",
-      "Harissa paste (usually red chile, garlic, spices and oil; it is Tunisian in origin but is used in parts of Morocco and the wider Maghreb): use roughly 10-20 g per 1 kg food when a Moroccan recipe specifically calls for harissa; do not use it as a universal Moroccan seasoning. Salt: LOW CONFIDENCE: commercial pastes vary substantially; calculate from the label."
+      "Prepared chermoula (usually cilantro/coriander, parsley, garlic, cumin, paprika or chile, lemon and oil; formulas vary): about 60-100 g prepared chermoula can season 1 kg fish or vegetables in place of a freshly pounded marinade. Salt varies by brand: brand-dependent. Calculate salt-equivalent from the sodium label.",
+      "Harissa paste (usually red chile, garlic, spices and oil; it is Tunisian in origin but is used in parts of Morocco and the wider Maghreb): use roughly 10-20 g per 1 kg food when a Moroccan recipe specifically calls for harissa; do not use it as a universal Moroccan seasoning. Salt varies by brand: commercial pastes vary substantially; calculate from the label."
     ],
     "pitfalls": [
       "Do not treat Moroccan as synonymous with all North African or Maghrebi cooking.",
@@ -107,7 +107,7 @@
       "Harissa is not merely a table sauce, but it also is not compulsory in every dish; recipes and heat levels vary.",
       "Do not claim all Tunisian couscous is red or all Moroccan couscous pale.",
       "Tabil may mean ground coriander alone or a variable coriander-based spice mix.",
-      "Do not equate hrous with a single standardized fermentation formula; regional details remain LOW CONFIDENCE.",
+      "Do not equate hrous with a single standardized fermentation formula; regional fermentation details vary by maker.",
       "Pantry defaults are soft assumptions; do not assume rarer specialty ingredients are on hand or that harissa must be used in every dish."
     ],
     "avoid": [],
@@ -234,9 +234,9 @@
       "baladi bread (substitute: whole-wheat pita, approximate)"
     ],
     "tips": [
-      "Prepared dukkah/dokka (usually variable toasted coriander, cumin, sesame and pepper; many versions add nigella, nuts, sumac or other seeds): use 5-15 g as a finishing seasoning rather than as a universal Egyptian spice blend. Salt: LOW CONFIDENCE for generic dukkah because formulas vary. Pure unsalted mixes contribute 0.0 g; packaged salted versions require label calculation.",
+      "Prepared dukkah/dokka (usually variable toasted coriander, cumin, sesame and pepper; many versions add nigella, nuts, sumac or other seeds): use 5-15 g as a finishing seasoning rather than as a universal Egyptian spice blend. Salt: uncertain across brands for generic dukkah because formulas vary. Pure unsalted mixes contribute 0.0 g; packaged salted versions require label calculation.",
       "Prepared tahini (usually ground sesame seed, sometimes only sesame and sometimes added salt): replace homemade sesame paste 1:1 by weight; 30 g prepared tahini replaces 30 g homemade. Salt: 0.0 g only if the ingredient list is sesame alone; otherwise calculate from label.",
-      "Canned ful/fava beans (usually cooked fava beans, water and often salt): about 240 g drained canned fava beans can replace roughly 80-100 g dry beans after cooking, but texture and flavor differ. Salt: LOW CONFIDENCE: highly brand-dependent; rinse and calculate from label rather than assuming a fixed value."
+      "Canned ful/fava beans (usually cooked fava beans, water and often salt): about 240 g drained canned fava beans can replace roughly 80-100 g dry beans after cooking, but texture and flavor differ. Salt varies by brand: highly brand-dependent; rinse and calculate from label rather than assuming a fixed value."
     ],
     "pitfalls": [
       "Do not use chickpeas as the default base for Egyptian ta'ameya; fava beans are the classic Egyptian distinction.",
@@ -279,7 +279,7 @@
       "unrefined red palm oil (substitute: none exact; neutral oil lacks its flavor and color)"
     ],
     "tips": [
-      "Commercial yaji or suya spice (usually chile, ginger and aromatic spices; yajin kuli or many suya blends also contain ground kulikuli/peanut): use about 20-40 g blend per 1 kg sliced meat, depending on concentration. Salt: LOW CONFIDENCE: commercial blends vary and many are salted. Calculate from label; do not assume zero. Treat peanut status as mandatory label data.",
+      "Commercial yaji or suya spice (usually chile, ginger and aromatic spices; yajin kuli or many suya blends also contain ground kulikuli/peanut): use about 20-40 g blend per 1 kg sliced meat, depending on concentration. Salt varies by brand: commercial blends vary and many are salted. Calculate from label; do not assume zero. Treat peanut status as mandatory label data.",
       "Pepper-soup spice blend (usually variable combinations of uda, ehuru, uziza, alligator pepper and other regional spices): use about 5-12 g per liter of soup as a starting range, then adjust to the blend. Salt: 0.0 g for a clearly labeled pure spice blend; many commercial products add salt, so verify.",
       "Bouillon cube or seasoning powder (usually salt, flavor enhancers, spices and flavorings; some contain soy, wheat or milk-derived ingredients): do not replace herbs or indigenous fermented seasonings 1:1 with bouillon. When a recipe explicitly uses it, dose according to the label and reduce separate salt. Salt: no reliable generic value. Calculate salt-equivalent from the product's sodium label; brand differences are too large for a safe fixed number."
     ],
@@ -325,7 +325,7 @@
       "natural unsweetened peanut paste (substitute: unsweetened smooth peanut butter)"
     ],
     "tips": [
-      "Prepared nokoss (usually garlic, onion or scallion, chile, pepper and parsley, sometimes ginger, nététou, bay or other aromatics): use about 40-80 g prepared nokoss per 1 kg main ingredients as a starting point, depending on concentration. Salt: LOW CONFIDENCE: homemade nokoss may be unsalted or salted, while commercial products vary. Calculate from label.",
+      "Prepared nokoss (usually garlic, onion or scallion, chile, pepper and parsley, sometimes ginger, nététou, bay or other aromatics): use about 40-80 g prepared nokoss per 1 kg main ingredients as a starting point, depending on concentration. Salt varies by brand: homemade nokoss may be unsalted or salted, while commercial products vary. Calculate from label.",
       "Commercial bouillon cube or seasoning powder (usually salt, flavor enhancers, spices and flavorings; ingredient profiles vary widely): use only when the intended Senegalese recipe calls for bouillon; do not treat it as a replacement for nététou, guedj or yët. Salt: no safe generic value. Calculate salt-equivalent from sodium on the label and reduce separate salt accordingly.",
       "Prepared peanut butter for mafé (usually ground peanuts; US products may additionally contain sugar, salt and stabilizers): use natural unsweetened peanut butter 1:1 by weight for Senegalese peanut paste; 100 g peanut butter replaces 100 g peanut paste. Salt: 0.0 g if made from peanuts only; otherwise use the nutrition label."
     ],
