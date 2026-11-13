@@ -40,7 +40,9 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
    email was off (fixed: share sheet, see item 1). Re-test Email on the phone after installing the new build. See "Android" below for installing, rebuilding, signing,
    and deleting the ~13 GB toolchain.
 3. **GitHub: public since 2026-10-28** (AGPLv3). Still to do: README screenshots.
-   **Web demo: brief written 2026-11-12, `docs/WEB_DEMO.md`, for Gemini in Antigravity.** Decided with Bryan:
+   **Web demo: brief written 2026-11-12, `docs/WEB_DEMO.md`, for Gemini in Antigravity; reviewed against the
+   code 2026-11-13** (the globe's server-side redraw is the main new risk; also added limits on every model call,
+   locking the model, a fail-closed visitor id, and clean-up). Decided with Bryan:
    a private demo he shares by link, not advertised; Google Cloud Run in the same project as AllAboard, Flet
    server web mode, **minimum instances 0** (a few seconds of cold start is fine; keeping one warm costs roughly
    $10 to $50 a month for little gain), session affinity with maximum 1 instance, Bryan's own key with a credit
