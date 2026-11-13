@@ -101,6 +101,7 @@ AUDIENCE_CARDS = {
         (ft.Icons.FITNESS_CENTER, "Healthy"),
     "A college student with only a microwave.": (ft.Icons.MICROWAVE, "Microwave only"),
 }
+AUDIENCE_COLUMNS = 3     # tiles per row in "Who's eating?"
 QUICK_TWEAKS = [
     (ft.Icons.LOCAL_FIRE_DEPARTMENT, "Spicier", "Make it spicier."),
     (ft.Icons.GROUP, "Serves 6", "Scale it to serve 6."),
@@ -593,7 +594,7 @@ class ChefBotApp:
                 ft.Column([ft.Icon(icon, size=28),
                            ft.Text(short, size=12.5, weight=ft.FontWeight.W_600, text_align=ft.TextAlign.CENTER)],
                           horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=6, tight=True),
-                width=108, height=96, border_radius=18, padding=8, ink=True,
+                expand=1, height=88, border_radius=16, padding=6, ink=True,    # width comes from the grid row
                 alignment=ft.Alignment.CENTER, on_click=lambda e, lab=label: self._pick_audience(lab))
         self._style_audience()
         self.dessert = ft.Chip(label="Dessert instead", leading=ft.Icon(ft.Icons.CAKE_OUTLINED, size=18),
@@ -1770,6 +1771,17 @@ class ChefBotApp:
             horizontal_alignment=ft.CrossAxisAlignment.STRETCH,
         )
 
+    def _audience_grid(self) -> ft.Control:
+        """The "Who's eating?" tiles in rows of AUDIENCE_COLUMNS equal-width tiles that fill the card. A short last
+        row is padded with empty cells so its tiles stay the same width as the rest."""
+        tiles = list(self.audience_tiles.values())
+        rows = []
+        for start in range(0, len(tiles), AUDIENCE_COLUMNS):
+            row = tiles[start:start + AUDIENCE_COLUMNS]
+            row += [ft.Container(expand=1) for _ in range(AUDIENCE_COLUMNS - len(row))]
+            rows.append(ft.Row(row, spacing=8))
+        return ft.Column(rows, spacing=8)
+
     def _pick_audience(self, label: str):
         self.audience = label
         self._style_audience()
@@ -1837,7 +1849,7 @@ class ChefBotApp:
                         alignment=ft.MainAxisAlignment.SPACE_BETWEEN, wrap=True),
                  self.cuisine_chips_row),
             card(section_title(ft.Icons.GROUPS, "Who's eating?"),
-                 ft.Row(list(self.audience_tiles.values()), wrap=True, spacing=10, run_spacing=10)),
+                 self._audience_grid()),
             card(section_title(ft.Icons.HEALTH_AND_SAFETY, "Any dietary needs?"),
                  ft.Text("Pick up to three.", size=13, color=ft.Colors.ON_SURFACE_VARIANT),
                  ft.Row([self.dessert, *self.diet_chips.values()], wrap=True, spacing=8, run_spacing=8),
