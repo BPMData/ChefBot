@@ -718,6 +718,17 @@ class ChefBotApp:
             tx=tx,
             ty=ty,
         ))
+        for bx0, by0, bx1, by1 in lvl.get("inset_boxes", []):
+            rx, ry = tx(bx0), ty(by0)
+            rw, rh = (bx1 - bx0) * scale, (by1 - by0) * scale
+            shapes.append(cv.Rect(
+                rx, ry, width=rw, height=rh, border_radius=6,
+                paint=ft.Paint(
+                    color=ft.Colors.with_opacity(0.45, ft.Colors.OUTLINE_VARIANT),
+                    stroke_width=0.9,
+                    style=ft.PaintingStyle.STROKE,
+                ),
+            ))
         for reg in lvl["regions"]:
             if reg["id"] in highlight_set:
                 continue
@@ -1548,6 +1559,17 @@ class ChefBotApp:
                 tx=tx,
                 ty=ty,
             ))
+            for bx0, by0, bx1, by1 in lvl.get("inset_boxes", []):
+                rx, ry = tx(bx0), ty(by0)
+                rw, rh = (bx1 - bx0) * s, (by1 - by0) * s
+                shapes.append(cv.Rect(
+                    rx, ry, width=rw, height=rh, border_radius=8,
+                    paint=ft.Paint(
+                        color=ft.Colors.with_opacity(0.55, ft.Colors.OUTLINE_VARIANT),
+                        stroke_width=1.1,
+                        style=ft.PaintingStyle.STROKE,
+                    ),
+                ))
 
             for reg in lvl["regions"]:
                 rid = reg["id"]

@@ -97,8 +97,7 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
    the app's current entries: `docs/research/FINDINGS.md` (read it first; the raw reports in
    `docs/research/results/raw/` are only for checking a specific claim). Data: `docs/research/results/*.json`.
    Added 2026-11-09: Tunisian and Algerian (Africa), Afghan and Pakistani (Asia), researched together and saved as
-   `docs/research/results/additions.json` (kept as two nodes, Afghan and Pakistani, per the research). That run
-   also raised an idea for Bryan: per-cuisine "pantry defaults" (see FINDINGS).
+   `docs/research/results/additions.json` (kept as two nodes, Afghan and Pakistani, per the research).
    **Build plan (2026-11-09):** Bryan will have Google AI Studio attempt the refactor from the self-contained brief
    `docs/REFACTOR_CUISINE_TREE.md` (data under `src/chefbot/cuisines/`, a loader, the drill-down picker, recent
    picks, legacy ids for saved chats, tests). Claude's job afterwards: review its pull request, fix its mistakes,
@@ -138,8 +137,6 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
      have non-overlapping call-outs, point-in-polygon `hit_test` and `region_for_cuisine` work for all nodes, the
      builder reproduces committed JSON when source shapefiles are present, and the UI drill-down/pick/Back flow works
      at phone and desktop sizes.
-   - **Still to do:** House-style pass on cuisine entries (including the 12 tips with raw `salt_g` formula notation),
-     pantry defaults decision with Bryan.
    - **2026-11-12, tested on the phone:** works well. Fixed (PR #23): at 1x the map could be dragged around;
      the viewer's boundary margin is now 0, so it only pans while pinch-zoomed, within the map's edges.
    - **2026-11-12 (Globe browser on branch `globe-browser`, `docs/GLOBE_BROWSER.md`):** Replaced the flat world
@@ -170,21 +167,20 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
    - **2026-11-13:** The China map level shows an extra line, "The Eight Great Cuisines (八大菜系)" (Bryan's
      wording, no pinyin), above the usual subtitle. It's an optional `heading` field on a branch node, set in
      `tools/cuisine_overrides.json` so rebuilds keep it; any other level can get one the same way.
-     **Next: a second batch of 14 cuisines** (decided with Bryan 2026-11-13; list and to-dos in
-     `docs/CUISINE_TREE.md`, "Second batch"). Central European is split into five; British and Irish are separate.
-     Prompts are ready to paste: `docs/research/additions-europe.md`, `docs/research/additions-americas.md`
-     (`tools/make_research_prompts.py <slug>` rebuilds just those; with no slugs the full run stops at
-     near-east, because the taxonomy heading there is still "Near & Middle East").
-     **Research done (2026-11-13):** Antigravity's runs, chosen from six, are `results/additions_europe.json` and
-     `results/additions_americas.json` (Gemini's kept as `*_gemini`; ChatGPT's discarded). Read FINDINGS, "Second
-     batch", for the fixes the house-style pass must make. Decided: Finland stays in Nordic, Georgian under Europe,
-     German defaults to one all-Germany style, Hawaiian defaults to local food (Native Hawaiian dishes named as
-     such; label "Hawaiian & Local").
-     **Next session starts here, on the Mac:** builder reads the two files, house-style pass, Central European
-     replaced by its five (legacy mapping for old chats), map regions for all 14, tests.
-     **Do the build in a Claude Code session on Bryan's Mac**: the map rebuild needs the gitignored shapefiles in
-     `assets/maps/source/`, which cloud sessions don't have, and data and maps must land together (the tests
-     require a map region for every cuisine). Hawaii probably needs an inset on the US map.
+     **Second batch built (2026-11-13):** Integrated all 14 second-batch cuisines (`additions_europe.json`,
+     `additions_americas.json`) via `tools/build_cuisine_data.py` and `tools/cuisine_overrides.json` (71 leaves
+     total). `central_european` is split into `german`, `austrian`, `hungarian`, `polish`, and `czech` (old saved
+     chats with `central_european` / `"Central European"` map to `german` in `LEGACY_IDS`). Completed the
+     house-style pass: scrubbed raw `salt_g`/`sodium_mg` math and `LOW CONFIDENCE` notes across all nodes, trimmed
+     European subtitles, moved Irish dulse to signature ingredients, removed tri-tip from Austrian Tafelspitz,
+     removed `"never"`/`"always"` rules from Europe additions, fixed Hawaiian romanization (`"goma abura"`, dropped
+     `"Hoyu"`), set Colombian hogao core to scallion + tomato, replaced Québécois `"oreilles de crisse"` with
+     `"oreilles de Christ"`, set `us_hawaiian` label `"Hawaiian & Local"` (all-island local-food default), and
+     kept German as one all-Germany everyday default. Rebuilt all 14 `src/chefbot/maps/*.json` files in
+     `tools/build_map_data.py` (expanded Europe window to cover Iceland and Georgia; moved `GEO` from Near East
+     to Europe on world and globe; added Québécois via Canadian admin1 and Colombian on Americas; added New
+     Mexican and a linear SW-Pacific Hawaii inset with `inset_boxes` border rendering on `united_states` and
+     info mini-maps). Per Bryan (2026-11-13), skipping "pantry defaults" (`pantry_assumed`) for now.
 
 7. **Next big to-do (2026-11-12): consider the Spoonacular API**, for example for nutrition data per recipe.
    Not started; first work out what it would add, what it needs (an API key kept like the OpenRouter one, limits)

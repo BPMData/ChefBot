@@ -52,9 +52,9 @@
       "gundelia, a seasonal wild thistle used in some Palestinian cooking (عكوب, ʿakkūb) (substitute: artichoke hearts for a rough functional substitute; none is exact)"
     ],
     "tips": [
-      "Store-bought za'atar: commonly contains za'atar-type herb, sumac, sesame and salt. Substitute 1:1 by weight for a homemade za'atar condiment. Because salt varies by brand, calculate salt from the label: salt_g = sodium_mg × 0.0025 for the quantity used, and reduce added recipe salt by that amount.",
+      "Store-bought za'atar: commonly contains za'atar-type herb, sumac, sesame and salt. Substitute 1:1 by weight for a homemade za'atar condiment. Because salt varies by brand, calculate salt from the label (about 2.5 g salt per 1,000 mg sodium) for the quantity used, and reduce added recipe salt by that amount.",
       "Baharat or Lebanese seven-spice: Reem Kassis specifically recommends these as convenient substitutes for her family's Palestinian nine-spice, with a slightly different flavor. Use 1:1 by weight for the ground spice quantity; many versions contain no salt, but verify the label. If sodium is 0 mg, salt contribution is 0 g.",
-      "Prepared tahini sauce is not the same as plain tahini. If a recipe calls for tahini paste, substitute only plain sesame tahini 1:1 by weight; prepared sauces may already contain lemon, garlic, water and salt. Use the package sodium to calculate salt_g = sodium_mg × 0.0025."
+      "Prepared tahini sauce is not the same as plain tahini. If a recipe calls for tahini paste, substitute only plain sesame tahini 1:1 by weight; prepared sauces may already contain lemon, garlic, water and salt. Use the package sodium to calculate salt from label sodium (about 2.5 g salt per 1,000 mg sodium)."
     ],
     "pitfalls": [
       "Do not call every shared Levantine dish uniquely Palestinian, Lebanese, Syrian or Jordanian; borders are newer than many dishes.",
@@ -101,8 +101,8 @@
       "unripe sour grapes (غوره, ghūreh) (substitute: verjuice if available; otherwise lemon juice diluted slightly with water)"
     ],
     "tips": [
-      "Commercial advieh: formulas vary by dish and producer and may contain cinnamon, cardamom, cumin, rose, nutmeg or other spices. Substitute 1:1 by weight only when the blend is intended for the same dish family; do not treat 'advieh' as one universal formula. If the label shows 0 mg sodium, salt contribution is 0 g; otherwise salt_g = sodium_mg × 0.0025.",
-      "Prepared or frozen ghormeh-sabzi herb mixtures can replace the same prepared herb component by weight, but verify whether they are raw, fried or salted before substitution. For a salted product, calculate salt_g from sodium_mg × 0.0025.",
+      "Commercial advieh: formulas vary by dish and producer and may contain cinnamon, cardamom, cumin, rose, nutmeg or other spices. Substitute 1:1 by weight only when the blend is intended for the same dish family; do not treat 'advieh' as one universal formula. If the label shows 0 mg sodium, salt contribution is 0 g; otherwise estimate salt from label sodium (about 2.5 g salt per 1,000 mg sodium).",
+      "Prepared or frozen ghormeh-sabzi herb mixtures can replace the same prepared herb component by weight, but verify whether they are raw, fried or salted before substitution. For a salted product, calculate salt from label sodium (about 2.5 g salt per 1,000 mg sodium).",
       "Bottled pomegranate molasses may replace homemade reduced pomegranate concentrate 1:1 by weight as a starting point, but sweetness and acidity vary substantially by brand; adjust sourness rather than adding sugar automatically."
     ],
     "pitfalls": [
@@ -153,10 +153,10 @@
       "Turkish cut egg noodles (erişte) (substitute: wide supermarket egg noodles)"
     ],
     "tips": [
-      "Biber salçası: commercial pepper paste can replace homemade pepper paste 1:1 by weight as a starting point. Many jars are salted, so calculate salt_g = sodium_mg × 0.0025 from the nutrition label for the weight used and subtract that salt from the recipe.",
-      "Domates salçası: concentrated supermarket tomato paste can usually replace Turkish tomato paste 1:1 by weight, but concentration varies; adjust liquid and browning rather than assuming identical strength. Account for labeled sodium using salt_g = sodium_mg × 0.0025.",
+      "Biber salçası: commercial pepper paste can replace homemade pepper paste 1:1 by weight as a starting point. Many jars are salted, so calculate salt from label sodium (about 2.5 g salt per 1,000 mg sodium) from the nutrition label for the weight used and subtract that salt from the recipe.",
+      "Domates salçası: concentrated supermarket tomato paste can usually replace Turkish tomato paste 1:1 by weight, but concentration varies; adjust liquid and browning rather than assuming identical strength. Account for labeled sodium (about 2.5 g salt per 1,000 mg sodium).",
       "Nar ekşisi: use a product whose main ingredient is pomegranate rather than a generic sweet 'pomegranate sauce' when classic sourness is intended. Substitute 1:1 by weight as a starting point; sweetness, acidity and salt vary by product.",
-      "Köfte baharı: commercial meatball-spice blends vary; one documented traditional formulation combines coriander, black pepper, cloves, bay and wild thyme. Use 1:1 by weight only in recipes that actually call for köfte seasoning. If salted, derive salt from the label using salt_g = sodium_mg × 0.0025."
+      "Köfte baharı: commercial meatball-spice blends vary; one documented traditional formulation combines coriander, black pepper, cloves, bay and wild thyme. Use 1:1 by weight only in recipes that actually call for köfte seasoning. If salted, derive salt from the label (about 2.5 g salt per 1,000 mg sodium)."
     ],
     "pitfalls": [
       "Do not reduce Turkish cuisine to kebab, hummus and baklava; vegetable dishes, legumes, grains, soups, yogurt dishes and regional foods are equally important.",
