@@ -115,5 +115,8 @@
   },
   "japan_any": {
     "subtitle": "Sushi, ramen, teriyaki"
+  },
+  "china": {
+    "heading": "The Eight Great Cuisines (八大菜系)"
   }
 }

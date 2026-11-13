@@ -223,3 +223,53 @@ continents:
   Americas and are now foundational in Italy, Spain and Hungary.
 - Allergens hide in prepared condiments more than in single spices (pesto, romesco, alioli, za'atar, tahini, yaji,
   bouillon cubes): the prompt should tell the model to check those.
+
+## Second batch (2026-11-13): 14 cuisines, Antigravity
+
+**Use:** `results/additions_europe.json` and `results/additions_americas.json` (full reports in `results/raw/`),
+from Gemini agents in Antigravity. Six reports were compared (ChatGPT deep research, Gemini deep research and
+Antigravity, each for both continents); Bryan chose Antigravity for both.
+
+- **ChatGPT: not saved.** Most likely its lighter fallback once the month's full deep research runs were used
+  up: two sources per cuisine, many from SEO sites, and plain errors (Portuguese "pimentão-doce" for Austrian
+  paprika, "Senf (English mustard)", made-up native names such as Nordic "Alleholjende" and Irish "Gorg", Hawaiian
+  "ulu" for green onion, which means breadfruit, aji amarillo as a New Mexican ingredient, Tafelspitz "stewed with
+  cream"). If ChatGPT is used again, check it ran the full version.
+- **Gemini deep research: kept as a second opinion** (`*_gemini.json`, `raw/*_gemini.md`). Well sourced but
+  over-hedged: "LOW CONFIDENCE" on obvious staples (caraway in Czech), thin on Austrian, Czech and Irish
+  seasoning, nothing on Ashkenazi cooking, and no guascas for Colombian. Worth checking for Scottish and Welsh
+  cookbook history and the Jagerschnitzel regional split, which Antigravity covers more briefly.
+- **Antigravity: the best of the six.** Specific seasoning for every cuisine, real authorities (Lang, Gundel,
+  Plachutta, FitzGibbon, Allen, Nilsson, Goldstein, Capalbo, Hercules; Jamison, DeWitt and Bosland, Laudan, Hiura,
+  Francoeur, Armstrong, Velasquez, Colombia's Ministry of Culture), product labels checked for salt and allergens.
+  It agreed with both of Bryan's decisions below on its own.
+
+**Fix in the house-style pass:**
+
+- **Europe subtitles are too long** (five items each); trim to 3-4 for the chips. The Americas ones fit.
+- **Irish overweights seaweed:** dulse leads its subtitle and two of nine flavors are seaweeds. Move dulse to
+  signature ingredients; everyday Irish cooking is butter, parsley, thyme, pepper, malt vinegar, mustard.
+- **Nine "never"/"always" in Europe** (Polish, Czech, Portuguese, Nordic). Most are fair (kmin is not cumin, never
+  raw Mexican chorizo for chourico, always desalt bacalhau), but ChefBot enforces these as hard rules: reword each.
+- **Austrian Tafelspitz cut:** it says "tri-tip / top sirloin cap"; tri-tip is a different cut. Top sirloin cap
+  (picanha) only.
+- **Hawaiian romanization:** "Hoyu" for oyster sauce is not a word; "Gomabura" should be "goma abura".
+- **Colombian hogao:** cumin and achiote are common additions, not the core (scallion and tomato).
+- **Quebecois:** "oreilles de crisse" is a Quebec swear form; write "oreilles de Christ" or "fried salt pork".
+- **Field shapes:** allergen notes and pitfalls came as lists in the Americas file; the checker flattens them.
+- **Label:** use "Hawaiian & Local" (decided), not Antigravity's "Hawaiian / Local".
+
+**Decided with Bryan (2026-11-13):**
+1. **Finland stays in Nordic.** Its seasoning (salt, allspice, black pepper, dill) is nearly Sweden's; what
+   differs is ingredients (sour rye, wild mushrooms, lake fish, Karelian pasties), which the Nordic entry should
+   mention. Split later only if recipes come out too Swedish.
+2. **Georgian stays under Europe.** Gemini suggested the Near East on ingredient overlap, but Georgians mostly see
+   themselves as European ("Caucasus" is the neutral term; EU candidate since 2023). Check the Europe map reaches
+   far enough east to show Georgia.
+
+3. **German default:** one everyday style for the whole country, neither Bavarian nor northern; Bavarian,
+   Swabian or northern dishes only when the user's ingredients or request point there.
+4. **Hawaiian default:** everyday island "local food" (plate lunch, poke, kalua pork, saimin, shoyu chicken).
+   Native Hawaiian food (poi, laulau, kalo) is part of what people in Hawaii eat, so it sits inside that default,
+   but recipes name it as Native Hawaiian rather than calling plantation-era local dishes "Hawaiian". Chip label:
+   "Hawaiian & Local".

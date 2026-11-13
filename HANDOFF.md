@@ -167,6 +167,24 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
        it, reversed for Back; Flutter animates it (`MAP_ZOOM_MS`, `MAP_ZOOM_IN_SCALE`, `MAP_ZOOM_OUT_SCALE`).
      - **Bryan on the phone (2026-11-12):** much smoother, and "about as good as it's gonna get" with this
        approach. Going further would mean a JavaScript globe in a WebView.
+   - **2026-11-13:** The China map level shows an extra line, "The Eight Great Cuisines (八大菜系)" (Bryan's
+     wording, no pinyin), above the usual subtitle. It's an optional `heading` field on a branch node, set in
+     `tools/cuisine_overrides.json` so rebuilds keep it; any other level can get one the same way.
+     **Next: a second batch of 14 cuisines** (decided with Bryan 2026-11-13; list and to-dos in
+     `docs/CUISINE_TREE.md`, "Second batch"). Central European is split into five; British and Irish are separate.
+     Prompts are ready to paste: `docs/research/additions-europe.md`, `docs/research/additions-americas.md`
+     (`tools/make_research_prompts.py <slug>` rebuilds just those; with no slugs the full run stops at
+     near-east, because the taxonomy heading there is still "Near & Middle East").
+     **Research done (2026-11-13):** Antigravity's runs, chosen from six, are `results/additions_europe.json` and
+     `results/additions_americas.json` (Gemini's kept as `*_gemini`; ChatGPT's discarded). Read FINDINGS, "Second
+     batch", for the fixes the house-style pass must make. Decided: Finland stays in Nordic, Georgian under Europe,
+     German defaults to one all-Germany style, Hawaiian defaults to local food (Native Hawaiian dishes named as
+     such; label "Hawaiian & Local").
+     **Next session starts here, on the Mac:** builder reads the two files, house-style pass, Central European
+     replaced by its five (legacy mapping for old chats), map regions for all 14, tests.
+     **Do the build in a Claude Code session on Bryan's Mac**: the map rebuild needs the gitignored shapefiles in
+     `assets/maps/source/`, which cloud sessions don't have, and data and maps must land together (the tests
+     require a map region for every cuisine). Hawaii probably needs an inset on the US map.
 
 7. **Next big to-do (2026-11-12): consider the Spoonacular API**, for example for nutrition data per recipe.
    Not started; first work out what it would add, what it needs (an API key kept like the OpenRouter one, limits)

@@ -1,0 +1,738 @@
+Ran command: Workspace directory check (`ls -la /home/antigravity`)
+Searched web: ""German" regional cuisine north vs south Bavaria Swabia culinary historian Ursula Heinzelmann OR Mimi Sheraton, "Austrian" cuisine Habsburg court vs German differences culinary history, "Hungarian" cuisine Károly Gundel OR George Lang paprika lard sour cream characteristics, "Polish" cuisine Magdalena Kasprzyk-Chevriaux OR Maria Dembinska sour rye marjoram characteristics, "Czech" cuisine Magdalena Dobromila Rettigová OR "Czech cuisine" dumplings caraway marjoram Habsburg"
+Searched web: ""Portuguese" cuisine vs "Spanish" cuisine differences Edite Vieira OR David Leite culinary history, "British" vs "Irish" cuisine differences Scottish Welsh Darina Allen Jane Grigson culinary history, "Nordic" home cooking vs New Nordic Finland cuisine Magnus Nilsson culinary history, "Georgian" cuisine Darra Goldstein OR Carla Capalbo Europe vs Near East khmeli suneli walnuts"
+Searched web: ""Beyond Bratwurst" "Ursula Heinzelmann" north south German food, "Darra Goldstein" "Georgian" cuisine Europe Near East walnut khmeli suneli, "The Food of Portugal" "Jean Anderson" OR "Edite Vieira" Spanish vs Portuguese cilantro piri piri, "Magnus Nilsson" Finland Nordic cuisine home cooking vs New Nordic, "Magdalena Kasprzyk-Chevriaux" Polish cuisine sour rye marjoram mushrooms"
+Searched web: ""Irish" vs "British" cuisine Darina Allen OR Regina Sexton OR Máirtín Mac Con Iomaire, "Czech cuisine" "svíčková" "knedlíky" "Rettigová" culinary history, "Austrian cuisine" Habsburg Bohemia Hungary Italy "Tafelspitz" "Mehlspeisen", "Hungarian" "George Lang" OR "Károly Gundel" "Erős Pista" OR "Piros Arany" OR "tejföl", "Welsh" "Scottish" cuisine differences from English Jane Grigson OR Catherine Brown OR Bobby Freeman"
+Searched web: ""Edite Vieira" OR "Jean Anderson" Portuguese cuisine differences from Spanish cilantro piri piri, "khmeli suneli" ingredients blue fenugreek marigold Darra Goldstein OR Carla Capalbo Georgia, "Finland" "Nordic cuisine" Karelian Russian vs Scandinavian differences food history, "Aromat" Knorr ingredients sodium OR salt per 100g Maggi Würze sodium per 100g, "Piros Arany" OR "Erős Pista" ingredients salt per 100g paprika paste"
+Searched web: ""Vegeta" Podravka ingredients salt per 100g "Masox" OR "Kucharek", "Massa de Pimentão" ingredients salt per 100g Portuguese pepper paste, "Swedish ansjovis" sprats spice ingredients "Kalles Kaviar" ingredients salt, "Welsh" "laverbread" "cawl" "Scottish" "cullen skink" "haggis" culinary history, "Irish" "spiced beef" "boxty" "colcannon" "soda bread" "carrageen" Regina Sexton OR Theodora FitzGibbon"
+Searched web: "Portuguese cuisine vs Spanish cuisine differences cilantro piri piri bacalhau, Georgian cuisine Darra Goldstein Europe Near East khmeli suneli blue fenugreek marigold, Maggi Würze ingredients salt per 100g OR 100ml Germany, Podravka Vegeta original ingredients salt per 100g Masox Czech ingredients salt, Bisto gravy granules ingredients salt per 100g Oxo cube Marmite Worcestershire salt per 100g"
+Searched web: "Georgian adjika Svaneti salt ingredients salt per 100g khmeli suneli, New Nordic Cuisine Manifesto 2004 home cooking difference Finland Nordic, German cuisine north vs south default Ursula Heinzelmann OR culinary history, Austrian cuisine vs German Bavarian differences Habsburg Mehlspeisen Tafelspitz, Czech cuisine vs Polish vs Slovak vs Austrian differences dumplings sauces"
+Searched web: ""Lea & Perrins" Worcestershire sauce ingredients salt per 100g OR 100ml "Bisto" gravy granules salt per 100g, "Oxo" beef stock cube ingredients salt per 100g "Marmite" salt per 100g, "Masox" Vitana ingredients salt per 100g Czech "Maggi" tekuté koření salt, "Knorr" "Köttbuljong" OR "Fiskbuljong" OR "Kalaliemikuutio" ingredients salt per 100g Nordic, "Svanetian salt" OR "Svanuri marili" salt percentage OR per 100g "adjika" salt per 100g"
+Searched web: ""Caldo Knorr" Portugal ingredients salt per 100g "Massa de Alho" salt per 100g, "Chef Brown Sauce" OR "Ballymaloe Relish" Ireland ingredients salt per 100g, "Georgian cuisine" Europe OR "Near East" OR "West Asia" UNESCO qvevri wine culinary classification, "Polish" Jewish Ashkenazi cuisine shared dishes "Magdalena Kasprzyk-Chevriaux" OR "Culture.pl", "Edite Vieira" "The Taste of Portugal" OR "David Leite" Portuguese vs Spanish cooking"
+Searched web: ""Masox" Vitana složení sůl na 100g OR ingredients salt, "Lea & Perrins" Worcestershire nutrition per 100ml salt "Marmite" salt per 100g, "Massa de Alho" ingredientes sal 100g Portugal "Caldo Knorr" galinha sal 100g, "Kalles Kaviar" ingredients salt per 100g "Bong" fond salt per 100g, "Adjika" Georgian paste ingredients salt per 100g OR nutrition"
+Searched web: ""Austrian" kitchen shortcuts "Suppenwürfel" OR "Knorr" Rindsuppe salt per 100g "Senf" Estragonsenf, "British" vs "English" vs "Scottish" vs "Welsh" cuisine academic OR museum OR BBC history, "Georgian" cuisine Europe vs Asia "West Asia" OR "Near East" culinary boundary Darra Goldstein OR Britannica, "German" north south cuisine Weisswurstequator "Aldi equator" food divide Ursula Heinzelmann, "Hungarian" cuisine "Károly Gundel" "Hungarian Cookery Book" lard onion paprika caraway marjoram"
+Read URL: https://www.norden.org/en/information/new-nordic-food-manifesto
+Searched web: ""Marmite" nutrition per 100g salt "Lea & Perrins" salt per 100ml, "Bisto" beef gravy granules nutrition per 100g salt, "Knorr" "Rindsuppe" Würfel Zutat Salz 100g Österreich, "Kalles Kaviar" näringsvärde salt 100g ingredienser, "Masox" Vitana výživové údaje sůl na 100g"
+Searched web: "Lea Perrins Worcestershire sauce UK vs US ingredients salt per 100ml, Marmite ingredients allergens salt per 100g, Ballymaloe Relish ingredients allergens salt per 100g, Vitana Masox ingredients salt per 100g dry cube"
+Searched web: "Knorr Goldaugen Rindsuppe ingredients salt 100g Austria, Mautner Markhof Estragonsenf ingredients salt 100g, Kalles Kaviar ingredients allergens salt 100g, Massa de Alho Portugal ingredients salt 100g"
+Searched web: "Germany culinary divide north south Weisswurstequator Heinzelmann, Portuguese vs Spanish cuisine differences cod cilantro paprika, Scottish Welsh vs English cuisine differences Grigson McNeill Freeman, Georgia cuisine Europe or Near East Goldstein khmeli suneli"
+Searched web: ""Mautner Markhof" "Estragon Senf" Salz 100g, "Knorr" "Goldaugen" Rindsuppe Salz 100g, "Lea & Perrins" Worcestershire sauce USA ingredients sodium teaspoon kraftheinz, "Chef Brown Sauce" salt 100g ingredients Ireland"
+Read URL: https://loja.domduarte.com/pt/temperos/massa-de-alho_p78.html
+Searched web: ""Lea & Perrins" "65mg" OR "55mg" OR "70mg" sodium teaspoon nutrition facts, "Tafelspitz" Plachutta Austrian cuisine Viennese cooking, "The Nordic Cookbook" Magnus Nilsson home cooking vs New Nordic, tkemali adjika khmeli suneli Darra Goldstein Georgian Feast"
+Searched web: ""Svanetian salt" OR "Svanuri marili" ingredients salt 100g, "Knorr" Caldo de Galinha OR Carne Portugal ingredients salt 100g, "Piros Arany" "11.5" OR "11,5" salt ingredients Univer"
+Searched web: ""ხმელი სუნელი" "უცხო სუნელი" "ტყემალი" "აჯიკა" "ქონდარი" Georgian spices, "ყვითელი ყვავილი" "ქინძი" "ტარხუნა" "ისრიმი" "სვანური მარილი" Georgian"
+Searched web: "Georgian spices khmeli suneli utskho suneli marigold Mkhedruli, isrimi tkemali adjika Georgian script"
+Searched web: "tkemali sauce nutritional salt per 100g ingredients, tarragon coriander savory garlic Georgian script tarkhuna kindzi kondari"
+Searched web: "kindzi kondari niori Georgian script Wikipedia"
+Read URL: https://georgianrecipes.net/2013/07/28/spices-and-herbs-used-in-georgian-cuisine/
+Searched web: "Irish Gaelic names parsley thyme black pepper dulse sea salt, Finnish names allspice dill bay leaf juniper mustard horseradishes"
+Created validate_cuisines.py
+Ran command: Run cuisine JSON validator (`python3 /home/antigravity/.gemini/jetski/brain/v1/default/jetski_remote_agents_3p/23d6d029-9cc0-4ded-878d-45dc50d67ae9/scratch/validate_cuisines.py`)
+Created validate_cuisines.py
+Ran command: Run validation script (`python3 /home/antigravity/.gemini/jetski/brain/v1/default/jetski_remote_agents_3p/23d6d029-9cc0-4ded-878d-45dc50d67ae9/scratch/validate_cuisines.py`)
+Viewed cuisines.json:1-607
+Viewed cuisines.json:1-607
+Ran command: Verify JSON constraints (`python3 -c '
+import json, re
+with open("/home/antigravity/.gemini/jetski/brain/v1/default/jetski_remote_agents_3p/23d6d029-9cc0-4ded-878d-45dc50d67ae9/scratch/cuisines.json") as f:
+    data = json.load(f)
+keys = ["id","label","subtitle","about","flavors","sweet_only","signature_ingredients","pantry_assumed","techniques","shortcuts","allergen_notes","pitfalls","sources"]
+for d in data:
+    assert list(d.keys()) == keys, d["id"]
+    assert len(d["label"]) <= 20, d["id"]
+    w = len(d["subtitle"].split())
+    hw = len(re.split(r"[\s-]+", d["subtitle"]))
+    assert 8 <= len(d["flavors"]) <= 12, (d["id"], len(d["flavors"]))
+    assert 3 <= len(d["techniques"]) <= 5, (d["id"], len(d["techniques"]))
+    sents = [s for s in re.split(r"(?<=[.!?])\s+", d["about"].strip()) if s]
+    print(f"{d[\"id\"]}: label={len(d[\"label\"])}, subtitle_words={w}(split_hyphen={hw}), about_sents={len(sents)}, flavors={len(d[\"flavors\"])}, tech={len(d[\"techniques\"])}")
+'`)
+Ran command: Check JSON counts (`python3 -c '
+import json, re
+with open("/home/antigravity/.gemini/jetski/brain/v1/default/jetski_remote_agents_3p/23d6d029-9cc0-4ded-878d-45dc50d67ae9/scratch/cuisines.json") as f:
+    data = json.load(f)
+keys = ["id","label","subtitle","about","flavors","sweet_only","signature_ingredients","pantry_assumed","techniques","shortcuts","allergen_notes","pitfalls","sources"]
+for d in data:
+    assert list(d.keys()) == keys, d["id"]
+    assert len(d["label"]) <= 20, d["id"]
+    w = len(d["subtitle"].split())
+    hw = len(re.split(r"[\s-]+", d["subtitle"]))
+    assert 8 <= len(d["flavors"]) <= 12, (d["id"], len(d["flavors"]))
+    assert 3 <= len(d["techniques"]) <= 5, (d["id"], len(d["techniques"]))
+    sents = [s for s in re.split(r"(?<=[.!?])\s+", d["about"].strip()) if s]
+    cid = d["id"]
+    print(cid, "label=", len(d["label"]), "sub=", w, "(h=", hw, ") about_sents=", len(sents), "flav=", len(d["flavors"]), "tech=", len(d["techniques"]))
+'`)
+
+### 1. Biggest Surprises, Disputes, and Structural Decisions
+
+#### Central Europe Split (`german`, `austrian`, `hungarian`, `polish`, `czech`)
+Replacing a single "Central European" bucket exposes real structural splits alongside genuine shared roots:
+- **Seasonings, fats, starches, and signature techniques**:
+  - **German**: Anchored by mustard (*Senf*), caraway (*Kümmel*), spirit/wine vinegar, juniper, marjoram, and lovage; cooks in pork lard (*Schweineschmalz*) and butter/clarified butter; balances potatoes and potato/bread dumplings (*Klöße*/*Knödel*, Swabian *Spätzle*) with multi-day vinegar-wine marinades (*Beizen* for *Sauerbraten*) and dry-cured beechwood smoking.
+  - **Austrian**: Built around fresh chives, freshly grated horseradish (*Kren*), tarragon mustard (*Estragonsenf*), marjoram, caraway, and Styrian pumpkin-seed oil; relies heavily on clarified butter (*Butterschmalz*) for soufflé-style shallow pan-frying (*Ausbacken* of *Wiener Schnitzel*); stands apart through dual-purpose bare-simmered beef extraction (*Tafelspitz* plus clear *Rindsuppe*) and flour-free onion-reduced *Wiener Saftgulasch*.
+  - **Hungarian**: Dominated by sweet unsmoked noble paprika (*édesnemes*), hot paprika, heavy loads of yellow onion, caraway/marjoram/dill/tarragon, and cultured *tejföl* sour cream; cooks overwhelmingly in rendered pork lard (*sertészsír*); pairs pinched/grated egg pasta (*csipetke*, *nokedli*) with off-heat paprika blooming (*pörkölt* base) and sour-cream flour tempering (*habarás*).
+  - **Polish**: Distinguished by generous fresh dill, dried marjoram, whole allspice (*ziele angielskie*), bay leaf, juniper, and live sour fermented rye starter (*zakwas żytni*); uses pork lard (*smalec*), butter, and pourable *śmietana*; centers starches on stuffed/boiled dumplings (*pierogi*, *kopytka*, *kluski śląskie*), buckwheat groats (*kasza*), and potatoes alongside vinegar-free lactic fermentation (*kiszenie*).
+  - **Czech**: Heavy on true caraway (*kmín*, never cumin), marjoram, garlic, allspice, dill, and 8% spirit vinegar; relies on pork lard (*sádlo*), butter, and *jíška* (flour-fat roux); pairs steamed, yeast-risen coarse-flour bread dumplings (*houskové knedlíky*) and potato dumplings with smooth sweet-sour pureed root-vegetable and cream sauces (*omáčky* such as *svíčková*).
+- **Shared traditions (do not invent artificial borders here)**:
+  - **Habsburg court and urban burgher overlap**: Austria, Czechia, Hungary, and southern Poland share breaded cutlets (*Wiener Schnitzel* / *řízek* / *kotlet schabowy*), yeast pastries (*Kolatschen*/*koláče*/*kołacz*, *Buchteln*/*buchty*), plum butter (*Powidl*/*povidla*), and *Gulasch*/*guláš*/*gulyás*—though *gulyás* is a clear potato soup in Hungary while *Saftgulasch* and Czech *guláš* are thick braised-beef onion gravies eaten with bread or dumplings.
+  - **Ashkenazi Jewish overlap**: Potato pancakes (*Kartoffelpuffer*/*placki ziemniaczane*/*bramboráky*), steamed/baked potato kugel (*babka ziemniaczana*), stuffed-neck/braised sweet-sour meats, poppy-seed and braided breads, and *kiszona* kosher dill brines cross Polish, German, Austrian, Czech, and Hungarian kitchens alike.
+  - **Dumplings and fermented cabbage**: *Klöße*/*Knödel*/*knedlíky*/*knedle* and lacto-fermented *Sauerkraut*/*kiszona kapusta*/*kysané zelí* belong to the entire belt rather than any one state.
+
+#### German North vs. South Divide and App Default
+- **How large the divide is**: Ursula Heinzelmann (*Beyond Bratwurst*, 2014) argues there is no single unified German kitchen: north and northwest coastal cooking looks toward Hanseatic sweet-sour vinegar stews, pickled herring (*Matjes*), kale (*Grünkohl*), dill, and dense steamed whole-rye loaves (*Schwarzbrot*), whereas Bavaria and Swabia lean Alpine—dominated by pork knuckles, veal sausages (*Weißwurst*), sweet mustard, *Semmelknödeln*, *Spätzle*, and *Quark*/*Schmand* dairy.
+- **Recommended app default**: Do **not** default `german` to Munich Oktoberfest tropes. Treat a **west-central/pan-German bourgeois baseline** (meat-and-potato braises, pork/beef with *mittelscharfer Senf*, caraway, marjoram, spirit vinegar, rye/mixed bread, and pan-fried potatoes) as the default, using prompt modifiers only when the user specifies northern maritime ingredients (herring, dill, kale) or southern Alpine/Swabian ingredients (*Spätzle*, *süßer Senf*, *Brezen*).
+
+#### Portuguese vs. Spanish
+- **Flavoring and technique divergence**: Although sharing Iberian pork curing, olive oil, and garlic foundations, Portuguese cooking relies heavily on **fresh cilantro (*coentros*)** (rare in most of Spain), **unsmoked fermented sweet red pepper paste (*massa de pimentão*)** rather than smoky Spanish *pimentón de la Vera*, savory **cinnamon**, **spearmint (*hortelã*)**, and colonial **piri-piri** heat. Rice is usually wet/soupy (*arroz de marisco*) or oven-baked (*arroz de pato*) rather than dry saffron *paella* with *socarrat*, while dry salted Atlantic cod (*bacalhau*) functions as the national staple and stale bread thickens savory dishes (*açorda*, *migas*).
+
+#### Irish vs. British (and Scottish/Welsh Variations Inside `british`)
+- **Historian dispute over Irish separateness**: Panayi and Hasia Diner argue a distinct Irish "national" cuisine emerged largely in the late 20th century from British rural norms; culinary historians Máirtín Mac Con Iomaire, Dorothy Cashman, and Theodora FitzGibbon counter that deep indigenous traditions—buttermilk-and-soda griddle baking, grass-fed cultured butter, Atlantic seaweeds (*dulse* and *carraigín* moss), oats, offal puddings, Cork spiced beef, and unsmoked boiling bacon—set Ireland apart.
+- **What is genuinely Irish for recipe generation**: Emphasize chemical-leavened buttermilk soda bread/farls, floury mashed potatoes enriched with scallions/kale (*champ*, *colcannon*), unbrowned water-simmered meats (*Irish stew*, *Dublin coddle*), boiled unsmoked bacon with parsley sauce, and dulse/carrageen coastal seasonings. Keep Irish-American corned beef and cabbage out as a domestic Irish staple.
+- **Scottish and Welsh divergence inside `british`**: Scotland leans harder into oats (pinhead oatmeal, *skirlie*, oatcakes, *haggis*), game, raspberries/honey, and cold-smoked fish (*Cullen skink*, kippers, *Arbroath smokie*). Wales spotlights upland lamb, leeks (*cawl*), cast-iron bakestone griddle breads/cakes (*Welsh cakes*, *bara brith*), and coastal *laverbread* (*bara lawr* seaweed puree).
+
+#### Nordic (`nordic`) Home Cooking vs. New Nordic, and Finland's Placement
+- **Home cooking vs. New Nordic**: Everyday domestic kitchens across Denmark, Norway, Sweden, Finland, and Iceland run on cured/pickled fish (1-2-3 vinegar brines, *gravad lax*), whole-grain rye bread, potatoes, pork, cream/cultured dairy, dill, allspice, and caraway—worlds apart from the foraged spruce tips, ants, and experimental restaurant fermentations of the 2004 New Nordic Food Manifesto.
+- **Should Finland fit inside `nordic` or become its own node?** Keep Finland inside `nordic` for now if tree breadth is constrained, **but flag it as the top candidate for splitting into an Eastern Nordic / Finnish sub-node** in a future expansion: Finno-Ugric and Karelian/Slavic overland influences give Finland rye-crust *karjalanpiirakka*, long oven-baked *karjalanpaisti*, heavy forest-mushroom and freshwater perch/vendace habits, and distinct sour fermented rye/milk dishes (*piimä*, *mämmi*) that diverge from maritime Scandinavian smørrebrød/herring norms.
+
+#### Georgian (`georgian`) vs. Russian, Turkish, and Persian, and Taxonomy Placement
+- **What sets Georgia apart**: Unlike Russian kitchens (dill, sour cream, rye, buckwheat, long-simmered beet/cabbage soups), Turkish kitchens (olive oil, tomato-*salça*, *sumac*, mint, sweet milk desserts), or Persian kitchens (true saffron, basmati rice, dried lime, slow sugar-sour fruit stews), Georgia builds savory gravies from **cold mortar-pounded walnut-and-garlic emulsions** (*bazhe*, *satsivi*, *pkhali*), **wild tart plum sauces** (*tkemali*), **blue fenugreek** (*utskho suneli*), **dried marigold petals** (*Imeretian saffron*), **raw fresh-herb bouquets** (cilantro, purple basil, tarragon), and **clay-oven cheese breads** (*khachapuri*) plus broth-filled pleated *khinkali*.
+- **Europe vs. Near East placement**: File `georgian` under **Europe** (specifically an Eastern Europe / Caucasus branch if available), with a cross-tag to West Asia / Silk Road. Culturally, wine-centered Orthodox feast traditions (*supra*, pork-heavy *mtsvadi*, *qvevri* amber wines) pull away from Islamic Near Eastern norms, while keeping it distinct from Slavic/Russian defaults prevents the worst AI confusion.
+
+---
+
+### 2. Fact-Check and Verification Audit
+
+- **Contested Culinary Claims Checked**:
+  - **Caraway in Hungarian *gulyás***: George Lang (*The Cuisine of Hungary*, 1971) requires caraway in authentic *gulyás*; Elek Magyar (*Az ínyesmester szakácskönyve*, 1932) advises omitting it. Both views are documented in `hungarian`.
+  - **Irish stew purity**: Theodora FitzGibbon (*Irish Traditional Food*, 1983) and Darina Allen (*Irish Traditional Cooking*, 1995) restrict classic Irish stew to lamb/mutton, potatoes, onions, water, parsley/thyme, salt, and pepper (no carrots, tomato paste, garlic, or stout), while many contemporary Irish home cooks add carrots or make separate beef-and-stout stews; phrased with "in classic versions" rather than an absolute ban.
+  - **German *Jägerschnitzel* split**: Western Germany serves mushroom cream sauce over unbreaded pork/veal cutlets; eastern Germany serves breaded fried *Jagdwurst* with sweet tomato sauce over pasta. Classical veal *Wiener Schnitzel* / pork *Schnitzel Wiener Art* is served un-sauced with lemon.
+  - **UK vs. US Lea & Perrins Worcestershire Sauce**: Verified label split—UK Lea & Perrins contains **barley malt vinegar** (gluten/barley allergen) + spirit vinegar + anchovies at **2.9 g salt / 100 ml**, whereas the US formula switches to distilled white vinegar (labeled gluten-free) with **65 mg sodium per 5 ml** (~3.25 g salt / 100 ml).
+  - **Swedish *ansjovis***: Verified Abba Grebbestad Ansjovis is sugar-and-spice-cured **sprats** (*Sprattus sprattus*, **7.6 g salt / 100 g**), not Mediterranean anchovies (*Engraulis*).
+  - **Georgian *kharcho* regional split**: Western Georgian Megrelian *kharcho* is thickened with ground walnuts and omits rice; eastern/Sovietized beef *kharcho* uses rice and *tkemali* sour plum sauce.
+- **Explicit `LOW CONFIDENCE` Flags** (where manufacturer formulas vary substantially across SKUs or artisanal producers):
+  1. Generic German *Brühwürfel* exact salt average across brands (~45-50 g/100 g).
+  2. Hungarian commercial tube *Gulyáskrém* exact salt average (~10-14 g/100 g).
+  3. Polish instant *Barszcz Czerwony* dry powder salt levels across Winiary/Knorr SKUs.
+  4. Irish *Knorr Stock Pots* average salt across chicken/beef/vegetable SKUs (~12-15 g/100 g).
+  5. Traditional artisanal/homemade Georgian *Svanuri marili* salt range (50-80 g/100 g vs. herb-heavy export jars like Sunelidze at 15.0 g/100 g).
+- **Hidden Allergen Audit (US Top-9 + EU Mandatory Flags)**:
+  - Verified commercial labels uncovered hidden **wheat** in *Maggi Würze*, *Knorr Aromat*, *Bisto*, *Oxo*, *Vitana Masox*, and *Marmite*; hidden **barley** in UK *Lea & Perrins*, Portuguese *Knorr Caldo de Carne* jelly pots, Irish *Chef Brown Sauce*, and *Marmite*; hidden **milk** in Polish *Prymat Kucharek* (skimmed milk powder) and *Knorr Aromat* (lactose); hidden **soy** and **egg** in Czech *Vitana Masox* (soy sauce/hydrolyzate plus dried egg white); hidden **fish** and **crustacean/mollusc traces** in *Abba Ansjovis*, *Kalles Kaviar*, *Knorr Fiskbuljong*, and Irish dried seaweeds; and pervasive hidden **tree nuts** (walnuts/hazelnuts) in Georgian savory sauces and *adjika* variants.
+- **Schema & Rule Compliance Check**:
+  - Verified programmatically across all 10 objects: exact key order (13 fields), `label` lengths 5-10 chars (`<= 20`), `subtitle` word counts 5-6 words (`<= 6`), `about` strictly 3 sentences naming geography, history, style, and 4 dishes, `flavors` 9-11 savory seasonings/condiments only with native spellings and romanizations/glosses (`8-12`), `techniques` 4-5 items (`3-5`), zero emojis, and `"never"`/`"always"` restricted strictly to exceptionless botanical/process rules (e.g., `kmín` != cumin, raw Mexican chorizo != *chouriço*, multi-hour desalting of *dry* salted *bacalhau*, lacto-fermented *ogórki kiszone* != vinegar pickles, Mediterranean anchovies != Swedish spiced sprats).
+
+---
+
+### 3. Complete Cuisine JSON
+
+```json
+[
+  {
+    "id": "german",
+    "label": "German",
+    "subtitle": "Mustard, caraway, vinegar, juniper, marjoram",
+    "about": "Stretching from the North and Baltic coasts across the Rhine, Elbe, and Danube basins to the Bavarian Alps, German cooking splits noticeably between northern maritime sweet-sour traditions and southern Alpine pork-and-dumpling kitchens. Shaped by Hanseatic trade, regional principalities, wartime rationing, and postwar migration, home cooks favor slow-braised meats, fermented cabbage, dense rye loaves, and regional sausages over heavy spicing. Representative dishes include Sauerbraten (vinegar-marinated pot roast), Schweinshaxe mit Semmelknödeln (roast pork knuckle with bread dumplings), Labskaus (northern cured-beef and potato hash), and Käsespätzle (Swabian cheese noodles).",
+    "flavors": [
+      "Senf (prepared mustard: medium-hot mittelscharfer Senf in the north/center; sweet süßer Senf in Bavaria)",
+      "Kümmel (caraway seed, used especially with cabbage, pork, and rye)",
+      "Branntweinessig / Weinessig (spirit or wine vinegar for Sauerbraten and potato salads)",
+      "Wacholderbeeren (crushed juniper berries in sauerkraut, game, and brines)",
+      "Lorbeerblatt (dried bay leaf, paired with juniper and peppercorns)",
+      "Majoran (dried marjoram, defining sausages and potato dishes)",
+      "Liebstöckel (lovage, nicknamed Maggikraut, in broths and potato soups)",
+      "Muskatnuss & Macis (nutmeg and mace in mashed potatoes, white sauces, and Bratwurst)",
+      "Piment (whole allspice berries in marinades and pickled fish)",
+      "Dill (fresh dill, characteristic of northern fish, cucumber salads, and potatoes)"
+    ],
+    "sweet_only": [
+      "Vanillezucker (vanilla sugar for cakes and Quark desserts)",
+      "Bittermandelöl (bitter almond oil/extract in Stollen and Marzipan)",
+      "Lebkuchengewürz (gingerbread blend of cinnamon, clove, allspice, cardamom, anise, coriander)",
+      "Rosenwasser (rosewater in regional Marzipan and festive pastries)"
+    ],
+    "signature_ingredients": [
+      "Quark (fresh acid-set curds; US supermarket substitute: strained plain Greek yogurt or blended low-fat cottage cheese)",
+      "Schmand (24% cultured sour cream; US supermarket substitute: crème fraîche or full-fat sour cream)",
+      "Kasseler (mildly cured and cold-smoked pork loin or neck; US supermarket substitute: smoked center-cut pork chops or Canadian bacon)",
+      "Bauchspeck (cured, beech-smoked pork belly; US supermarket substitute: thick-cut slab bacon)",
+      "Roggenvollkornbrot / Pumpernickel (dense steamed dark whole-rye bread; US supermarket substitute: dark German-style rye bread)",
+      "Senfgurken (mustard-seed pickled peeled cucumbers; US supermarket substitute: bread-and-butter pickles with extra mustard seed)"
+    ],
+    "pantry_assumed": [
+      "Floury and waxy potatoes (Kartoffeln)",
+      "Yellow onions and tart cooking apples",
+      "Prepared mustard and spirit or cider vinegar",
+      "Butter and rendered pork lard (Schweineschmalz)",
+      "Sauerkraut and pickled gherkins",
+      "Dense rye or mixed-grain bread"
+    ],
+    "techniques": [
+      "Multi-day acid marinating (Beizen / Einlegen) in vinegar, wine, juniper, and cloves before slow pot-roasting (Sauerbraten)",
+      "Dry- or wet-curing followed by cold beechwood smoking (Pökeln and Räuchern) for pork cuts and sausages",
+      "Slow-braising tough cuts and fermented cabbage in dark beer, wine, or stock",
+      "Shaping and simmering potato or stale-roll dumplings (Klöße / Knödel) and scraping soft egg noodles (Spätzle)",
+      "Pan-crisping boiled sliced potatoes in clarified butter or bacon fat (Bratkartoffeln)"
+    ],
+    "shortcuts": [
+      "Maggi Würze liquid seasoning (water, salt, hydrolyzed wheat protein, MSG/disodium inosinate, yeast extract, lovage/spices): 18.0-18.2 g salt per 100 ml/g; swap 10 g (approx. 2 tsp, supplying ~1.8 g salt) for 1 tsp soy sauce + pinch lovage + 1.2 g salt (avoid wheat-based versions for gluten-free cooks).",
+      "Knorr Aromat seasoned salt (iodized salt, MSG, lactose [milk], wheat starch, yeast extract, onion, garlic, celery seed, turmeric, porcini, bay): 58.1 g salt per 100 g; swap 5 g (approx. 1 tsp, supplying ~2.9 g salt) for 2.9 g salt + onion/garlic/celery powder.",
+      "Instant Brühwürfel (beef or vegetable bouillon cubes: salt, palm fat, MSG, yeast extract, dried onion/parsley/lovage; check wrapper for wheat, soy, or celery): typically ~45-50 g salt per 100 g (LOW CONFIDENCE exact brand average across SKUs); dissolve 10 g cube (~4.5-5.0 g salt) per 500 ml water and withhold added salt until tasting."
+    ],
+    "allergen_notes": "Maggi Würze contains hydrolyzed wheat protein (hidden wheat in a clear liquid soup seasoning). Knorr Aromat contains milk (lactose) and wheat starch. Commercial gravies (Bratensoße), Semmelbrösel breadcrumbs, and flour-thickened sauces rely on wheat and sometimes soy or milk; northern pickled fish condiments (Matjes, Sahnehering) introduce fish and milk, while prepared Senf flags mustard (an EU allergen, not US Top-9).",
+    "pitfalls": "Treating Oktoberfest Bavaria (pretzels, Weißwurst, sweet mustard, heavy pork) as all of Germany erases northern maritime dishes with dill, herring, kale, and sweet-sour vinegar glazes. Avoid putting caraway or sauerkraut into every dish, and distinguish veal Wiener Schnitzel from pork Schnitzel Wiener Art. In classic versions, crisp-breaded Schnitzel is usually served dry with lemon rather than smothered in gravy—though regional Jägerschnitzel serves mushroom sauce over unbreaded cutlets in the west or breaded Jagdwurst with tomato sauce in eastern Germany. Sweet Hungarian paprika is usually minor outside postwar Gulaschsuppe.",
+    "sources": [
+      "https://press.uchicago.edu/ucp/books/book/distributed/B/bo18013504.html",
+      "https://wellcomecollection.org/works/zf8pdsha",
+      "Beyond Bratwurst: A History of Food in Germany, Ursula Heinzelmann (2014)",
+      "Food Culture in Germany, Ursula Heinzelmann (2008)",
+      "The German Cookbook, Mimi Sheraton (1965)",
+      "Praktisches Kochbuch, Henriette Davidis (1845)"
+    ]
+  },
+  {
+    "id": "austrian",
+    "label": "Austrian",
+    "subtitle": "Chives, horseradish, caraway, marjoram, clarified butter",
+    "about": "Centered along the Danube valley and the eastern Alps around Vienna, Graz, and Salzburg, Austrian cooking pairs Alpine dairy farming with the multi-ethnic kitchens of the former Habsburg Empire. Centuries of exchange across Bohemia, Hungary, northern Italy, and the Balkans shaped a tradition equally devoted to delicate simmered beef broths, crisp fried cutlets, and sweet pastry-shop main courses (Mehlspeisen). Representative dishes include Tafelspitz (simmered beef with chive and apple-horseradish sauces), Wiener Schnitzel (breaded veal cutlet), Kaiserschmarrn (caramelized shredded pancake), and Wiener Saftgulasch (onion-braised beef).",
+    "flavors": [
+      "Schnittlauch (fresh chives, key in Schnittlauchsauce and Rindsuppe garnish)",
+      "Kren (freshly grated horseradish for Apfelkren and Semmelkren)",
+      "Kümmel (caraway seed, especially for Schweinsbraten roast pork)",
+      "Majoran (dried marjoram, essential in Wiener Saftgulasch and potato soups)",
+      "Liebstöckel (lovage simmered in classic Rindsuppe beef broth)",
+      "Pfefferkörner & Lorbeerblatt (whole black peppercorns and bay leaf in boiled beef)",
+      "Estragonsenf (tarragon-spiced mild-sharp Viennese mustard)",
+      "Knoblauch (garlic, rubbed on roast pork and stirred into Saftgulasch)",
+      "Steirisches Kürbiskernöl (dark toasted Styrian pumpkin seed oil used as a finishing condiment)"
+    ],
+    "sweet_only": [
+      "Vanillezucker (vanilla sugar for strudels, pancakes, and sweet dumplings)",
+      "Zitronenschale (grated lemon zest in Topfenstrudel, Kaiserschmarrn, and Knödel)",
+      "Zimt (ground cinnamon over apple, plum, and apricot dumplings)",
+      "Inländer Rum (vanilla-spiced baking rum in raisins and Viennese pastries)"
+    ],
+    "signature_ingredients": [
+      "Butterschmalz (clarified butter for deep-frying schnitzel; US supermarket substitute: ghee or neutral oil finished with butter)",
+      "Topfen (smooth fresh curd cheese; US supermarket substitute: drained whole-milk cottage cheese blended smooth or quark)",
+      "Steirisches Kürbiskernöl (toasted hulless pumpkin seed oil; US supermarket substitute: none for true flavor, or 1:3 toasted sesame and walnut oil)",
+      "Semmelbrösel (unseasoned dry white Kaiser-roll crumbs; US supermarket substitute: plain fine unseasoned breadcrumbs, rather than Italian-seasoned)",
+      "Preiselbeermarmelade (tart lingonberry jam served with schnitzel and game; US supermarket substitute: Scandinavian lingonberry jam or whole-berry cranberry sauce)",
+      "Tafelspitz beef cut (tri-tip/top sirloin cap with fat layer; US supermarket substitute: untrimmed beef tri-tip or top sirloin cap)"
+    ],
+    "pantry_assumed": [
+      "Clarified butter (Butterschmalz) or lard and regular butter",
+      "All-purpose wheat flour, eggs, and milk",
+      "Unseasoned breadcrumbs (Semmelbrösel)",
+      "Yellow onions, caraway, and marjoram",
+      "Estragonsenf mustard and fresh horseradish"
+    ],
+    "techniques": [
+      "Gentle barely-simmering extraction (Sieden) of beef cuts with bones and root vegetables for dual-purpose Rindsuppe and Tafelspitz",
+      "Soufflé-style shallow pan-frying (Ausbacken) in abundant Butterschmalz while swirling the pan so schnitzel breading puffs crisp",
+      "Long, slow onion caramelization (an equal weight of onion to beef) to thicken Wiener Saftgulasch without flour",
+      "Stretching paper-thin strudel dough (Strudelteig ziehen) and poaching sweet or savory Knödel dumplings"
+    ],
+    "shortcuts": [
+      "Knorr Goldaugen Rindsuppe (cubes/powder containing iodized salt, MSG/guanylate/inosinate, palm oil/beef fat, starch, onion, yeast extract, beef powder/extract, parsley, carrot, nutmeg, turmeric, soy sauce [soy, wheat]): Unilever Food Solutions Austria lists 43.1 g salt per 100 g dry (1.1 g per 100 ml prepared); use 11 g cube (~4.7 g salt) per 500 ml water and withhold extra salt.",
+      "Mautner Markhof Original Estragon Senf (water, mustard seeds, wine/brandy vinegar, sugar, salt, spices, natural flavor): 2.3 g salt per 100 g; swap 20 g (~1 tbsp, supplying ~0.46 g salt) for 1 tbsp Dijon mustard + pinch dried tarragon and splash vinegar."
+    ],
+    "allergen_notes": "Consumer packs of Knorr Goldaugen Rindsuppe declare soy and wheat (from soy sauce) plus trace warnings for milk, egg, celery, and mustard. Wiener Schnitzel, Frittaten (pancake soup strips), and Kaiserschmarrn pack wheat, egg, and milk; Schnittlauchsauce uses milk and egg yolk/mayonnaise, while Viennese pastries and strudel fillings regularly hide tree nuts (hazelnuts, walnuts, almonds).",
+    "pitfalls": "In classic Viennese cooking, Wiener Schnitzel is served dry with lemon and lingonberries—avoid pouring gravy or mushroom sauce directly over the crisp crust. Do not conflate Austrian cuisine with Bavarian food: Vienna relies heavily on Hungarian paprika-onion technique (Saftgulasch, though using vinegar/caraway and no soup dilution), Bohemian pastries (Kolatschen, Powidl), and boiled beef traditions (Tafelspitz). Classic Wiener Saftgulasch usually avoids flour thickening or sour cream (unlike Hungarian paprikás), and classic Semmelbrösel breading omits garlic and Italian herbs.",
+    "sources": [
+      "https://www.habsburger.net/en/chapter/court-kitchens-dining-emperors-behest",
+      "https://www.wien.info/en/dine-drink/viennese-cuisine/boiled-beef-784360",
+      "https://www.gurkerl.at/en-AT/9385-knorr-goldaugen-rindfleischsuppe",
+      "https://www.unileverfoodsolutions.at/product/knorr-professional-goldaugen-rindsuppe-15-kg-9000275711008.html",
+      "https://mautner.at/de/shop/999381/estragon-senf",
+      "Die gute Küche, Ewald Plachutta and Christoph Wagner (1993)",
+      "The Cooking of Vienna's Empire, Joseph Wechsberg (1968)"
+    ]
+  },
+  {
+    "id": "hungarian",
+    "label": "Hungarian",
+    "subtitle": "Sweet paprika, onion, caraway, garlic, pepper",
+    "about": "Anchored by the fertile Carpathian Basin along the Danube and Tisza rivers, Hungarian cooking marries pastoral steppe soup-making with Ottoman, Balkan, and Habsburg traditions around Budapest and the Great Plain (Alföld). Its unmistakable flavor base starts with onions softened slowly in pork lard and bloomed off-heat with sweet noble paprika (édesnemes), often finished with tart tejföl sour cream or pale wax peppers. Representative dishes include Gulyásleves (caraway-scented beef and potato soup), Csirkepaprikás (paprika chicken in sour cream sauce), Halászlé (fiery river-fish soup), and Töltött káposzta (stuffed sour cabbage).",
+    "flavors": [
+      "Édesnemes paprika (sweet noble ground red paprika, bright crimson and unsmoked)",
+      "Csípős paprika (hot ground spice paprika)",
+      "Vöröshagyma (yellow onion, cooked slowly in large quantity as the stew thickener)",
+      "Fokhagyma (garlic, finely minced in pörkölt and kolbász)",
+      "Kömény / Fűszerkömény (caraway seed; note George Lang insists on caraway in gulyás while Elek Magyar omits it)",
+      "Fekete bors (black pepper)",
+      "Majoránna (dried marjoram, especially in liver, bean, and potato dishes)",
+      "Babérlevél (bay leaf, common in bean soups and főzelék)",
+      "Kapor (fresh dill, classic in summer squash főzelék and túrós csusza)",
+      "Tárkony (tarragon, signature herb of Transylvanian-style lamb and pork ragouts)",
+      "Ecet (fruit or spirit vinegar for savanyúság pickles and lentil stews)"
+    ],
+    "sweet_only": [
+      "Vaníliás cukor (vanilla sugar in crepes and cottage-cheese dumplings)",
+      "Fahéj (cinnamon in fruit soups, apple pie, and plum dumplings)",
+      "Citromhéj (grated lemon zest in túrógombóc and walnut bejgli)"
+    ],
+    "signature_ingredients": [
+      "Tejföl (20% cultured sour cream that resists curdling when simmered; US supermarket substitute: full-fat Mexican crema or US sour cream whisked with a little flour)",
+      "Sertészsír (rendered pork lard from mangalica or pork fatback; US supermarket substitute: pure leaf lard or duck fat)",
+      "TV paprika / Fehérpaprika (pale yellow-green thin-skinned Hungarian sweet pepper; US supermarket substitute: Cubanelle or Italian frying pepper)",
+      "Hegyes erős paprika (long thin hot pale-green chili; US supermarket substitute: Serrano or hot banana pepper)",
+      "Túró (dry crumbly farmer's curd cheese; US supermarket substitute: dry-curd farmer cheese or well-drained cottage cheese)",
+      "Kolbász (cold-smoked paprika-and-garlic pork sausage such as Gyulai or Csabai; US supermarket substitute: dry Spanish chorizo, though it lacks caraway balance)"
+    ],
+    "pantry_assumed": [
+      "Sweet Hungarian édesnemes paprika (plus hot paprika or paste)",
+      "Pork lard (zsír) or sunflower oil and yellow onions",
+      "Tejföl (sour cream)",
+      "Garlic, caraway, and black pepper",
+      "All-purpose flour and eggs (for nokedli and csipetke noodles)"
+    ],
+    "techniques": [
+      "Building a pörkölt base: sweating onions low in lard, removing the pot off the burner before stirring in paprika so it blooms without scorching bitter, then deglazing cleanly",
+      "Long, unthickened broth simmering over gentle heat (Gulyásleves and Halászlé fisherman's soup)",
+      "Tempering tejföl with flour and braising liquid (habarás) or browning flour in lard with paprika (rántás) for creamy paprikás and főzelék vegetable stews",
+      "Pinching pea-sized egg dough (csipetke) or grating soft batter (nokedli) directly into simmering liquid"
+    ],
+    "shortcuts": [
+      "Univer Piros Arany mild (csemege) or hot (csípős) paprika cream (87% raw spice and pritamin paprika, salt, modified starch, xanthan gum, citric acid, potassium sorbate): 11.5 g salt per 100 g; swap 16 g (~1 generous tsp, supplying ~1.84 g salt) for 1.5 tsp dried sweet paprika + ~1.8 g salt in a 4-serving stew.",
+      "Univer Erős Pista (87% coarsely crushed hot raw spice paprika, salt, xanthan gum, citric acid, potassium sorbate): 11.5 g salt per 100 g; swap 10 g (~2 tsp, supplying ~1.15 g salt) for minced fresh hot chili + ~1.1 g salt.",
+      "Gulyáskrém (tube goulash paste: tomato purée, paprika, onion, caraway, fat, salt; typically ~10-14 g salt per 100 g—LOW CONFIDENCE exact brand average): stir into soups before adding any table salt."
+    ],
+    "allergen_notes": "Univer Piros Arany and Erős Pista contain no US Top-9 allergens (both are gluten-free and vegan). However, everyday Hungarian main dishes rely heavily on milk (tejföl, túró), wheat and egg (nokedli, csipetke, habarás/rántás thickeners), and fish in Halászlé; holiday bejgli, zserbó, and Somlói galuska contain concentrated walnuts (tree nuts).",
+    "pitfalls": "In Hungary, gulyás is a clear brothy soup with potatoes and csipetke—not the thick brown Western beef stew, which is actually pörkölt (short braised meat without sour cream) or paprikás (braised meat finished with tejföl). In classic versions, sour cream is kept out of gulyás soup and pörkölt (though often served on the side for some stews or mixed into paprikás). Avoid blooming paprika in smoking-hot oil because it scorches bitter within seconds, and do not default to Spanish smoked pimentón instead of unsmoked Hungarian édesnemes. Sources themselves disagree on gulyás aromatics: George Lang treats caraway as essential while Elek Magyar advises against caraway in gulyás.",
+    "sources": [
+      "https://tastehungary.com/journal/hungarian-gulyas-goulash-recipe/",
+      "https://tastehungary.com/wp-content/uploads/2019/12/FoodGuidetoHungary.pdf",
+      "https://www.hungarikum.hu/en/taxonomy/term/7004?page=5",
+      "https://hunbox.nl/en/products/univer-xl-piros-arany-csemege-etelizesito-paprikakrem-240-g",
+      "https://ostrystefek.pl/en_US/p/Univer-Piros-Arany-Csipos-160g-Spicy-Hungarian-Paprika-Paste/98",
+      "The Cuisine of Hungary, George Lang (1971)",
+      "Hungarian Cookery Book, Károly Gundel (1934)",
+      "Az ínyesmester szakácskönyve, Elek Magyar (1932)"
+    ]
+  },
+  {
+    "id": "polish",
+    "label": "Polish",
+    "subtitle": "Dill, sour rye, marjoram, allspice, garlic",
+    "about": "Across the Baltic lowlands and the Vistula basin down to the Tatra peaks, Polish cooking pairs woodland mushroom foraging and pork curing with deep lactic fermentation. Shaped by the Polish-Lithuanian Commonwealth's centuries of Ashkenazi Jewish, Ruthenian, German, and Habsburg exchange, everyday meals center on sour soups, boiled dumplings, and braised cabbage rather than hot spice. Representative dishes include Żurek (fermented sour rye soup), Pierogi ruskie (potato-and-farmer-cheese dumplings), Bigos (slow-simmered sauerkraut and meat stew), and Gołąbki (stuffed cabbage rolls).",
+    "flavors": [
+      "Koperek (fresh dill, generous on boiled potatoes, cucumber salads, and soups)",
+      "Majeranek (dried marjoram, defining żurek, flaki tripe soup, and biała kiełbasa)",
+      "Ziele angielskie (whole allspice berries, nearly universal in stocks and bigos)",
+      "Liść laurowy (dried bay leaf, paired with allspice)",
+      "Kminek (caraway seed in pork, cabbage, and rye bread)",
+      "Jałowiec (crushed juniper berries for bigos, game, and smoked sausages)",
+      "Chrzan (freshly grated horseradish, plain or with vinegar/egg)",
+      "Zakwas żytni (live sour fermented rye starter used as a soup acidifier)",
+      "Czosnek (garlic, pounded into biała kiełbasa, żurek, and roast pork)",
+      "Ocet spirytusowy (10% spirit vinegar for śledzie herring, galareta aspics, and pickles)"
+    ],
+    "sweet_only": [
+      "Cukier waniliowy / Cukier wanilinowy (vanilla or vanillin sugar in sernik cheesecake and pączki)",
+      "Skórka pomarańczowa (candied orange peel in makowiec poppy-seed roll and babka)",
+      "Przyprawa do piernika (gingerbread spice blend: cinnamon, cloves, ginger, nutmeg, cardamom, allspice, black pepper)"
+    ],
+    "signature_ingredients": [
+      "Zakwas żytni (fermented whole-rye flour starter; US supermarket substitute: 5-day home ferment of rye flour, garlic, and water, or dill-pickle brine as an emergency acidulant)",
+      "Kiszona kapusta & Ogórki kiszone (unpasteurized lacto-fermented sauerkraut and dill pickles without vinegar; US supermarket substitute: refrigerated live Bubbies-style kosher dill pickles and barrel sauerkraut)",
+      "Suszone borowiki / podgrzybki (dried wild Polish porcini and bay boletes; US supermarket substitute: dried Italian porcini mushrooms)",
+      "Twaróg (firm, semi-dry pressed farmer's curd cheese; US supermarket substitute: dry farmer cheese or drained whole-milk ricotta)",
+      "Biała kiełbasa (raw fresh pork sausage seasoned heavily with marjoram and garlic; US supermarket substitute: Polish-deli fresh white kielbasa or mild garlic bratwurst)",
+      "Śmietana (18% pourable cultured sour cream; US supermarket substitute: crème fraîche or thinned full-fat sour cream)"
+    ],
+    "pantry_assumed": [
+      "Potatoes, onions, and garlic",
+      "Live fermented sauerkraut (kiszona kapusta) and dill pickles (ogórki kiszone)",
+      "Fresh dill, dried marjoram, whole allspice, and bay leaves",
+      "Śmietana (cultured sour cream) and butter or pork lard (smalec)",
+      "Smoked bacon (boczek) and wheat flour"
+    ],
+    "techniques": [
+      "Vinegar-free lactic fermentation (kiszenie) for cabbage, cucumbers, red beets (barszcz), and rye starter (zakwas)",
+      "Multi-day low simmering and reheating of complex stews (bigos) to meld fermented cabbage, dried mushrooms, and smoked meats",
+      "Rolling, stuffing, boiling, and butter-frying filled or potato-based doughs (pierogi, kopytka, kluski śląskie)",
+      "Poaching stuffed cabbage parcels (gołąbki) in light tomato or wild-mushroom gravy"
+    ],
+    "shortcuts": [
+      "Prymat Kucharek (all-purpose vegetable soup seasoning: salt, 15.5% dried carrot/parsnip/potato/onion/parsley/leek/cabbage/tomato/garlic, skimmed milk powder, MSG/ribonucleotides, sugar, starch, black pepper): 58.9 g salt per 100 g; swap 5 g (~1 tsp, supplying ~2.95 g salt) for 3 g table salt + mirepoix soup paste (omit for dairy-free cooks).",
+      "Podravka Vegeta (widely adopted Croatian blend: salt, 15.5% dried vegetables including celery, MSG, sugar, cornstarch, spices): 56.9 g salt per 100 g; swap 5 g (~1 tsp, supplying ~2.85 g salt) for 2.8 g salt + dehydrated soup greens.",
+      "Winiary / Knorr Barszcz Czerwony instant powder (concentrated beetroot extract, citric acid, sugar, wheat starch/flour, spices; salt varies widely—LOW CONFIDENCE exact brand average): dissolve 15-20 g per 250 ml water and withhold added salt until tasted."
+    ],
+    "allergen_notes": "Prymat Kucharek contains skimmed milk powder, a hidden milk allergen in a vegetable seasoning mix. Vegeta and many Polish dry bouillons flag celery (EU allergen) and trace milk, egg, soy, and wheat; żurek thickened with wheat flour or fermented wheat-rye zakwas carries wheat/gluten, while śmietana adds milk across nearly all soups and pierogi toppings. Pickled herring (śledzie) introduces fish and often milk, and festive kutia or makowiec cakes contain walnuts and almonds (tree nuts).",
+    "pitfalls": "Never substitute vinegar-brined pickles (ogórki konserwowe) for lacto-fermented ogórki kiszone in pickle soup (zupa ogórkowa) or bigos, because vinegar pickles ruin the lactic-tangy flavor profile. Classic żurek usually relies on fresh marjoram-and-garlic biała kiełbasa poached in the sour broth rather than precooked US smoked kielbasa. Pierogi ruskie are named for historic Red Ruthenia (Galicia), not Russia, and are filled with potato, caramelized onion, and twaróg rather than meat. Remember shared Ashkenazi roots: Polish-Jewish carp, potato kugel (babka ziemniaczana), and latkes (placki ziemniaczane) overlap closely with Christian Polish home cooking.",
+    "sources": [
+      "https://culture.pl/en/article/a-foreigners-guide-to-polish-cuisine",
+      "https://culture.pl/en/article/10-strangest-soups",
+      "https://culture.pl/en/article/taste-of-tradition-jewish-cusine-poland",
+      "https://culture.pl/en/work/polish-food-101-kielbasa",
+      "https://www.reenactor.ru/ARH/PDF/Dembinska.pdf",
+      "Polish Heritage Cookery, Robert Strybel (1993)",
+      "Food and Drink in Medieval Poland, Maria Dembińska (1999)"
+    ]
+  },
+  {
+    "id": "czech",
+    "label": "Czech",
+    "subtitle": "Caraway, marjoram, garlic, tart braised sauces",
+    "about": "Ringed by forested mountains across Bohemia, Moravia, and Silesia, Czech cooking matured in Prague's bourgeois kitchens and rural pubs alongside close Austrian and Bavarian ties. While sharing Habsburg schnitzels, pastries, and steamed bread dumplings with Vienna, Czech kitchens stand out through velvety sweet-sour root-vegetable sauces (omáčky), heavy caraway and garlic, and beer-braised pork. Representative dishes include Svíčková na smetaně (braised beef in tart root-vegetable cream sauce with bread dumplings), Vepřo knedlo zelo (caraway roast pork, dumplings, and braised cabbage), Bramboračka (garlic-marjoram mushroom soup), and Kulajda (dill-mushroom cream soup).",
+    "flavors": [
+      "Kmín (caraway seed—used in roast pork, braised cabbage, boiled potatoes, and breads; never substitute cumin)",
+      "Majoránka (dried marjoram, essential in bramboračka soup, bramboráky pancakes, and guláš)",
+      "Česnek (garlic, generous in česnečka soup, potato pancakes, and pork)",
+      "Nové koření (whole allspice berries, standard in svíčková and rajská tomato sauces)",
+      "Bobkový list (dried bay leaf, paired with allspice)",
+      "Jalovec (crushed juniper berries for svíčková and game marinades)",
+      "Kopr (fresh dill in sweet-sour koprovka sauce and kulajda soup)",
+      "Ocet (8% spirit vinegar balancing sweet-sour omáčky sauces and lentil stew)",
+      "Hořčice plnotučná (mild smooth Czech mustard served with sausages and inside španělský ptáček)"
+    ],
+    "sweet_only": [
+      "Vanilkový cukr (vanilla sugar in koláče and buchty)",
+      "Skořice (cinnamon in apple strudel and sweet plum dumplings)",
+      "Citronová kůra (grated lemon zest in tvaroh pastries)",
+      "Tuzemský rum / Tuzemák (butterscotch-vanilla baking rum flavoring in sweet doughs and creams)"
+    ],
+    "signature_ingredients": [
+      "Hrubá mouka & Polohrubá mouka (coarse and semi-coarse flours crucial for light steamed bread dumplings; US supermarket substitute: Wondra instantized flour blended 1:1 with all-purpose flour)",
+      "Kořenová petržel & Celer (parsley root and celeriac, essential alongside carrot for svíčková; US supermarket substitute: parsnip for parsley root plus celery root)",
+      "Smetana ke šlehání / Zakysaná smetana (30-33% whipping cream and 15% sour cream; US supermarket substitute: heavy whipping cream or sour cream)",
+      "Povidla (thick, unsweetened slow-cooked plum butter used in sweet buchty AND dark gingerbread sauce; US supermarket substitute: Eastern European powidl or concentrated unsweetened prune butter)",
+      "Uzené maso (brined cold-smoked pork neck or shoulder; US supermarket substitute: Kasseler or unglazed smoked pork butt)",
+      "Tvaroh (dense fresh curd cheese for koláče and fruit dumplings; US supermarket substitute: farmer cheese or well-drained cottage cheese)"
+    ],
+    "pantry_assumed": [
+      "Caraway seeds (kmín), marjoram, whole allspice, and bay leaves",
+      "Garlic, onions, and root vegetables (carrot, parsley root, celeriac)",
+      "Coarse/all-purpose wheat flour, eggs, and spirit vinegar",
+      "Pork lard (sádlo), butter, and heavy/sour cream",
+      "Potatoes, Czech mustard, and lager or dark beer"
+    ],
+    "techniques": [
+      "Making jíška (browning flour in lard or butter to thicken glossy sauces and soups)",
+      "Larding (špikování) lean beef eye of round with pork fatback strips, braising with caramelized root vegetables, and pureeing with cream and vinegar (svíčková)",
+      "Kneading, rising, boiling, and thread-slicing airy steamed bread or potato dumplings (houskové and bramborové knedlíky)",
+      "Balancing rich flour-thickened omáčky sauces with vinegar, sugar, and tart cranberry garnish (terč)"
+    ],
+    "shortcuts": [
+      "Vitana Masox (classic Czech beef bouillon cube: salt, hydrolyzed soy, vegetable fat, MSG/E627/E631, potato starch, beef aroma/extract, dried beef [contains dried egg white and gluten], soy sauce [soy], plum jam, pepper/caraway/celery/onion extracts): ~36.9 g salt per 100 g dry (~0.9 g per 100 ml prepared); use 11 g cube (~4.1 g salt) per 500 ml liquid and withhold table salt.",
+      "Maggi Tekuté koření / Vitana Tekuté koření (liquid hydrolyzed wheat/soy protein seasoning similar to German Maggi; ~18-20 g salt per 100 ml): dose 5-10 ml (~0.9-1.9 g salt) into broths or guláš and reduce table salt accordingly."
+    ],
+    "allergen_notes": "Vitana Masox cubes harbor three unexpected US Top-9 allergens inside a meat bouillon: soy (soy hydrolyzate and soy sauce), wheat (gluten in the dried beef matrix), and egg (dried egg white), plus trace milk and lupine. Everyday Czech omáčky sauces (svíčková, koprovka, rajská) routinely combine wheat (jíška roux) and milk (smetana cream), while houskové knedlíky contain wheat, egg, and milk. Španělský ptáček beef rolls hide egg, wheat gravy, and mustard inside.",
+    "pitfalls": "Never confuse Czech caraway (kmín, Carum carvi) with cumin (římský kmín, Cuminum cyminum); cumin is an entirely different spice that ruins roast pork, potato soup, and cabbage. In classic versions, svíčková and Czech guláš are served with steamed houskové or bramborové knedlíky rather than pasta or rice to soak up the abundant omáčka sauce. Skipping parsley root and celeriac in svíčková (using only carrots) leaves the sauce overly orange and sweet instead of deeply savory and pale-gold. Unlike soupy Hungarian gulyás with potatoes, Czech guláš is a thick, caraway-and-marjoram-scented onion gravy served with dumplings and raw onion rings.",
+    "sources": [
+      "https://is.muni.cz/th/qdti1/Tradicni_ceska_gastronomie_napric_casem_-_Martina_Klouparova.pdf",
+      "https://foodperestroika.com/2017/02/01/svickova-na-smetane-czech-republics-national-dish/",
+      "https://en.vitana.cz/produkty/bouillons/masox/masox-12-cubes",
+      "https://world.openfoodfacts.org/product/8593837255634/masox-vitana",
+      "Domácí kuchařka, Magdalena Dobromila Rettigová (1826)",
+      "Vaříme zdravě, chutně a hospodárně, Joza Břízová (1954)"
+    ]
+  },
+  {
+    "id": "portuguese",
+    "label": "Portuguese",
+    "subtitle": "Cilantro, garlic, bay, olive oil, chili",
+    "about": "Facing the Atlantic from green northern Minho valleys to Lisbon's Tagus estuary and the cork plains of Alentejo, Portugal pairs abundant coastal seafood with rustic pork-and-bread cooking. Shaped by Roman olive culture, Moorish citrus and cilantro (coentros), and maritime routes to Brazil, Goa, and Africa, its dishes balance gentle onion-garlic-bay refogado bases with fresh herbs and warm colonial spices. Representative dishes include Bacalhau à Brás (salt cod with crisp matchstick potatoes and eggs), Caldo verde (kale and chouriço potato soup), Carne de porco à Alentejana (wine-marinated pork with clams), and Cozido à Portuguesa (boiled meat and vegetable feast).",
+    "flavors": [
+      "Coentros (fresh cilantro leaves and stems, dominant across Alentejo and Lisbon)",
+      "Alho (garlic, crushed generously into refogados, marinades, and massa de alho)",
+      "Louro (bay leaf, paired with garlic in almost every meat or bean pot)",
+      "Piri-piri / Malagueta (small hot bird's-eye chili used in oil or vinegar)",
+      "Colorau / Pimentão doce (sweet, unsmoked red pepper powder or fermented paste)",
+      "Cominhos (ground cumin in pork, tripe, and regional chouriço)",
+      "Canela (warm cinnamon, used in savory stews, arroz de pato, and tripe as well as sweets)",
+      "Hortelã (fresh spearmint in chicken canja soup, fish broths, and fava beans)",
+      "Salsa (flat-leaf parsley, predominant in northern Portugal)",
+      "Vinagre de vinho tinto/branco (red or white wine vinegar in vinha d'alhos and escabeche)"
+    ],
+    "sweet_only": [
+      "Erva-doce (anise or fennel seed in broas and festive sweet breads)",
+      "Água de flor de laranjeira (orange blossom water in regional conventual pastries)"
+    ],
+    "signature_ingredients": [
+      "Bacalhau salgado seco (dry salt-cured Atlantic cod soaked 24-48 hours before use; US supermarket substitute: dry salt cod from Spanish/Caribbean markets—do not swap unsalted fresh cod directly without adjusting moisture and salt)",
+      "Couve galega (pale-green Galician collard-kale shredded paper-thin for caldo verde; US supermarket substitute: young tender collard greens or lacinato kale)",
+      "Chouriço / Linguiça (wine-, garlic-, and pepper-smoked Portuguese pork sausage; US supermarket substitute: US-made Portuguese or Brazilian linguiça—never substitute raw Mexican chorizo)",
+      "Grelos (tender bitter turnip tops or broccoli rabe; US supermarket substitute: rapini / broccoli rabe)",
+      "Farinheira & Alheira (smoked flour-fat sausage and poultry-bread sausage; US supermarket substitute: none)",
+      "Massa de pimentão (salted fermented sweet red bell pepper paste; US supermarket substitute: sweet unsmoked paprika mixed with salt and a drop of white wine vinegar)"
+    ],
+    "pantry_assumed": [
+      "Portuguese olive oil (azeite) used both for cooking and generous raw drizzling",
+      "Garlic, yellow onions, and dried bay leaves",
+      "Dry white or Vinho Verde wine and wine vinegar",
+      "Dried or canned beans, rice (arroz carolino), and potatoes",
+      "Stale crusty wheat bread (pão alentejano) for açorda and migas"
+    ],
+    "techniques": [
+      "Building a soft, unbrowned refogado base of onion, garlic, bay leaf, and abundant olive oil (sometimes with tomato)",
+      "Vinha d'alhos marinating—steeping pork or fish for hours in garlic, bay, sweet pepper paste, wine, and vinegar",
+      "Always desalting dry bacalhau in multiple cold-water changes before poaching in olive oil or binding with crisp potatoes and softly curding eggs (à Brás)",
+      "Thickening savory dishes with soaked stale bread (sopa açorda) or pan-frying softened bread in pork drippings (migas)"
+    ],
+    "shortcuts": [
+      "Massa de Pimentão (e.g. Maçarico: ~85% red peppers, salt, modified starch/preservative): 12.0 g salt per 100 g; swap 15 g (~1 tbsp, supplying ~1.8 g salt) for 1.5 tsp sweet unsmoked paprika + 1.8 g salt + tiny splash vinegar.",
+      "Massa de Alho (e.g. Dom Duarte: 45% garlic, water, salt, xanthan gum, sodium benzoate, sulfites): 13.9 g salt per 100 g (Bom Dia brand = 11.4 g/100 g); swap 10 g (~2 tsp, supplying ~1.4 g salt) for 1-2 crushed garlic cloves + 1.4 g salt.",
+      "Knorr Caldo de Carne concentrado (stock jelly pot: water, starch, salt, sugar, beef fat, barley malt extract, beef powder, yeast extract, onion, herbs): 12.8 g salt per 100 g (one 28 g pot = 3.58 g salt); dry Knorr Caldo cubes add celery seed and much higher salt—dissolve before salting."
+    ],
+    "allergen_notes": "Knorr Caldo de Carne concentrated stock pots contain barley malt extract (gluten-bearing cereal), while dry Knorr Caldo cubes flag celery (EU allergen). Portuguese pork and rice dishes regularly hide shellfish and fish (clams in carne de porco à Alentejana, seafood stock in arroz de marisco, and salted cod across fritters and bakes). Açordas, migas, and alheira sausages use wheat bread as structural thickeners, while conventual desserts (pastéis de nata, toucinho do céu) concentrate egg yolks, milk, and almonds (tree nuts). Commercial Massa de Alho jars declare sulfites.",
+    "pitfalls": "Do not treat Portugal as 'mild Spain': Portuguese cooking relies heavily on fresh cilantro (rare across most of Spain), uses unsmoked sweet red pepper paste (massa de pimentão) rather than smoky Spanish pimentón de la Vera, centers on dried salted cod rather than saffron paella, and embraces colonial piri-piri chili and savory cinnamon. Portuguese rice dishes (arroz de marisco, arroz de pato) are typically soupy or oven-baked rather than dry saffron paella with crispy socarrat. Never use raw Mexican chorizo in caldo verde or feijoada, and always desalt dry bacalhau through multi-hour cold-water changes.",
+    "sources": [
+      "https://www.theguardian.com/food/2026/apr/05/how-to-make-the-perfect-portuguese-feijoada-recipe",
+      "https://www.visitalentejo.pt/fotos/editor2/pdfs/carta_gastronomica_do_alentejo.pdf",
+      "https://loja.domduarte.com/pt/temperos/massa-de-alho_p78.html",
+      "https://thefoodco.es/sector/seleccionar_idioma?idioma=pt&path=en/knorr-gravy-pot-beef-4pk&extra=",
+      "Cozinha Tradicional Portuguesa, Maria de Lourdes Modesto (1982)",
+      "The Taste of Portugal, Edite Vieira (1988)",
+      "The New Portuguese Table, David Leite (2009)"
+    ]
+  },
+  {
+    "id": "british",
+    "label": "British",
+    "subtitle": "Mustard, malt vinegar, sage, mace, parsley",
+    "about": "Across England, Scotland, and Wales, British cooking combines rich lowland cattle pastures, upland sheep grazing, and cold North Atlantic fisheries with centuries of maritime spice trade. While English Sunday roasts, suet puddings, and savory pies form the common core, Scottish cooking stands out for oats, game, and smoked haddock (Cullen skink), and Welsh cooking highlights hill lamb, leeks (cawl), iron-griddle baking, and coastal laverbread. Representative dishes include Roast beef with Yorkshire pudding, Steak and kidney pie, Cullen skink (smoked haddock and potato soup), and Welsh cawl (lamb and leek broth).",
+    "flavors": [
+      "English mustard (pungent Colman's-style yellow-and-brown mustard flour mixed with cold water)",
+      "Worcestershire sauce (fermented malt/spirit vinegar, tamarind, molasses, and anchovy condiment)",
+      "Malt vinegar (barley-malt vinegar splashed over fish, chips, and pickled onions)",
+      "Fresh sage (classic herb for pork, goose, and onion-sage stuffing)",
+      "Thyme (ubiquitous in meat pies, gravies, and Welsh cawl)",
+      "Mint sauce (finely chopped mint steeped in vinegar and sugar for roast lamb)",
+      "Horseradish sauce (grated horseradish with vinegar and cream for roast beef)",
+      "Mace & Nutmeg (warm savory spices in potted meats, bread sauce, mashed root vegetables, and haggis)",
+      "Cloves & Allspice (whole cloves in studded onion for bread sauce and ham; allspice in potted meats and chutneys)",
+      "Brown sauce (HP-style malt-vinegar, date/tamarind, and spice table condiment)"
+    ],
+    "sweet_only": [
+      "Mixed spice (sweet baking blend of cinnamon, coriander, nutmeg, allspice, ginger, cloves in hot cross buns and Welsh bara brith)",
+      "Rosewater (traditional in English syllabubs, creams, and puddings)",
+      "Stem ginger / Ground ginger (Scottish gingerbread, Yorkshire parkin, and rhubarb puddings)"
+    ],
+    "signature_ingredients": [
+      "Beef suet (hard shredded kidney fat for steak-and-kidney pudding and dumplings; US supermarket substitute: frozen grated beef tallow or chilled shortening—butter yields denser pastry)",
+      "Laverbread (bara lawr, boiled Welsh Porphyra seaweed puree; US supermarket substitute: simmered finely minced nori—approximate only)",
+      "Smoked haddock (undyed Finnan haddie or Arbroath smokie for Cullen skink; US supermarket substitute: naturally smoked whitefish or trout)",
+      "Pinhead / medium oatmeal (coarse Scottish oats for haggis, skirlie, and oatcakes; US supermarket substitute: steel-cut oats pulsed briefly in a food processor)",
+      "Back bacon & Gammon (leaner loin bacon rashers and raw cured hind-leg joint; US supermarket substitute: Canadian bacon for back bacon; uncooked country ham steak for gammon)",
+      "Aged Cheddar / Caerphilly / Stilton (traditional British cheeses for Welsh rarebit and savories; US supermarket substitute: aged sharp white Cheddar or crumbly feta/Monterey blend)"
+    ],
+    "pantry_assumed": [
+      "Wheat flour, butter, and beef dripping or lard",
+      "Onions, potatoes, carrots, and leeks",
+      "Worcestershire sauce, English mustard, and malt vinegar",
+      "Stock cubes or gravy granules",
+      "Black tea and bitter ale or stout"
+    ],
+    "techniques": [
+      "Dry-roasting meat joints to collect pan drippings for deglazed gravy and puffed Yorkshire pudding batter",
+      "Encasing stews in shortcrust, hot-water crust (raised pork pies), or steamed suet pastry",
+      "Slow oven-braising layered hotpots and steaming savory or sweet sponge puddings",
+      "Cold-smoking split fish (kippers, Finnan haddie) and potting meat or shrimp under clarified butter",
+      "Griddle-baking flat cakes and breads on cast-iron bakestones (Wales) and girdles (Scotland)"
+    ],
+    "shortcuts": [
+      "Bisto Beef Gravy Granules (potato starch, maltodextrin, palm oil, salt, wheat flour, caramel color, yeast/onion extract; Bisto Best/variants may list soy or barley): regular Beef Granules = 14.27 g salt per 100 g (Bisto Original Powder = 23.66 g/100 g; Bisto Best Beef = 11.08-12.59 g/100 g); swap 20 g granules (~2.85 g salt) for 250 ml pan-dripping gravy and omit added salt.",
+      "Oxo Beef Stock Cubes (wheat flour, salt, yeast extract, beef fat/extract, caramel color, onion, celery/spices): 28.97-30.7 g salt per 100 g (~1.7-1.8 g salt per 6 g cube); dissolve 1 cube per 190-250 ml water and skip extra salt.",
+      "Lea & Perrins Worcestershire Sauce (note UK vs US split!): UK formula uses barley malt vinegar + spirit vinegar + anchovies (fish) at 2.9 g salt per 100 ml; US formula swaps malt vinegar for distilled white vinegar and raises sodium/sugar (65 mg sodium per 5 ml tsp = ~3.25 g salt per 100 ml, labeled gluten-free); use 5-15 ml (~0.15-0.5 g salt) for umami depth.",
+      "Marmite Yeast Extract (yeast extract from barley, wheat, oats, rye, salt, celery juice concentrate, spices): 10.8 g salt per 100 g; swap 5 g (~1 tsp, ~0.54 g salt) into vegetarian gravies or Welsh rarebit in place of beef bouillon + salt."
+    ],
+    "allergen_notes": "British savory condiments carry widespread hidden allergens: Lea & Perrins Worcestershire sauce contains fish (anchovies) AND in the UK version contains barley malt vinegar (barley/gluten, unlike the distilled-vinegar US bottle). Oxo cubes and Bisto granules contain wheat (and some variants soy/barley); Marmite contains barley, wheat, oats, rye, and celery; and HP/brown sauces contain barley malt vinegar. Bread sauce, cauliflower cheese, and Welsh rarebit pack milk, wheat, and often mustard (EU allergen).",
+    "pitfalls": "Avoid collapsing all British food into southern English pub fare: Scottish kitchens lean heavily on oats, game, and smoked fish (Cullen skink, skirlie), while Welsh kitchens prize lamb, leeks, and bakestone griddle breads. Do not assume US Worcestershire sauce (white vinegar, sweeter, gluten-free) matches UK Lea & Perrins (barley malt vinegar). In classic versions, steamed suet pastry or hot-water raised pie crust differs fundamentally from sweet butter pie dough, and roast gravy is built from pan drippings rather than watery cornstarch paste. Distinguish vinegar-sharp mint sauce for lamb from sweet mint jelly.",
+    "sources": [
+      "https://britishfoodhistory.com/tag/wales/",
+      "https://oro.open.ac.uk/85272/2/LINSELL_A329_VOR.pdf",
+      "https://www.caterite.co.uk/63287-lea-perrins-worcester-sauce/",
+      "https://www.unileverfoodsolutions.co.uk/product/marmite-yeast-extract-6x250g-1-EN-690881.html",
+      "https://www.tastingtable.com/1243177/what-sets-us-worcestershire-sauce-apart-from-other-versions/",
+      "English Food, Jane Grigson (1974)",
+      "Food in England, Dorothy Hartley (1954)",
+      "The Scots Kitchen, F. Marion McNeill (1929)",
+      "First Catch Your Peacock: Her Classic Guide to Welsh Food, Bobby Freeman (1980)"
+    ]
+  },
+  {
+    "id": "irish",
+    "label": "Irish",
+    "subtitle": "Sea salt, dulse, parsley, thyme, vinegar",
+    "about": "On Europe's temperate Atlantic rim, Ireland's emerald pastures and wild coasts built a cooking tradition anchored by grass-fed dairy, oats, potatoes, cured pork, and sea vegetables. Although food historians debate how separate early modern Irish cooking was from rural British fare, Ireland's reliance on buttermilk-and-soda griddle baking, cultured butter, coastal dulse and carrageen, and unsmoked boiling bacon defines a distinct everyday repertoire. Representative dishes include Irish stew (unbrowned lamb or mutton simmered with potatoes, onions, and parsley), Colcannon (buttered mashed potatoes with kale or cabbage), Dublin coddle (layered sausage-and-bacon stew), and Traditional soda bread.",
+    "flavors": [
+      "Salann mara (coarse or flaky Irish sea salt)",
+      "Duileasc / Dillisk (dried Atlantic red dulse seaweed crumbled as a savory umami seasoning)",
+      "Míobhán (pepper dulse seaweed, a potent garlicky-coastal seasoning)",
+      "Peirsil (flat-leaf parsley, defining Irish stew, coddle, and parsley sauce for bacon)",
+      "Tím (fresh thyme in stews, seafood chowder, and cured beef)",
+      "Piopar dubh & Piment (cracked black pepper and allspice/cloves for Cork spiced beef and drisheen)",
+      "Fíneagar braiche / Fíneagar úll (malt or cider vinegar over fish, chips, and shellfish)",
+      "Wholegrain mustard (sharp grain mustard with boiled ham, colcannon, and sausages)",
+      "Anlann donn / Brown sauce (Chef-style spiced apple-barley table condiment for breakfasts and coddle)"
+    ],
+    "sweet_only": [
+      "Mixed spice / Cinnamon (in tea-soaked barmbrack and porter cake)",
+      "Vanilla & Lemon peel (in milk-simmered carrageen moss pudding)",
+      "Irish whiskey (in cream desserts, cakes, and marmalades)"
+    ],
+    "signature_ingredients": [
+      "Cultured grass-fed butter & real cultured buttermilk (essential fat and acid leavener for soda bread; US supermarket substitute: imported Kerrygold-style cultured butter + cultured buttermilk)",
+      "Boiling bacon / Gammon (mild wet-cured unsmoked pork collar or shoulder simmered whole; US supermarket substitute: unsmoked country ham or picnic shoulder rather than smoky American slab bacon)",
+      "Pinhead Irish oatmeal (steel-cut oats for porridge and white pudding; US supermarket substitute: steel-cut oats)",
+      "Duileasc / Dulse seaweed (dried Atlantic red algae; US supermarket substitute: dried Atlantic dulse flakes or lightly toasted nori, approximate only)",
+      "Carraigín / Irish moss (Chondrus crispus seaweed used to gel milk puddings; US supermarket substitute: agar-agar or unflavored gelatin, lacking sea-mineral notes)",
+      "Cork spiced beef (brisket cured in allspice, cloves, pepper, juniper, and brown sugar; US supermarket substitute: raw corned beef simmered with extra whole allspice, cloves, and brown sugar)"
+    ],
+    "pantry_assumed": [
+      "Floury potatoes (Kerr's Pink or Rooster equivalents), onions, and scallions",
+      "Cabbage or kale",
+      "Cultured butter, buttermilk, and baking soda (bread soda)",
+      "Soft plain wheat flour and wholemeal wheat flour",
+      "Irish sea salt, parsley, black pepper, black tea, and dry stout"
+    ],
+    "techniques": [
+      "Chemical leavening of soft-wheat flour using baking soda and acidic buttermilk (soda bread and griddle farls) instead of yeast",
+      "Cast-iron griddle and covered pot-oven (bastable) baking over hearth heat for farls and boxty",
+      "Gentle, unbrowned boiling and simmering in plain water so fat and herbs form a clean broth (Irish stew, Dublin coddle, boiling bacon)",
+      "Mashing floury potatoes generously with hot milk/cream, butter, and sautéed greens or scallions (colcannon and champ)"
+    ],
+    "shortcuts": [
+      "Ballymaloe Original Relish (62% tomatoes, vinegar, sugar, onions, sultanas, tomato paste, sea salt, mustard seed, spices): 1.4 g salt per 100 g (gluten-free and vegan); swap 30 g (~2 tbsp, supplying ~0.42 g salt) for tomato chutney or ketchup + cider vinegar + chopped raisins + mustard seed.",
+      "Chef Brown Sauce (water, sugar, apples, barley malt vinegar, modified maize starch, acetic acid, oranges, tomato puree, salt, spices, E150 caramel): 0.8 g salt per 100 g; swap 20 g (~1 tbsp, supplying ~0.16 g salt) for HP-style fruit-vinegar brown sauce.",
+      "Knorr Ireland Stock Pots / Bouillon (typically ~12-15 g salt per 100 g—LOW CONFIDENCE exact SKU salt average across chicken/beef/veg variants): dissolve before salting stews or chowders."
+    ],
+    "allergen_notes": "Chef Brown Sauce contains barley malt vinegar (gluten-bearing cereal), whereas Ballymaloe Original Relish is gluten-free and flags mustard (EU allergen, not US Top-9). Everyday Irish staples—colcannon, champ, soda bread, seafood chowder, and parsley sauce—pack heavy milk and wheat; black and white puddings typically contain oats, barley, or wheat rusk binders. Harvested dulse and carrageen packages frequently warn of trace fish, crustaceans, and molluscs (shellfish).",
+    "pitfalls": "Do not confuse Irish-American corned beef and cabbage (born in 19th-century New York delis) with Ireland's true everyday classic, bacon and cabbage (unsmoked boiled pork with parsley sauce). In classic versions, purists (FitzGibbon, Allen) insist Irish stew uses only lamb or mutton, potatoes, onions, water, parsley/thyme, salt, and pepper, omitting carrots, garlic, tomato paste, and stout (Guinness belongs in modern beef-and-stout stew, though some home cooks do add carrots). Everyday Irish soda bread is usually savory (flour, buttermilk, baking soda, salt), not a sweet raisin-and-caraway cake. Note scholarly dispute: historians Panayi and Diner view distinctive Irish national cuisine as largely a late-20th-century construction, whereas Mac Con Iomaire, Cashman, and FitzGibbon document deep indigenous dairy, oat, offal, and seaweed traditions.",
+    "sources": [
+      "https://www.britishfoodinamerica.com/Our-First-Irish-Number/the-critical/Is-There-an-Irish-Cuisine/",
+      "https://www.britishfoodinamerica.com/A-Number-of-Bars-and-Beers-Some-of-Them-Irish/the-critical/All-in-the-Cooking-An-icon-of-twentieth-century-Ireland/",
+      "https://www.tandfonline.com/doi/full/10.1080/04308778.2021.1957429",
+      "https://www.seaweed.ie/uses_ireland/irishseaweedfood.php",
+      "https://ballymaloefoods.ie/products/foodservice/ballymaloe-original-relish-trade/",
+      "https://www.sainsburys.co.uk/groceries/product/ballymaloe-original-relish-210g",
+      "https://allirelandfoods.ie/product/chef-brown-sauce-485g/",
+      "Irish Traditional Food, Theodora FitzGibbon (1983)",
+      "A Little History of Irish Food, Regina Sexton (1998)",
+      "Irish Traditional Cooking, Darina Allen (1995)"
+    ]
+  },
+  {
+    "id": "nordic",
+    "label": "Nordic",
+    "subtitle": "Dill, allspice, caraway, mustard, vinegar",
+    "about": "Encompassing Denmark, Norway, Sweden, Finland, and Iceland across Atlantic fjords, Baltic archipelagos, and boreal forests, Nordic home cooking reflects centuries of preserving cold-water fish, dairy, and short-season harvests for long winters. Everyday domestic kitchens center on cured and pickled herring, dense rye loaves, warm-spiced meatballs, and creamy fish soups—distinct from the foraged, restaurant-only avant-garde of the 2004 New Nordic Food Manifesto. Representative home dishes include Danish Smørrebrød (open-faced rye sandwiches), Swedish Köttbullar (allspice-seasoned meatballs with lingonberries), Norwegian Fårikål (peppercorn lamb and cabbage stew), and Finnish Lohikeitto (creamy salmon, potato, and dill soup).",
+    "flavors": [
+      "Dill / Tilli (fresh dill leaves and flowering krondill for fish, potatoes, and crayfish)",
+      "Kryddpeppar / Allehanda / Maustepippuri (allspice—defining spice of meatballs, pickling brines, and Finnish fish soup)",
+      "Kummin / Karve / Kumina (caraway seed in Danish rugbrød, braised pork, and akvavit)",
+      "Enbär / Einerbær / Katajanmarja (crushed juniper berries in game, cures, and cabbage)",
+      "Pepparrot / Pepperrot / Piparjuuri (freshly grated horseradish on smørrebrød and boiled beef)",
+      "Senap / Sennep / Sinappi (sweet-brown or grainy mustard and dill-mustard hovmästarsås)",
+      "Vitpeppar & Svartpeppar (white pepper in Swedish sauces/meatballs; whole black peppercorns in fårikål)",
+      "Lagerblad / Laakerinlehti (bay leaf in pickling brines and meat broths)",
+      "Ättiksprit / Eddik / Väkiviinaetikka (12-24% neutral spirit vinegar diluted for 1-2-3 pickling brines)",
+      "Lingon / Tyttebær / Puolukka (raw sugar-mashed lingonberries served as an acidic condiment alongside meat)"
+    ],
+    "sweet_only": [
+      "Kardemumma / Kardemummi (freshly ground green cardamom in Swedish buns and Finnish pulla)",
+      "Bittermandel (bitter almond flavoring in marzipan, mazariner, and semlor)",
+      "Saffran (saffron in Swedish lussekatter St. Lucia buns—chiefly sweet baking)"
+    ],
+    "signature_ingredients": [
+      "Rågbröd / Rugbrød / Ruisleipä (dense sourdough whole-rye loaves; US supermarket substitute: imported Scandinavian or German dark rye bread)",
+      "Gravad lax (salt-sugar-dill cold-cured salmon; US supermarket substitute: easily cured at home from fresh sashimi-grade salmon)",
+      "Lutfisk / Rakfisk / Hákarl (lye-reconstituted dried cod or fermented trout/shark; US supermarket substitute: none for fermented fish; imported lutefisk seasonally)",
+      "Lingonberries & Cloudberries (wild tart berries; US supermarket substitute: jarred lingonberry preserves or cranberries for lingonberries; none for cloudberries)",
+      "Skyr / Filmjölk / Piimä (strained Icelandic cultured dairy and mesophilic fermented milks; US supermarket substitute: plain whole-milk US skyr or kefir/buttermilk)",
+      "Brunost / Geitost (caramelized Norwegian whey cheese; US supermarket substitute: imported Ski Queen brown cheese or none)"
+    ],
+    "pantry_assumed": [
+      "Waxy potatoes and yellow onions",
+      "Dark rye bread and crispbread (knäckebröd)",
+      "Butter, heavy cream, and cultured sour creams (gräddfil / rømme)",
+      "Whole allspice, white/black pepper, fresh/frozen dill, and bay leaves",
+      "Neutral spirit vinegar, Nordic mustard, and lingonberry jam"
+    ],
+    "techniques": [
+      "Cold salt-and-sugar curing without heat (grava for salmon; rimma for pork and cod)",
+      "Sweet-sour 1-2-3 pickling (1 part 12% spirit vinegar, 2 parts sugar, 3 parts water) for pickled herring, cucumbers, and beets",
+      "Simmering whole allspice or black peppercorns directly in unthickened broths (fårikål, lohikeitto, kalops)",
+      "Long, slow oven-casserole braising (Finnish karjalanpaisti) and sourdough rye bread baking"
+    ],
+    "shortcuts": [
+      "Abba Grebbestad Ansjovis (sprat fillets [fish], sugar, salt, vinegar, mace, cinnamon, cloves/allspice—not Mediterranean anchovies): 7.6 g salt per 100 g; swap 30 g (~4-5 fillets + spiced brine, supplying ~2.28 g salt) into Janssons frestelse using spiced sprats—never swap plain salty Mediterranean anchovies unmodified without rinsing and adding sugar, allspice, and cinnamon.",
+      "Kalles Kaviar (51-52% smoked sugar-salted cod/saithe roe [fish], rapeseed oil, sugar, potato flakes, tomato purée, salt): 6.3 g salt per 100 g; swap 15 g (~1 tbsp, supplying ~0.95 g salt) for mashed salted smoked trout roe + oil + pinch sugar.",
+      "Knorr Fiskbuljong (Sweden fish bouillon cube: salt, palm/shea fat, starch, 5.6% fish powder, yeast extract, sugar, onion, garlic, parsley, celery seed; crustacean/mollusc traces): 44.8 g salt per 100 g (~4.5 g salt per 10 g cube); dissolve before adding table salt."
+    ],
+    "allergen_notes": "Hidden fish and shellfish allergens permeate Nordic shortcuts and garnishes: Abba Ansjovis is sprats (fish), Kalles Kaviar is cod/saithe roe (fish), and Knorr Fiskbuljong contains fish powder plus crustacean and mollusc (shellfish) traces. Nordic mustards and hovmästarsås flag mustard (EU allergen); gravad lax, herring salads, and lohikeitto add fish and milk (cream, butter, skyr, gräddfil, brunost); köttbullar meatballs and rye breads frequently mix wheat breadcrumbs and egg with rye.",
+    "pitfalls": "Do not mistake New Nordic fine dining (ants, spruce tips, lacto-fermented pine) for everyday Nordic home cooking, which centers on fish, potatoes, pork, rye, cream, dill, and allspice. Never substitute plain Mediterranean anchovies (Engraulis) directly for Swedish ansjovis (cinnamon-and-allspice-cured sprats)—it makes Janssons frestelse overly salty and fishy. Avoid assuming Finland matches coastal Scandinavia identically: eastern/Karelian Finland has distinct Karelian oven-pot meats, wild forest mushrooms, lake fish, and rye-crust karjalanpiirakka shaped by Finno-Ugric and Slavic ties. In classic versions, Swedish meatballs use allspice and white pepper rather than Mediterranean oregano and garlic.",
+    "sources": [
+      "https://www.norden.org/en/information/new-nordic-food-manifesto",
+      "https://merimakasiini.fi/en/how-does-finnish-food-culture-differ-from-other-nordic-cuisines/",
+      "https://sweetsbysvea.com/products/kaviar-original",
+      "https://www.totallyswedish.com/products/kalles-caviar-original-296",
+      "The Nordic Cookbook, Magnus Nilsson (2015)",
+      "Fire and Ice: Classic Nordic Cooking, Darra Goldstein (2015)"
+    ]
+  },
+  {
+    "id": "georgian",
+    "label": "Georgian",
+    "subtitle": "Walnuts, blue fenugreek, cilantro, sour plum",
+    "about": "Wedged between the Greater Caucasus peaks and the Black Sea, Georgia sits at a Silk Road crossroads where Mediterranean, Anatolian, Persian, and steppe influences converge inside an ancient Orthodox qvevri winemaking culture. Unlike Russian, Turkish, or Persian tables, Georgian cooking builds its signature gravies and vegetable pastes from unheated walnut-and-garlic emulsions, tart wild plum sauces (tkemali), and mountains of fresh herbs laced with blue fenugreek and marigold. Representative dishes include Khachapuri (cheese-filled bread), Khinkali (spiced broth dumplings), Satsivi (chilled poultry in spiced walnut sauce), and Lobio (herb-and-walnut red bean stew).",
+    "flavors": [
+      "ხმელი სუნელი / Khmeli suneli (dried aromatic blend of coriander, blue fenugreek, marigold, savory, dill, bay)",
+      "უცხო სუნელი / Utskho suneli (nutty, hay-like ground blue fenugreek seeds and pods)",
+      "ყვითელი ყვავილი / Qviteli qvavili (Imeretian saffron: earthy dried marigold petals)",
+      "ქინძი / Kindzi (fresh cilantro leaves AND ground coriander seed, used lavishly)",
+      "ტყემალი / Tkemali (tart green or red cherry-plum condiment cooked with garlic and pennyroyal)",
+      "აჯიკა / Ajika or Adjika (fiery western Georgian chili, garlic, herb, and salt paste)",
+      "სვანური მარილი / Svanuri marili (Svanetian salt pounded with garlic, coriander, blue fenugreek, savory, dill, marigold, wild caraway)",
+      "ტარხუნა / Tarkhuna (fresh tarragon, essential in chakapuli lamb stew and herb pies)",
+      "რეჰანი / Rehani (purple opal and green basil, served raw by the bunch and cooked)",
+      "კოწახური / Kotsakhuri (tart dried barberries sprinkled over grilled meat and stews)",
+      "ნიორი / Niori (garlic, pounded raw in a mortar with walnuts and salt)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "უცხო სუნელი / Blue fenugreek (Trigonella caerulea; US supermarket substitute: toasted Indian methi fenugreek seeds at 1/2 amount—sharper and more bitter)",
+      "ყვითელი ყვავილი / Imeretian saffron (dried marigold petals; US supermarket substitute: pinch turmeric + tiny pinch true saffron, misses floral hay tone)",
+      "ტყემალი / Tkemali sour cherry plums (wild tart Prunus cerasifera; US supermarket substitute: tart unripe Santa Rosa plums or gooseberries with lemon juice, per Darra Goldstein)",
+      "სულგუნი & იმერული ყველი / Sulguni & Imeretian cheese (stretchy brined pasta-filata and fresh cow cheese; US supermarket substitute: 50/50 low-moisture mozzarella and crumbled feta)",
+      "მაწონი / Matsoni (tangy viscous Georgian fermented milk; US supermarket substitute: plain whole-milk Greek yogurt thinned slightly with milk)",
+      "ომბალო / Ombalo (wild pennyroyal mint used in tkemali; US supermarket substitute: fresh spearmint + pinch dried oregano; avoid concentrated pennyroyal essential oil)",
+      "ბადაგი / Badagi (reduced grape must for churchkhela; US supermarket substitute: reduced Concord grape juice with a splash of pomegranate juice)"
+    ],
+    "pantry_assumed": [
+      "Shelled walnuts (pounded smooth for sauces and pkhali)",
+      "Garlic, onions, and red kidney beans",
+      "Large fresh bunches of cilantro, tarragon, purple basil, dill, and flat-leaf parsley",
+      "Khmeli suneli, ground coriander, adjika, and tkemali plum sauce",
+      "Dry amber/white wine, wine vinegar, and wheat or corn flour (for mchadi)"
+    ],
+    "techniques": [
+      "Cold mortar-pounding of walnuts, garlic, saffron-marigold, and broth or vinegar into creamy unheated emulsions (bazhe, satsivi, pkhali)",
+      "Wood-fire grilling skewered meats (mtsvadi) finished raw with sliced onions, barberries/sumac, and pomegranate",
+      "Baking cheese breads (khachapuri) and shotis puri in wall-lined clay tone ovens or heavy skillets",
+      "Pleating raw-meat dumplings (khinkali) with ice water and caraway/coriander so rich broth forms inside during boiling"
+    ],
+    "shortcuts": [
+      "Commercial Svanetian Salt (Svanuri marili: coarse salt, garlic, coriander, blue fenugreek, marigold, dill, savory, red pepper, wild caraway): export jars such as Sunelidze list 15.0 g salt per 100 g, whereas traditional homemade or market Svanuri marili runs 50-80 g salt per 100 g (LOW CONFIDENCE across artisanal producers—check label); replace table salt 1:1 with artisanal blends, or halve added salt for herb-heavy jars.",
+      "Mimino / Commercial Abkhazian Adjika (red chili, garlic, salt, coriander, dill, khmeli suneli): jarred pastes typically run 3.5-4.5 g salt per 100 g (traditional salt-cured dry Abkhaz adjika can exceed 15-20 g/100 g); swap 10 g paste (~0.4 g salt) for red pepper flakes, garlic, coriander, and salt.",
+      "Jarred Tkemali (sour cherry-plum purée, garlic, cilantro, dill, pennyroyal, chili, salt): commercial jars average ~1.5 g salt per 100 g (homemade Tasting Georgia style ~0.5 g/100 ml); swap 30 g (~2 tbsp, ~0.45 g salt) for tart plum purée + lemon juice + garlic + cilantro + mint.",
+      "Khmeli Suneli (pure dried ground herb-spice blend): 0 g salt per 100 g unless sold as seasoned salt—use freely without reducing recipe salt."
+    ],
+    "allergen_notes": "Hidden tree nuts (walnuts, and regionally hazelnuts in Guria/Samegrelo) are Georgia's primary allergen hazard: walnuts are ground invisibly into sauces (bazhe, satsivi), vegetable pkhali, western Megrelian kharcho stew, bean lobio, and even some artisanal or GI-registered adjika pastes. Khachapuri, khinkali, chkmeruli (garlic-milk chicken), and matsoni soups saturate menus with wheat and milk; Acharuli khachapuri tops molten cheese with raw egg.",
+    "pitfalls": "Do not mistake fiery raw Abkhaz/Megrelian adjika (chili, garlic, herbs, salt—zero tomatoes) for the mild cooked tomato-and-bell-pepper Russian relish sold under the same name. Avoid swapping common Indian fenugreek 1:1 for blue fenugreek (utskho suneli), which turns walnut sauces bitter and maple-sweet, and do not treat Spanish saffron as an exact match for dried marigold petals. Avoid assuming all kharcho contains rice (western Megrelian kharcho uses ground walnuts and no rice, unlike the eastern/Soviet beef-rice-tkemali version). Georgia is not simply 'spiced Russian food': unlike Russia's sour cream, dill, and rye, Georgia relies on walnut emulsions, sour plum/pomegranate acidity, and fresh tarragon-cilantro herb bouquets.",
+    "sources": [
+      "https://darragoldstein.com/the-georgian-feast-the-vibrant-culture-and-savory-food-of-the-republic-of-georgia/",
+      "https://darragoldstein.com/adjika/",
+      "https://georgianrecipes.net/2013/07/28/spices-and-herbs-used-in-georgian-cuisine/",
+      "https://maspindzeli.ge/guides/tkemali-and-georgian-sauces/",
+      "https://foodcaloriecalculator.co.uk/calories/tkemali-sour-plum-sauce/",
+      "The Georgian Feast: The Vibrant Culture and Savory Food of the Republic of Georgia, Darra Goldstein (1993; rev. 2018)",
+      "Kaukasis: A Culinary Journey Through Georgia, Azerbaijan & Beyond, Olia Hercules (2017)",
+      "Tasting Georgia: A Food and Wine Journey in the Caucasus, Carla Capalbo (2017)"
+    ]
+  }
+]
+```
+
+<!-- GOAL_COMPLETE -->

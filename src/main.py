@@ -1521,6 +1521,7 @@ class ChefBotApp:
             )
             crumb_title = heading("Browse by map", 20)
             subtitle_text = "Spin the globe and tap a continent."
+            level_heading = ""
             header_actions: list[ft.Control] = []
         else:
             self._globe_canvas = None
@@ -1667,6 +1668,8 @@ class ChefBotApp:
             crumb_title = heading(crumbs, 19)
             node = cuisines.get(level_id)
             subtitle_text = (node.get("subtitle") or "Tap a region or call-out to explore.") if node else ""
+            # An optional extra line above the subtitle, e.g. China's "The Eight Great Cuisines (八大菜系)".
+            level_heading = (node.get("heading") or "") if node else ""
 
             header_actions = []
             any_id = lvl.get("any_id")
@@ -1688,6 +1691,11 @@ class ChefBotApp:
                     ], spacing=4, vertical_alignment=ft.CrossAxisAlignment.CENTER),
                     *header_actions,
                 ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN, wrap=True),
+                ft.Container(
+                    heading(level_heading, 16, weight=ft.FontWeight.W_600),
+                    padding=ft.Padding(left=14, right=14, top=2, bottom=0),
+                    visible=bool(level_heading),
+                ),
                 ft.Container(
                     ft.Text(subtitle_text, size=13, color=ft.Colors.ON_SURFACE_VARIANT),
                     padding=ft.Padding(left=14, right=14, top=0, bottom=2),
