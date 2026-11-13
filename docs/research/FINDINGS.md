@@ -223,3 +223,33 @@ continents:
   Americas and are now foundational in Italy, Spain and Hungary.
 - Allergens hide in prepared condiments more than in single spices (pesto, romesco, alioli, za'atar, tahini, yaji,
   bouillon cubes): the prompt should tell the model to check those.
+
+## Second batch (2026-11-13): 14 cuisines, Gemini
+
+Saved: `results/additions_europe.json`, `results/additions_americas.json` (raw reports in `results/raw/`). Bryan ran
+both prompts on ChatGPT and Gemini. **This time Gemini's runs are the ones kept**, the reverse of the first round.
+ChatGPT's runs looked like a cut-down deep research (most likely its lighter fallback once the monthly full runs
+are used up): two sources per cuisine, many from SEO sites, and plain errors such as Portuguese for Austrian paprika
+("pimentão-doce"), "Senf (English mustard)", made-up native names (Nordic "Alleholjende", Irish "Gorg" for bay,
+Hawaiian "Green onion (ulu)", which means breadfruit), aji amarillo as a New Mexican ingredient, and Tafelspitz
+"stewed with cream". Those runs were not saved. If ChatGPT is used again, check it ran the full version.
+
+Gemini's runs: 5 to 13 sources per cuisine, real authorities (Heinzelmann, Goldstein, McNeill, Hartley, Colombia's
+Ministry of Culture series), label salt values checked, no "never". Its weaknesses, for the house-style pass:
+
+- **Over-hedged:** "LOW CONFIDENCE" on obvious staples (caraway and marjoram in Czech, black pepper everywhere)
+  only because its sources didn't list them. Drop those notes; don't drop the items.
+- **Thin spots:** Austrian, Czech and Irish everyday seasoning; Ashkenazi cooking (not covered at all). Colombian
+  leaves guascas out of the flavors (it's essential to ajiaco) and calls it a gap.
+- **Odd flavor entries:** salt and honey as Irish flavors; stock cubes and curry ketchup as German flavors;
+  Hawaiian flavors given only under Japanese names.
+- **Labels:** "Hawaiian & Local" (its point: "Hawaiian food" strictly means Native Hawaiian food; everyday island
+  food is "Local food"). Subtitles run long (5 items); trim to the 3-4 the chips fit.
+
+**Decisions for Bryan** (Gemini's recommendations):
+1. **Split Finland from Nordic** (freshwater fish, sour rye, mushrooms, Karelian dishes from the east). ChatGPT
+   said keep it in.
+2. **File Georgian under the Near East** (walnuts, flatbreads, pomegranate, cilantro; grouped with Armenia,
+   Azerbaijan and Iran in the literature), keeping its pork and wine.
+3. **German default:** neither Bavaria nor Hamburg; a plain pan-German baseline.
+4. **Hawaiian default:** Local food, with Native Hawaiian dishes named as such.
