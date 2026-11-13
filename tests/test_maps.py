@@ -415,8 +415,13 @@ def test_globe_ui_drag_zoom_fly_back_and_labels(monkeypatch, tmp_path):
     assert abs(app.globe_lat - americas_focus[1]) < 1e-3
 
     # Flat continent map still uses InteractiveViewer with boundary_margin=0
-    map_body_ctrl = app.root.content.controls[1].content
+    # (app._map_layer is the current level's layer; map_body inside it holds the viewer)
+    map_body_ctrl = app._map_layer.content.content
     assert isinstance(map_body_ctrl, ft.InteractiveViewer)
+    # The zoom between levels ran to its end state: new layer at full size, old one faded out and hidden
+    assert app._map_layer.opacity == 1.0 and app._map_layer.scale.scale == 1.0
+    old_layer = app.root.content.controls[1].content.controls[0]
+    assert old_layer.opacity == 0.0 and old_layer.visible is False
     assert map_body_ctrl.boundary_margin == ft.Margin.all(0)
 
     # Back returns to globe still facing Americas (not reset to GLOBE_INITIAL_LON/LAT)

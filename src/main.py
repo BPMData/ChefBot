@@ -84,6 +84,12 @@ GLOBE_MAX_LAT = 65.0
 GLOBE_INITIAL_LON = 22.0
 GLOBE_INITIAL_LAT = 20.0
 GLOBE_FLY_SECONDS = 0.50
+# Zoom between map levels: the old map scales up around the tapped region and fades while the new one
+# grows out of that spot (reversed for Back). Flutter animates it on the device, so Python sends only
+# the start and end states.
+MAP_ZOOM_MS = 420
+MAP_ZOOM_IN_SCALE = 2.6
+MAP_ZOOM_OUT_SCALE = 0.32
 AUDIENCE_CARDS = {
     "A working professional.": (ft.Icons.WORK_OUTLINE, "Busy weeknight"),
     "An important person you want to impress!": (ft.Icons.AUTO_AWESOME, "Impress someone"),
@@ -257,6 +263,8 @@ class ChefBotApp:
         self.map_stack: list[str] = ["world"]
         self.map_highlight_id: str | None = None
         self.map_scale = 1.0
+        self._map_layer: ft.Container | None = None
+        self._map_pending: tuple | None = None
         self.globe_lon = GLOBE_INITIAL_LON
         self.globe_lat = GLOBE_INITIAL_LAT
         self.globe_zoom = 1.0
@@ -927,6 +935,7 @@ class ChefBotApp:
         self._globe_motion_gen += 1
         self.page.views[0].can_pop = False
         self.page.appbar = None
+        self._map_layer = None
         self._render_map_level()
         self.page.update()
         if GLOBE_IDLE_SPIN_DPS > 0.0 and isinstance(self.page, ft.Page):
@@ -937,12 +946,14 @@ class ChefBotApp:
         self._globe_flying = False
         self.map_highlight_id = None
         if len(self.map_stack) > 1:
-            self.map_stack.pop()
+            child = self.map_stack.pop()
             if self.map_stack[-1] == "world":
                 self.globe_zoom = self._globe_pre_fly_zoom
                 self.globe_touched = True
-            self._render_map_level()
+            self._render_map_level(transition=("out", self._map_focus_alignment(self.map_stack[-1], child)))
             self.page.update()
+            if self._map_pending and isinstance(self.page, ft.Page):
+                self._run(self._play_map_transition)
         else:
             self.on_map = False
             self.show_home()
@@ -1332,10 +1343,12 @@ class ChefBotApp:
             self._globe_flying = False
             if not self.on_map or gen != self._globe_motion_gen:
                 return
+            focus = self._map_focus_alignment("world", region_id)
             self.map_stack.append(region_id)
             self.map_highlight_id = None
-            self._render_map_level()
+            self._render_map_level(transition=("in", focus))
             self.page.update()
+            await self._play_map_transition()
             return
 
         self.map_highlight_id = region_id
@@ -1345,10 +1358,12 @@ class ChefBotApp:
         if not self.on_map:
             return
         if maps.has_sublevel(region_id):
+            focus = self._map_focus_alignment(self.map_stack[-1], region_id)
             self.map_stack.append(region_id)
             self.map_highlight_id = None
-            self._render_map_level()
+            self._render_map_level(transition=("in", focus))
             self.page.update()
+            await self._play_map_transition()
         else:
             self.map_highlight_id = None
             self._render_map_level()
@@ -1388,7 +1403,57 @@ class ChefBotApp:
             ),
         ))
 
-    def _render_map_level(self):
+    def _map_level_scale(self, lvl: dict) -> float:
+        pw = float(self.page.width or 375.0)
+        ph = float(self.page.height or 812.0)
+        avail_w = max(340.0, min(pw - 16.0, float(MAX_WIDTH)))
+        avail_h = max(480.0, ph - 120.0)
+        return max(1.0, min(1.4, avail_w / float(lvl["width"]), avail_h / float(lvl["height"])))
+
+    def _map_focus_alignment(self, level_id: str, region_id: str) -> ft.Alignment:
+        """Where region_id sits on level_id's map, as an alignment (-1..1) of the map area: the point the
+        zoom between levels grows out of or shrinks back into."""
+        pw = float(self.page.width or 375.0)
+        ph = float(self.page.height or 812.0)
+        body_w = max(1.0, min(pw, float(MAX_WIDTH) + 16.0))
+        body_h = max(1.0, ph - 112.0)
+        if level_id == "world":
+            # The globe turns the chosen continent to its centre before handing over.
+            view_w, view_h = self._globe_view_size
+            cx, cy, _ = self._globe_geometry()
+            x = (cx - view_w / 2.0) / (body_w / 2.0)
+            y = (cy - view_h / 2.0) / (body_h / 2.0)
+        else:
+            lvl = maps.get_level(level_id)
+            reg = next((r for r in (lvl or {}).get("regions", []) if r["id"] == region_id), None)
+            if not lvl or not reg:
+                return ft.Alignment(0, 0)
+            sc = self._map_level_scale(lvl)
+            px, py = reg.get("label_pos") or reg["center"]
+            x = (px * sc - float(lvl["width"]) * sc / 2.0) / (body_w / 2.0)
+            y = (py * sc - float(lvl["height"]) * sc / 2.0) / (body_h / 2.0)
+        return ft.Alignment(round(max(-1.0, min(1.0, x)), 3), round(max(-1.0, min(1.0, y)), 3))
+
+    async def _play_map_transition(self):
+        """Run the zoom set up by _render_map_level(transition=...): first frame is already on screen."""
+        pending, self._map_pending = self._map_pending, None
+        if not pending:
+            return
+        old, layer, direction, focus = pending
+        await asyncio.sleep(0.03)  # let the starting state paint before animating away from it
+        if self._map_layer is not layer:
+            return
+        old.scale = ft.Scale(MAP_ZOOM_IN_SCALE if direction == "in" else MAP_ZOOM_OUT_SCALE, alignment=focus)
+        old.opacity = 0.0
+        layer.scale = ft.Scale(1.0, alignment=focus)
+        layer.opacity = 1.0
+        self.page.update()
+        await asyncio.sleep(MAP_ZOOM_MS / 1000.0 + 0.05)
+        if self._map_layer is layer:
+            old.visible = False
+            self.page.update()
+
+    def _render_map_level(self, transition: tuple[str, ft.Alignment] | None = None):
         level_id = self.map_stack[-1]
         pw = float(self.page.width or 375.0)
         ph = float(self.page.height or 812.0)
@@ -1466,7 +1531,7 @@ class ChefBotApp:
                 return
             base_w = float(lvl["width"])
             base_h = float(lvl["height"])
-            s = max(1.0, min(1.4, avail_w / base_w, avail_h / base_h))
+            s = self._map_level_scale(lvl)
             self.map_scale = s
             canvas_w = round(base_w * s, 1)
             canvas_h = round(base_h * s, 1)
@@ -1633,10 +1698,35 @@ class ChefBotApp:
             border=ft.Border(bottom=ft.BorderSide(1, ft.Colors.with_opacity(0.08, ft.Colors.ON_SURFACE))),
         )
 
+        layer = ft.Container(map_body, expand=True, clip_behavior=ft.ClipBehavior.HARD_EDGE)
+        old = self._map_layer if transition else None
+        self._map_layer = layer
+        self._map_pending = None
+        area: ft.Control = layer
+        if old is not None:
+            direction, focus = transition
+            anim = ft.Animation(MAP_ZOOM_MS, ft.AnimationCurve.EASE_IN_OUT_CUBIC)
+            for ctrl in (old, layer):
+                ctrl.left = ctrl.top = ctrl.right = ctrl.bottom = 0
+                ctrl.animate_scale = anim
+                ctrl.animate_opacity = anim
+                ctrl.visible = True
+            old.scale = ft.Scale(1.0, alignment=focus)
+            old.opacity = 1.0
+            layer.scale = ft.Scale(MAP_ZOOM_OUT_SCALE if direction == "in" else MAP_ZOOM_IN_SCALE, alignment=focus)
+            layer.opacity = 0.0
+            area = ft.Container(
+                ft.Stack([old, layer], expand=True),
+                expand=True,
+                clip_behavior=ft.ClipBehavior.HARD_EDGE,
+                bgcolor=ft.Colors.SURFACE,
+            )
+            self._map_pending = (old, layer, direction, focus)
+
         self.root.content = ft.Column(
             [
                 top_bar,
-                map_body,
+                area,
             ],
             spacing=0,
             expand=True,

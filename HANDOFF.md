@@ -78,6 +78,10 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
    job well enough, to check only: ingredient weights and ratios, timings, and that the dietary rules and
    "never use" list were followed. Undecided: what happens when it finds a problem (a note under the reply, or an
    automatic fix). For now the main prompt has a "check your work" list (`prompts.system_prompt`).
+   **Raised again 2026-11-12, now a next big to-do.** Bryan wants a second model to review every recipe and
+   correct common-sense errors automatically, beyond weights and timings. His examples: portions (thinking one
+   baked potato feeds two adults) and technique that can't work (simmering chickpeas in water to make them
+   crunchier). Still to decide: which model, auto-fix vs. a note, and how to show the change in the chat.
 
 6. **In progress: the cuisine tree.** Replace the flat cuisine chips with a drill-down by continent and region
    (about 50 cuisines), built from deep research rather than model memory. Plan, decisions and taxonomy:
@@ -151,9 +155,17 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
        `GLOBE_IDLE_SPIN_DPS = 6.0` (set to `0.0` to disable) slow idle spin until first touch, and a ~0.5 s
        cubic-eased fly-to rotation & zoom animation on continent tap before handing off to the continent's flat
        map (Back returns to the globe still facing that continent).
-     - **Still to do:** Claude PR review; test APK smoothness on Bryan's phone and live web interaction in the
-       browser (automated browser origin permission timed out during this session; verified via pytest + Python
-       projection rendering).
+     - **Follow-ups by Claude (2026-11-12):** PR #26 made it lighter to redraw while moving (each path point is a
+       Flet control diffed every frame; in motion it now draws fills only, every other point, no grid, with
+       adaptive frame pacing: about 32 ms down to 6 ms per frame on a Mac). PR #27 zooms between map levels
+       instead of swapping: the old map scales up around the tapped region and fades while the next grows out of
+       it, reversed for Back; Flutter animates it (`MAP_ZOOM_MS`, `MAP_ZOOM_IN_SCALE`, `MAP_ZOOM_OUT_SCALE`).
+     - **Bryan on the phone (2026-11-12):** much smoother, and "about as good as it's gonna get" with this
+       approach. Going further would mean a JavaScript globe in a WebView.
+
+7. **Next big to-do (2026-11-12): consider the Spoonacular API**, for example for nutrition data per recipe.
+   Not started; first work out what it would add, what it needs (an API key kept like the OpenRouter one, limits)
+   and how it fits the app.
 
 ## Run, test, verify
 
