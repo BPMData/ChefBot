@@ -246,10 +246,14 @@ Ministry of Culture series), label salt values checked, no "never". Its weakness
 - **Labels:** "Hawaiian & Local" (its point: "Hawaiian food" strictly means Native Hawaiian food; everyday island
   food is "Local food"). Subtitles run long (5 items); trim to the 3-4 the chips fit.
 
-**Decisions for Bryan** (Gemini's recommendations):
-1. **Split Finland from Nordic** (freshwater fish, sour rye, mushrooms, Karelian dishes from the east). ChatGPT
-   said keep it in.
-2. **File Georgian under the Near East** (walnuts, flatbreads, pomegranate, cilantro; grouped with Armenia,
-   Azerbaijan and Iran in the literature), keeping its pork and wine.
-3. **German default:** neither Bavaria nor Hamburg; a plain pan-German baseline.
-4. **Hawaiian default:** Local food, with Native Hawaiian dishes named as such.
+**Decided with Bryan (2026-11-13), against Gemini's advice:**
+1. **Finland stays in Nordic.** Its seasoning (salt, allspice, black pepper, dill) is nearly Sweden's; what
+   differs is ingredients (sour rye, wild mushrooms, lake fish, Karelian pasties), which the Nordic entry should
+   mention. Split later only if recipes come out too Swedish.
+2. **Georgian stays under Europe.** Gemini suggested the Near East on ingredient overlap, but Georgians mostly see
+   themselves as European ("Caucasus" is the neutral term; EU candidate since 2023). Check the Europe map reaches
+   far enough east to show Georgia.
+
+**Still Gemini's recommendations, not yet confirmed:**
+- **German default:** neither Bavaria nor Hamburg; a plain pan-German baseline.
+- **Hawaiian default:** Local food, with Native Hawaiian dishes named as such.

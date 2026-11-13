@@ -174,7 +174,13 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
      `docs/CUISINE_TREE.md`, "Second batch"). Central European is split into five; British and Irish are separate.
      Prompts are ready to paste: `docs/research/additions-europe.md`, `docs/research/additions-americas.md`
      (`tools/make_research_prompts.py <slug>` rebuilds just those; with no slugs the full run stops at
-     near-east, because the taxonomy heading there is still "Near & Middle East"). Waiting on Bryan's research runs.
+     near-east, because the taxonomy heading there is still "Near & Middle East").
+     **Research in (2026-11-13):** Gemini's runs saved as `results/additions_europe.json` and
+     `results/additions_americas.json`; ChatGPT's were thin and wrong (see FINDINGS, "Second batch"). Bryan has a
+     fifth report to compare before anything is built. Decided: Finland stays in Nordic, Georgian under Europe.
+     **Do the build in a Claude Code session on Bryan's Mac**: the map rebuild needs the gitignored shapefiles in
+     `assets/maps/source/`, which cloud sessions don't have, and data and maps must land together (the tests
+     require a map region for every cuisine). Hawaii probably needs an inset on the US map.
 
 7. **Next big to-do (2026-11-12): consider the Spoonacular API**, for example for nutrition data per recipe.
    Not started; first work out what it would add, what it needs (an API key kept like the OpenRouter one, limits)
