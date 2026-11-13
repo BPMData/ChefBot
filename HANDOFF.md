@@ -40,8 +40,13 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
    email was off (fixed: share sheet, see item 1). Re-test Email on the phone after installing the new build. See "Android" below for installing, rebuilding, signing,
    and deleting the ~13 GB toolchain.
 3. **GitHub: public since 2026-10-28** (AGPLv3). Still to do: README screenshots.
-   **Next after the cuisine tree: a public web demo** (Bryan, 2026-11-09: it's a portfolio piece, and recruiters
-   won't run Flet commands). The plan, not started:
+   **Web demo: brief written 2026-11-12, `docs/WEB_DEMO.md`, for Gemini in Antigravity.** Decided with Bryan:
+   a private demo he shares by link, not advertised; Google Cloud Run in the same project as AllAboard, Flet
+   server web mode, **minimum instances 0** (a few seconds of cold start is fine; keeping one warm costs roughly
+   $10 to $50 a month for little gain), session affinity with maximum 1 instance, Bryan's own key with a credit
+   cap via Secret Manager, a Cloud Storage volume at `/data` for per-visitor history and usage limits, and an
+   AGPL source link. The brief supersedes the older notes below where they differ.
+   **Earlier plan (2026-11-09: a portfolio piece, since recruiters won't run Flet commands):**
    - **Host it as a server app**, not a static build: Flet's web mode on a small always-on host (Fly.io, Render,
      Google Cloud Run or similar; pick one when building). A static `flet build web` would put the OpenRouter key in
      the browser, where anyone can copy it.
