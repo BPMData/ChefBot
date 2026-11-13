@@ -223,6 +223,14 @@ def test_map_browser_and_info_sheet_ui_flow(monkeypatch, tmp_path):
     china_texts = collect_texts(app.root.content)
     assert "Asia > China" in china_texts
     assert "Any" in china_texts
+    assert "The Eight Great Cuisines (八大菜系)" in china_texts
+    assert "Regional, diverse, technique-driven" in china_texts   # the usual subtitle stays
+    app.map_stack = ["world", "asia"]   # Japan has no extra heading
+    asyncio.run(app._trigger_map_region("japan"))
+    assert not any("Great Cuisines" in t for t in collect_texts(app.root.content))
+    app.map_stack = ["world", "asia"]
+    app._render_map_level()
+    asyncio.run(app._trigger_map_region("china"))
 
     # Verify every level renders cleanly and every leaf cuisine opens an info sheet with a mini-map
     for lid, lvl in maps.levels().items():

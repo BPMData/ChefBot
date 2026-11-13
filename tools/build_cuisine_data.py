@@ -426,7 +426,7 @@ def normalize_pitfalls(pitfalls: list[str]) -> list[str]:
 
 def apply_overrides(node: dict, ov: dict) -> None:
     """Apply tools/cuisine_overrides.json entries to a normalized node."""
-    for field in ("label", "subtitle", "about", "prompt_name", "flavors", "sweet_only",
+    for field in ("label", "heading", "subtitle", "about", "prompt_name", "flavors", "sweet_only",
                   "signature_ingredients", "tips", "pitfalls", "avoid"):
         if field in ov:
             node[field] = list(ov[field]) if isinstance(ov[field], list) else ov[field]

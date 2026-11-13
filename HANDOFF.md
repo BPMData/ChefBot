@@ -167,6 +167,11 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
        it, reversed for Back; Flutter animates it (`MAP_ZOOM_MS`, `MAP_ZOOM_IN_SCALE`, `MAP_ZOOM_OUT_SCALE`).
      - **Bryan on the phone (2026-11-12):** much smoother, and "about as good as it's gonna get" with this
        approach. Going further would mean a JavaScript globe in a WebView.
+   - **2026-11-13:** The China map level shows an extra line, "The Eight Great Cuisines (八大菜系)" (Bryan's
+     wording, no pinyin), above the usual subtitle. It's an optional `heading` field on a branch node, set in
+     `tools/cuisine_overrides.json` so rebuilds keep it; any other level can get one the same way.
+     **Next: more cuisines** (Bryan wants more European and American ones now that the globe makes room). Each
+     new node needs a research run (`docs/research/`, like the 2026-11-09 additions) and a map region.
 
 7. **Next big to-do (2026-11-12): consider the Spoonacular API**, for example for nutrition data per recipe.
    Not started; first work out what it would add, what it needs (an API key kept like the OpenRouter one, limits)
