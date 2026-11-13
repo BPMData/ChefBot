@@ -413,7 +413,7 @@
       "Cork spiced beef curing blend (substitute: raw corned beef simmered with extra whole allspice, cloves, juniper and brown sugar)"
     ],
     "tips": [
-      "Tomato-fruit Irish table relish contains about 1.4 g salt per 100 g: swap 30 g (about 2 tbsp, supplying about 0.42 g salt) for tomato chutney or ketchup plus cider vinegar, chopped raisins and mustard seed.",
+      "Bottled Irish tomato-and-fruit table relish is lightly salted (about 1.4 g per 100 g): if you don't have it, swap 30 g (about 2 tbsp, supplying about 0.42 g salt) for tomato chutney or ketchup stirred with cider vinegar, chopped raisins and mustard seed.",
       "Spiced apple-barley brown sauce contains about 0.8 g salt per 100 g: swap 20 g (about 1 tbsp, supplying about 0.16 g salt) for another fruit-vinegar brown sauce.",
       "Prepared stock pots and bouillon vary around 12 to 15 g salt per 100 g: dissolve into stews or chowders before adding extra salt."
     ],
@@ -460,7 +460,8 @@
       "Swedish ansjovis are sugar-and-spice-cured sprats, not plain Mediterranean anchovies; using plain salty anchovies unmodified overwhelms Janssons frestelse.",
       "Avoid treating Finland as identical to coastal Scandinavia: eastern and Karelian Finland highlight oven-pot meats, forest mushrooms, lake fish and rye-crust karjalanpiirakka.",
       "In classic versions, Swedish meatballs use allspice and white pepper rather than Mediterranean oregano and garlic."
-    ]
+    ],
+    "about": "Encompassing Denmark, Norway, Sweden, Finland, and Iceland across Atlantic fjords, Baltic archipelagos, and boreal forests, Nordic home cooking reflects centuries of preserving cold-water fish, dairy, and short-season harvests for long winters. Everyday domestic kitchens center on cured and pickled herring, dense rye loaves, warm-spiced meatballs, and creamy fish soups, a world apart from the foraged, restaurant-only avant-garde of the 2004 New Nordic Food Manifesto. Representative home dishes include Danish Smørrebrød (open-faced rye sandwiches), Swedish Köttbullar (allspice-seasoned meatballs with lingonberries), Norwegian Fårikål (peppercorn lamb and cabbage stew), and Finnish Lohikeitto (creamy salmon, potato, and dill soup)."
   },
   "georgian": {
     "subtitle": "Walnuts, blue fenugreek, cilantro, sour plum",
@@ -577,11 +578,12 @@
       "Do not confuse New Mexican cooking with Tex-Mex: keep red and green chile sauces clean with chile, garlic and oregano rather than heavy cumin or commercial chili-powder blends, and favor stacked corn enchiladas and sopaipillas.",
       "Do not swap tomatillo salsa verde for roasted New Mexico green chile sauce or default to black beans instead of pinto or bolita beans.",
       "Use 'Christmas' to mean half red and half green chile sauce on the plate, not a December holiday dish, and avoid smoky chipotle in classic sun-dried red chile sauces."
-    ]
+    ],
+    "about": "Centered along the high-desert Rio Grande corridor and Sangre de Cristo foothills, from Hatch and Las Cruces in southern New Mexico through Albuquerque, Santa Fe, and Chimayó in the north, New Mexican cuisine grew out of Pueblo, Navajo, and Apache farming fused with 16th–17th-century Spanish colonial traditions in long isolation from central Mexico, later absorbing ranching and Route 66 diner culture. Its cooking revolves around clean, un-smoked sauces made from flame-roasted green or sun-dried red New Mexico Capsicum annuum chiles, paired with pinto beans, blue corn, and wheat-flour tortillas or sopapillas. Representative dishes include carne adovada, stacked red/green/'Christmas' enchiladas, green chile stew, and posole."
   },
   "us_hawaiian": {
     "label": "Hawaiian & Local",
-    "about": "Across the Hawaiian islands, culinary life spans two distinct layers: contemporary Hawaii island 'local food' forged in 19th- and 20th-century plantation camps and diners, and Indigenous Native Hawaiian (Kānaka ʻŌiwi) foodways built on taro (kalo), sweet potato, breadfruit, reef fish, and imu earth-oven roasting. ChefBot defaults to everyday Hawaii local food—blending Native Hawaiian staples with Japanese, Chinese, Filipino, Korean, and Portuguese influences alongside island pantry classics—while clearly naming Native Hawaiian dishes when making Indigenous heritage food. Representative dishes include shoyu or ʻinamona poke, kālua pork, laulau, loco moco, saimin, and two-scoop rice-and-mac-salad plate lunches.",
+    "about": "Across the Hawaiian islands, culinary life spans two distinct layers: contemporary Hawaii island 'local food' forged in 19th- and 20th-century plantation camps and diners, and Indigenous Native Hawaiian (Kānaka ʻŌiwi) foodways built on taro (kalo), sweet potato, breadfruit, reef fish, and imu earth-oven roasting. ChefBot defaults to everyday Hawaii local food (blending Native Hawaiian staples with Japanese, Chinese, Filipino, Korean, and Portuguese influences alongside island pantry classics) while clearly naming Native Hawaiian dishes when making Indigenous heritage food. Representative dishes include shoyu or ʻinamona poke, kālua pork, laulau, loco moco, saimin, and two-scoop rice-and-mac-salad plate lunches.",
     "subtitle": "Shoyu, poke, kālua, local plates",
     "flavors": [
       "Hawaiian sea salt (paʻakai / ʻalaea salt)",
@@ -622,11 +624,11 @@
       "Skip the pineapple-on-everything tourist cliché: canned pineapple chunks or juice in savory chicken, burgers or poke is export marketing, not Native Hawaiian or everyday local cooking.",
       "Keep Indigenous Native Hawaiian dishes (poi, kalo, laulau, kālua pork) clearly distinguished from plantation-era multiethnic local food (Spam musubi, loco moco, plate lunches).",
       "Let traditional poke highlight fresh fish, shōyu, toasted sesame oil, ogo, Maui onion and ʻinamona over plain rice rather than burying it under mayo sauces and unrelated toppings.",
-      "Traditional Hawaiian and local savory dishes rarely use coconut milk, and always cook kalo thoroughly and roast kukui nuts completely."
+      "Traditional Hawaiian and local savory dishes rarely use coconut milk; cook kalo thoroughly and roast kukui nuts completely."
     ]
   },
   "colombian": {
-    "about": "Stretching across the Andean cordilleras and valleys (Bogotá, Medellín, Cali, Santander), a tropical Caribbean coast, a Pacific rainforest coast, and the Orinoco plains, Colombia brings together Indigenous, Spanish, Afro-Colombian, and coastal Levantine traditions. Everyday Andean home cooking—built around a simple scallion-and-tomato hogao base (often with cumin and achiote as common additions), cilantro, panela, rice, potatoes, beans, and plantains across dishes like ajiaco santafereño, sancocho, and bandeja paisa—serves as the default baseline, while coastal cooking shifts to Caribbean coconut milk, titoté, and suero costeño or Pacific hierbas de azotea seafood stews (encocado).",
+    "about": "Stretching across the Andean cordilleras and valleys (Bogotá, Medellín, Cali, Santander), a tropical Caribbean coast, a Pacific rainforest coast, and the Orinoco plains, Colombia brings together Indigenous, Spanish, Afro-Colombian, and coastal Levantine traditions. Everyday Andean home cooking, built around a simple scallion-and-tomato hogao base (often with cumin and achiote as common additions), cilantro, panela, rice, potatoes, beans, and plantains across dishes like ajiaco santafereño, sancocho, and bandeja paisa, serves as the default baseline, while coastal cooking shifts to Caribbean coconut milk, titoté, and suero costeño or Pacific hierbas de azotea seafood stews (encocado).",
     "subtitle": "Hogao, cilantro, panela, plantains",
     "flavors": [
       "scallion (cebolla larga / junca)",
@@ -659,7 +661,7 @@
       "cassava & green or ripe plantains (yuca & plátano) (substitute: fresh or frozen cassava and green or black-spotted plantains)"
     ],
     "tips": [
-      "Complete condiment packets (cumin, garlic, annatto, turmeric) vary widely in salt by market: domestic Colombian packets reach about 28 g salt per 100 g (reduce table salt by about 1.4 g per 5 g tsp), whereas US-export packets are often much lower in sodium—always check the label.",
+      "Complete condiment packets (cumin, garlic, annatto, turmeric) vary widely in salt by market: domestic Colombian packets reach about 28 g salt per 100 g (reduce table salt by about 1.4 g per 5 g tsp), whereas US-export packets are often much lower in sodium, so check the label.",
       "Beef-rib or chicken bouillon cubes run about 54 to 56% salt by weight (about 5 to 6 g salt per 9 to 11 g cube): dissolve 1 to 2 cubes per liter of soup and omit 1 to 2 tsp table salt.",
       "Commercial annatto color packets vary from 0 to 5% salt across brands; check the label for sodium."
     ],

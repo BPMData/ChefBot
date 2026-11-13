@@ -754,7 +754,7 @@
       "Cork spiced beef curing blend (substitute: raw corned beef simmered with extra whole allspice, cloves, juniper and brown sugar)"
     ],
     "tips": [
-      "Tomato-fruit Irish table relish contains about 1.4 g salt per 100 g: swap 30 g (about 2 tbsp, supplying about 0.42 g salt) for tomato chutney or ketchup plus cider vinegar, chopped raisins and mustard seed.",
+      "Bottled Irish tomato-and-fruit table relish is lightly salted (about 1.4 g per 100 g): if you don't have it, swap 30 g (about 2 tbsp, supplying about 0.42 g salt) for tomato chutney or ketchup stirred with cider vinegar, chopped raisins and mustard seed.",
       "Spiced apple-barley brown sauce contains about 0.8 g salt per 100 g: swap 20 g (about 1 tbsp, supplying about 0.16 g salt) for another fruit-vinegar brown sauce.",
       "Prepared stock pots and bouillon vary around 12 to 15 g salt per 100 g: dissolve into stews or chowders before adding extra salt."
     ],
@@ -772,7 +772,7 @@
     "kind": "cuisine",
     "label": "Nordic",
     "subtitle": "Dill, allspice, caraway, mustard",
-    "about": "Encompassing Denmark, Norway, Sweden, Finland, and Iceland across Atlantic fjords, Baltic archipelagos, and boreal forests, Nordic home cooking reflects centuries of preserving cold-water fish, dairy, and short-season harvests for long winters. Everyday domestic kitchens center on cured and pickled herring, dense rye loaves, warm-spiced meatballs, and creamy fish soups—distinct from the foraged, restaurant-only avant-garde of the 2004 New Nordic Food Manifesto. Representative home dishes include Danish Smørrebrød (open-faced rye sandwiches), Swedish Köttbullar (allspice-seasoned meatballs with lingonberries), Norwegian Fårikål (peppercorn lamb and cabbage stew), and Finnish Lohikeitto (creamy salmon, potato, and dill soup).",
+    "about": "Encompassing Denmark, Norway, Sweden, Finland, and Iceland across Atlantic fjords, Baltic archipelagos, and boreal forests, Nordic home cooking reflects centuries of preserving cold-water fish, dairy, and short-season harvests for long winters. Everyday domestic kitchens center on cured and pickled herring, dense rye loaves, warm-spiced meatballs, and creamy fish soups, a world apart from the foraged, restaurant-only avant-garde of the 2004 New Nordic Food Manifesto. Representative home dishes include Danish Smørrebrød (open-faced rye sandwiches), Swedish Köttbullar (allspice-seasoned meatballs with lingonberries), Norwegian Fårikål (peppercorn lamb and cabbage stew), and Finnish Lohikeitto (creamy salmon, potato, and dill soup).",
     "prompt_name": "Nordic",
     "flavors": [
       "dill (dill / tilli)",

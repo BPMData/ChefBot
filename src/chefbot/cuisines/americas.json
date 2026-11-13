@@ -114,7 +114,7 @@
     "kind": "cuisine",
     "label": "New Mexican",
     "subtitle": "Red and green chile, blue corn",
-    "about": "Centered along the high-desert Rio Grande corridor and Sangre de Cristo foothills—from Hatch and Las Cruces in southern New Mexico through Albuquerque, Santa Fe, and Chimayó in the north—New Mexican cuisine grew out of Pueblo, Navajo, and Apache farming fused with 16th–17th-century Spanish colonial traditions in long isolation from central Mexico, later absorbing ranching and Route 66 diner culture. Its cooking revolves around clean, un-smoked sauces made from flame-roasted green or sun-dried red New Mexico Capsicum annuum chiles, paired with pinto beans, blue corn, and wheat-flour tortillas or sopapillas. Representative dishes include carne adovada, stacked red/green/'Christmas' enchiladas, green chile stew, and posole.",
+    "about": "Centered along the high-desert Rio Grande corridor and Sangre de Cristo foothills, from Hatch and Las Cruces in southern New Mexico through Albuquerque, Santa Fe, and Chimayó in the north, New Mexican cuisine grew out of Pueblo, Navajo, and Apache farming fused with 16th–17th-century Spanish colonial traditions in long isolation from central Mexico, later absorbing ranching and Route 66 diner culture. Its cooking revolves around clean, un-smoked sauces made from flame-roasted green or sun-dried red New Mexico Capsicum annuum chiles, paired with pinto beans, blue corn, and wheat-flour tortillas or sopapillas. Representative dishes include carne adovada, stacked red/green/'Christmas' enchiladas, green chile stew, and posole.",
     "prompt_name": "New Mexican",
     "flavors": [
       "roasted green New Mexico chile (chile verde de Nuevo México)",
@@ -160,7 +160,7 @@
     "kind": "cuisine",
     "label": "Hawaiian & Local",
     "subtitle": "Shoyu, poke, kālua, local plates",
-    "about": "Across the Hawaiian islands, culinary life spans two distinct layers: contemporary Hawaii island 'local food' forged in 19th- and 20th-century plantation camps and diners, and Indigenous Native Hawaiian (Kānaka ʻŌiwi) foodways built on taro (kalo), sweet potato, breadfruit, reef fish, and imu earth-oven roasting. ChefBot defaults to everyday Hawaii local food—blending Native Hawaiian staples with Japanese, Chinese, Filipino, Korean, and Portuguese influences alongside island pantry classics—while clearly naming Native Hawaiian dishes when making Indigenous heritage food. Representative dishes include shoyu or ʻinamona poke, kālua pork, laulau, loco moco, saimin, and two-scoop rice-and-mac-salad plate lunches.",
+    "about": "Across the Hawaiian islands, culinary life spans two distinct layers: contemporary Hawaii island 'local food' forged in 19th- and 20th-century plantation camps and diners, and Indigenous Native Hawaiian (Kānaka ʻŌiwi) foodways built on taro (kalo), sweet potato, breadfruit, reef fish, and imu earth-oven roasting. ChefBot defaults to everyday Hawaii local food (blending Native Hawaiian staples with Japanese, Chinese, Filipino, Korean, and Portuguese influences alongside island pantry classics) while clearly naming Native Hawaiian dishes when making Indigenous heritage food. Representative dishes include shoyu or ʻinamona poke, kālua pork, laulau, loco moco, saimin, and two-scoop rice-and-mac-salad plate lunches.",
     "prompt_name": "Hawaiian & Local",
     "flavors": [
       "Hawaiian sea salt (paʻakai / ʻalaea salt)",
@@ -201,7 +201,7 @@
       "Skip the pineapple-on-everything tourist cliché: canned pineapple chunks or juice in savory chicken, burgers or poke is export marketing, not Native Hawaiian or everyday local cooking.",
       "Keep Indigenous Native Hawaiian dishes (poi, kalo, laulau, kālua pork) clearly distinguished from plantation-era multiethnic local food (Spam musubi, loco moco, plate lunches).",
       "Let traditional poke highlight fresh fish, shōyu, toasted sesame oil, ogo, Maui onion and ʻinamona over plain rice rather than burying it under mayo sauces and unrelated toppings.",
-      "Traditional Hawaiian and local savory dishes rarely use coconut milk, and always cook kalo thoroughly and roast kukui nuts completely."
+      "Traditional Hawaiian and local savory dishes rarely use coconut milk; cook kalo thoroughly and roast kukui nuts completely."
     ],
     "avoid": [],
     "children": [],
@@ -874,7 +874,7 @@
     "kind": "cuisine",
     "label": "Colombian",
     "subtitle": "Hogao, cilantro, panela, plantains",
-    "about": "Stretching across the Andean cordilleras and valleys (Bogotá, Medellín, Cali, Santander), a tropical Caribbean coast, a Pacific rainforest coast, and the Orinoco plains, Colombia brings together Indigenous, Spanish, Afro-Colombian, and coastal Levantine traditions. Everyday Andean home cooking—built around a simple scallion-and-tomato hogao base (often with cumin and achiote as common additions), cilantro, panela, rice, potatoes, beans, and plantains across dishes like ajiaco santafereño, sancocho, and bandeja paisa—serves as the default baseline, while coastal cooking shifts to Caribbean coconut milk, titoté, and suero costeño or Pacific hierbas de azotea seafood stews (encocado).",
+    "about": "Stretching across the Andean cordilleras and valleys (Bogotá, Medellín, Cali, Santander), a tropical Caribbean coast, a Pacific rainforest coast, and the Orinoco plains, Colombia brings together Indigenous, Spanish, Afro-Colombian, and coastal Levantine traditions. Everyday Andean home cooking, built around a simple scallion-and-tomato hogao base (often with cumin and achiote as common additions), cilantro, panela, rice, potatoes, beans, and plantains across dishes like ajiaco santafereño, sancocho, and bandeja paisa, serves as the default baseline, while coastal cooking shifts to Caribbean coconut milk, titoté, and suero costeño or Pacific hierbas de azotea seafood stews (encocado).",
     "prompt_name": "Colombian",
     "flavors": [
       "scallion (cebolla larga / junca)",
@@ -906,7 +906,7 @@
       "cassava & green or ripe plantains (yuca & plátano) (substitute: fresh or frozen cassava and green or black-spotted plantains)"
     ],
     "tips": [
-      "Complete condiment packets (cumin, garlic, annatto, turmeric) vary widely in salt by market: domestic Colombian packets reach about 28 g salt per 100 g (reduce table salt by about 1.4 g per 5 g tsp), whereas US-export packets are often much lower in sodium—always check the label.",
+      "Complete condiment packets (cumin, garlic, annatto, turmeric) vary widely in salt by market: domestic Colombian packets reach about 28 g salt per 100 g (reduce table salt by about 1.4 g per 5 g tsp), whereas US-export packets are often much lower in sodium, so check the label.",
       "Beef-rib or chicken bouillon cubes run about 54 to 56% salt by weight (about 5 to 6 g salt per 9 to 11 g cube): dissolve 1 to 2 cubes per liter of soup and omit 1 to 2 tsp table salt.",
       "Commercial annatto color packets vary from 0 to 5% salt across brands; check the label for sodium."
     ],
