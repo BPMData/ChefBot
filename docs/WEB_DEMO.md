@@ -117,10 +117,19 @@ unset, the app must behave exactly as it does today on desktop and Android.
    open. In demo mode: turn the idle spin off, test the globe against the deployed service from a phone on
    mobile data, and if dragging is laggy, fall back to the flat world map or the list browser for the demo. The
    zoom animations between flat map levels run in Flutter and are not affected. Tell Bryan what you found.
-7. **Featured recipes (question for Bryan, dropped from the original plan).** The 2026-11-09 plan in HANDOFF had a
-   few featured recipes that open instantly and spend nothing, for visitors who only want to look or who hit a
-   limit. This brief left them out without a reason. Ask Bryan whether to include them; if yes, store a few
-   finished recipes as data files in the repo and open them read-only from the home screen.
+7. **Featured recipes (decided with Bryan, 2026-11-13).** A few finished recipes open instantly and spend
+   nothing, for visitors who only want to look or who have hit a limit. This was in the original 2026-11-09 plan.
+   - Store about four finished conversations (the recipe, and a dish picture for some) as data files in the
+     repo, for example under `src/chefbot/featured/`, covering different cuisines from the cuisine tree so the
+     demo shows its range. Ask Bryan which cuisines and ingredients to use; don't pick them silently.
+   - **Never use Bryan's own saved recipes** (the repo is public; they're listed in `HANDOFF.local.md`). Generate
+     new ones with the default model through `tools/smoke.py` style scripts, review each for the mistakes the
+     second-model review loop in HANDOFF is meant to catch, and have Bryan approve each before it is committed.
+     No emojis, no personal details.
+   - Show them on the demo's home screen as a "Featured recipes" row (demo mode only). Opening one shows the
+     conversation read-only: Copy, PDF, HTML and Email work, but there is no follow-up box, so it costs nothing.
+     Add a plain line such as "Start your own recipe" that returns to the home form.
+   - They are not saved into the visitor's history and don't count toward any limit.
 
 ## Tests
 
@@ -130,6 +139,8 @@ Add to `tests/` (run `.venv/bin/python -m pytest`; GitHub Actions runs them on e
 - In demo mode, two visitor ids get separate histories, and neither can load the other's conversations.
 - In demo mode, one visitor's `prune_photos` never deletes another visitor's photos.
 - In demo mode, a stored key, model, thinking level or developer-mode flag in the browser's storage is ignored.
+- In demo mode, the featured recipes load, open read-only, and never call the model or change a visitor's
+  history or counters.
 - In demo mode, with no visitor id yet, history stays unavailable and nothing is written to a shared folder.
 - The limits: per-visitor recipe count, total replies per day, cooldown, picture limit, message and photo size
   limits, and the global cap, including after a "restart" (counters read back from disk). Mock the model; tests
