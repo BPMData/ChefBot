@@ -175,9 +175,11 @@ sensible recipe, assuming the spices and staples a cook of the chosen cuisine us
      Prompts are ready to paste: `docs/research/additions-europe.md`, `docs/research/additions-americas.md`
      (`tools/make_research_prompts.py <slug>` rebuilds just those; with no slugs the full run stops at
      near-east, because the taxonomy heading there is still "Near & Middle East").
-     **Research in (2026-11-13):** Gemini's runs saved as `results/additions_europe.json` and
-     `results/additions_americas.json`; ChatGPT's were thin and wrong (see FINDINGS, "Second batch"). Bryan has a
-     fifth report to compare before anything is built. Decided: Finland stays in Nordic, Georgian under Europe.
+     **Research done (2026-11-13):** Antigravity's runs, chosen from six, are `results/additions_europe.json` and
+     `results/additions_americas.json` (Gemini's kept as `*_gemini`; ChatGPT's discarded). Read FINDINGS, "Second
+     batch", for the fixes the house-style pass must make. Decided: Finland stays in Nordic, Georgian under Europe.
+     **Next session starts here, on the Mac:** builder reads the two files, house-style pass, Central European
+     replaced by its five (legacy mapping for old chats), map regions for all 14, tests.
      **Do the build in a Claude Code session on Bryan's Mac**: the map rebuild needs the gitignored shapefiles in
      `assets/maps/source/`, which cloud sessions don't have, and data and maps must land together (the tests
      require a map region for every cuisine). Hawaii probably needs an inset on the US map.

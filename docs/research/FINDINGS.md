@@ -224,29 +224,42 @@ continents:
 - Allergens hide in prepared condiments more than in single spices (pesto, romesco, alioli, za'atar, tahini, yaji,
   bouillon cubes): the prompt should tell the model to check those.
 
-## Second batch (2026-11-13): 14 cuisines, Gemini
+## Second batch (2026-11-13): 14 cuisines, Antigravity
 
-Saved: `results/additions_europe.json`, `results/additions_americas.json` (raw reports in `results/raw/`). Bryan ran
-both prompts on ChatGPT and Gemini. **This time Gemini's runs are the ones kept**, the reverse of the first round.
-ChatGPT's runs looked like a cut-down deep research (most likely its lighter fallback once the monthly full runs
-are used up): two sources per cuisine, many from SEO sites, and plain errors such as Portuguese for Austrian paprika
-("pimentão-doce"), "Senf (English mustard)", made-up native names (Nordic "Alleholjende", Irish "Gorg" for bay,
-Hawaiian "Green onion (ulu)", which means breadfruit), aji amarillo as a New Mexican ingredient, and Tafelspitz
-"stewed with cream". Those runs were not saved. If ChatGPT is used again, check it ran the full version.
+**Use:** `results/additions_europe.json` and `results/additions_americas.json` (full reports in `results/raw/`),
+from Gemini agents in Antigravity. Six reports were compared (ChatGPT deep research, Gemini deep research and
+Antigravity, each for both continents); Bryan chose Antigravity for both.
 
-Gemini's runs: 5 to 13 sources per cuisine, real authorities (Heinzelmann, Goldstein, McNeill, Hartley, Colombia's
-Ministry of Culture series), label salt values checked, no "never". Its weaknesses, for the house-style pass:
+- **ChatGPT: not saved.** Most likely its lighter fallback once the month's full deep research runs were used
+  up: two sources per cuisine, many from SEO sites, and plain errors (Portuguese "pimentão-doce" for Austrian
+  paprika, "Senf (English mustard)", made-up native names such as Nordic "Alleholjende" and Irish "Gorg", Hawaiian
+  "ulu" for green onion, which means breadfruit, aji amarillo as a New Mexican ingredient, Tafelspitz "stewed with
+  cream"). If ChatGPT is used again, check it ran the full version.
+- **Gemini deep research: kept as a second opinion** (`*_gemini.json`, `raw/*_gemini.md`). Well sourced but
+  over-hedged: "LOW CONFIDENCE" on obvious staples (caraway in Czech), thin on Austrian, Czech and Irish
+  seasoning, nothing on Ashkenazi cooking, and no guascas for Colombian. Worth checking for Scottish and Welsh
+  cookbook history and the Jagerschnitzel regional split, which Antigravity covers more briefly.
+- **Antigravity: the best of the six.** Specific seasoning for every cuisine, real authorities (Lang, Gundel,
+  Plachutta, FitzGibbon, Allen, Nilsson, Goldstein, Capalbo, Hercules; Jamison, DeWitt and Bosland, Laudan, Hiura,
+  Francoeur, Armstrong, Velasquez, Colombia's Ministry of Culture), product labels checked for salt and allergens.
+  It agreed with both of Bryan's decisions below on its own.
 
-- **Over-hedged:** "LOW CONFIDENCE" on obvious staples (caraway and marjoram in Czech, black pepper everywhere)
-  only because its sources didn't list them. Drop those notes; don't drop the items.
-- **Thin spots:** Austrian, Czech and Irish everyday seasoning; Ashkenazi cooking (not covered at all). Colombian
-  leaves guascas out of the flavors (it's essential to ajiaco) and calls it a gap.
-- **Odd flavor entries:** salt and honey as Irish flavors; stock cubes and curry ketchup as German flavors;
-  Hawaiian flavors given only under Japanese names.
-- **Labels:** "Hawaiian & Local" (its point: "Hawaiian food" strictly means Native Hawaiian food; everyday island
-  food is "Local food"). Subtitles run long (5 items); trim to the 3-4 the chips fit.
+**Fix in the house-style pass:**
 
-**Decided with Bryan (2026-11-13), against Gemini's advice:**
+- **Europe subtitles are too long** (five items each); trim to 3-4 for the chips. The Americas ones fit.
+- **Irish overweights seaweed:** dulse leads its subtitle and two of nine flavors are seaweeds. Move dulse to
+  signature ingredients; everyday Irish cooking is butter, parsley, thyme, pepper, malt vinegar, mustard.
+- **Nine "never"/"always" in Europe** (Polish, Czech, Portuguese, Nordic). Most are fair (kmin is not cumin, never
+  raw Mexican chorizo for chourico, always desalt bacalhau), but ChefBot enforces these as hard rules: reword each.
+- **Austrian Tafelspitz cut:** it says "tri-tip / top sirloin cap"; tri-tip is a different cut. Top sirloin cap
+  (picanha) only.
+- **Hawaiian romanization:** "Hoyu" for oyster sauce is not a word; "Gomabura" should be "goma abura".
+- **Colombian hogao:** cumin and achiote are common additions, not the core (scallion and tomato).
+- **Quebecois:** "oreilles de crisse" is a Quebec swear form; write "oreilles de Christ" or "fried salt pork".
+- **Field shapes:** allergen notes and pitfalls came as lists in the Americas file; the checker flattens them.
+- **Labels:** "Hawaiian / Local" (Antigravity) vs. "Hawaiian & Local" (Gemini): pick one.
+
+**Decided with Bryan (2026-11-13):**
 1. **Finland stays in Nordic.** Its seasoning (salt, allspice, black pepper, dill) is nearly Sweden's; what
    differs is ingredients (sour rye, wild mushrooms, lake fish, Karelian pasties), which the Nordic entry should
    mention. Split later only if recipes come out too Swedish.
@@ -254,6 +267,6 @@ Ministry of Culture series), label salt values checked, no "never". Its weakness
    themselves as European ("Caucasus" is the neutral term; EU candidate since 2023). Check the Europe map reaches
    far enough east to show Georgia.
 
-**Still Gemini's recommendations, not yet confirmed:**
+**Recommended by both Gemini and Antigravity, not yet confirmed by Bryan:**
 - **German default:** neither Bavaria nor Hamburg; a plain pan-German baseline.
 - **Hawaiian default:** Local food, with Native Hawaiian dishes named as such.

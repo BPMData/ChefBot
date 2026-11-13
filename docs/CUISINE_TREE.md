@@ -44,11 +44,11 @@ The data for it comes from deep research runs (prompt below), not from a model's
 ### Second batch (decided 2026-11-13)
 
 Fourteen more cuisines, now that the globe and maps make room. Prompts: `docs/research/additions-europe.md` and
-`docs/research/additions-americas.md` (two runs; results go to `results/additions_europe.json` and
-`results/additions_americas.json`).
+`docs/research/additions-americas.md`. **Research done** (Antigravity runs, chosen from six):
+`results/additions_europe.json`, `results/additions_americas.json`; notes and fixes in `research/FINDINGS.md`.
 
 - **Europe:** Central European is **split** into German, Austrian, Hungarian, Polish and Czech. Also Portuguese,
-  British, Irish (separate from British), Nordic, Georgian (Europe or Near East: the research recommends).
+  British, Irish (separate from British), Nordic (Finland stays in it), Georgian (under Europe).
 - **The Americas:** Québécois (Canada), New Mexican and Hawaiian (under the United States), Colombian.
 - **To do when the results are in:** the builder reads only `additions.json` today, so it needs the two new files
   and their placement; saved chats that used Central European need a mapping (as Hong Kong maps to Cantonese);

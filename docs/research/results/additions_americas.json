@@ -2,287 +2,324 @@
  {
   "id": "quebecois",
   "label": "Québécois",
-  "subtitle": "Salt pork, savory, maple, spices",
-  "about": "Quebecois cuisine comes from eastern Canada, spanning Montreal, the Mauricie woodlands, and the Saguenay-Lac-Saint-Jean region. Shaped by French colonists adapting to harsh winters alongside Indigenous ingredients, lumber-camp traditions, and New England and British neighbors, everyday home cooking centers on frugal, slow-simmered comfort food distinct from seasonal sugar-shack feasts. Representative dishes include soupe aux pois, tourtiere or pate a la viande, pate chinois, and feves au lard.",
+  "subtitle": "Maple, summer savory, warm spices",
+  "about": "Rooted along the St. Lawrence River valley, the Saguenay–Lac-Saint-Jean basin, and Appalachian foothills around Montreal and Quebec City, Quebecois cuisine fuses 17th-century northwestern French settler cooking with Indigenous acériculture, post-1760 British/Irish influences, and 20th-century Montreal immigrant traditions. Unlike classical French cooking with wine and cream reductions, traditional Quebec home kitchens rely on dry-toasted flour (farine grillée), summer savory, warm baking spices (clove, cinnamon, nutmeg, allspice), lard, maple, and molasses across hearty everyday dishes like soupe aux pois, pâté chinois, cretons, and ragoût de boulettes. The app separates this everyday home cooking from seasonal March–April cabane à sucre feasts (fèves au lard, oreilles de crisse) and casse-croûte or restaurant fare (poutine, Montreal smoked meat, boreal-spiced terroir dishes).",
   "flavors": [
-   "sarriette (summer savory)",
-   "sel (salt)",
-   "oignon (onion)",
-   "ail (garlic)",
-   "clou de girofle (clove)",
-   "muscade (nutmeg)",
-   "toute-epice / piment de la Jamaique (allspice)",
-   "thym (thyme)",
-   "feuille de laurier (bay leaf)",
-   "persil (parsley)",
-   "feuilles de celeri (celery leaves)",
-   "sirop d'erable (maple syrup, mainly in feves au lard, glazed ham, and sugar-shack dishes)"
+   "Sarriette d'été (summer savory)",
+   "Clou de girofle (clove)",
+   "Cannelle (cinnamon)",
+   "Muscade (nutmeg)",
+   "Piment de la Jamaïque (allspice)",
+   "Sirop d'érable (maple syrup, often dark grades in savory glazes and baked beans)",
+   "Mélasse (molasses)",
+   "Feuille de laurier (bay leaf)",
+   "Oignon jaune et céleri (yellow onion and celery)",
+   "Ketchup aux fruits ou ketchup rouge (spiced green-tomato chutney or tomato ketchup, classic table condiments)"
   ],
-  "sweet_only": [],
+  "sweet_only": [
+   "Extrait de vanille (vanilla extract, used in pouding chômeur, tarte au sucre, and sucre à la crème)",
+   "Gingembre moulu (ground ginger, mainly in molasses cookies and spice cakes)",
+   "Essence d'érable artificielle (artificial maple flavoring in some commercial sweets; home cooks prefer pure sirop d'érable)"
+  ],
   "signature_ingredients": [
-   "lard sale (salted pork fatback or salt pork) -> US supermarket salt pork or unsmoked pork belly (smoked bacon alters traditional pea soup flavor)",
-   "pois jaunes (dried yellow peas) -> dried yellow split peas (US supermarket bean aisle)",
-   "bleuets (wild Quebec blueberries) -> frozen wild blueberries or standard fresh blueberries",
-   "venaison de cerf ou d'orignal (venison or moose for Tourtiere du Lac-Saint-Jean) -> cubed beef chuck and pork shoulder",
-   "dore / achigan / esturgeon fume (walleye, bass, or smoked sturgeon) -> mild flaky white freshwater fish or smoked trout"
+   "Fromage en grains frais (fresh unaged cheddar cheese curds, served at room temperature so they squeak on poutine) -> substitute: mild white cheddar cut into 2.5 cm chunks or fresh mozzarella pearls (loses the signature squeak)",
+   "Pois jaunes cassés ou entiers (dried yellow peas for soupe aux pois) -> substitute: dried yellow split peas (widely sold in US bean aisles)",
+   "Lard salé (cured salt pork / fatback for soups, fèves au lard, and oreilles de crisse) -> substitute: packaged US salt pork, or uncured pork belly / slab bacon (reduce added salt if using cured bacon)",
+   "Haricots ronds blancs / fèves à porc (small white navy beans for fèves au lard) -> substitute: dried navy beans or Great Northern beans",
+   "Pattes de cochon (pork hocks/trotters for ragoût de pattes) -> substitute: fresh or smoked pork hocks (available at most butcher counters or Latin/Asian grocers)",
+   "Viande fumée de Montréal (Montreal-style spiced cured brisket) -> substitute: deli pastrami (usually sweeter and less heavily crusted in cracked coriander and black pepper)",
+   "Herbes et baies boréales (poivre des dunes / green alder pepper, thé du Labrador, chicoutai / cloudberries—modern restaurant tier) -> substitute: none"
   ],
   "pantry_assumed": [
-   "pure maple syrup",
-   "salt pork or pork lard",
-   "dried yellow split peas",
-   "potatoes and yellow onions",
-   "summer savory (sarriette)",
-   "warming pie spices (clove, nutmeg, allspice)",
-   "all-purpose flour",
-   "commercial poutine/brown gravy mix or liquid beef concentrate (often)"
+   "Sirop d'érable (pure maple syrup)",
+   "Cassonade (brown sugar)",
+   "Mélasse (molasses)",
+   "Sarriette d'été séchée (dried summer savory)",
+   "Beurre et saindoux (butter and lard)",
+   "Pommes de terre et oignons jaunes (potatoes and yellow onions)",
+   "Farine tout usage (all-purpose flour, often dry-browned into farine grillée)",
+   "Ketchup"
   ],
   "techniques": [
-   "Long, gentle simmering of dried-legume and cured-pork dishes (soupe aux pois, feves au lard, ragout de pattes et de boulettes)",
-   "Lard-crust pie baking for minced-meat tourtiere and deep Dutch-oven Tourtiere du Lac-Saint-Jean",
-   "Pan-rendering and crisping salted pork fatback (oreilles de crisse) and slow-cooking pork spreads (cretons)",
-   "Boiling maple syrup over snow (tire d'erable) and poaching dumplings in maple syrup (grand-peres)"
+   "Farine grillée (dry-browning all-purpose flour in a skillet or oven until nutty brown to thicken stews like ragoût de boulettes without a classic French butter roux or wine)",
+   "Mijotage lent (long, gentle simmering of dried peas, pork hocks, or covered oven-baking of fèves au lard)",
+   "Double friture et service à température ambiante du fromage (twice-frying potatoes for casse-croûte poutine and topping with room-temperature curds under boiling-hot gravy)",
+   "Cuisson en tourte et braisage long (double-crust baking for shallow ground-meat tourtière, or 6–8 hour low-oven baking for deep Saguenay–Lac-Saint-Jean cubed-meat tourtière)",
+   "Cuisson du sirop au petit boulé (boiling maple syrup or cream-and-sugar mixtures to 112–115 °C for tire sur la neige and sucre à la crème)"
   ],
   "shortcuts": [
-   "St-Hubert Poutine Gravy Sauce (398 mL can): usually contains ~89.4% water, modified corn starch (~3.9%), wheat flour (~1.8%), salt, chicken broth/fat, hydrolyzed soy/corn protein, onion/garlic powder, vinegar, and spices; OpenFoodFacts lists 1.75 g salt (0.7 g sodium) per 100 mL (~7.0 g salt per 398 mL can), though an alternate distributor listing shows 1.44 g salt without serving volume (LOW CONFIDENCE). Omit ~1.75 g salt per 100 mL used, replacing roughly 90-95 mL seasoned broth and ~5.7 g thickener.",
-   "Knorr Bovril Liquid Beef Bouillon Concentrate (250 mL): contains water, salt, hydrolyzed soy/corn/wheat proteins, MSG, beef extract, yeast extract, wheat flour, spices, and sulfites; retail nutrition panel lists 1,070 mg sodium (~2.68 g salt equiv) per 10 mL (2 tsp) serving — omit ~2.7 g salt for every 10 mL added."
+   "St-Hubert Original Poutine Gravy Mix (52 g dry pouch, makes 625 mL / 2.5 cups): contains corn starch, wheat flour, salt, dextrose, hydrolyzed soy and corn proteins, onion/tomato/garlic powder, vegetable oil, caramel color, spices, torula yeast, and xanthan gum. Supplies 330 mg sodium per 5 g dry mix (~3,432 mg sodium, or ~8.7 g salt per 52 g pouch). To swap in homemade chicken/beef stock thickened with cornstarch or toasted flour, omit ~8–9 g table salt per 625 mL batch.",
+   "Bovril Concentrated Liquid Beef Broth (250 mL bottle): contains water, maltodextrin/sugar, beef stock, salt, yeast extract, onion powder, flavoring, and beef extract. Supplies 750 mg sodium per 7.5 mL (1.5 tsp) = ~1.9 g salt per 7.5 mL (~0.25 g salt/mL). Replace 250 mL beef stock with 250 mL water + 7.5 mL Bovril and omit ~1.9 g table salt.",
+   "Épices à tourtière (commercial meat-pie spice blends): typically combine cinnamon, nutmeg/mace, allspice, cloves, black or white pepper, bay leaf, and sage/thyme/summer savory. Salt varies sharply—artisan blends (Les Épices Garno, Épices de cru) are 0 g salt, while salted blends (e.g., Épices du Guerrier) list sea salt first (LOW CONFIDENCE on exact salt percentage across salted brands). Use 10–15 g salt-free blend per 1 kg meat, or taste before salting if sea salt is listed."
   ],
   "allergen_notes": [
-   "Traditional home seasonings are largely free of major US allergens, though butter, cream, and eggs appear in salads, baked omelettes, and pies. Hidden wheat, soy, milk, and egg appear in popular commercial shortcuts: St-Hubert canned poutine sauce declares wheat (gluten) and soy (and other St-Hubert menu sauces declare milk, egg, or barley), while Knorr Bovril liquid beef concentrate contains soy and wheat and carries a may-contain milk warning."
+   "Wheat and soy: commercial poutine gravy mixes (e.g., St-Hubert) routinely contain wheat flour, hydrolyzed soy protein, and soy flour; traditional farine grillée thickeners and tourtière crusts use wheat flour.",
+   "Milk: fresh cheese curds in poutine, milk cooked into cretons (unlike French rillettes), and butter/35% cream in tarte au sucre and sucre à la crème.",
+   "Egg: pie-crust glazes, pouding chômeur batters, cabane à sucre omelette soufflée, and boiled-and-baked Montreal bagels.",
+   "Sesame: sesame seeds are a standard coating on Montreal bagels; yellow mustard and celery (regulated in Canada, though outside the US Big-9 except sesame) also appear in deli and cretons seasonings."
   ],
   "pitfalls": [
-   "Treating seasonal cabane a sucre spreads (oreilles de crisse, giant baked omelettes) or restaurant poutine as everyday home cooking, overlooking staples like pate chinois, soupe aux pois, cretons, or home macaroni with soy sauce.",
-   "Adding maple syrup indiscriminately to savory dishes; everyday soups, cretons, and meat pies usually remain savory unless styled specifically as maple ham, feves au lard, or sugar-shack dishes.",
-   "Confusing Montreal-style minced-meat pate a la viande (spiced with clove, nutmeg, and allspice) with Tourtiere du Lac-Saint-Jean, a deep Dutch-oven pot pie of cubed beef, pork, veal or venison, and potatoes flavored with thyme, bay leaf, and savory.",
-   "Assuming Quebecois cooking mirrors modern metropolitan French dining; the consulted sources lack a direct comparative treatise (LOW CONFIDENCE on exact French-vs-Quebec culinary divergence) and also omit detailed sweet-only baking spice profiles (LOW CONFIDENCE)."
+   "Collapsing the three tiers: treating cabane à sucre feasts (oreilles de crisse, fèves au lard) or 1950s casse-croûte fast food (poutine) as everyday weeknight home cooking.",
+   "Writing generic French recipes: adding wine reductions, heavy tarragon-cream sauces, or garlic-herb butter to traditional habitant dishes where warm baking spices, summer savory, toasted flour, and molasses belong.",
+   "Confusing shallow ground-pork tourtière (called pâté à la viande in Saguenay) with deep-dish Tourtière du Lac-Saint-Jean (cubed meats, game, cubed potatoes, and broth baked 6+ hours).",
+   "Melting shredded mozzarella or aged cheddar on poutine instead of room-temperature fresh curds that hold their squeak, or pouring maple syrup indiscriminately into savory dishes like soupe aux pois or pâté chinois.",
+   "Treating cretons like French rillettes: Quebec cretons are simmered gently with milk and oats or breadcrumbs for morning toast, not confited solely in lard."
   ],
   "sources": [
-   "https://constellation.uqac.ca/id/eprint/5920/1/PlamondonLalancette_uqac_0862_10709.pdf",
-   "https://www.collectionscanada.gc.ca/obj/thesescanada/vol2/002/MR75957.PDF",
+   "Genèse de la cuisine québécoise, Jean-Marie Francoeur (2011, Éditions Fides)",
    "http://degroupe.free.fr/PDF/cuisine/Genese%20de%20la%20cuisine%20Quebecoise.pdf",
-   "https://quebecuisine.ca/employee/michel_lambert/",
-   "https://archipel.uqam.ca/11430/1/M15380.pdf",
-   "https://en.wikipedia.org/wiki/Tourti%C3%A8re",
-   "Made in Quebec: A Culinary Journey, Julian Armstrong, 2014",
-   "https://urbanguidequebec.com/cabanes-a-sucre-a-guide-to-quebec-sugar-shacks/",
-   "https://willtravelforfood.com/2019/03/08/sugar-shack-cabane-a-sucre-montreal-2019/",
-   "https://world.openfoodfacts.org/product/0066701001029/poutine-gravy-sauce-st-hubert",
-   "https://www.st-hubert.com/en/nutritional.html",
-   "https://caffeinecam.com/products/knorr-bovril-beef-bouillon-beef-gravy-250ml-imported-from-canada"
+   "A Taste of Quebec, Julian Armstrong (2001, Macmillan Canada)",
+   "https://www.thecanadianencyclopedia.ca/en/article/tourtiere",
+   "https://constellation.uqac.ca/id/eprint/5920/1/PlamondonLalancette_uqac_0862_10709.pdf",
+   "https://en.wikipedia.org/wiki/Cuisine_of_Quebec",
+   "https://fr.wikipedia.org/wiki/Cuisine_qu%C3%A9b%C3%A9coise",
+   "https://voila.ca/products/st-hubert-gravy-mix-poutine-original-52-g/916837EA",
+   "https://www.foodland.ca/products/bovril-concentrated-liquid-broth-beef-250-ml"
   ]
  },
  {
   "id": "us_new_mexican",
   "label": "New Mexican",
-  "subtitle": "Red and green chile, pinto beans",
-  "about": "New Mexican cuisine is rooted along the Rio Grande valley in the US Southwest, extending from the southern Hatch Valley past Albuquerque and Santa Fe into northern foothills around Chimayo and Taos. It evolved from Puebloan Three Sisters farming of corn, pinto beans, and squash layered with Spanish colonial wheat, livestock, lard, and dairy custards. Lighter and less heavily spiced than Tex-Mex, representative dishes include stacked blue-corn enchiladas, green chile stew, posole, and sopaipillas.",
+  "subtitle": "Red and green chile, blue corn",
+  "about": "Centered along the high-desert Rio Grande corridor and Sangre de Cristo foothills—from Hatch and Las Cruces in southern New Mexico through Albuquerque, Santa Fe, and Chimayó in the north—New Mexican cuisine grew out of Pueblo, Navajo, and Apache farming fused with 16th–17th-century Spanish colonial traditions in long isolation from central Mexico, later absorbing ranching and Route 66 diner culture. Its cooking revolves around clean, un-smoked sauces made from flame-roasted green or sun-dried red New Mexico Capsicum annuum chiles, paired with pinto beans, blue corn, and wheat-flour tortillas or sopapillas. Representative dishes include carne adovada, stacked red/green/'Christmas' enchiladas, green chile stew, and posole.",
   "flavors": [
-   "chile verde (roasted New Mexico green chile)",
-   "chile colorado / chile rojo (dried or pureed New Mexico red chile)",
-   "chile de Chimayo (sweet-smoky northern New Mexico heirloom red chile)",
-   "ajo (garlic)",
-   "cebolla (onion)",
-   "oregano (dried oregano)",
-   "sal (salt)",
-   "azucar (pinch of sugar occasionally added to balance red chile sauce)",
-   "miel (honey, classic savory-meal condiment drizzled on sopaipillas)",
-   "comino (cumin — DISPUTED: usually omitted in classic New Mexican sauces; occasional in modern adaptations, LOW CONFIDENCE)"
+   "Chile verde de Nuevo México (flame-roasted green New Mexico chile, e.g., Hatch Big Jim or Sandia)",
+   "Chile rojo de Nuevo México (sun-dried ripe red NM chile pods or powder, e.g., Chimayó)",
+   "Chile caribe (crushed dried red New Mexico chile flakes)",
+   "Ajo (garlic)",
+   "Orégano mexicano (Mexican oregano, Lippia graveolens)",
+   "Cebolla amarilla o blanca (yellow or white onion)",
+   "Azafrán de Corrales (Corrales safflower, traditional Spanish-colonial saffron substitute)",
+   "Comino (ground cumin—used sparingly in ground beef or southern dishes, usually omitted from pure red or green chile sauces)",
+   "Cilantro (fresh coriander leaf—common in modern Santa Fe-style salsas, uncommon in traditional northern home cooking)",
+   "Miel (honey, classic table condiment drizzled onto puffed sopaipillas)"
   ],
-  "sweet_only": [],
+  "sweet_only": [
+   "Anís (anise seed, signature spice of bizcochitos, the official state cookie)",
+   "Canela y nuez moscada (cinnamon and nutmeg in natillas, capirotada, arroz dulce, and bizcochitos)",
+   "Piloncillo (unrefined cane sugar cones used in capirotada and panocha pudding)",
+   "Piñon (piñon pine nuts—eaten roasted and classic in fudge, brittle, and flavored coffee, though also used occasionally as a savory garnish)"
+  ],
   "signature_ingredients": [
-   "Hatch or New Mexico green chile (fresh or frozen roasted) -> US supermarket fresh Anaheim peppers (roasted and peeled) or canned fire-roasted green chiles (milder flavor)",
-   "dried New Mexico or Chimayo red chile pods -> dried mild-to-medium New Mexico pods in supermarket Latin sections (avoid swapping with Tex-Mex ancho chili powder)",
-   "blue corn tortillas or blue cornmeal -> yellow or white corn tortillas (alters color and toasted flavor)",
-   "dried posole (nixtamalized hominy corn) -> canned white hominy, drained and simmered",
-   "speckled pinto beans -> US supermarket dried or canned pinto beans (simmered whole rather than mashed)"
+   "Chile verde asado de Nuevo México (fresh flame-roasted or flash-frozen chopped NM green chile) -> substitute: canned diced Hatch/mild green chiles (drain and reduce recipe salt) or roasted Anaheim chiles (Anaheim is a milder California descendant of NM No. 9; add a small serrano for medium heat)",
+   "Vainas secas de chile rojo de Nuevo México / Chimayó (sun-dried whole NM red chile pods) -> substitute: dried New Mexico or Guajillo chile pods (for Chimayó's sweet-earthy depth, blend mostly Guajillo with a small pinch of Pasilla)",
+   "Harina de maíz azul (nixtamalized blue cornmeal, traditionally treated with juniper or wood ash in Pueblo/Diné cooking) -> substitute: yellow or white masa harina or stone-ground cornmeal (loses blue corn's nutty aroma)",
+   "Posole seco o congelado (un-popped dried or frozen white/blue hominy kernels) -> substitute: canned white or golden hominy (drained; softer texture and faster cooking)",
+   "Piñones (indigenous New Mexican Pinus edulis pine nuts) -> substitute: Mediterranean pine nuts / pignoli (milder and less resinous)",
+   "Quelites (wild lamb's quarters / Chenopodium greens) -> substitute: fresh spinach or Swiss chard"
   ],
   "pantry_assumed": [
-   "frozen roasted green chile",
-   "dried red chile pods, powder, or frozen red chile puree",
-   "dried pinto beans",
-   "onions and garlic",
-   "dried oregano",
-   "all-purpose flour and neutral oil or pork lard (for sauce roux and sopaipillas)",
-   "corn and flour tortillas"
+   "Chiles verdes asados congelados o enlatados (frozen or canned roasted NM green chiles)",
+   "Vainas o polvo puro de chile rojo de Nuevo México (pure dried NM red chile pods or powder)",
+   "Frijoles pintos o bolita (dried pinto or bolita beans)",
+   "Ajo (garlic)",
+   "Manteca de cerdo (lard, for frijoles, flour tortillas, and bizcochitos)",
+   "Harina de trigo (all-purpose flour for roux-thickened chile sauces, flour tortillas, and sopaipillas)",
+   "Queso cheddar y Monterey Jack (shredded Cheddar and Monterey Jack)",
+   "Orégano mexicano (Mexican oregano)"
   ],
   "techniques": [
-   "Flame-roasting whole green chiles, steaming, peeling blistered skins, and chopping",
-   "Cooking a light oil-or-lard and wheat-flour roux to simmer pureed red chile or chopped green chile into thickened sauce without scorching",
-   "Slow back-of-the-stove simmering of whole speckled pinto beans and posole hominy",
-   "Deep-frying leavened dough into hollow sopaipillas and layering flat stacked enchiladas"
+   "Asado a la llama y pelado (blistering whole green chiles over open flame or in drum roasters, sweating in bags, and peeling charred skins before chopping and freezing)",
+   "Secado al sol, rehidratado y licuado (sun-drying ripe red chiles on ristras, simmering stemmed/seeded pods, and blending smooth for pure red chile sauce)",
+   "Roux ligero de manteca y harina (lightly browning all-purpose flour in lard or oil before whisking in chile purée or stock to give sauces body)",
+   "Nixtamalización con ceniza de enebro (Pueblo/Navajo tradition of boiling blue corn with juniper or wood ash rather than solely slaked lime)",
+   "Enchiladas montadas y fritura de sopaipillas (stacking flat corn tortillas with chile sauce and cheese, often topped with a fried egg, and deep-frying dough squares until hollow)"
   ],
   "shortcuts": [
-   "BUENO Frozen Red Chile Puree (14 oz / 397 g): contains only roasted red chile pods and water with 0 g salt and no additives; 1 tub (397 g) replaces roughly 12 boiled and blended dried pods — add ~3-6 g (1/2-1 tsp) salt when diluting with water and a flour roux.",
-   "Commercial Hot Enchilada Sauce (BUENO): contains water, roasted red chile, salt, modified corn starch, lactose, hydrolyzed corn/soy/wheat proteins, yeast extract, and onion powder; retail label lists 70 mg sodium (~0.18 g salt equiv) per serving across 8 servings (~1.4 g salt equiv per container, container net weight unverified — LOW CONFIDENCE), so withhold added salt until tasting."
+   "Canned fire-roasted diced green chiles (e.g., Ortega/Hatch 4 oz / 113 g can): contains green chiles, water, salt, citric acid, and calcium chloride. Supplies ~110 mg sodium per 30 g (~415–440 mg sodium, or ~1.0–1.1 g salt per 113 g can). By contrast, flash-frozen roasted Hatch green chile (e.g., Bueno 13 oz / 368 g tub) usually has 0 mg sodium (0 g salt) unless pre-seasoned; check the label before reducing salt.",
+   "Canned red chile sauce (e.g., Las Palmas Medium Red Chile Sauce, 28 oz / 794 g can): contains water, dried red chile peppers, salt, cottonseed/olive oil, cider vinegar, fumaric acid, garlic powder, and spice. Supplies 370 mg sodium per 60 g (~1.54 g salt per 100 g, or ~2.3 g salt per 240 g cup); reduce recipe salt by ~2.3 g per cup used.",
+   "Jarred Hatch green chile sauce (e.g., 505 Southwestern): contains roasted Hatch green chiles, water, garlic, salt, and lime/citric acid; supplies ~170 mg sodium per 30 g (~1.4 g salt per 100 g). Reduce added salt by ~3.4 g per 240 g cup.",
+   "Pure ground New Mexico red chile powder vs. US 'chili powder': pure NM ground chile contains 0 g salt, whereas generic US chili powder mixes cumin, oregano, garlic, and salt (~0.6–0.75 g salt per tbsp) and alters authentic NM red chile flavor."
   ],
   "allergen_notes": [
-   "Pure New Mexico chiles and frozen red chile purees contain no major US allergens. However, traditional homemade and restaurant red and green chile sauces usually hide wheat because they rely on a wheat-flour roux for body, and commercial prepared enchilada sauces frequently declare hidden milk (lactose), soy (hydrolyzed soy protein), and wheat gluten."
+   "Tree nuts: piñon (pine nut / pinon nut) is explicitly regulated on the FDA's 2025 major tree-nut allergen list and appears in New Mexican fudge, cookies, coffee, and occasional savory garnishes.",
+   "Milk: yellow Cheddar, Monterey Jack, and queso fresco are pervasive in enchiladas, calabacitas, chiles rellenos, and green chile cheeseburgers; natillas and capirotada also contain dairy.",
+   "Wheat: standard in everyday flour tortillas, puffed sopaipillas, Navajo frybread, bizcochitos, and flour-roux chile sauce thickeners.",
+   "Egg: classic fried-egg topping on enchiladas montadas, huevos rancheros, chiles rellenos batter, torta de huevo, and natillas."
   ],
   "pitfalls": [
-   "Adding cumin and ancho-based Tex-Mex chili powder automatically; prominent New Mexican authorities stress omitting cumin so chile, garlic, and oregano lead, though some popular recipes include a pinch.",
-   "Using the Texas meat-stew spelling 'chili' instead of 'chile', or defaulting to Tex-Mex mashed refried beans, rolled yellow-cheddar casseroles, and tomatillo salsas.",
-   "Treating green and red chile as separate plants rather than unripe vs. vine-ripened stages of the same cultivar, or assuming all New Mexico chile is 'Hatch' while overlooking northern Chimayo and Pueblo landraces.",
-   "Serving sopaipillas solely as a dessert rather than alongside savory chile plates with honey (or stuffed with meat and beans), or misreading 'Christmas' (serving both red and green chile sauces together); note also that dessert-only spice profiles lacked documentation in consulted texts (LOW CONFIDENCE)."
+   "Confusing New Mexican with Tex-Mex: overloading red or green chile sauces with cumin, commercial chili-powder blends, pickled jalapeños, or Velveeta queso instead of pure NM chile + garlic + oregano, or defaulting to rolled chili-con-carne enchiladas rather than stacked (often egg-topped) corn enchiladas and honey-drizzled sopaipillas.",
+   "Confusing New Mexican with central/southern Mexican cooking: swapping tomatillo salsa verde for NM green chile sauce, defaulting to black beans instead of pinto/bolita beans, adding heavy epazote or cilantro to northern dishes, or spelling posole with a 'z'.",
+   "Ignoring the Hatch vs. northern red distinction or misusing 'Christmas': Hatch is famed primarily for roasted green chile while northern landraces like Chimayó excel sun-dried red; 'Christmas' simply means half red and half green chile sauce on the same plate—not a December holiday recipe.",
+   "Using smoked chipotle or oven-scorched chili powders: traditional NM red chile relies on sun-dried pods with clean, fruity-earthy flavor rather than smoke."
   ],
   "sources": [
-   "https://santafe.com/heating-it-up-with-new-mexican-food/",
-   "https://fivegraces.com/wp-content/uploads/2024/01/Table_NM_22_Summer_Issue_lowres-copy-2.pdf",
-   "https://cpi.nmsu.edu/_assets/documents/Eating-Well.pdf",
-   "https://en.wikipedia.org/wiki/New_Mexico_chile",
-   "https://kids.kiddle.co/New_Mexico_chile",
-   "https://www.nmgastronome.com/?p=56992",
-   "https://www.nmgastronome.com/?p=30339",
-   "https://www.thefooddictator.com/the-hirshon-new-mexican-stuffed-sopapillas-with-carne-adovada-and-red-chile-sauce/",
-   "https://buenofoods.com/products/red-chile/",
-   "https://buenofoods.com/red-chile-sauce-from-package/",
-   "https://www.ralphs.com/p/bueno-foods-hot-enchilada-sauce/0007800419311"
+   "The Rancho de Chimayó Cookbook: The Traditional Cooking of New Mexico, Cheryl Alters Jamison & Bill Jamison (2014, Rowman & Littlefield)",
+   "Tasting New Mexico: Recipes Celebrating One Hundred Years of Distinctive Home Cooking, Cheryl Alters Jamison & Bill Jamison (2012, Museum of New Mexico Press)",
+   "The Complete Chile Pepper Book, Dave DeWitt & Paul W. Bosland (2009, Timber Press)",
+   "https://pubs.nmsu.edu/_circulars/CR706/index.html",
+   "https://festival.si.edu/blog/red-or-green-the-chile-pepper-and-the-makings-of-new-mexico",
+   "https://santafeschoolofcooking.com/the-difference-between-tex-mex-and-new-mexican-cuisine/",
+   "https://en.wikipedia.org/wiki/New_Mexican_cuisine"
   ]
  },
  {
   "id": "us_hawaiian",
-  "label": "Hawaiian & Local",
-  "subtitle": "Shoyu, sesame, alaea salt, limu",
-  "about": "Set across the Hawaiian Islands of the central Pacific including Oahu, Maui, and the Big Island, everyday island eating is Local Food rather than ancient Polynesian fare alone. Polynesian voyagers established Native Hawaiian (Kanaka Maoli) staples like taro and imu-roasted pork, and later Anglo-American contact plus plantation migrations from China, Japan, Korea, the Philippines, and Portugal created a shared working-class cuisine. Representative Local dishes are the plate lunch, shoyu ahi poke, loco moco, and Spam musubi, alongside Native Hawaiian kalua pork, laulau, poi, and lomi salmon.",
+  "label": "Hawaiian / Local",
+  "subtitle": "Shoyu, poke, kālua, plantation plates",
+  "about": "Across the volcanic Hawaiian archipelago (Oʻahu/Honolulu, Maui, Kauaʻi, and Hawaiʻi Island), culinary life spans two distinct traditions: Indigenous Native Hawaiian (Kānaka ʻŌiwi) foodways built on taro (kalo), sweet potato, breadfruit, reef fish, and imu earth-oven roasting, and contemporary Hawaii 'local food' forged in 19th–20th-century plantation camps and mid-century diners. A recipe app should default to Hawaii local food—which blends Native Hawaiian elements with Japanese, Chinese, Filipino, Korean, and Portuguese cooking plus American pantry staples like Spam and mayonnaise—while clearly labeling Native Hawaiian dishes as a distinct Indigenous heritage layer. Representative dishes include shoyu or ʻinamona poke, kālua pork, laulau, loco moco, saimin, and two-scoop rice-and-mac-salad plate lunches.",
   "flavors": [
-   "shoyu (醤油, Hepburn: shōyu, local mildly sweet soy sauce)",
-   "goma-abura (ごま油, Hepburn: goma-abura, toasted sesame oil)",
-   "pa'akai 'alaea (Hawaiian red iron-oxide mineral sea salt)",
-   "'inamona (Hawaiian roasted, salted crushed kukui candlenut)",
-   "limu / ogo (Hawaiian limu; Japanese オゴ, Hepburn: ogo, edible seaweed)",
-   "negi (ネギ, Hepburn: negi, green onion / scallion)",
-   "tamanegi (玉ねぎ, Hepburn: tamanegi, Maui or sweet yellow onion)",
-   "shoga (生姜, Hepburn: shōga, fresh ginger)",
-   "ninniku (大蒜 / にんにく, Hepburn: ninniku, garlic)",
-   "gochugaru / togarashi (고춧가루, Revised Romanization: gochugaru; 唐辛子, Hepburn: tōgarashi, Korean chili powder or red pepper flakes)",
-   "wuxiangfen (五香粉, pinyin: wǔxiāngfěn, Chinese five-spice powder, used in local char siu)",
-   "furikake (振り掛け, Hepburn: furikake, nori-sesame rice seasoning)"
+   "Paʻakai / ʻalaea salt (Hawaiian sea salt or red volcanic-clay sea salt; Hawaiian orthography)",
+   "Shōyu (soy sauce, typically milder, slightly sweeter Hawaii-brewed styles such as Aloha Shoyu; Hepburn)",
+   "ʻInamona (roasted, salted, crushed kukui/candlenut relish; Hawaiian orthography)",
+   "Limu / ogo (edible seaweeds such as limu manauea / Gracilaria; Hawaiian/local Japanese)",
+   "Shōga (fresh ginger; Hepburn)",
+   "Gomabura (toasted sesame oil; Hepburn)",
+   "Furikake (dried seaweed, sesame, and bonito/egg rice seasoning; Hepburn)",
+   "Maui sweet onion & negi (mild sweet yellow bulb onion and green onion/scallion)",
+   "Hōyū / oyster sauce (Cantonese-style oyster sauce, used in stir-fries and plate-lunch gravies)",
+   "Patis or bagoong (Filipino fish sauce or fermented shrimp/fish paste)",
+   "Suka / cane or cider vinegar & garlic (Filipino adobo and Portuguese vinha d'alhos marinade base)",
+   "Chili pepper water / nīoi (bird's-eye chiles steeped in salted water or vinegar, everyday local table condiment)"
   ],
   "sweet_only": [
-   "lilikoi (passion fruit; primarily used in juices, jams, and sweets, occasionally fish glazes)",
-   "pineapple (fresh fruit, dried snacks, cookies, and cocktail garnishes — not everyday savory cooking)"
+   "Waiū niu (coconut milk/cream, classic in haupia pudding and kūlolo; rarely used in traditional Native Hawaiian or everyday local savory dishes)",
+   "Li hing mui powder (salty-sour dried plum powder dusted on fresh fruit, candies, and shaved ice)",
+   "Kinako & azuki (roasted soybean flour and sweetened red bean paste in local Japanese/Okinawan sweets like chi chi dango and andagi)",
+   "Cinnamon-sugar (classic coating for Portuguese malasadas)"
   ],
   "signature_ingredients": [
-   "sashimi-grade ahi (yellowfin or bigeye tuna) or tako (octopus) -> verified sushi-grade or sashimi-grade tuna or salmon from a fish counter (choose only fish handled for raw consumption)",
-   "limu / ogo (Hawaiian seaweed) -> dried wakame or hijiki (US supermarket Asian aisle, rehydrated and chopped)",
-   "'inamona (roasted kukui candlenut) -> finely chopped toasted macadamia nuts with coarse sea salt",
-   "kalo / poi (fermented taro paste) and lu'au taro leaves -> none for true poi in standard US supermarkets (taro corms appear only in specialty/Asian markets)",
-   "ti and banana leaves (for imu kalua pig and laulau) -> none in standard US supermarkets (heavy foil traps steam in oven adaptations without leaf aroma)",
-   "Portuguese sausage -> mild smoked pork sausage or kielbasa (lacks exact island seasoning balance — LOW CONFIDENCE)"
+   "Kalo / poi / lūʻau leaves (wetland taro corm, fermented pounded poi, and young taro leaves for laulau) -> substitute: fresh taro root from Asian/Latin markets for boiled kalo; simmered baby spinach or collard greens for lūʻau leaves; no US supermarket substitute for poi (none)",
+   "Limu kohu / limu manauea / fresh ogo (crisp Hawaiian seaweeds for poke) -> substitute: plain unseasoned wakame or hijiki (softer texture, milder sea flavor)",
+   "ʻInamona / kukui nut (roasted candlenut, Aleurites moluccanus) -> substitute: finely chopped toasted macadamia nuts mixed with flaky sea salt (note tree-nut allergy)",
+   "Sashimi-grade ʻahi (yellowfin/bigeye tuna) or tako (octopus) -> substitute: sushi-grade ahi tuna or wild salmon from a fishmonger",
+   "Hawaii-style Portuguese sausage (smoked, garlicky pork sausage derived from linguiça) -> substitute: Portuguese linguiça or Spanish chorizo (usually less smoky)",
+   "Kī / ti leaves (Cordyline fruticosa leaves for wrapping laulau) -> substitute: banana leaves (Asian/Latin freezer aisle) or parchment paper wrapped in heavy foil",
+   "Saimin noodles & dried shrimp (ebi) dashi -> substitute: thin crinkled ramen noodles (discard seasoning packet) with dashi simmered from dried shrimp and kombu"
   ],
   "pantry_assumed": [
-   "short- or medium-grain white rice",
-   "local-style shoyu (such as Aloha Shoyu)",
-   "toasted sesame oil",
-   "canned Spam",
-   "mayonnaise and elbow macaroni (for plate-lunch mac salad)",
-   "garlic, ginger, green onions, and sweet or yellow onions",
-   "nori sheets and furikake"
+   "Short- or medium-grain white rice (Calrose-style, cooked in a rice cooker)",
+   "Aloha Shoyu or mild Japanese-style soy sauce",
+   "Toasted sesame oil",
+   "Furikake",
+   "Best Foods / Hellmann's mayonnaise (for plate-lunch macaroni salad and spicy ahi poke)",
+   "Spam (canned spiced ham, for musubi and saimin)",
+   "Oyster sauce and mirin",
+   "Sweet onions and green onions",
+   "Fresh ginger and garlic",
+   "ʻAlaea or coarse sea salt"
   ],
   "techniques": [
-   "Raw fish curing and gentle tossing (poke) or hand-massaging salted salmon with tomatoes and scallions (lomi)",
-   "Underground hot-rock steaming wrapped in ti and banana leaves (imu for kalua pork and laulau; adapted via slow roasting/braising)",
-   "Pan-searing and glazing (Spam for musubi, North Shore garlic butter shrimp, loco moco hamburger patties)",
-   "Steaming and simmering rice-and-noodle comfort dishes (manapua pork buns, saimin noodle broth)"
+   "Kālua / imu earth-oven steaming (slow-steaming wrapped pork or fish over hot lava rocks; approximated at home by salting pork shoulder, adding liquid smoke, wrapping tightly in banana leaves/foil, and slow-roasting or pressure-cooking)",
+   "Poke curing and light tossing (cubing raw sashimi-grade fish and gently tossing with paʻakai/shōyu, sesame oil, ogo, sweet onion, scallions, and ʻinamona right before serving)",
+   "Plate-lunch and bento assembly (pairing teriyaki, katsu, or kalbi mains with two scoops of sticky rice and cold mayonnaise macaroni salad)",
+   "Sweet-savory soy/vinegar braising (shoyu chicken, Filipino adobo, Portuguese vinha d'alhos, and char siu glazes)",
+   "Parcel steaming (laulau: wrapping salted pork and butterfish inside taro leaves and an outer ti-leaf jacket and steaming until meltingly tender)"
   ],
   "shortcuts": [
-   "Aloha Shoyu (Original): contains water, wheat gluten, salt, sugar, fermented soybeans, caramel color, and preservatives; retail label lists 780 mg sodium (~1.95 g salt equiv) and 1 g sugar per 15 mL (1 tbsp), matching OpenFoodFacts values of 12.67-13.0 g salt per 100 mL. Omit ~1.95 g salt per 15 mL added, or mimic with slightly diluted standard soy sauce plus 1 g sugar per 15 mL.",
-   "Aloha Shoyu Poke Sauce (Tanioka's): contains soy sauce, water, ginger, chili sauce, and garlic; retail page lists 470 mg sodium (~1.18 g salt equiv) per serving (serving weight unprinted — LOW CONFIDENCE on per-100 g salt).",
-   "NOH Chinese Barbecue Char Siu Seasoning Mix (72 g pouch): contains cane sugar, salt, powdered soy sauce, 5-spice, onion, garlic, and Red 3; label lists 2,220 mg sodium (~5.55 g salt equiv) and 66 g sugar per 72 g pouch (370 mg sodium per 12 g serving) — swap 1 pouch with 66 g sugar + ~5.6 g salt + five-spice, onion powder, and garlic powder.",
-   "NOH Kalua Seasoning Salt and Japanese Hon Dashi bonito base appear in local recipes, though exact label salt figures were unverified in consulted texts (LOW CONFIDENCE)."
+   "Aloha Shoyu Original Blend (15 mL / 1 tbsp): contains water, wheat gluten, salt, sugar, fermented soybeans, caramel color, and preservatives. Supplies 780 mg sodium (~1.98 g salt per tbsp; Aloha Lower Salt has 620 mg sodium / ~1.58 g salt per tbsp). It is ~15–20% less salty and slightly sweeter than standard Kikkoman (~920–960 mg sodium / ~2.4 g salt per tbsp), so add ~0.4 g extra salt (or a pinch of sugar) if swapping in standard mainland soy sauce 1:1.",
+   "NOH Foods Original Hawaiian Poke Mix (11.2 g / 0.4 oz packet for 454 g / 1 lb fish): contains Hawaiian salt, dried ogo seaweed, and chili pepper; supplies ~2,640 mg sodium (~6.7 g salt per 11.2 g packet, ~60% salt by weight). Omit added paʻakai and reduce shōyu when using this packet.",
+   "NOH Foods Kalua Seasoning Salt: contains Hawaiian salt, smoke flavor, and spices; supplies 372 mg sodium per 1.5 g (1/4 tsp) = ~0.63 g salt per gram (~63% salt by weight). Swap in at ~1.6 g mix per 1 g table salt omitted.",
+   "NOH Foods Chinese Barbecue (Char Siu) Mix (71 g / 2.5 oz packet): contains cane sugar, salt, powdered soy sauce (wheat, soybeans), five-spice, garlic/onion powder, and Red No. 3; supplies ~2,840 mg sodium (~7.2 g salt per 71 g packet). Omit ~7 g table salt per full packet.",
+   "Lee Kum Kee Panda Brand Oyster Sauce (19 g / 1 tbsp): contains water, sugar, oyster extract, salt, modified corn starch, MSG, wheat flour, and caramel color; supplies 870 mg sodium (~2.2 g salt per tbsp)."
   ],
   "allergen_notes": [
-   "Local Hawaii condiments carry dense US Top 9 allergens: local shoyu (including Aloha Shoyu), poke sauces, and NOH char siu mixes contain wheat (wheat gluten) and soy; toasted sesame oil and furikake contain sesame; traditional 'inamona (kukui nut) and its macadamia (or peanut) substitutes trigger tree-nut and peanut warnings; Hon Dashi used in saimin broths contains fish (bonito); ahi, tako, and garlic shrimp introduce fish and shellfish; and macaroni salad mayonnaise plus loco moco add egg and milk."
+   "Soy and wheat: pervasive across shōyu (Aloha Shoyu contains wheat gluten and soybeans), teriyaki marinades, char siu mixes, oyster sauce (wheat flour), katsu breading, and saimin noodles.",
+   "Fish and shellfish: saimin broth and dashi often rely on dried shrimp (ebi, crustacean shellfish) and bonito (fish); oyster sauce contains oysters (molluscan shellfish); Filipino patis (fish) and bagoong (shrimp/fish); poke and salted butterfish in laulau.",
+   "Sesame: toasted sesame oil, sesame seeds, and furikake are standard in poke, kalbi, and rice seasonings.",
+   "Egg and milk: Best Foods mayonnaise in plate-lunch macaroni salad and spicy ahi (egg), loco moco fried egg, katsu/meat jun egg dips, and Portuguese malasadas/pão doce (milk, egg, wheat).",
+   "Tree nuts: macadamia nuts are a regulated US major tree nut in local baked goods and fish crusts. Kukui nut (candlenut) in ʻinamona is botanically a tree nut and can trigger reactions clinically even though it is not on the FDA's 2025 statutory tree-nut labeling list (FDA also removed coconut from that list in January 2025, though coconut allergies remain clinically real)."
   ],
   "pitfalls": [
-   "Putting pineapple on everything (pizza, burgers, chicken, skewers, or poke) — a mainland tiki and 'Polynesian Pop' cliché rather than authentic Native Hawaiian or Local cooking.",
-   "Conflating Native Hawaiian cuisine with everyday plantation Local Food; avoid labeling Spam musubi, loco moco, or plate lunches as traditional Native Hawaiian food (default to Local Food and tag Native Hawaiian dishes separately).",
-   "Turning poke into an overloaded mainland salad bowl piled with avocado, cucumber, mango, and spicy mayo instead of clean cubed ahi lightly seasoned with shoyu, sesame oil, onions, 'alaea salt, limu, and 'inamona.",
-   "Inventing unverified Filipino-Local condiment details; while Filipino plantation labor shaped the plate lunch, specific Filipino-Local condiments or dishes were not documented in the consulted texts (LOW CONFIDENCE)."
+   "The pineapple-on-everything tourist cliché: adding canned pineapple chunks or pineapple juice to savory 'Hawaiian' chicken, meatballs, burgers, or poke reflects 20th-century plantation export marketing, not Native Hawaiian or everyday local cooking; 'Hawaiian pizza' (ham and pineapple) was invented in Chatham, Ontario, Canada in 1962.",
+   "Conflating Native Hawaiian food with local food: treating Spam musubi, plate lunches, or loco moco as Indigenous Hawaiian cuisine—or failing to distinguish Native staples like poi, kalo, and laulau from plantation-era multiethnic local dishes.",
+   "Mainland fast-casual poke bowls: burying lightly seasoned raw fish under kale, quinoa, mango, edamame, corn, and creamy sriracha sauces rather than letting fresh fish, shōyu, sesame oil, ogo, Maui onion, and ʻinamona shine over plain rice.",
+   "Overusing coconut milk in savory recipes: unlike Thai or Samoan cooking, traditional Hawaiian and local savory dishes rarely call for coconut milk.",
+   "Undercooking kalo (taro) or using raw kukui nuts: raw taro contains irritating calcium oxalate crystals, and raw candlenuts are mildly toxic until thoroughly roasted."
   ],
   "sources": [
-   "https://www.researchgate.net/publication/310768496_Homegrown_Cuisines_or_Naturalized_Cuisines_The_History_of_Food_in_Hawaii_and_Hawaii's_Place_in_Food_History",
-   "https://vdoc.pub/documents/the-food-of-paradise-exploring-hawaiis-culinary-heritage-5vnh8f7idod0",
-   "The Food of Paradise: Exploring Hawaii's Culinary Heritage, Rachel Laudan, 1996",
-   "https://dokumen.pub/hawaii-regional-cuisine-the-food-movement-that-changed-the-way-hawaii-eats-9780824879518.html",
-   "https://www.researchgate.net/publication/365972879_Using_Authenticity_Exoticism_and_Creativity_to_Express_Deliciousness_and_Valorize_Food_Signifying_Good_Taste_in_Food_on_Yelp",
-   "https://tikikulture.com/food-recipes/",
-   "https://sobremesapress.com/world/traditional-american-food/",
-   "https://giftbasketdelivery.com/blogs/state-fruit/hawaii-state-fruit",
-   "https://feedthepudge.com/traditional-hawaiian-style-ahi-poke/",
-   "https://www.abeautifulplate.com/shoyu-ahi-poke/",
-   "https://www.safeway.com/shop/pd/aloha-specialty-food-shoyu-24-oz/127051010",
-   "https://world.openfoodfacts.org/product/0873934002026/aloha-soy-sauce-aloha-shoyu-company-ltd",
-   "https://www.mercato.com/item/aloha-shoyu-poke-sauce-taniokas-12-ounces/737056",
-   "https://www.heb.com/product-detail/noh-of-hawaii-chinese-barbecue-char-siu-seasoning-mix/180058"
+   "The Food of Paradise: Exploring Hawaii's Culinary Heritage, Rachel Laudan (1996, University of Hawaiʻi Press)",
+   "https://www.tandfonline.com/doi/full/10.1080/15528014.2016.1208322",
+   "Kau Kau: Cuisine & Culture in the Hawaiian Islands, Arnold T. Hiura (2009, Watermark Publishing)",
+   "https://scholarspace.manoa.hawaii.edu/bitstreams/b56be503-7474-4abd-b786-b5a11917bc7b/download",
+   "https://en.wikipedia.org/wiki/Cuisine_of_Hawaii",
+   "https://en.wikipedia.org/wiki/Native_cuisine_of_Hawaii",
+   "https://www.smithsfoodanddrug.com/p/aloha-soy-sauce/0087393400204",
+   "https://www.fda.gov/food/food-allergensgluten-free-guidance-documents-regulatory-information/frequently-asked-questions-food-allergen-labeling-guidance-industry"
   ]
  },
  {
   "id": "colombian",
   "label": "Colombian",
-  "subtitle": "Hogao, aji, cumin, annatto, cilantro",
-  "about": "Colombian cuisine spans northwestern South America across six sharply contrasting regions: the cool Andean highlands (Bogota, Medellin, Boyaca), the tropical Caribbean and Pacific coasts, the eastern Orinoquia (Llanos) plains, the Amazon, and the islands. Shaped by Indigenous, Spanish, African, and Levantine (Lebanese and Palestinian) traditions, it has no single national dish, so an app should default to mild Andean everyday pantry cooking while tagging coastal coconut seafood and Llanos beef-and-plantain traditions separately. Representative dishes include Andean ajiaco, bandeja paisa, and sancocho alongside Caribbean coconut rice (arroz con coco).",
+  "subtitle": "Hogao, cumin, guascas, coconut rice",
+  "about": "Stretching across high Andean cordilleras and valleys (Bogotá, Medellín, Cali, Santander), a tropical Caribbean coast (Cartagena, Barranquilla), a rainforest-lined Pacific coast (Chocó, Buenaventura, Tumaco), and the Orinoco savannas (Llanos Orientales), Colombia comprises sharply distinct regional cuisines shaped by Indigenous (Muisca, Tairona), Spanish, Afro-Colombian, and coastal Arab-Lebanese traditions. A recipe app should treat Andean interior home cooking—built on hogao (scallion, tomato, cumin, achiote), cilantro, panela, rice, potatoes, beans, plantains, and hearty soups like ajiaco santafereño, sancocho, and bandeja paisa—as the default baseline because it represents everyday home meals for most Colombians. Coastal and plains cooking diverge markedly, trading Andean potatoes and dairy for Caribbean coconut milk, titoté, and suero costeño, Pacific hierbas de azotea seafood stews (encocado), or open-fire Llanos beef (mamona).",
   "flavors": [
-   "hogao (traditional Colombian savory cooking sauce; exact household recipe unitemized in consulted sources — LOW CONFIDENCE)",
-   "aji (tabletop chile pepper condiment, usually served on the side)",
-   "achiote / color (annatto)",
-   "comino (ground cumin)",
-   "ajo (garlic)",
-   "cebolla (onion)",
-   "cilantro (coriander leaf)",
-   "curcuma (turmeric)",
-   "pimienta negra (black pepper)",
-   "hierbas de azotea (Pacific 'rooftop herbs'; individual species not itemized in consulted sources — LOW CONFIDENCE)",
-   "salsa negra (Colombian dark savory condiment sauce)"
+   "Cebolla larga / cebolla junca (thick-stalked scallion, foundational aromatic of hogao)",
+   "Cilantro (fresh coriander leaf)",
+   "Comino molido (ground cumin—primary warm spice in aliños and meats)",
+   "Achiote / bija / color (ground annatto seeds or infused oil for golden color and mild earthy flavor)",
+   "Ajo (garlic)",
+   "Guascas (Galinsoga parviflora / gallant soldiers—signature herb of Bogotá ajiaco)",
+   "Ají dulce (sweet, mild Capsicum chinense pepper widely used on the Caribbean coast)",
+   "Ají picante (tabletop raw chile-scallion-cilantro sauce served on the side—heat is rarely cooked heavily into main dishes)",
+   "Hierbas de azotea (Pacific coast aromatic herb group: chillangua/culantro [Eryngium foetidum], chirarán/basil [Ocimum basilicum], and poleo [Clinopodium brownei])",
+   "Panela (unrefined whole cane sugar used in aguapanela, savory Caribbean posta negra, and stews)",
+   "Limón criollo o Tahití (key or Persian lime, used in marinades, ají, and soups)",
+   "Pimentón rojo o verde (sweet red or green bell pepper, common in coastal guisos and rice)"
   ],
-  "sweet_only": [],
+  "sweet_only": [
+   "Arequipe (Colombian caramelized-milk dulce de leche spread for obleas, milhojas, and figs)",
+   "Esencia de vainilla (vanilla extract in eggless natilla, tres leches, and sabajón)",
+   "Anís en grano (anise seed in sweets and warm spiced drinks like canelazo; rarely in everyday savory dishes)"
+  ],
   "signature_ingredients": [
-   "papa criolla (small yellow Andean potatoes) -> baby Yukon Gold potatoes (firmer texture — LOW CONFIDENCE)",
-   "platano (green and ripe plantains) -> US supermarket large produce-section plantains; none if green plantains are unavailable",
-   "yuca (cassava) -> frozen peeled yuca in US Latin/freezer aisles, or waxy potatoes in sancocho (alters texture)",
-   "cuajada (fresh curd cheese, used in Llanos majule) -> drained mild queso fresco or farmer's cheese (LOW CONFIDENCE)",
-   "maize / arepa flour (for arepas) -> specialty Colombian arepa flour in US supermarket Latin aisles; none if only coarse cornmeal is stocked (LOW CONFIDENCE)",
-   "piangua (Pacific mangrove shellfish) -> none (clams or mussels only loosely approximate — LOW CONFIDENCE)"
+   "Guascas (fresh or dried Galinsoga parviflora herb for ajiaco) -> substitute: none (a mix of dried oregano, parsley, and a touch of cilantro is occasionally tried abroad, but does not replicate classic ajiaco flavor)",
+   "Papa criolla (small yellow thin-skinned Andean potato that dissolves to thicken soups) -> substitute: peeled baby Yukon Gold potatoes (simmer longer and mash a portion to thicken broth)",
+   "Masarepa / harina de maíz precocida (precooked cornmeal for Colombian arepas, distinct from Mexican masa harina) -> substitute: Goya Masarepa or P.A.N. precooked cornmeal in US Latin aisles (do not use nixtamalized Mexican Maseca unless making regional Santander-style pelado arepas)",
+   "Queso costeño (firm, salty Caribbean fresh cow's-milk cheese) & cuajada (unsalted fresh curd) -> substitute: lightly rinsed feta mixed with queso fresco for queso costeño; drained ricotta or farmer's cheese for cuajada",
+   "Suero costeño (cultured, tangy coastal sour cream) -> substitute: thick Mexican crema or full-fat sour cream thinned slightly with buttermilk and a pinch of salt",
+   "Chillangua / cilantro cimarrón (Eryngium foetidum, Pacific coast sawtooth coriander) -> substitute: culantro (Latin/Asian grocers) or double the quantity of fresh cilantro stems and leaves (milder)",
+   "Almidón de yuca agrio (fermented sour cassava starch for pandebono and pan de yuca) -> substitute: sweet tapioca starch (gives chewiness without the fermented tang)",
+   "Yuca (cassava root) & plátano verde / maduro (green and ripe plantains) -> substitute: fresh or frozen yuca and green/black-spotted plantains in US produce/freezer aisles"
   ],
   "pantry_assumed": [
-   "hogao (or savory cooking-sauce ingredients)",
-   "tabletop aji sauce",
-   "white rice",
-   "dried beans, potatoes, cassava, or plantains",
-   "arepas or maize flour",
-   "garlic, cumin, and annatto (achiote / color)",
-   "commercial seasoning/bouillon cubes or powders (such as Ricostilla, Triguisar, or Dona Gallina — often)"
+   "Cebolla larga (scallions)",
+   "Tomate chonto (ripe plum tomatoes for hogao)",
+   "Cilantro fresco (fresh cilantro)",
+   "Comino molido (ground cumin)",
+   "Color / achiote (annatto coloring)",
+   "Ajo (garlic)",
+   "Arroz blanco de grano largo (long-grain white rice)",
+   "Panela (unrefined cane sugar blocks)",
+   "Aceite vegetal (neutral vegetable oil)",
+   "Cubos de caldo (bouillon cubes such as Maggi, Doña Gallina, or Ricostilla)"
   ],
   "techniques": [
-   "Simmering savory hogao bases and perfuming broths with annatto, cumin, and Pacific hierbas de azotea",
-   "Gentle, long simmering of multi-starch, multi-meat soups and stews (ajiaco, sancocho, Andes tripe stew)",
-   "Griddling arepas and frying stuffed maize, cassava, and plantain items (arepa e' huevo, carimanolas, empanadas, aborrajados)",
-   "Simmering seafood in coconut milk (encocao), wrapping fish or tamals in plantain leaves (pandao, piangua tamal), and cold-curing ceviches"
+   "Hogao / refrito (slowly sweating finely chopped scallions, garlic, ripe tomato, oil, cumin, and achiote until jammy as the Andean mother sauce; Pacific cooks omit tomato in favor of coconut/neutral oil and hierbas de azotea)",
+   "Sudado (covered braising of chicken, beef, or pork with hogao, potatoes, and yuca so steam and pan juices form a savory sauce)",
+   "Fritura en caldero y patacones (twice-frying green plantains—fried, smashed flat, and refried crisp—and deep-frying empanadas or carimañolas in heavy calderos)",
+   "Titoté (simmering first-press coconut milk on the Caribbean coast until oil separates and brown caramelized coconut solids form before cooking arroz con coco)",
+   "Asado a la llanera (slow-roasting skewered young beef cuts—mamona—upright around an open hardwood fire on the Llanos plains)"
   ],
   "shortcuts": [
-   "Triguisar / La Gran Cocina Condimento en Polvo (70 g): contains cumin, corn/rice starch, black pepper, annatto, turmeric, garlic, and Yellow 5; DISPUTED SALT (LOW CONFIDENCE) — UK listing claims no salt, Danish listing includes salt in ingredients yet prints 0 g in nutrition table, and Lebanese/Polish sites warn of high salt. Always check the box; a popular food-blog DIY swaps 1 tbsp each annatto, turmeric, garlic powder, cumin, and black pepper + 1 tsp salt (2,344 mg sodium / ~5.86 g salt per batch).",
-   "Ricostilla Caldo de Costillas Cubes (Quala): contains salt (~55%), rice flour, beef rib flavorings, sugar, hydrogenated fat, MSG, inosinate/guanylate, onion, celery, parsley, garlic, and pepper; OpenFoodFacts cube panel lists 48.18 g salt (19.27 g sodium) per 100 g (powder page prints inconsistent 13.23 g salt — LOW CONFIDENCE). Omit ~4.82 g salt per 10 g cube used.",
-   "Dona Gallina (Ricompleto): widely stocked Colombian bouillon, though exact ingredient and sodium panels were absent in consulted sources (LOW CONFIDENCE)."
+   "Triguisar / Condimento Completo (~68–70 g packet): usually contains cumin, corn flour, rice flour, black pepper, Tartrazine (FD&C Yellow No. 5 / E-102), salt, garlic, annatto, and turmeric. Salt differs sharply between domestic Colombian and US-export versions: Colombian Triguisar lists ~28 g salt per 100 g (0.28 g salt/g), whereas US-distributed El Rey/Triguisar (USDA Branded Food) lists only ~10 mg sodium per 0.5 g (~5% salt by weight). Check the package before salting; reduce table salt by ~1.4 g per 5 g (1 tsp) of high-salt domestic Triguisar.",
+   "Ricostilla (Quala beef-rib bouillon) & Caldo de Gallina Maggi / Doña Gallina (9–11 g cubes): contain ~54–56% salt by weight (~5.0–6.2 g salt per cube, or ~1.2 g salt per 2 g serving of Ricostilla), plus MSG/disodium guanylate/inosinate, rice/corn flour, hydrogenated vegetable fat, sugar, and spice extracts. To use in 1 L of soup or stew, dissolve 1–2 cubes and omit ~5–11 g (1–2 tsp) of table salt.",
+   "Commercial Color / Sazón packets: ground annatto blended with cornmeal, turmeric, and cumin, typically 0–5% salt (LOW CONFIDENCE across unstandardized brands; check label for sodium)."
   ],
   "allergen_notes": [
-   "Core Colombian spices, hogao, and aji are largely free of US Top 9 allergens, though milk enters through fresh curd (cuajada) dishes like majule and cheese breads like pandebono, eggs appear in dishes like tenderloin on horseback and arepa e' huevo, and coastal cooking relies on fish and shellfish. Reviewed Triguisar and Ricostilla panels declare celery (an EU major allergen) rather than US Top 9 allergens, but salsa negra and Dona Gallina labels lacked full verification in consulted sources and should be checked for hidden soy, wheat, or fish."
+   "Peanuts: ground toasted peanuts are a classic sauce and filling base in Cauca/Popayán specialties such as ají de maní and empanadas de pipián—an easy-to-miss regional allergen outside Bogotá/Medellín.",
+   "Milk: pervasive in Andean and Caribbean dairy staples including queso costeño, cuajada, suero costeño, changua (breakfast milk-and-egg soup), pandebono, arequipe, and natilla; commercial Caldo Maggi also carries a 'may contain milk' warning.",
+   "Egg: coastal arepa de huevo (fried corn cake enclosing a whole egg), changua, and huevos pericos.",
+   "Fish and shellfish: central to Caribbean (mojarra, arroz de lisa, cazuela de mariscos) and Pacific (encocado, piangua clams, shrimp) coastal dishes; Caldo Maggi carries a 'may contain fish' warning.",
+   "Wheat / gluten: some export Triguisar labels list wheat flour or gluten cross-contact warnings, and Caldo Maggi carries 'may contain gluten and soy' warnings, though traditional corn/cassava arepas, pandebono, and empanadas are usually wheat-free."
   ],
   "pitfalls": [
-   "Making Colombian main dishes aggressively fiery; traditional cooking is mild and aromatic (though hot peppers appear in some recipes), with heat commonly adjusted at the table via aji.",
-   "Collapsing all six regions into bandeja paisa or ajiaco, ignoring Caribbean and Pacific coconut-milk seafood dishes (arroz con coco, encocao) and Llanos beef and plantain-curd traditions.",
-   "Assuming one fixed salt number for Triguisar despite conflicting export labels, or failing to subtract ~4.82 g salt per 10 g Ricostilla cube.",
-   "Overclaiming unverified botanicals: guascas (absent from the consulted Cancilleria guide), individual species inside Pacific hierbas de azotea, and sweet-only dessert flavorings were not documented in the consulted texts (LOW CONFIDENCE)."
+   "Making Colombian dishes chile-hot: classic everyday dishes (ajiaco, bandeja paisa, sancocho, sudado) are mild and savory; chile heat belongs in optional raw ají served on the side.",
+   "Confusing Colombian and Venezuelan arepas: everyday Colombian arepas (e.g., arepa paisa) are usually thinner grilled/baked patties eaten plain, buttered, or topped with cheese as a side (aside from fried coastal arepa de huevo), not thick split pockets stuffed with shredded stews.",
+   "Inserting Mexican ingredients: adding jalapeños, chipotle, flour tortillas, tomatillos, Mexican sour cream, or black beans (Colombia predominantly cooks red/pinto cargamanto beans or lentils, and builds dishes on hogao and cebolla larga).",
+   "Ignoring regional boundaries: adding heavy dairy to a Pacific encocado (which calls for coconut milk and hierbas de azotea) or substituting parsley or basil for guascas in Bogotá ajiaco.",
+   "Adding eggs to Colombian natilla: unlike Spanish egg custard, Colombian Christmas natilla is thickened strictly with cornstarch, milk, panela, and cinnamon."
   ],
   "sources": [
+   "Biblioteca Básica de Cocinas Tradicionales de Colombia: Manual Introductorio, Ministerio de Cultura de Colombia (2012)",
+   "https://patrimonio.mincultura.gov.co/Paginas/Publicaciones-biblioteca-cocinas.aspx",
+   "Gran libro de la cocina colombiana, Carlos Ordóñez Caicedo (Ministerio de Cultura de Colombia)",
+   "https://siise.bibliotecanacional.gov.co/BBCC/Documents/View/213",
    "https://www.cancilleria.gov.co/sites/default/files/FOTOS2025/ColombianCuisineForTheWorld.pdf",
-   "Gran Libro de la Cocina Colombiana, Biblioteca Basica de Cocinas Tradicionales de Colombia Vol. 09, Carlos Ordonez Caicedo, 2012",
-   "https://www.researchgate.net/profile/Jorge_Melo4/publication/275715946_Alimentacion_y_cocina_Bibliografia_basica/links/5854297d08ae81995eb1cfdc/%5Cl%20%22_Toc408498392%22",
-   "https://osf.io/download/g34t8/",
-   "https://esimglobe.com/th/blogs/news/guide-colombia-cuisine-of",
-   "https://tasteoflatinamerica.dk/english_en/triguisar-70g.html",
-   "https://www.u-buy.co.uk/product/O7F6V28-triguisar-colombian-seasoning-mix-3-pack",
-   "https://www.ubuy.com.lb/en/product/O7F6V28-triguisar-colombian-seasoning-mix-3-pack",
-   "https://afromarket.pl/product/la-gran-cocina-color-70g-triguisar/",
-   "https://www.mycolombianrecipes.com/homemade-powdered-seasoning/",
-   "https://world.openfoodfacts.org/product/7702354012427/caldo-de-costillas-ricostilla",
+   "https://patrimonio.mincultura.gov.co/Documents/Biodiversidad%20Pac%C3%ADfico%20final.pdf",
+   "Colombiana: A Rediscovery of Recipes and Rituals from the Soul of Colombia, Mariana Velásquez (2021, Harper Wave)",
+   "https://www.biovirtual.unal.edu.co/nombrescomunes/detalle/ncientifico/19129/",
+   "https://en.wikipedia.org/wiki/Colombian_cuisine",
    "https://world.openfoodfacts.org/product/7702354946036/ricostilla-quala"
   ]
  }
