@@ -257,7 +257,7 @@ Antigravity, each for both continents); Bryan chose Antigravity for both.
 - **Colombian hogao:** cumin and achiote are common additions, not the core (scallion and tomato).
 - **Quebecois:** "oreilles de crisse" is a Quebec swear form; write "oreilles de Christ" or "fried salt pork".
 - **Field shapes:** allergen notes and pitfalls came as lists in the Americas file; the checker flattens them.
-- **Labels:** "Hawaiian / Local" (Antigravity) vs. "Hawaiian & Local" (Gemini): pick one.
+- **Label:** use "Hawaiian & Local" (decided), not Antigravity's "Hawaiian / Local".
 
 **Decided with Bryan (2026-11-13):**
 1. **Finland stays in Nordic.** Its seasoning (salt, allspice, black pepper, dill) is nearly Sweden's; what
@@ -267,6 +267,9 @@ Antigravity, each for both continents); Bryan chose Antigravity for both.
    themselves as European ("Caucasus" is the neutral term; EU candidate since 2023). Check the Europe map reaches
    far enough east to show Georgia.
 
-**Recommended by both Gemini and Antigravity, not yet confirmed by Bryan:**
-- **German default:** neither Bavaria nor Hamburg; a plain pan-German baseline.
-- **Hawaiian default:** Local food, with Native Hawaiian dishes named as such.
+3. **German default:** one everyday style for the whole country, neither Bavarian nor northern; Bavarian,
+   Swabian or northern dishes only when the user's ingredients or request point there.
+4. **Hawaiian default:** everyday island "local food" (plate lunch, poke, kalua pork, saimin, shoyu chicken).
+   Native Hawaiian food (poi, laulau, kalo) is part of what people in Hawaii eat, so it sits inside that default,
+   but recipes name it as Native Hawaiian rather than calling plantation-era local dishes "Hawaiian". Chip label:
+   "Hawaiian & Local".
