@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_every_cuisine_builds_a_prompt():
     assert "from any cuisine or culture" in prompts.system_prompt(prompts.DEFAULT_AUDIENCE, prompts.NO_CUISINE)
     leaves = cuisines.leaves()
-    assert len(leaves) >= 71
+    assert len(leaves) >= 73
     for node in leaves:
         p = prompts.system_prompt(prompts.DEFAULT_AUDIENCE, node["id"])
         assert node["prompt_name"] in p
@@ -264,6 +264,25 @@ def test_legacy_ids_map_to_existing_leaves():
     leaf_ids = {n["id"] for n in cuisines.leaves()}
     for old_label, new_id in cuisines.LEGACY_IDS.items():
         assert new_id in leaf_ids, f"{old_label!r} mapped to non-leaf {new_id!r}"
+
+
+def test_new_england_seafood_resolves_to_new_england():
+    # Third batch (2026-11-15): New England replaced New England Seafood; saved chats keep resolving.
+    assert cuisines.get("us_new_england_seafood") is None
+    assert cuisines.resolve("us_new_england_seafood")["id"] == "us_new_england"
+    assert cuisines.resolve("New England Seafood")["id"] == "us_new_england"
+    assert cuisines.chip_label("us_new_england_seafood") == "New England"
+
+
+def test_third_batch_nodes_in_tree_order():
+    us = [n["id"] for n in cuisines.children("united_states")]
+    assert us[-2:] == ["us_new_england", "us_italian_american"]
+    italy = [n["id"] for n in cuisines.children("italy")]
+    assert italy == ["italy_any", "northern_italy", "roman_central_italy", "southern_sicilian_italy"]
+    italy_any = cuisines.get("italy_any")
+    assert not any("balsamic" in f for f in italy_any["flavors"])
+    assert "Italian-American" in italy_any["about"]
+    assert "meatballs" not in italy_any["about"]
 
 
 def test_no_raw_research_jargon_in_cuisines():

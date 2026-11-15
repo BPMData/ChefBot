@@ -76,6 +76,7 @@
     "children": [
       "italy_any",
       "northern_italy",
+      "roman_central_italy",
       "southern_sicilian_italy"
     ]
   },
@@ -84,7 +85,7 @@
     "kind": "any",
     "label": "Any",
     "subtitle": "Garlic, basil, red sauce, cheese",
-    "about": "This node deliberately represents the internationally recognized image of Italian food rather than a geographic region: pizza shops, red-sauce restaurants and diaspora kitchens made pasta, tomato sauce, garlic, basil and grated cheese global symbols of Italy. Much of this image was shaped by Italian migration to the Americas and later tourism and restaurant culture, so several famous dishes are export or Italian-American forms rather than everyday food across Italy. Representative dishes are spaghetti with meatballs, cream-style fettuccine Alfredo, pepperoni pizza and lasagna.",
+    "about": "The internationally recognized image of Italian food rather than one region: pizzerias, trattorias abroad, tourism and restaurant culture made pasta, tomato sauce, garlic, basil, olive oil and grated cheese global symbols of Italy. It keeps to dishes known all over the country and abroad, without the detail of a regional kitchen; for the red-sauce cooking of New York, New Jersey and Connecticut, choose Italian-American. Representative dishes are lasagna, spaghetti with tomato and basil, margherita pizza and cream-style fettuccine Alfredo, an export form.",
     "prompt_name": "Italian",
     "flavors": [
       "garlic (aglio)",
@@ -94,7 +95,6 @@
       "parsley (prezzemolo)",
       "black pepper (pepe nero)",
       "olive oil (olio d'oliva)",
-      "balsamic vinegar (aceto balsamico)",
       "anchovy (acciuga)",
       "rosemary (rosmarino)"
     ],
@@ -104,7 +104,7 @@
     "signature_ingredients": [
       "Parmigiano-style hard cheese (substitute: supermarket Parmesan)",
       "fresh mozzarella (substitute: low-moisture mozzarella for baked dishes)",
-      "prosciutto (substitute: thinly sliced cured ham)",
+      "prosciutto (substitute: speck or serrano ham; American deli ham is wet-cured and won't do)",
       "pancetta (substitute: unsmoked bacon if available; ordinary bacon is smokier)",
       "Arborio rice (substitute: another short-grain rice)"
     ],
@@ -115,9 +115,9 @@
       "Prepared Alfredo sauce is an international shortcut usually containing dairy, cheese, starches and salt; substitute only for the export-style sauce, not traditional Roman fettuccine al burro. Use 1:1 by weight for another finished Alfredo sauce and count label salt."
     ],
     "pitfalls": [
-      "This node is intentionally a cliché/export profile, so do not use it to police regional Italian authenticity.",
-      "Spaghetti with meatballs is Italian-American, cream-heavy Alfredo is primarily an export form, and pepperoni pizza is a diaspora/commercial development.",
-      "Avoid presenting these as universal Italian home traditions."
+      "This is the international, export-style image of Italian food, so do not use it to police regional Italian authenticity.",
+      "Cream-heavy Alfredo is primarily an export form; Rome's original fettuccine al burro is only butter and Parmigiano.",
+      "Spaghetti and meatballs, chicken parm, Sunday gravy and pepperoni pizza belong to Italian-American cooking; do not present them as everyday food in Italy."
     ],
     "avoid": [],
     "children": [],
@@ -164,6 +164,59 @@
       "Do not automatically add tomato, oregano or chile to northern dishes.",
       "Risotto should not be treated as boiled rice with cream; its texture traditionally comes from rice starch and mantecatura, and cream is dish-specific.",
       "Do not assume olive oil is absent: Liguria and other northern areas have strong olive-oil traditions."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "roman_central_italy",
+    "kind": "cuisine",
+    "label": "Roman & Central",
+    "subtitle": "Guanciale, pecorino, pepper, truffles, offal",
+    "about": "Spanning Lazio and Rome westward from the Tyrrhenian coast across the Apennine spine through Umbria, Abruzzo, and Marche to the Adriatic Sea, this cuisine links urban working-class Rome with rugged mountain shepherd pastures and oak truffle forests. Shaped by papal courts, Rome's historic Testaccio slaughterhouse workers and ancient Jewish Ghetto, Umbrian pork butchers (norcini), and Abruzzese sheep transhumance, it favors bold animal fats, sharp aged sheep's-milk pecorino, offal, mountain legumes, and restrained minimalist sauces rather than northern butter or southern citrus. Representative dishes include the four Roman pastas (cacio e pepe, gricia, amatriciana, carbonara), carciofi alla giudia, coda alla vaccinara, Umbrian truffle pasta, Abruzzese arrosticini, and Marche's vincisgrassi.",
+    "prompt_name": "Roman and Central Italian",
+    "flavors": [
+      "extra-virgin olive oil (olio extravergine d'oliva)",
+      "coarsely cracked black pepper (pepe nero)",
+      "garlic (aglio)",
+      "Roman mint, or lesser calamint (mentuccia, between mint and oregano)",
+      "rosemary (rosmarino)",
+      "wild fennel pollen or fennel seed (finocchietto, for porchetta)",
+      "chile (peperoncino, especially in Abruzzo)",
+      "salt-packed anchovies (acciughe sotto sale)",
+      "saffron (zafferano, from L'Aquila in Abruzzo)",
+      "dry white wine (vino bianco)",
+      "sage (salvia)",
+      "bay leaf (alloro)"
+    ],
+    "sweet_only": [
+      "anise or sambuca (anice)",
+      "cinnamon (cannella)",
+      "candied citron or orange peel (cedro, scorza d'arancia candita)",
+      "vanilla (vaniglia)"
+    ],
+    "signature_ingredients": [
+      "guanciale (cured pork jowl) (substitute: unsmoked pancetta; avoid smoked American bacon, which overwhelms carbonara and amatriciana)",
+      "Pecorino Romano DOP (substitute: aged Sardinian or Umbrian sheep's-milk pecorino; Parmigiano-Reggiano is sweeter and milder)",
+      "strutto / rendered pork lard (substitute: extra-virgin olive oil or rendered guanciale fat)",
+      "globe or Romanesco artichokes / mammole (substitute: trimmed globe artichokes with tender choke removed)",
+      "black winter or summer truffles from Norcia (substitute: fresh porcini or cremini mushrooms; avoid synthetic truffle oil)",
+      "Castelluccio lentils (substitute: French Puy lentils or small brown/green lentils that hold their shape)",
+      "quinto quarto beef/calf offal such as oxtail, tripe, or pajata (substitute: beef oxtail or chuck short ribs; pajata has no direct US supermarket equivalent)",
+      "puntarelle / Catalogna chicory shoots (substitute: Belgian endive or shaved radicchio stems for texture)"
+    ],
+    "tips": [
+      "An Italian bouillon cube (dado) is roughly half salt, about 5 to 5.7 g per 10 g cube (reduced-salt ones about 4 g); one cube in 500 g water replaces unsalted stock, with about 5 g less salt elsewhere in the recipe.",
+      "Jarred salsa tartufata (mushrooms, oil, black summer truffle, olives, salt and truffle aroma) runs roughly 1 to 1.5 g salt per 100 g, varying by brand; use 15 to 20 g per serving, thinned with starchy pasta water, and salt the sauce a little less.",
+      "Bottled passata (strained raw tomato puree) ranges from no added salt to about 0.5 g salt per 100 g, so check the label; it replaces peeled plum tomatoes passed through a food mill 1:1 by weight."
+    ],
+    "pitfalls": [
+      "Adding heavy cream, garlic, onions, peas, or smoked American bacon to Roman pasta alla carbonara or cacio e pepe.",
+      "Assuming Pecorino Romano DOP is made only in Lazio (about 92% is actually produced in Sardinia under DOP rules) or swapping sweet Parmigiano-Reggiano 1:1 without accounting for Pecorino's higher salt and sharpness.",
+      "Replacing mentuccia (lesser calamint) with sweet spearmint or peppermint, which turns carciofi alla romana overly toothpastey—a light blend of flat-leaf parsley, regular mint, and a pinch of oregano is closer.",
+      "Using artificial truffle oil on Umbrian dishes instead of fresh/preserved mushrooms, butter/olive oil, and real black truffle.",
+      "Conflating Roman & Central cooking with Tuscan (saltless bread, Chianina beef, heavy focus on Tuscan white beans and kale) or Southern Italian (heavy oregano, citrus, and tomato-heavy seafood)."
     ],
     "avoid": [],
     "children": [],

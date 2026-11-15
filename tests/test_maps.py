@@ -68,6 +68,8 @@ def test_small_regions_and_known_cases_have_callouts():
         "us_cajun",
         "us_creole",
         "us_new_mexican",
+        "us_new_england",
+        "us_italian_american",
         "us_hawaiian",
         "portuguese",
         "irish",
@@ -456,3 +458,17 @@ def test_globe_ui_drag_zoom_fly_back_and_labels(monkeypatch, tmp_path):
     assert app._globe_labels["americas"].visible is True
     assert app._globe_labels["asia"].visible is False
 
+
+
+def test_third_batch_map_regions():
+    us = {r["id"]: r for r in maps.get_level("united_states")["regions"]}
+    assert "us_new_england_seafood" not in us
+    assert {"us_new_england", "us_italian_american"} <= set(us)
+    assert us["us_italian_american"]["color"] != us["us_new_england"]["color"]
+    # Italian-American (NYC area) sits just south-west of New England on the map
+    assert us["us_italian_american"]["bbox"][0] < us["us_new_england"]["bbox"][0]
+    it = {r["id"] for r in maps.get_level("italy")["regions"]}
+    assert it == {"northern_italy", "roman_central_italy", "southern_sicilian_italy"}
+    for cid in ("us_new_england", "us_italian_american", "roman_central_italy"):
+        lvl, hi = maps.region_for_cuisine(cid)
+        assert hi == [cid]

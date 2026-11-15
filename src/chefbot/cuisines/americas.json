@@ -67,7 +67,8 @@
       "us_creole",
       "us_southern_soul",
       "us_tex_mex",
-      "us_new_england_seafood"
+      "us_new_england",
+      "us_italian_american"
     ]
   },
   {
@@ -369,38 +370,105 @@
     "substitutes": []
   },
   {
-    "id": "us_new_england_seafood",
+    "id": "us_new_england",
     "kind": "cuisine",
-    "label": "New England Seafood",
-    "subtitle": "Clams, lobster, butter, herbs",
-    "about": "New England seafood cooking follows the cold Atlantic coast from Connecticut and Rhode Island through Massachusetts, New Hampshire and Maine, with ports, tidal flats and fishing towns central to the style. Indigenous coastal foodways, English colonial cooking, maritime trade and later immigrant fishing communities all contributed. New England clam chowder, lobster rolls, clambakes and baked or fried cod/haddock are representative.",
-    "prompt_name": "New England Seafood",
+    "label": "New England",
+    "subtitle": "Salt pork, molasses, cider, cold sea",
+    "about": "Stretching across the six northeastern states from Connecticut and Rhode Island up through Massachusetts, Vermont, New Hampshire, and Maine, New England cooking spans cold Atlantic fishing ports, rocky inland farms, maple forests, and industrial mill cities. Shaped by Indigenous Wampanoag, Narragansett, and Abenaki foodways, English colonial thrift, Caribbean molasses trade, and later Irish, French-Canadian, Italian, and Azorean-Portuguese migrations, its everyday home cooking favors slow-simmered one-pot meals, plain dairy-and-pork-enriched seafood, and orchard or berry baking. Representative everyday dishes include New England clam or haddock chowder, Boston baked beans with steamed brown bread, New England boiled dinner, and SouthCoast Portuguese kale soup.",
+    "prompt_name": "New England",
     "flavors": [
+      "yellow onion",
+      "celery",
       "black pepper",
       "bay leaf",
       "thyme",
-      "parsley",
-      "chives",
-      "onion",
-      "celery",
-      "lemon",
-      "mustard",
-      "Worcestershire sauce"
+      "summer savory (for poultry, beans and chowder)",
+      "dry mustard",
+      "cider vinegar",
+      "dark molasses (in savory baked beans and brown bread)",
+      "massa de pimenta (Azorean red pepper paste; southeastern Massachusetts and Rhode Island)"
     ],
-    "sweet_only": [],
+    "sweet_only": [
+      "ground cinnamon",
+      "nutmeg",
+      "pure vanilla extract",
+      "allspice"
+    ],
     "signature_ingredients": [
-      "quahogs/hard clams (substitute: littleneck or canned clams for chowder)",
-      "Maine/New England lobster (substitute: other cold-water lobster; shrimp only changes the dish substantially)",
-      "salt cod (substitute: fresh cod plus added salt only for some preparations)",
-      "haddock (substitute: cod or pollock)"
+      "quahogs or chowder clams (substitute: finely chopped littleneck clams plus bottled clam juice; canned clams change the texture)",
+      "salt pork (substitute: thick-cut unsmoked slab bacon, or smoked bacon if a little smokiness is fine)",
+      "haddock or fresh Atlantic cod (substitute: pollock or Pacific cod)",
+      "salt cod, bacalhau (substitute: none for the cured texture; fresh cod makes a different dish)",
+      "Portuguese chouriço or linguiça (substitute: Spanish cured chorizo with extra garlic and paprika; the flavor differs)",
+      "stone-ground white flint cornmeal for Rhode Island jonnycakes (substitute: any stone-ground white or yellow cornmeal)",
+      "dark maple syrup (substitute: none for real maple flavor; dark brown sugar with molasses only approximates the sweetness)",
+      "fresh cranberries (substitute: frozen whole cranberries; dried ones only for baking or garnish)"
     ],
     "tips": [
-      "Canned clam broth/juice can replace homemade clam liquor by equal weight, but taste for salt. Seafood seasoning blends can replace the recipe's dry spice mix 1:1 by weight only if flavor profile fits; subtract label-derived salt (about 2.5 g salt per 1,000 mg sodium)."
+      "Store-bought poultry seasoning is usually salt-free sage, thyme, marjoram, rosemary, black pepper and sometimes ginger; it replaces the same dried herbs 1:1 by weight (about 1 g per teaspoon), with no salt change.",
+      "Jarred massa de pimenta is red peppers, coarse salt and often vinegar, roughly 12 to 13 g salt per 100 g (about 2 g per tablespoon; brands vary). Instead of 15 g paste, use 15 g minced sweet or mild chile plus 1.5 to 2 g salt, and taste before adding more salt.",
+      "Bottled clam juice is clam broth and salt, roughly 1 to 1.5 g salt per 240 g cup (brands vary); it replaces strained clam-steaming liquid 1:1 by weight, with less added salt.",
+      "Canned brown bread and canned baked beans come cooked with molasses and salt (the beans run roughly 1 to 1.3 g salt per 130 g serving); serve them as a side rather than as an ingredient swap."
     ],
     "pitfalls": [
-      "Do not assume every chowder is cream-thickened: Rhode Island clear chowders and tomato-based styles exist in the wider region.",
-      "Do not turn every seafood dish into Old Bay/Chesapeake seasoning; that profile belongs more strongly to the Mid-Atlantic.",
-      "Avoid overcooking lobster and clams."
+      "Treating roadside tourist lobster rolls, fried whole-belly clams, and commercial clambakes as everyday home cooking.",
+      "Erasing the sharp north-south split: Vermont/Maine favor maple, wild blueberries, and French-Canadian dishes like tourtiere, whereas Massachusetts/Rhode Island lean toward molasses, clear RI chowder, jonnycakes, and Portuguese SouthCoast cooking.",
+      "Omitting Portuguese-American staples (chourico, linguica, massa de pimenta, caldo verde) in southeastern Massachusetts and Rhode Island.",
+      "Adding tomatoes to New England clam chowder (Manhattan style) or thickening chowder into a heavy library-paste roux instead of using potato starch and light cream or milk.",
+      "Repeating the exaggerated myth that colonial prisons routinely fed inmates lobster as cruel punishment."
+    ],
+    "avoid": [],
+    "children": [],
+    "substitutes": []
+  },
+  {
+    "id": "us_italian_american",
+    "kind": "cuisine",
+    "label": "Italian-American",
+    "subtitle": "Slow red gravy, garlic, mozzarella, pork",
+    "about": "Centered on New York City's five boroughs, Long Island, Westchester and the lower Hudson Valley, northern and central New Jersey, and Fairfield and New Haven counties in Connecticut, this regional American cuisine emerged when 1880-1924 immigrants—over 80 percent from Campania, Sicily, Calabria, Puglia, and Basilicata—adapted Southern Italian cooking to abundant American meat, dairy, and canned tomatoes. Shaped by neighborhood pork stores, salumerie, Italian bakeries, and multi-generational Sunday tables, it is a distinct American culinary tradition rather than a copy of food in modern Italy. Representative dishes include Sunday gravy with meatballs and braciole, chicken or eggplant parmigiana, baked ziti, sausage and peppers, the New York slice, New Haven white clam apizza, and the Christmas Eve Feast of the Seven Fishes.",
+    "prompt_name": "Italian-American",
+    "flavors": [
+      "garlic (aglio, often sliced thin and just golden in olive oil)",
+      "olive oil (olio d'oliva)",
+      "basil (basilico)",
+      "dried oregano (origano, on pizza, clam pies and baked dishes)",
+      "red pepper flakes (peperoncino)",
+      "flat-leaf parsley (prezzemolo)",
+      "black pepper (pepe nero)",
+      "fennel seed (finocchio, the spice of Italian-American pork sausage)",
+      "yellow onion (cipolla)",
+      "dry red or white wine (vino rosso, vino bianco)"
+    ],
+    "sweet_only": [
+      "vanilla (vaniglia)",
+      "almond extract (mandorla)",
+      "anise (anice, in pizzelle and biscotti)",
+      "cinnamon (cannella)",
+      "orange flower water (acqua di fiori d'arancio, in pastiera and ricotta fillings)"
+    ],
+    "signature_ingredients": [
+      "low-moisture whole-milk mozzarella (substitute: supermarket block low-moisture mozzarella; avoid fresh watery mozzarella on baked ziti or NY-style pizza)",
+      "whole-milk ricotta (substitute: supermarket whole-milk ricotta, drained in cheesecloth if watery)",
+      "hot or sweet capocollo / gabagool (substitute: cured coppa or thinly sliced spicy cured pork shoulder)",
+      "fresh sweet or hot fennel-spiced Italian pork sausage (substitute: bulk pork sausage seasoned with crushed fennel seed, garlic, and red pepper)",
+      "canned San Marzano-style whole peeled plum tomatoes (substitute: quality canned California whole peeled plum tomatoes)",
+      "escarole (substitute: chicory or sturdy curly endive; spinach changes bitterness and texture)",
+      "salt cod / baccala for Feast of the Seven Fishes (substitute: none for cured texture; fresh cod only for non-traditional swaps)",
+      "imported Pecorino Romano or aged Parmigiano-style cheese (substitute: aged domestic sheep's-milk pecorino or supermarket wedge Parmesan)"
+    ],
+    "tips": [
+      "Store-bought Italian seasoning is usually salt-free dried basil, oregano, rosemary, thyme and marjoram (check the label: some blends add salt); it replaces the same dried herbs 1:1 by weight, about 1.5 to 2 g per teaspoon.",
+      "Jarred marinara is tomatoes, olive oil, onion, garlic, herbs and salt, roughly 0.8 to 1.5 g salt per 100 g depending on the brand; it replaces crushed tomatoes plus aromatics 1:1 by weight, with about 1 g less added salt per 100 g of sauce.",
+      "Pre-grated shaker Parmesan or Romano has anti-caking cellulose and roughly 3.5 to 4.5 g salt per 100 g; it won't melt smoothly into a sauce, so use it only as a garnish, 1:1 by weight for freshly grated cheese."
+    ],
+    "pitfalls": [
+      "Treating NYC-area Italian-American dishes (chicken parmigiana, baked ziti, Sunday gravy, pepperoni slices, the Feast of the Seven Fishes) either as inauthentic mistakes or as everyday food in Italy.",
+      "Using dialect spellings like 'gabagool', 'rigott' or 'pasta fazool' as shopping-list ingredients instead of standard grocery names.",
+      "Insisting on 'gravy' or 'sauce' as an absolute rule when local families themselves disagree.",
+      "Adding heavy cream to pasta sauces that rely on ricotta, pasta water, or slow-simmered tomato and pork fat, or putting fresh watery mozzarella on New York pizza and baked ziti.",
+      "Confusing cream-based fettuccine Alfredo (a wider American restaurant dish) with the region's pork-store and red-sauce cooking.",
+      "Confusing a New Haven plain tomato pie (no mozzarella by default) with a New York cheese slice."
     ],
     "avoid": [],
     "children": [],
