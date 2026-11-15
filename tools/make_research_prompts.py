@@ -80,16 +80,53 @@ CONTINENTS = {   # slug: (taxonomy heading, "Any" rule, the app's current cuisin
                            "restaurant dishes, and say how it differs from French cooking. Colombian: say how "
                            "much the regions differ (Andean, Caribbean coast, Pacific coast, Llanos) and what "
                            "a recipe app should treat as the default."),
+    # Third batch (2026-11-15), one run. Results go to results/third_batch.json. us_new_england replaces
+    # us_new_england_seafood (saved chats will need a LEGACY_IDS entry); roman_central_italy fills central Italy,
+    # which had no node; us_italian_american covers the New York City area only.
+    "third-batch": ("The Americas", '"Any" OPTIONS: none. Each node is a single cuisine.',
+                    ["us_new_england_seafood", "Italian"],
+                    "Three nodes, each a single cuisine. Use exactly these ids: us_new_england and "
+                    "us_italian_american (both regional cuisines within the United States), and "
+                    "roman_central_italy (Italy). "
+                    "New England (label \"New England\") replaces the app's existing \"New England Seafood\" "
+                    "node (fact-check below). Broaden it to the region's whole everyday cooking, not just the "
+                    "coast: seafood still, plus baked beans and brown bread, boiled dinner, johnnycakes, Indian "
+                    "pudding, maple, apples and cider, cranberries, and the Portuguese cooking of southeastern "
+                    "Massachusetts and Rhode Island. Say how much northern New England (Maine, New Hampshire, "
+                    "Vermont) differs from southern New England, what a recipe app should treat as the default, "
+                    "and keep clam-shack and lobster-pound tourist food apart from home cooking. "
+                    "Italian-American (label \"Italian-American\") is the Italian-American cooking of the New "
+                    "York City area only: the five boroughs, Long Island, Westchester and the lower Hudson "
+                    "Valley, northern and central New Jersey, and southwestern Connecticut (Fairfield and New "
+                    "Haven counties). Treat it as a regional American cuisine in its own right, not a failed "
+                    "copy of Italian food. Cover red-sauce home cooking (Sunday gravy, macaroni, chicken and "
+                    "eggplant parmigiana, baked ziti, stuffed shells, braciole, sausage and peppers, escarole "
+                    "and beans), the pork-store, salumeria and bakery traditions, pizza (the New York slice and "
+                    "New Haven apizza), the Feast of the Seven Fishes, and which Italian regions each dish comes "
+                    "from (mainly Campania, Sicily, Calabria, Puglia and Basilicata). Cover the local words "
+                    "(gravy versus sauce, macaroni for all pasta, mozz, gabagool and other dialect forms) and say "
+                    "which a recipe should use. The app's \"Italian (Any)\" node already describes the "
+                    "international image of Italian food (fact-check below): say clearly what belongs to this "
+                    "regional node instead. "
+                    "Roman & Central (label \"Roman & Central\") covers central Italy: Lazio and Rome, Umbria, "
+                    "Abruzzo and Marche, and possibly Tuscany. Northern Italy and Southern & Sicilian (Campania "
+                    "and Naples southward) are already researched; say how this cuisine differs from both. "
+                    "Cover Roman cooking in full (guanciale, pecorino romano, the four Roman pastas, quinto "
+                    "quarto offal, artichokes alla romana and alla giudia, Roman Jewish cooking), the shepherd "
+                    "and mountain cooking of Abruzzo, and Umbria's truffles, lentils and pork. Say in the summary "
+                    "whether Tuscany belongs in this node or should be its own, and why."),
 }
 
 
 def existing_entries(labels: list[str]) -> str:
-    """The app's entries for these old cuisine labels, now read from the cuisine tree."""
+    """The app's entries for these old cuisine labels (or node ids), read from the cuisine tree."""
     if not labels:
         return "(None: the app has no existing entries for these cuisines yet. Skip the fact-check.)"
     out = []
     for label in labels:
-        node = cuisines.get(cuisines.LEGACY_IDS[label])
+        node = cuisines.get(cuisines.LEGACY_IDS.get(label, label))   # an old label, or a node id
+        if label == node["id"]:
+            label = node["label"]
         out.append(f"{label}\n  Description: {node['about']}\n  Classic flavors: {', '.join(node['flavors'])}")
         if node.get("sweet_only"):
             out.append(f"  Dessert-only flavors: {', '.join(node['sweet_only'])}")

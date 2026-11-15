@@ -25,6 +25,10 @@ more than cost.
 sensible recipe, assuming the spices and staples a cook of the chosen cuisine usually has. Details and caveats in
 `docs/research/FINDINGS.md` ("About the added-cuisines run"). Not started; drop this note once he decides.
 
+**Third batch of cuisines (2026-11-15), waiting on Bryan's research run:** New England (replaces New England
+Seafood), Italian-American (NYC-area counties only) and Roman & Central (Italy). Prompt ready at
+`docs/research/third-batch.md`; plan and decisions under "Third batch" in `docs/CUISINE_TREE.md`.
+
 
 1. **Mail relay: deployed (2026-10-28)** as Bryan's own Apps Script web app (`tools/mail-relay.gs`, setup in
    `docs/EMAIL.md`; account and status in `HANDOFF.local.md`). Direct SMTP with an app password fails
