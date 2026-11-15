@@ -54,13 +54,15 @@ Fourteen more cuisines, now that the globe and maps make room. Prompts: `docs/re
   and their placement; saved chats that used Central European need a mapping (as Hong Kong maps to Cantonese);
   each new node needs a map region (countries come free from the outlines; Hawaii and New Mexico need US state
   groupings).
-- **Later candidates:** France and Spain as countries with regions; Barbecue, Lowcountry and
+- **Later candidates:** Tuscan (both third-batch runs say it is its own node); France and Spain as countries with regions; Barbecue, Lowcountry and
   Pacific Northwest (US); Chilean, Central American, Dominican, Haitian, Trinidadian; Balkan.
 
 ### Third batch (decided 2026-11-15)
 
 Three cuisines in one run. Prompt: `docs/research/third-batch.md` (`tools/make_research_prompts.py third-batch`).
-Save the result as `results/third_batch.json`. **Research not run yet.**
+**Research done (2026-11-15):** two runs (raw reports in `results/raw/third_batch_high.md` and
+`third_batch_medium.md`). `results/third_batch.json` is the high run with fixes taken from the medium run; notes in
+`research/FINDINGS.md`. Both runs say Tuscany should be its own node, so it is left out of Roman & Central.
 
 - **New England** (`us_new_england`) replaces New England Seafood: the region's whole cooking, not just the coast.
   Saved chats with `us_new_england_seafood` need a `LEGACY_IDS` entry.
@@ -68,8 +70,7 @@ Save the result as `results/third_batch.json`. **Research not run yet.**
   boroughs, Long Island, Westchester and the lower Hudson Valley, northern and central NJ, and Fairfield and New
   Haven counties in CT (county outlines, like Cajun and Creole). The rest of CT stays New England; upstate NY,
   Philadelphia and Chicago are out (Bryan's call). Trim the Italian-American dishes out of Italian (Any) to match.
-- **Roman & Central** (`roman_central_italy`): Lazio, Umbria, Abruzzo, Marche, and Tuscany if the research says it
-  fits. Naples and Campania stay in Southern & Sicilian. Central Italy is blank on the map today.
+- **Roman & Central** (`roman_central_italy`): Lazio, Umbria, Abruzzo and Marche (Tuscany is a later candidate). Naples and Campania stay in Southern & Sicilian. Central Italy is blank on the map today.
 - **To do when the results are in:** add the file to `tools/build_cuisine_data.py`; map regions in
   `tools/build_map_data.py` (needs the git-ignored shapefiles in `assets/maps/source/`); tests.
 

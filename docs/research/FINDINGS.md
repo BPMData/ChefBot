@@ -273,3 +273,23 @@ Antigravity, each for both continents); Bryan chose Antigravity for both.
    Native Hawaiian food (poi, laulau, kalo) is part of what people in Hawaii eat, so it sits inside that default,
    but recipes name it as Native Hawaiian rather than calling plantation-era local dishes "Hawaiian". Chip label:
    "Hawaiian & Local".
+
+## About the third-batch run (2026-11-15)
+
+Two runs of `docs/research/third-batch.md`, one at high effort and one at medium. High is the base: specific URLs
+and dated books (medium cited bare home pages), sounder salt figures (medium put an Italian bouillon cube at
+2.0-2.5 g salt per 10 g, about half the real figure), and the real Yankee seasonings (summer savory, dry mustard,
+cider vinegar, molasses, massa de pimenta). Taken from medium: New Haven plain tomato pie has no mozzarella by
+default; the Italian (Any) prosciutto substitute "thinly sliced cured ham" is wrong (US deli ham is wet-cured;
+use speck or serrano). Dropped from medium: "meatless marinara is never called gravy" (a false hard rule).
+Edits made to the high run: New England flavors without botanical Latin names, Bell's Seasoning about 1 g per
+teaspoon (not 2 g), a filler pitfall removed.
+
+Fact-check results to apply when building:
+- **New England (was New England Seafood):** lobster rolls and clambakes are tourist or special-occasion food,
+  not everyday cooking; salt cod's old substitute ("fresh cod plus salt") is wrong: none for the cured texture;
+  Worcestershire is disputed (purist chowders omit it).
+- **Italian (Any):** balsamic vinegar is wrong as an everyday seasoning (Modena and Reggio Emilia, by the drop);
+  oregano and peperoncino are southern and Italian-American, not national; the dishes that now belong to
+  Italian-American (spaghetti and meatballs, pepperoni pizza, chicken parm, Sunday gravy) should move out of its
+  description, keeping it about the international image.
