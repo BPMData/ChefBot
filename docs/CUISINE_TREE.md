@@ -28,14 +28,15 @@ The data for it comes from deep research runs (prompt below), not from a model's
 
 ## Taxonomy
 
-- **The Americas:** United States (Cajun, Creole, Southern & Soul, Tex-Mex, New England Seafood, Any); Mexico
+- **The Americas:** United States (New Mexican, Hawaiian & Local, Cajun, Creole, Southern & Soul, Tex-Mex, New England,
+  Italian-American, Any); Mexico
   (Northern & Baja, Central & Oaxacan, Yucatán, Any); Caribbean (Cuban, Puerto Rican, Jamaican, Any); Brazilian;
   Peruvian; Argentinian.
 - **Asia:** China, the Eight Great Cuisines (Sichuan, Hunan, Cantonese, Shandong, Jiangsu, Zhejiang, Fujian,
   Anhui, Any); Japan (Kanto, Kansai, Any); India (North, South, Any); Korean; Thai; Vietnamese; Filipino;
   Indonesian; Malaysian & Singaporean; Afghan; Pakistani (added 2026-11-09; one node or two depending on what
   the research recommends).
-- **Europe:** Italy (Northern, Southern & Sicilian, Any); French; Spanish; Greek; Central European (Germany,
+- **Europe:** Italy (Northern, Roman & Central, Southern & Sicilian, Any); French; Spanish; Greek; Central European (Germany,
   Austria, Czechia, Hungary, Poland); Russian.
 - **Near & Middle East:** Palestinian & Levantine; Persian; Turkish.
 - **Africa:** Moroccan; Tunisian; Algerian; Ethiopian; Egyptian; Nigerian; Senegalese. ("Moroccan & North
@@ -54,13 +55,15 @@ Fourteen more cuisines, now that the globe and maps make room. Prompts: `docs/re
   and their placement; saved chats that used Central European need a mapping (as Hong Kong maps to Cantonese);
   each new node needs a map region (countries come free from the outlines; Hawaii and New Mexico need US state
   groupings).
-- **Later candidates:** France and Spain as countries with regions; Barbecue, Lowcountry and
+- **Later candidates:** Tuscan (both third-batch runs say it is its own node); France and Spain as countries with regions; Barbecue, Lowcountry and
   Pacific Northwest (US); Chilean, Central American, Dominican, Haitian, Trinidadian; Balkan.
 
-### Third batch (decided 2026-11-15)
+### Third batch (decided 2026-11-15, built 2026-11-15)
 
 Three cuisines in one run. Prompt: `docs/research/third-batch.md` (`tools/make_research_prompts.py third-batch`).
-Save the result as `results/third_batch.json`. **Research not run yet.**
+**Research done (2026-11-15):** two runs (raw reports in `results/raw/third_batch_high.md` and
+`third_batch_medium.md`). `results/third_batch.json` is the high run with fixes taken from the medium run; notes in
+`research/FINDINGS.md`. Both runs say Tuscany should be its own node, so it is left out of Roman & Central.
 
 - **New England** (`us_new_england`) replaces New England Seafood: the region's whole cooking, not just the coast.
   Saved chats with `us_new_england_seafood` need a `LEGACY_IDS` entry.
@@ -68,10 +71,14 @@ Save the result as `results/third_batch.json`. **Research not run yet.**
   boroughs, Long Island, Westchester and the lower Hudson Valley, northern and central NJ, and Fairfield and New
   Haven counties in CT (county outlines, like Cajun and Creole). The rest of CT stays New England; upstate NY,
   Philadelphia and Chicago are out (Bryan's call). Trim the Italian-American dishes out of Italian (Any) to match.
-- **Roman & Central** (`roman_central_italy`): Lazio, Umbria, Abruzzo, Marche, and Tuscany if the research says it
-  fits. Naples and Campania stay in Southern & Sicilian. Central Italy is blank on the map today.
-- **To do when the results are in:** add the file to `tools/build_cuisine_data.py`; map regions in
-  `tools/build_map_data.py` (needs the git-ignored shapefiles in `assets/maps/source/`); tests.
+- **Roman & Central** (`roman_central_italy`): Lazio, Umbria, Abruzzo and Marche (Tuscany is a later candidate). Naples and Campania stay in Southern & Sicilian. Central Italy is blank on the map today.
+- **Built (2026-11-15):** `tools/build_cuisine_data.py` reads `third_batch.json`; New England replaces New
+  England Seafood in place, with `us_new_england_seafood` and "New England Seafood" in `LEGACY_IDS`. House-style
+  fixes (tips without brand names or "LOW CONFIDENCE", tidier flavors) and the Italian (Any) fixes (no balsamic,
+  speck or serrano for prosciutto, the Italian-American dishes moved out) are in `tools/cuisine_overrides.json`.
+  Maps: NY, NJ and CT are drawn from county outlines; CT's 2025 Census file has planning regions, not counties,
+  so Fairfield and New Haven became Western Connecticut, Greater Bridgeport and South Central Connecticut
+  (Naugatuck Valley stays New England). Italy gets `IT_CENTRAL`. 73 leaves in all.
 
 1. **Research (Bryan):** the five prompts in `docs/research/` are ready to paste whole (select all), one per continent, with the
    taxonomy and the current entries already filled in. Paste one into a deep research tool (for example

@@ -18,7 +18,7 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
   dish pictures come from Gemini 3.1 Flash Lite Image.
 - **Fixed allergen rules.** "Free of major food allergens" now covers all nine U.S. allergens (FALCPA plus sesame,
   added by the FASTER Act), and dietary rules override a cuisine's classic ingredients.
-- **Cuisine explainers and map browser.** Browse 58 regional cuisines by list or on an interactive world map
+- **Cuisine explainers and map browser.** Browse 73 regional cuisines by list or on an interactive world map
   ("Browse by map") with continent and country drill-down, pinch-zoom, and call-out chips for small regions. Tap the
   info icon on any cuisine for a regional mini-map, where it's from, its style, the flavors ChefBot draws on, and
   substitutes if you're missing a signature ingredient. Recipes use only the classic flavors that suit the dish;
@@ -101,7 +101,7 @@ always sets thinking explicitly and allows 32,000 tokens.
 ```
 src/main.py              the app (home screen, map browser, recipe conversation, settings)
 src/chefbot/cuisines.py  cuisine tree loader, breadcrumb paths, chip labels
-src/chefbot/cuisines/    cuisine tree data (58 selectable leaves across 5 continents)
+src/chefbot/cuisines/    cuisine tree data (73 selectable leaves across 5 continents)
 src/chefbot/maps.py      map level loader, point-in-polygon hit-testing, mini-map lookup
 src/chefbot/maps/        projected, simplified polygon data for all 13 map levels
 src/chefbot/prompts.py   audiences, cuisines, dietary rules, prompt text
