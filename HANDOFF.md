@@ -20,13 +20,13 @@ more than cost.
 
 ## Pinned (do these next, in this order)
 
-**Raise with Bryan at the start of the next ChefBot implementation session** (he asked to be reminded):
-**pantry defaults**, a setting ("Use cuisine pantry defaults") so a photo of only new groceries still gets a
-sensible recipe, assuming the spices and staples a cook of the chosen cuisine usually has. Details and caveats in
-`docs/research/FINDINGS.md` ("About the added-cuisines run"). Not started; drop this note once he decides.
+**Pantry defaults: decided 2026-11-15, build next (handed to Antigravity).** An opt-in "Pantry defaults" switch
+in the Pick a cuisine card, with an (i) sheet that explains it and lists the staples assumed for the picked
+cuisine. Full brief, research first and then the build: `docs/PANTRY_DEFAULTS.md`. Draft lists for all 73
+cuisines are in `tools/cuisine_pantry.json` (28 of them written by Claude, not researched; the brief lists them).
 
-**Third batch of cuisines built (2026-11-15), PR #34 (branch `claude/regional-food-categories-x8rkf0`), waiting
-for Bryan's review:** New England (`us_new_england`, replaces New England Seafood; old saved chats resolve to it
+**Third batch of cuisines built (2026-11-15), PR #35 (branch `claude/third-batch-and-pantry`), waiting for
+Bryan's review** (PR #34 was merged before the build was pushed, so only the research prompt reached `main`): New England (`us_new_england`, replaces New England Seafood; old saved chats resolve to it
 through `LEGACY_IDS`), Italian-American (`us_italian_american`, NYC-area counties only, orange on the US map) and
 Roman & Central (`roman_central_italy`: Lazio, Umbria, Abruzzo, Marche; Tuscany stays blank). 73 leaves now.
 Italian (Any) was trimmed to match (no balsamic, speck or serrano for prosciutto, the Italian-American dishes
