@@ -33,7 +33,8 @@ FORCE_CALLOUT_IDS = {
     "caribbean_jamaican",
     "us_cajun",
     "us_creole",
-    "us_new_england_seafood",
+    "us_new_england",
+    "us_italian_american",
     "us_hawaiian",
     "shandong",
     "jiangsu",
@@ -126,7 +127,8 @@ REGION_COLORS: dict[str, str] = {
     "us_cajun": "coral",
     "us_creole": "purple",
     "us_southern_soul": "green",
-    "us_new_england_seafood": "blue",
+    "us_new_england": "blue",
+    "us_italian_american": "orange",
     # Mexico
     "mx_northern_baja": "amber",
     "mx_central_oaxacan": "coral",
@@ -152,6 +154,7 @@ REGION_COLORS: dict[str, str] = {
     "south_india": "teal",
     # Italy
     "northern_italy": "blue",
+    "roman_central_italy": "amber",
     "southern_sicilian_italy": "coral",
 }
 
@@ -170,6 +173,18 @@ ACADIANA_PARISHES = {
 CREOLE_PARISHES = {"Orleans", "Jefferson", "St. Bernard", "Plaquemines"}
 US_SOUTHEAST_STATES = {"AL", "GA", "MS", "SC", "NC", "TN", "AR"}
 US_NEW_ENGLAND_STATES = {"ME", "NH", "VT", "MA", "RI", "CT"}
+# Italian-American (NYC area), by county. NY, NJ and CT are drawn from county outlines; the rest of NY and NJ
+# is background, the rest of CT New England. Since 2022 the Census files use CT's planning regions instead of
+# counties: Western Connecticut and Greater Bridgeport cover old Fairfield County, South Central Connecticut
+# covers New Haven (Naugatuck Valley, borderline, stays New England).
+US_SPLIT_STATEFP = {"09": "CT", "34": "NJ", "36": "NY"}
+US_ITALIAN_AMERICAN_COUNTIES = {
+    "NY": {"New York", "Kings", "Queens", "Bronx", "Richmond", "Nassau", "Suffolk", "Westchester", "Rockland",
+           "Putnam", "Orange"},
+    "NJ": {"Bergen", "Passaic", "Hudson", "Essex", "Union", "Morris", "Sussex", "Warren", "Somerset",
+           "Hunterdon", "Middlesex", "Monmouth", "Mercer", "Ocean"},
+    "CT": {"Western Connecticut", "Greater Bridgeport", "South Central Connecticut"},
+}
 
 MX_NORTHERN_BAJA = {
     "Baja California", "Baja California Sur", "Sonora", "Chihuahua",
@@ -194,6 +209,7 @@ IT_NORTH = {
     "Piemonte", "Valle d'Aosta", "Lombardia", "Trentino-Alto Adige",
     "Veneto", "Friuli-Venezia Giulia", "Liguria", "Emilia-Romagna",
 }
+IT_CENTRAL = {"Lazio", "Umbria", "Abruzzo", "Marche"}  # Tuscany ("Toscana") stays background
 IT_SOUTH = {"Campania", "Apulia", "Basilicata", "Calabria", "Sicily", "Molise"}
 
 CENTRAL_EUROPE_A3 = {"DEU", "AUT", "CHE", "CZE", "SVK", "HUN", "POL"}
@@ -524,7 +540,8 @@ CALLOUT_POSITIONS: dict[str, dict[str, tuple[float, float]]] = {
         "senegalese": (54.0, 252.0),
     },
     "united_states": {
-        "us_new_england_seafood": (274.0, 114.0),
+        "us_new_england": (274.0, 114.0),
+        "us_italian_american": (300.0, 352.0),
         "us_new_mexican": (104.0, 196.0),
         "us_hawaiian": (72.0, 384.0),
         "us_cajun": (188.0, 412.0),
@@ -589,10 +606,13 @@ def build_all() -> dict[str, dict]:
         admin1_records.append((sr.record.as_dict(), extract_rings(sr.shape)))
 
     la_parishes: dict[str, list[list[tuple[float, float]]]] = defaultdict(list)
+    split_counties: dict[tuple[str, str], list[list[tuple[float, float]]]] = defaultdict(list)
     for sr in sf2.shapeRecords():
         rec = sr.record.as_dict()
         if rec["STATEFP"] == "22":
             la_parishes[rec["NAME"]].extend(extract_rings(sr.shape))
+        elif rec["STATEFP"] in US_SPLIT_STATEFP:
+            split_counties[(US_SPLIT_STATEFP[rec["STATEFP"]], rec["NAME"])].extend(extract_rings(sr.shape))
 
     levels_out: dict[str, dict] = {}
 
@@ -953,7 +973,8 @@ def build_all() -> dict[str, dict]:
         "us_southern_soul": [],
         "us_tex_mex": [],
         "us_new_mexican": [],
-        "us_new_england_seafood": [],
+        "us_new_england": [],
+        "us_italian_american": [],
         "us_hawaiian": [],
     }
     us_bg: list[list[tuple[float, float]]] = []
@@ -964,6 +985,18 @@ def build_all() -> dict[str, dict]:
             us_regions["us_creole"].extend(rings)
         else:
             us_regions["us_southern_soul"].extend(rings)
+    found = {key for key in split_counties}
+    for state, names in US_ITALIAN_AMERICAN_COUNTIES.items():
+        missing = {n for n in names if (state, n) not in found}
+        if missing:
+            raise SystemExit(f"County names not in the shapefile for {state}: {sorted(missing)}")
+    for (state, cname), rings in split_counties.items():
+        if cname in US_ITALIAN_AMERICAN_COUNTIES[state]:
+            us_regions["us_italian_american"].extend(rings)
+        elif state in US_NEW_ENGLAND_STATES:
+            us_regions["us_new_england"].extend(rings)
+        else:
+            us_bg.extend(rings)
 
     # Hawaii 8 main islands projected linearly into a Southwest Pacific inset box
     hi_cos = math.cos(math.radians(20.6)) / math.cos(math.radians(34.55))
@@ -981,7 +1014,7 @@ def build_all() -> dict[str, dict]:
         if rec["iso_a2"] != "US":
             continue
         postal = rec["postal"]
-        if postal in ("AK", "LA"):
+        if postal in ("AK", "LA") or postal in US_SPLIT_STATEFP.values():
             continue
         if postal == "HI":
             for r in rings:
@@ -997,7 +1030,7 @@ def build_all() -> dict[str, dict]:
         elif postal == "NM":
             us_regions["us_new_mexican"].extend(rings)
         elif postal in US_NEW_ENGLAND_STATES:
-            us_regions["us_new_england_seafood"].extend(rings)
+            us_regions["us_new_england"].extend(rings)
         else:
             us_bg.extend(rings)
 
@@ -1180,6 +1213,7 @@ def build_all() -> dict[str, dict]:
     # 13. ITALY
     it_regions: dict[str, list[list[tuple[float, float]]]] = {
         "northern_italy": [],
+        "roman_central_italy": [],
         "southern_sicilian_italy": [],
     }
     it_bg: list[list[tuple[float, float]]] = []
@@ -1189,6 +1223,8 @@ def build_all() -> dict[str, dict]:
         reg = rec["region"]
         if reg in IT_NORTH:
             it_regions["northern_italy"].extend(rings)
+        elif reg in IT_CENTRAL:
+            it_regions["roman_central_italy"].extend(rings)
         elif reg in IT_SOUTH:
             it_regions["southern_sicilian_italy"].extend(rings)
         else:

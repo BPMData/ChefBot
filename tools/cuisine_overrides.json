@@ -52,6 +52,22 @@
   "italy_any": {
     "prepend_tips": [
       "If the recipe uses anchovies, add a tip that anchovy-only fish sauce works as a substitute (check the label: just anchovies and salt), with the amount."
+    ],
+    "about": "The internationally recognized image of Italian food rather than one region: pizzerias, trattorias abroad, tourism and restaurant culture made pasta, tomato sauce, garlic, basil, olive oil and grated cheese global symbols of Italy. It keeps to dishes known all over the country and abroad, without the detail of a regional kitchen; for the red-sauce cooking of New York, New Jersey and Connecticut, choose Italian-American. Representative dishes are lasagna, spaghetti with tomato and basil, margherita pizza and cream-style fettuccine Alfredo, an export form.",
+    "remove_flavors": [
+      "balsamic"
+    ],
+    "signature_ingredients": [
+      "Parmigiano-style hard cheese (substitute: supermarket Parmesan)",
+      "fresh mozzarella (substitute: low-moisture mozzarella for baked dishes)",
+      "prosciutto (substitute: speck or serrano ham; American deli ham is wet-cured and won't do)",
+      "pancetta (substitute: unsmoked bacon if available; ordinary bacon is smokier)",
+      "Arborio rice (substitute: another short-grain rice)"
+    ],
+    "pitfalls": [
+      "This is the international, export-style image of Italian food, so do not use it to police regional Italian authenticity.",
+      "Cream-heavy Alfredo is primarily an export form; Rome's original fettuccine al burro is only butter and Parmigiano.",
+      "Spaghetti and meatballs, chicken parm, Sunday gravy and pepperoni pizza belong to Italian-American cooking; do not present them as everyday food in Italy."
     ]
   },
   "northern_italy": {
@@ -670,6 +686,97 @@
       "Everyday Colombian arepas (such as arepa paisa) are thinner griddled patties eaten plain, buttered or topped with cheese rather than thick split stuffed pockets.",
       "Avoid inserting Mexican jalapeños, chipotle, flour tortillas, tomatillos or black beans (Colombia favors cargamanto red/pinto beans or lentils and builds savory bases on scallion-and-tomato hogao).",
       "Keep regional styles intact: do not add heavy dairy to a Pacific coconut-milk encocado, do not swap parsley or basil for guascas in ajiaco, and thicken Colombian natilla with cornstarch rather than eggs."
+    ]
+  },
+  "us_new_england": {
+    "flavors": [
+      "yellow onion",
+      "celery",
+      "black pepper",
+      "bay leaf",
+      "thyme",
+      "summer savory (for poultry, beans and chowder)",
+      "dry mustard",
+      "cider vinegar",
+      "dark molasses (in savory baked beans and brown bread)",
+      "massa de pimenta (Azorean red pepper paste; southeastern Massachusetts and Rhode Island)"
+    ],
+    "signature_ingredients": [
+      "quahogs or chowder clams (substitute: finely chopped littleneck clams plus bottled clam juice; canned clams change the texture)",
+      "salt pork (substitute: thick-cut unsmoked slab bacon, or smoked bacon if a little smokiness is fine)",
+      "haddock or fresh Atlantic cod (substitute: pollock or Pacific cod)",
+      "salt cod, bacalhau (substitute: none for the cured texture; fresh cod makes a different dish)",
+      "Portuguese chouriço or linguiça (substitute: Spanish cured chorizo with extra garlic and paprika; the flavor differs)",
+      "stone-ground white flint cornmeal for Rhode Island jonnycakes (substitute: any stone-ground white or yellow cornmeal)",
+      "dark maple syrup (substitute: none for real maple flavor; dark brown sugar with molasses only approximates the sweetness)",
+      "fresh cranberries (substitute: frozen whole cranberries; dried ones only for baking or garnish)"
+    ],
+    "tips": [
+      "Store-bought poultry seasoning is usually salt-free sage, thyme, marjoram, rosemary, black pepper and sometimes ginger; it replaces the same dried herbs 1:1 by weight (about 1 g per teaspoon), with no salt change.",
+      "Jarred massa de pimenta is red peppers, coarse salt and often vinegar, roughly 12 to 13 g salt per 100 g (about 2 g per tablespoon; brands vary). Instead of 15 g paste, use 15 g minced sweet or mild chile plus 1.5 to 2 g salt, and taste before adding more salt.",
+      "Bottled clam juice is clam broth and salt, roughly 1 to 1.5 g salt per 240 g cup (brands vary); it replaces strained clam-steaming liquid 1:1 by weight, with less added salt.",
+      "Canned brown bread and canned baked beans come cooked with molasses and salt (the beans run roughly 1 to 1.3 g salt per 130 g serving); serve them as a side rather than as an ingredient swap."
+    ]
+  },
+  "us_italian_american": {
+    "flavors": [
+      "garlic (aglio, often sliced thin and just golden in olive oil)",
+      "olive oil (olio d'oliva)",
+      "basil (basilico)",
+      "dried oregano (origano, on pizza, clam pies and baked dishes)",
+      "red pepper flakes (peperoncino)",
+      "flat-leaf parsley (prezzemolo)",
+      "black pepper (pepe nero)",
+      "fennel seed (finocchio, the spice of Italian-American pork sausage)",
+      "yellow onion (cipolla)",
+      "dry red or white wine (vino rosso, vino bianco)"
+    ],
+    "sweet_only": [
+      "vanilla (vaniglia)",
+      "almond extract (mandorla)",
+      "anise (anice, in pizzelle and biscotti)",
+      "cinnamon (cannella)",
+      "orange flower water (acqua di fiori d'arancio, in pastiera and ricotta fillings)"
+    ],
+    "tips": [
+      "Store-bought Italian seasoning is usually salt-free dried basil, oregano, rosemary, thyme and marjoram (check the label: some blends add salt); it replaces the same dried herbs 1:1 by weight, about 1.5 to 2 g per teaspoon.",
+      "Jarred marinara is tomatoes, olive oil, onion, garlic, herbs and salt, roughly 0.8 to 1.5 g salt per 100 g depending on the brand; it replaces crushed tomatoes plus aromatics 1:1 by weight, with about 1 g less added salt per 100 g of sauce.",
+      "Pre-grated shaker Parmesan or Romano has anti-caking cellulose and roughly 3.5 to 4.5 g salt per 100 g; it won't melt smoothly into a sauce, so use it only as a garnish, 1:1 by weight for freshly grated cheese."
+    ],
+    "pitfalls": [
+      "Treating NYC-area Italian-American dishes (chicken parmigiana, baked ziti, Sunday gravy, pepperoni slices, the Feast of the Seven Fishes) either as inauthentic mistakes or as everyday food in Italy.",
+      "Using dialect spellings like 'gabagool', 'rigott' or 'pasta fazool' as shopping-list ingredients instead of standard grocery names.",
+      "Insisting on 'gravy' or 'sauce' as an absolute rule when local families themselves disagree.",
+      "Adding heavy cream to pasta sauces that rely on ricotta, pasta water, or slow-simmered tomato and pork fat, or putting fresh watery mozzarella on New York pizza and baked ziti.",
+      "Confusing cream-based fettuccine Alfredo (a wider American restaurant dish) with the region's pork-store and red-sauce cooking.",
+      "Confusing a New Haven plain tomato pie (no mozzarella by default) with a New York cheese slice."
+    ]
+  },
+  "roman_central_italy": {
+    "flavors": [
+      "extra-virgin olive oil (olio extravergine d'oliva)",
+      "coarsely cracked black pepper (pepe nero)",
+      "garlic (aglio)",
+      "Roman mint, or lesser calamint (mentuccia, between mint and oregano)",
+      "rosemary (rosmarino)",
+      "wild fennel pollen or fennel seed (finocchietto, for porchetta)",
+      "chile (peperoncino, especially in Abruzzo)",
+      "salt-packed anchovies (acciughe sotto sale)",
+      "saffron (zafferano, from L'Aquila in Abruzzo)",
+      "dry white wine (vino bianco)",
+      "sage (salvia)",
+      "bay leaf (alloro)"
+    ],
+    "sweet_only": [
+      "anise or sambuca (anice)",
+      "cinnamon (cannella)",
+      "candied citron or orange peel (cedro, scorza d'arancia candita)",
+      "vanilla (vaniglia)"
+    ],
+    "tips": [
+      "An Italian bouillon cube (dado) is roughly half salt, about 5 to 5.7 g per 10 g cube (reduced-salt ones about 4 g); one cube in 500 g water replaces unsalted stock, with about 5 g less salt elsewhere in the recipe.",
+      "Jarred salsa tartufata (mushrooms, oil, black summer truffle, olives, salt and truffle aroma) runs roughly 1 to 1.5 g salt per 100 g, varying by brand; use 15 to 20 g per serving, thinned with starchy pasta water, and salt the sauce a little less.",
+      "Bottled passata (strained raw tomato puree) ranges from no added salt to about 0.5 g salt per 100 g, so check the label; it replaces peeled plum tomatoes passed through a food mill 1:1 by weight."
     ]
   }
 }

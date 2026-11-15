@@ -54,7 +54,8 @@ states/provinces listed here.
 | `us_creole` | New Orleans area: Orleans, Jefferson, St. Bernard and Plaquemines parishes |
 | `us_southern_soul` | The Southeast: AL, GA, MS, SC, NC, TN, AR, the rest of LA |
 | `us_tex_mex` | Texas |
-| `us_new_england_seafood` | ME, NH, VT, MA, RI, CT |
+| `us_new_england` | ME, NH, VT, MA, the rest of CT (was `us_new_england_seafood` until 2026-11-15) |
+| `us_italian_american` | NYC area, by county: the five boroughs, Nassau, Suffolk, Westchester, Rockland, Putnam, Orange (NY); Bergen, Passaic, Hudson, Essex, Union, Morris, Sussex, Warren, Somerset, Hunterdon, Middlesex, Monmouth, Mercer, Ocean (NJ); Western Connecticut, Greater Bridgeport, South Central Connecticut planning regions (CT; the Census files use planning regions instead of counties since 2022) |
 | `mx_northern_baja` | Baja California, Baja California Sur, Sonora, Chihuahua, Coahuila, Nuevo León, Tamaulipas, Sinaloa, Durango |
 | `mx_central_oaxacan` | Oaxaca, Puebla, Mexico City, México state, Morelos, Tlaxcala, Hidalgo, Guerrero, Michoacán, Jalisco |
 | `mx_yucatan` | Yucatán, Campeche, Quintana Roo |
@@ -67,6 +68,7 @@ states/provinces listed here.
 | `north_india` | Punjab, Haryana, Delhi, Uttar Pradesh, Rajasthan, Himachal Pradesh, Uttarakhand, Jammu & Kashmir, Ladakh, Chandigarh |
 | `south_india` | Tamil Nadu, Kerala, Karnataka, Andhra Pradesh, Telangana, Puducherry |
 | `northern_italy` | Regions north of Tuscany and Umbria: Piedmont, Aosta Valley, Lombardy, Trentino-Alto Adige, Veneto, Friuli-Venezia Giulia, Liguria, Emilia-Romagna |
+| `roman_central_italy` | Lazio, Umbria, Abruzzo, Marche (Tuscany stays blank) |
 | `southern_sicilian_italy` | Campania, Apulia, Basilicata, Calabria, Sicily, Molise |
 | `central_european` | Germany, Austria, Switzerland, Czechia, Slovakia, Hungary, Poland |
 | `palestinian_levantine` | Palestine, Lebanon, Syria, Jordan, Israel |

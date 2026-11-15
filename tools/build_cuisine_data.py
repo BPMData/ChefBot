@@ -32,8 +32,8 @@ CONTINENT_SPECS = [
 # Country branch nodes and the prefix/set of child ids belonging to each.
 COUNTRY_CHILDREN: dict[str, list[str]] = {
     "united_states": [
-        "us_any", "us_cajun", "us_creole", "us_southern_soul", "us_tex_mex", "us_new_england_seafood",
-        "us_new_mexican", "us_hawaiian",
+        "us_any", "us_cajun", "us_creole", "us_southern_soul", "us_tex_mex", "us_new_england",
+        "us_italian_american", "us_new_mexican", "us_hawaiian",
     ],
     "mexico": [
         "mx_any", "mx_northern_baja", "mx_central_oaxacan", "mx_yucatan",
@@ -51,7 +51,7 @@ COUNTRY_CHILDREN: dict[str, list[str]] = {
         "india_any", "north_india", "south_india",
     ],
     "italy": [
-        "italy_any", "northern_italy", "southern_sicilian_italy",
+        "italy_any", "northern_italy", "roman_central_italy", "southern_sicilian_italy",
     ],
 }
 
@@ -74,7 +74,13 @@ ADDITION_CONTINENT = {
     "us_new_mexican": "americas",
     "us_hawaiian": "americas",
     "colombian": "americas",
+    "us_new_england": "americas",
+    "us_italian_american": "americas",
+    "roman_central_italy": "europe",
 }
+
+# Third batch (2026-11-15): research ids that replace an existing node in place.
+REPLACED_BY = {"us_new_england_seafood": "us_new_england"}
 
 CENTRAL_EUROPE_REPLACEMENT = ("german", "austrian", "hungarian", "polish", "czech")
 
@@ -84,7 +90,8 @@ PROMPT_NAMES: dict[str, str] = {
     "us_creole": "New Orleans Creole",
     "us_southern_soul": "Southern and Soul Food (American)",
     "us_tex_mex": "Tex-Mex",
-    "us_new_england_seafood": "New England Seafood",
+    "us_new_england": "New England",
+    "us_italian_american": "Italian-American",
     "us_new_mexican": "New Mexican",
     "us_hawaiian": "Hawaiian & Local",
     "quebecois": "Québécois",
@@ -125,6 +132,7 @@ PROMPT_NAMES: dict[str, str] = {
     "pakistani": "Pakistani",
     "italy_any": "Italian",
     "northern_italy": "Northern Italian",
+    "roman_central_italy": "Roman and Central Italian",
     "southern_sicilian_italy": "Southern Italian and Sicilian",
     "french": "French",
     "spanish": "Spanish",
@@ -153,7 +161,7 @@ PROMPT_NAMES: dict[str, str] = {
 }
 
 ENGLISH_PRIMARY_NODES = {
-    "united_states", "us_any", "us_cajun", "us_creole", "us_southern_soul", "us_new_england_seafood",
+    "united_states", "us_any", "us_cajun", "us_creole", "us_southern_soul", "us_new_england",
     "caribbean", "caribbean_any", "caribbean_jamaican",
 }
 
@@ -164,6 +172,7 @@ PROPER_PREFIXES = (
     "Sicilian", "Spanish", "Greek", "Hungarian", "Central European", "Persian", "Turkish",
     "Ethiopian", "Moroccan", "Hunan", "Zhejiang", "Chinese", "Maine", "Scotch", "Piper", "Lippia",
     "California", "Kyoto", "Italian", "Southeast Asian", "Indian", "Korean",
+    "Portuguese", "Roman", "Pecorino", "Castelluccio", "French", "Belgian",
 )
 
 
@@ -617,7 +626,8 @@ def build_all() -> dict[str, list[dict]]:
 
     # Load addition files if present
     additions_by_continent: dict[str, list[dict]] = {"asia": [], "africa": [], "europe": [], "americas": []}
-    for add_name in ("additions.json", "additions_europe.json", "additions_americas.json"):
+    for add_name in ("additions.json", "additions_europe.json", "additions_americas.json",
+                     "third_batch.json"):
         additions_path = RESULTS_DIR / add_name
         if additions_path.exists():
             for item in json.loads(additions_path.read_text(encoding="utf-8")):
@@ -660,11 +670,22 @@ def build_all() -> dict[str, list[dict]]:
             if not replaced:
                 merged.extend(central_nodes)
             raw_list = merged + other_eu
+            if "roman_central_italy" in by_id:
+                # Third batch: Roman & Central goes between Northern and Southern & Sicilian
+                raw_list = [r for r in raw_list if r["id"] != "roman_central_italy"]
+                at = next(i for i, r in enumerate(raw_list) if r["id"] == "northern_italy") + 1
+                raw_list.insert(at, by_id["roman_central_italy"])
         elif cont_id == "americas" and extra_nodes:
             # Place US additions in list, quebecois after united_states, colombian before brazilian
             by_id = {n["id"]: n for n in extra_nodes}
             merged = []
             for r in raw_list:
+                if r["id"] in REPLACED_BY and REPLACED_BY[r["id"]] in by_id:
+                    # Replace in place (New England Seafood -> New England), Italian-American right after it
+                    merged.append(by_id[REPLACED_BY[r["id"]]])
+                    if r["id"] == "us_new_england_seafood" and "us_italian_american" in by_id:
+                        merged.append(by_id["us_italian_american"])
+                    continue
                 if r["id"] == "brazilian" and "colombian" in by_id:
                     merged.append(by_id["colombian"])
                 merged.append(r)
