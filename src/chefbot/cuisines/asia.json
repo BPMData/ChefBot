@@ -115,6 +115,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "soy sauce",
+      "garlic",
+      "fresh ginger",
+      "scallions",
+      "neutral oil",
+      "white rice",
+      "Shaoxing rice wine",
+      "cornstarch",
+      "toasted sesame oil"
+    ],
     "substitutes": []
   },
   {
@@ -156,6 +167,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "chili bean paste (doubanjiang)",
+      "dried red chiles",
+      "Sichuan peppercorns",
+      "chile oil",
+      "light soy sauce",
+      "Chinese black vinegar",
+      "garlic, ginger and scallions",
+      "neutral oil",
+      "white rice"
+    ],
     "substitutes": [
       "Sichuan pepper: no close substitute (for numbing aroma)"
     ]
@@ -196,6 +218,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "fresh and dried chiles",
+      "chopped salted chiles (duojiao)",
+      "fermented black beans",
+      "garlic",
+      "fresh ginger",
+      "scallions",
+      "soy sauce",
+      "lard or neutral oil",
+      "white rice"
+    ],
     "substitutes": []
   },
   {
@@ -236,6 +269,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "light and dark soy sauce",
+      "oyster sauce",
+      "fresh ginger",
+      "garlic",
+      "scallions",
+      "neutral oil",
+      "toasted sesame oil",
+      "Shaoxing rice wine",
+      "cornstarch",
+      "jasmine rice"
+    ],
     "substitutes": []
   },
   {
@@ -274,6 +319,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "scallions",
+      "garlic",
+      "fresh ginger",
+      "soy sauce",
+      "Chinese vinegar",
+      "sweet bean sauce (tianmianjiang)",
+      "Shaoxing rice wine",
+      "all-purpose wheat flour",
+      "neutral oil"
+    ],
     "substitutes": []
   },
   {
@@ -314,6 +370,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "Shaoxing rice wine",
+      "light and dark soy sauce",
+      "rock or white sugar",
+      "Zhenjiang black vinegar",
+      "fresh ginger",
+      "scallions",
+      "garlic",
+      "neutral oil",
+      "white rice"
+    ],
     "substitutes": [
       "Zhenjiang black vinegar: rice vinegar plus a little balsamic"
     ]
@@ -354,6 +421,16 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "Shaoxing rice wine",
+      "light and dark soy sauce",
+      "sugar",
+      "rice vinegar",
+      "fresh ginger",
+      "scallions",
+      "neutral oil",
+      "white rice"
+    ],
     "substitutes": [
       "Shaoxing wine: dry sherry",
       "fermented rice lees: sake kasu, imperfect"
@@ -395,6 +472,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "rice wine",
+      "fresh ginger",
+      "garlic",
+      "scallions",
+      "soy sauce",
+      "fish sauce",
+      "dried shrimp",
+      "neutral oil",
+      "rice and rice noodles"
+    ],
     "substitutes": [
       "red rice wine lees: sake kasu plus red yeast rice only if available; otherwise none"
     ]
@@ -436,6 +524,16 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "soy sauce",
+      "rice wine",
+      "dried shiitake mushrooms",
+      "dried bamboo shoots",
+      "fresh ginger and scallions",
+      "garlic",
+      "rapeseed or neutral oil",
+      "white rice"
+    ],
     "substitutes": []
   },
   {
@@ -522,6 +620,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "short-grain rice",
+      "soy sauce",
+      "miso",
+      "dashi (kombu and bonito, or instant)",
+      "mirin",
+      "sake",
+      "rice vinegar",
+      "neutral oil",
+      "toasted sesame oil"
+    ],
     "substitutes": [
       "miso: no close substitute"
     ]
@@ -561,6 +670,16 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "dark soy sauce (koikuchi)",
+      "bonito dashi",
+      "mirin",
+      "sake",
+      "rice vinegar",
+      "sugar",
+      "miso",
+      "short-grain rice"
+    ],
     "substitutes": [
       "koikuchi soy sauce: standard Japanese soy sauce"
     ]
@@ -600,6 +719,16 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "light soy sauce (usukuchi) and dark soy sauce",
+      "kombu dashi",
+      "mirin",
+      "sake",
+      "rice vinegar",
+      "miso",
+      "short-grain rice",
+      "Japanese brown sauce (tonkatsu or okonomiyaki sauce)"
+    ],
     "substitutes": [
       "usukuchi soy sauce: koikuchi diluted slightly plus salt, color will differ"
     ]
@@ -692,6 +821,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "basmati rice",
+      "whole-wheat flour (atta)",
+      "lentils (dal)",
+      "onions",
+      "garlic and fresh ginger",
+      "turmeric, cumin seed, ground coriander and red chili powder",
+      "garam masala",
+      "plain yogurt",
+      "ghee or neutral oil"
+    ],
     "substitutes": [
       "kasuri methi: no close substitute"
     ]
@@ -738,6 +878,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "whole-wheat flour (atta)",
+      "basmati rice",
+      "dals (toor, moong, chana)",
+      "onions and tomatoes",
+      "ginger-garlic paste",
+      "plain yogurt",
+      "ghee or neutral oil",
+      "cumin seed, ground coriander, turmeric and red chili powder",
+      "garam masala",
+      "dried fenugreek leaves (kasuri methi)"
+    ],
     "substitutes": [
       "black cardamom: green cardamom plus tiny smoked note, imperfect"
     ]
@@ -784,6 +936,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "short- or medium-grain rice",
+      "urad and toor dal",
+      "grated coconut, fresh or frozen",
+      "tamarind",
+      "mustard seeds",
+      "curry leaves",
+      "dried red chiles",
+      "shallots or onions",
+      "coconut or sesame oil",
+      "asafoetida"
+    ],
     "substitutes": []
   },
   {
@@ -827,6 +991,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "short-grain rice",
+      "kimchi",
+      "soy sauce (ganjang)",
+      "soybean paste (doenjang)",
+      "chile paste (gochujang)",
+      "chile flakes (gochugaru)",
+      "garlic and scallions",
+      "toasted sesame oil and sesame seeds",
+      "dried kelp (dasima) and dried anchovies"
+    ],
     "substitutes": []
   },
   {
@@ -867,6 +1042,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "fish sauce",
+      "jasmine rice",
+      "garlic",
+      "shallots",
+      "fresh chiles",
+      "limes",
+      "palm sugar",
+      "coconut milk",
+      "oyster sauce"
+    ],
     "substitutes": [
       "galangal: ginger plus lime zest, noticeably different",
       "makrut lime leaves: lime zest plus bay leaf, imperfect",
@@ -917,6 +1103,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "fish sauce",
+      "jasmine rice",
+      "rice noodles and rice paper",
+      "garlic and shallots",
+      "scallions",
+      "limes",
+      "fresh chiles",
+      "sugar",
+      "fresh herbs (cilantro, mint, Thai basil)"
+    ],
     "substitutes": []
   },
   {
@@ -961,6 +1158,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "white rice",
+      "cane or coconut vinegar",
+      "soy sauce",
+      "garlic",
+      "onions",
+      "fish sauce (patis)",
+      "bay leaves",
+      "black peppercorns",
+      "calamansi or limes"
+    ],
     "substitutes": [
       "calamansi: equal parts lime and mandarin/lemon juice"
     ]
@@ -1008,6 +1216,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "white rice",
+      "shallots",
+      "garlic",
+      "chiles or sambal",
+      "sweet soy sauce (kecap manis)",
+      "palm sugar",
+      "coconut milk",
+      "shrimp paste (terasi)",
+      "neutral oil"
+    ],
     "substitutes": [
       "candlenut: macadamia or cashew for body; allergen profile changes"
     ]
@@ -1055,6 +1274,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "white rice",
+      "sambal or chile paste",
+      "shrimp paste (belacan)",
+      "shallots and garlic",
+      "light and dark soy sauce",
+      "coconut milk",
+      "tamarind",
+      "palm sugar",
+      "neutral oil"
+    ],
     "substitutes": []
   },
   {
@@ -1101,6 +1331,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "basmati rice",
+      "neutral oil",
+      "onions",
+      "garlic",
+      "cumin and ground coriander",
+      "green cardamom",
+      "black pepper",
+      "turmeric",
+      "dried mint"
+    ],
     "substitutes": []
   },
   {
@@ -1149,6 +1390,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "basmati rice",
+      "whole-wheat flour (atta)",
+      "neutral oil",
+      "onions",
+      "ginger-garlic paste",
+      "cumin and ground coriander",
+      "turmeric and red chili powder",
+      "garam masala",
+      "dried fenugreek leaves (kasuri methi)"
+    ],
     "substitutes": []
   }
 ]

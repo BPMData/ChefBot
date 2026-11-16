@@ -30,13 +30,14 @@ PREF_RELAY_URL = "chefbot.relay_url"        # ChefBot mail relay (tools/mail-rel
 PREF_RELAY_SECRET = "chefbot.relay_secret"
 PREF_MUST_NOT = "chefbot.must_not"          # the "Never use..." box, remembered (allergies don't go away)
 PREF_RECENT_CUISINES = "chefbot.recent_cuisines"  # JSON list of last 5 picked leaf cuisine ids
+PREF_PANTRY = "chefbot.pantry_defaults"     # "on"/"off": assume the picked cuisine's everyday staples
 PREF_DEV_MODE = "chefbot.dev_mode"          # "on" shows the hidden email-sending settings (tap Settings 7 times)
 DEV_MODE_TAPS = 7
 PREFS_FAILED = ("ChefBot couldn't read its saved settings (your key is still safe). Close ChefBot and open it "
                 "again.")
 ALL_PREFS = (PREF_KEY, PREF_MODEL, PREF_EFFORT, PREF_THEME, PREF_EMAIL_TO, PREF_SMTP_USER, PREF_SMTP_PASSWORD,
              PREF_SMTP_SERVER, PREF_RELAY_URL, PREF_RELAY_SECRET, PREF_DEV_MODE,
-             PREF_MUST_NOT, PREF_RECENT_CUISINES)
+             PREF_MUST_NOT, PREF_RECENT_CUISINES, PREF_PANTRY)
 DEFAULT_SMTP = "smtp.gmail.com:465"
 MAILTO_LIMIT_WINDOWS = 1500   # characters of recipe text in a mailto link on Windows
 
@@ -259,6 +260,7 @@ class ChefBotApp:
         self.keepalive = KeepAlive.for_android() if android_app else KeepAlive()
         self.cuisine = prompts.NO_CUISINE
         self.recent_cuisines: list[str] = []
+        self._pantry_toggled = False
         self.audience = prompts.DEFAULT_AUDIENCE
         self.on_map = False
         self.map_stack: list[str] = ["world"]
@@ -340,6 +342,10 @@ class ChefBotApp:
                     self._rebuild_cuisine_chips()
             except Exception:
                 pass
+        if not self._pantry_toggled:
+            self.pantry_switch.value = prefs.get(PREF_PANTRY) == "on"
+        else:
+            self._run(self._remember_pantry)
         p.theme_mode = THEMES[self.theme]
         self.chef = api.ChefBotAPI(self.key) if self.key else None
         p.update()
@@ -588,6 +594,20 @@ class ChefBotApp:
         self.cuisine_chips: dict[str, ft.Chip] = {}
         self.cuisine_chips_row = ft.Row(wrap=True, spacing=8, run_spacing=8)
         self._rebuild_cuisine_chips()
+        self.pantry_switch = ft.Switch(label="Pantry defaults", value=False, on_change=self._on_pantry_change)
+        self.pantry_info_btn = ft.IconButton(
+            ft.Icons.INFO_OUTLINE,
+            icon_size=20,
+            icon_color=ft.Colors.PRIMARY,
+            tooltip="About pantry defaults",
+            on_click=self._pantry_info,
+        )
+        self.pantry_row = ft.Row(
+            [self.pantry_switch, self.pantry_info_btn],
+            spacing=4,
+            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            visible=self.cuisine != prompts.NO_CUISINE,
+        )
         self.audience_tiles: dict[str, ft.Container] = {}
         for label, (icon, short) in AUDIENCE_CARDS.items():
             self.audience_tiles[label] = ft.Container(
@@ -651,10 +671,27 @@ class ChefBotApp:
         else:
             self.cuisine = prompts.NO_CUISINE
         self._rebuild_cuisine_chips()
+        if hasattr(self, "pantry_row"):
+            self.pantry_row.visible = self.cuisine != prompts.NO_CUISINE
         try:
             self.cuisine_chips_row.update()
+            if hasattr(self, "pantry_row"):
+                self.pantry_row.update()
         except Exception:
             pass
+
+    def _on_pantry_change(self, e):
+        self._pantry_toggled = True
+        if self.prefs_loaded:
+            self._run(self._remember_pantry)
+
+    async def _remember_pantry(self):
+        if not self.prefs_loaded:
+            return
+        try:
+            await self.prefs.set(PREF_PANTRY, "on" if self.pantry_switch.value else "off")
+        except Exception:
+            log.warning("Couldn't remember pantry defaults setting", exc_info=True)
 
     def _show_cuisine_info(self, chip: ft.Chip, node_id: str):
         """Only the picked cuisine shows the info icon (Flutter shows a chip's trailing icon only with a handler)."""
@@ -827,6 +864,45 @@ class ChefBotApp:
                 ft.Container(
                     ft.Column([heading(cuisines.chip_label(node["id"]), 22), *lines],
                               spacing=10, tight=True, scroll=ft.ScrollMode.AUTO),
+                    padding=ft.Padding(left=24, right=24, top=8, bottom=80), width=MAX_WIDTH,
+                ),
+            ),
+        ))
+
+    def _pantry_info(self, e=None):
+        """A bottom sheet explaining pantry defaults and listing the picked cuisine's staples."""
+        node = cuisines.resolve(self.cuisine)
+        if not node:
+            return
+        chip_label = cuisines.chip_label(node["id"])
+        cuisine_name = (node.get("prompt_name") or chip_label).split(" (")[0]
+        article = "an" if cuisine_name[0].lower() in "aeiou" else "a"
+        explainer = (
+            f"Photographed only what you just bought? Turn this on and ChefBot assumes you also have the staples "
+            f"{article} {cuisine_name} home cook usually keeps in the cupboard. Anything it uses from this list is "
+            f"marked in the recipe, so you can check you have it. Your dietary needs and your 'Never use' list "
+            f"still come first."
+        )
+        items = node.get("pantry", [])
+        controls: list[ft.Control] = [
+            heading("Pantry defaults", 22),
+            ft.Text(explainer, size=15),
+        ]
+        if items:
+            controls.append(ft.Text(
+                f"With {chip_label}, ChefBot assumes you have",
+                size=13, weight=ft.FontWeight.W_700, color=ft.Colors.PRIMARY,
+            ))
+            text = ", ".join(items)
+            controls.append(ft.Text(
+                text[0].upper() + text[1:] + ("" if text.endswith(".") else "."),
+                size=14, color=ft.Colors.ON_SURFACE_VARIANT,
+            ))
+        self.page.show_dialog(ft.BottomSheet(
+            show_drag_handle=True, scrollable=True,
+            content=ft.SafeArea(
+                ft.Container(
+                    ft.Column(controls, spacing=10, tight=True, scroll=ft.ScrollMode.AUTO),
                     padding=ft.Padding(left=24, right=24, top=8, bottom=80), width=MAX_WIDTH,
                 ),
             ),
@@ -1847,7 +1923,8 @@ class ChefBotApp:
                                  ft.TextButton("Surprise me", icon=ft.Icons.CASINO_OUTLINED,
                                                on_click=self.surprise)], spacing=4, wrap=True)],
                         alignment=ft.MainAxisAlignment.SPACE_BETWEEN, wrap=True),
-                 self.cuisine_chips_row),
+                 self.cuisine_chips_row,
+                 self.pantry_row),
             card(section_title(ft.Icons.GROUPS, "Who's eating?"),
                  self._audience_grid()),
             card(section_title(ft.Icons.HEALTH_AND_SAFETY, "Any dietary needs?"),
@@ -2049,19 +2126,22 @@ class ChefBotApp:
             return
         await self._remember_must_not()
         restrictions = [r for r, c in self.diet_chips.items() if c.selected]
+        pantry = bool(self.pantry_switch.value) and self.cuisine != prompts.NO_CUISINE
         settings = {"cuisine_id": self.cuisine, "cuisine": self.cuisine, "audience": self.audience,
                     "dessert": bool(self.dessert.selected), "restrictions": restrictions,
-                    "must_not": (self.must_not.value or "").strip()}
+                    "must_not": (self.must_not.value or "").strip(), "pantry": pantry}
         cuisine_tag = "Anything" if self.cuisine == prompts.NO_CUISINE else cuisines.chip_label(self.cuisine)
         tags = [cuisine_tag, AUDIENCE_CARDS[self.audience][1]]
         if settings["dessert"]:
             tags.append("Dessert")
+        if pantry:
+            tags.append("Pantry defaults")
         tags += restrictions
         if settings["must_not"]:
             tags.append(f"Never: {settings['must_not']}")
         conv = Conversation(settings=settings, messages=[
             {"role": "system", "content": prompts.system_prompt(self.audience, self.cuisine,
-                                                                settings["dessert"], restrictions)},
+                                                                settings["dessert"], restrictions, pantry=pantry)},
             {"role": "user", "content": prompts.first_message(ingredients, settings["must_not"]),
              "display": f"{ingredients}\n\n{'  ·  '.join(tags)}"},
         ])

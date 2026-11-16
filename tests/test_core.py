@@ -314,3 +314,49 @@ def test_no_item_is_both_a_flavor_and_a_conditional_signature_ingredient():
     thai = cuisines.get("thai")
     assert any(s.startswith("galangal: ") for s in thai["substitutes"])
     assert "light brown sugar" not in prompts.system_prompt(prompts.DEFAULT_AUDIENCE, "thai")
+
+
+def test_pantry_defaults_data():
+    import re
+    brands = (
+        "kikkoman", "lee kum kee", "heinz", "tabasco", "sriracha", "huy fong",
+        "maggi", "knorr", "goya", "old bay", "tony chachere", "zatarain",
+    )
+    emoji_re = re.compile(r"[\U0001F300-\U0001FAFF\u2600-\u27BF]")
+    for node in cuisines.leaves():
+        pantry = node.get("pantry")
+        assert isinstance(pantry, list), node["id"]
+        assert 6 <= len(pantry) <= 10, (node["id"], len(pantry))
+        avoid = [a.lower() for a in node.get("avoid", [])]
+        for item in pantry:
+            assert isinstance(item, str) and 2 <= len(item) <= 80, (node["id"], item)
+            assert not emoji_re.search(item), (node["id"], item)
+            low = item.lower()
+            for brand in brands:
+                assert brand not in low, (node["id"], item, brand)
+            for forbidden in avoid:
+                assert forbidden not in low, (node["id"], item, forbidden)
+
+
+def test_pantry_defaults_prompt():
+    no_cuisine_off = prompts.system_prompt(prompts.DEFAULT_AUDIENCE, prompts.NO_CUISINE, pantry=False)
+    no_cuisine_on = prompts.system_prompt(prompts.DEFAULT_AUDIENCE, prompts.NO_CUISINE, pantry=True)
+    assert no_cuisine_on == no_cuisine_off
+    assert "from your pantry" not in no_cuisine_off
+    assert "turned on pantry defaults" not in no_cuisine_off
+
+    for node in cuisines.leaves():
+        cid = node["id"]
+        off = prompts.system_prompt(prompts.DEFAULT_AUDIENCE, cid, pantry=False)
+        assert off == prompts.system_prompt(prompts.DEFAULT_AUDIENCE, cid)
+        assert "from your pantry" not in off
+        assert "turned on pantry defaults" not in off
+
+        on = prompts.system_prompt(prompts.DEFAULT_AUDIENCE, cid, pantry=True)
+        assert on != off
+        assert "turned on pantry defaults" in on
+        assert "(from your pantry)" in on
+        assert "Dietary requirements and anything the user must not have override everything, including these pantry items." in on
+        for item in node["pantry"]:
+            assert item in on, (cid, item)
+

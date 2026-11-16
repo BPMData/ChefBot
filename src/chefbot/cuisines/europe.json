@@ -121,6 +121,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "dried pasta",
+      "extra-virgin olive oil",
+      "butter",
+      "canned plum tomatoes or passata",
+      "garlic and onions",
+      "a wedge of Parmesan",
+      "dried oregano",
+      "black pepper",
+      "Arborio rice"
+    ],
     "substitutes": []
   },
   {
@@ -167,6 +178,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "butter",
+      "extra-virgin olive oil",
+      "Parmigiano-Reggiano",
+      "risotto rice (Carnaroli or Arborio)",
+      "coarse cornmeal (polenta)",
+      "onions, carrots and celery",
+      "garlic",
+      "dry white wine",
+      "broth",
+      "dried egg pasta"
+    ],
     "substitutes": []
   },
   {
@@ -220,6 +243,15 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "extra-virgin olive oil",
+      "dried pasta (spaghetti, bucatini, rigatoni)",
+      "a wedge of Pecorino Romano",
+      "whole black peppercorns",
+      "garlic and dried chile (peperoncino)",
+      "dry white wine",
+      "dried chickpeas, lentils and white beans"
+    ],
     "substitutes": []
   },
   {
@@ -266,6 +298,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "extra-virgin olive oil",
+      "dried durum-wheat pasta",
+      "canned tomatoes and passata",
+      "garlic",
+      "dried chile (peperoncino)",
+      "dried oregano",
+      "salt-packed capers and anchovies",
+      "pecorino or ricotta salata",
+      "plain breadcrumbs (pangrattato)",
+      "dried chickpeas or white beans"
+    ],
     "substitutes": []
   },
   {
@@ -312,6 +356,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "butter and olive oil",
+      "shallots, onions and garlic",
+      "Dijon mustard",
+      "dry white wine",
+      "red wine vinegar",
+      "crème fraîche or heavy cream",
+      "thyme and bay leaves",
+      "all-purpose flour",
+      "chicken stock",
+      "eggs"
+    ],
     "substitutes": []
   },
   {
@@ -357,6 +413,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "extra-virgin olive oil",
+      "garlic and onions",
+      "paprika (pimentón)",
+      "short-grain rice (bomba)",
+      "dry white wine or sherry",
+      "sherry or wine vinegar",
+      "canned tomatoes",
+      "dried chickpeas and lentils",
+      "potatoes",
+      "saffron"
+    ],
     "substitutes": []
   },
   {
@@ -404,6 +472,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "extra-virgin olive oil",
+      "lemons",
+      "dried oregano",
+      "garlic and onions",
+      "feta",
+      "Kalamata olives",
+      "red wine vinegar",
+      "canned tomatoes and tomato paste",
+      "Greek yogurt",
+      "dried beans or lentils"
+    ],
     "substitutes": []
   },
   {
@@ -451,6 +531,15 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "floury and waxy potatoes",
+      "yellow onions and tart apples",
+      "prepared mustard",
+      "cider or white vinegar",
+      "butter and lard",
+      "sauerkraut and pickled gherkins",
+      "rye or mixed-grain bread"
+    ],
     "substitutes": []
   },
   {
@@ -496,6 +585,15 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "clarified butter or lard, and butter",
+      "all-purpose flour, eggs and milk",
+      "plain breadcrumbs",
+      "yellow onions",
+      "caraway seeds and dried marjoram",
+      "tarragon mustard",
+      "horseradish"
+    ],
     "substitutes": []
   },
   {
@@ -543,6 +641,14 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "sweet Hungarian paprika (plus hot paprika)",
+      "lard or sunflower oil",
+      "yellow onions",
+      "sour cream (tejföl)",
+      "garlic, caraway and black pepper",
+      "all-purpose flour and eggs"
+    ],
     "substitutes": []
   },
   {
@@ -589,6 +695,16 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "potatoes, onions and garlic",
+      "sauerkraut and fermented dill pickles",
+      "fresh dill",
+      "dried marjoram, allspice and bay leaves",
+      "sour cream (śmietana)",
+      "butter or lard",
+      "smoked bacon (boczek)",
+      "wheat flour"
+    ],
     "substitutes": []
   },
   {
@@ -635,6 +751,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "caraway seeds, dried marjoram, allspice and bay leaves",
+      "garlic and onions",
+      "root vegetables (carrot, parsley root, celeriac)",
+      "all-purpose flour and eggs",
+      "white vinegar",
+      "lard, butter and sour cream",
+      "potatoes",
+      "mustard",
+      "lager or dark beer"
+    ],
     "substitutes": []
   },
   {
@@ -681,6 +808,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "sunflower oil",
+      "butter",
+      "sour cream (smetana)",
+      "fresh dill",
+      "onions and carrots",
+      "potatoes, beets and cabbage",
+      "buckwheat groats (grechka)",
+      "rye bread",
+      "bay leaves",
+      "sauerkraut or brined pickles"
+    ],
     "substitutes": []
   },
   {
@@ -726,6 +865,15 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "olive oil (azeite)",
+      "garlic, yellow onions and bay leaves",
+      "dry white wine and wine vinegar",
+      "dried or canned beans",
+      "rice",
+      "potatoes",
+      "crusty or day-old bread"
+    ],
     "substitutes": []
   },
   {
@@ -773,6 +921,16 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "all-purpose flour",
+      "butter and beef dripping or lard",
+      "onions, potatoes, carrots and leeks",
+      "Worcestershire sauce",
+      "English mustard",
+      "malt vinegar",
+      "stock cubes or gravy granules",
+      "black tea"
+    ],
     "substitutes": []
   },
   {
@@ -818,6 +976,16 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "floury potatoes",
+      "onions and scallions",
+      "cabbage or kale",
+      "butter and buttermilk",
+      "baking soda",
+      "plain and wholemeal wheat flour",
+      "flat-leaf parsley",
+      "dry stout"
+    ],
     "substitutes": []
   },
   {
@@ -865,6 +1033,16 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "waxy potatoes and yellow onions",
+      "dark rye bread and crispbread",
+      "butter, heavy cream and sour cream",
+      "whole allspice and bay leaves",
+      "fresh or frozen dill",
+      "white vinegar",
+      "Nordic-style sweet mustard",
+      "lingonberry jam"
+    ],
     "substitutes": []
   },
   {
@@ -910,6 +1088,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "shelled walnuts",
+      "garlic and onions",
+      "red kidney beans",
+      "fresh cilantro, dill, parsley and tarragon",
+      "khmeli suneli and ground coriander",
+      "adjika (chile paste)",
+      "tkemali (sour plum sauce)",
+      "wine vinegar",
+      "cornmeal"
+    ],
     "substitutes": [
       "blue fenugreek (უცხო სუნელი): toasted Indian methi fenugreek seeds at half amount; sharper and more bitter"
     ]

@@ -92,7 +92,7 @@ MAX_RESTRICTIONS = 3
 # ---------------------------------------------------------------- prompts
 
 def system_prompt(audience: str, cuisine: str, dessert: bool = False,
-                  restrictions: list[str] | None = None) -> str:
+                  restrictions: list[str] | None = None, pantry: bool = False) -> str:
     """The standing instructions for one recipe conversation."""
     audience_text = AUDIENCES.get(audience, AUDIENCES[DEFAULT_AUDIENCE])
     node = None if cuisine == NO_CUISINE else cuisines.resolve(cuisine)
@@ -145,6 +145,19 @@ def system_prompt(audience: str, cuisine: str, dessert: bool = False,
         dish = "Make one savory main dish (with sides if they belong to it), not a dessert."
         staples = "butter, oil, salt and pepper, herbs and spices, and milk"
 
+    pantry_items = node.get("pantry", []) if node else []
+    pantry_block = ""
+    if pantry and pantry_items:
+        article = "an" if name[0].lower() in "aeiou" else "a"
+        items = ", ".join(pantry_items)
+        pantry_block = (
+            f"\n\nThe user has turned on pantry defaults: assume they also have these staples {article} {name} "
+            f"home cook usually keeps on hand: {items}. Use any that suit the dish even though they aren't in the "
+            f'ingredients list, as supporting ingredients, not the main ones. In the ingredients list, mark each '
+            f'one you use with "(from your pantry)" so the user can check they have it. Dietary requirements and '
+            f"anything the user must not have override everything, including these pantry items."
+        )
+
     return f"""\
 Respond as an experienced food scientist and test kitchen developer who goes by the handle ChefBot, known for
 your command of cooking fundamentals, your flair for modern creativity, and your ability to break things down into
@@ -157,7 +170,7 @@ ingredients to use in the recipe. If you are not given any food items to use, pl
 
 Please suggest a recipe {style}. Your recipe may include other pantry staples such as {staples}{staples_extra}
 but otherwise the primary ingredients for the recipe should come ONLY from the ingredients wrapped in triple
-quotes in the user's first message. {tips_text}
+quotes in the user's first message. {tips_text}{pantry_block}
 
 {guardrail_text}
 

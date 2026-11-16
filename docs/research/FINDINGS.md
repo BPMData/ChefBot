@@ -293,3 +293,31 @@ Fact-check results to apply when building:
   oregano and peperoncino are southern and Italian-American, not national; the dishes that now belong to
   Italian-American (spaghetti and meatballs, pepperoni pizza, chicken parm, Sunday gravy) should move out of its
   description, keeping it about the international image.
+
+## About the pantry-defaults run (2026-11-15)
+
+Researched the 28 cuisines in `tools/cuisine_pantry.json` that lacked `pantry_assumed` data (using regional
+cookbooks and food historians; notes and sources in `docs/research/results/raw/pantry_defaults.md`) and
+spot-checked the other 45 against their research and Asian culinary references.
+
+Key changes from the draft:
+- **Americas:** Added `apple cider vinegar` to `us_any`; `dried red kidney beans` to `us_creole`; `grits` and
+  `dried black-eyed peas` to `us_southern_soul`; dropped `ground cumin` from `mx_any` (per the Mexico note above)
+  and clarified dried chiles; added `ground cumin` and `tomatoes` to `mx_northern_baja`; added `sesame seeds` and
+  `Ceylon cinnamon` to `mx_central_oaxacan`; added `allspice and curry powder` to `caribbean_any`, `tomato sauce`
+  to `caribbean_cuban`, `olive oil` and `vinegar` to `caribbean_puerto_rican`, and `Jamaican curry powder` +
+  `browning sauce or soy sauce` to `caribbean_jamaican`; added `bay leaves` to `brazilian`; added `soy sauce
+  (sillao)` to `peruvian`; replaced generic grilling salt in `argentinian` with `onions`, `plain breadcrumbs (pan
+  rallado)` and `dried pasta`, using `ají molido`.
+- **Europe & Africa:** Added `butter` to `italy_any`, `extra-virgin olive oil` and `garlic` to `northern_italy`,
+  and `dried chickpeas or white beans` to `southern_sicilian_italy`; changed `smoked paprika` in `spanish` to
+  `paprika (pimentón)` and added `lentils` and `potatoes`; added `Kalamata olives` and `tomato paste` to `greek`;
+  added `sauerkraut or brined pickles` to `russian`; added `tomato paste` and `olives` to `moroccan_north_african`;
+  added `neutral oil` (essential for fasting days), `turmeric`, and `split peas` to `ethiopian`; added `tahini` and
+  `white vinegar` to `egyptian`; added `neutral oil`, `garlic` and `ginger` to `nigerian`; added `Dijon mustard`
+  (for yassa) to `senegalese`.
+- **Spot-checked 45:** Clarified plain `"rice"` to `"white rice"`, added missing everyday aromatics/oils/vinegar
+  across the Chinese and Japanese nodes, added `plain yogurt` to `india_any`/`north_india` and `ground coriander`
+  to `north_india`, added `dried kelp (dasima) and dried anchovies` to `korean`, added `Cheddar and Monterey Jack`
+  to `us_new_mexican`, and trimmed hedging/prose tags (`us_new_england`, `us_cajun`, `shandong`, `kansai`,
+  `hungarian`, `portuguese`).
