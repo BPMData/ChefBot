@@ -5,7 +5,8 @@ conversation memory, for desktop, web and a sideloaded Android APK. **Read `HAND
 it has the current state, what's pinned, the decisions and why, and the gotchas already hit. Private details
 (secrets' locations, accounts, Bryan's phone, which saved recipes are his) are in the gitignored
 `HANDOFF.local.md`; read it too when it exists, and never copy its contents into tracked files. `README.md` covers
-features; `docs/EMAIL.md` covers the mail relay.
+features; `docs/EMAIL.md` covers the mail relay; `docs/AI_WORKFLOW.md` captures the research, subagent orchestration,
+and self-verification workflow for larger tasks.
 
 ## Ground rules
 
