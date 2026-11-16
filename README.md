@@ -24,6 +24,7 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
   substitutes if you're missing a signature ingredient. Recipes use only the classic flavors that suit the dish;
   signature ingredients (wood ear mushrooms, perilla leaves...) are used only if you have them, otherwise suggested in
   the Tips.
+- **Pantry defaults** (opt-in when a cuisine is picked): assume you have that cuisine's everyday staples on hand and mark assumed items `(from your pantry)`.
 - **"Never use..." is remembered** between recipes and restarts (an allergy doesn't go away) until you clear it.
 - **Under every reply:** Copy (as Markdown), Save as PDF, Save as web page (.html), Email, Share, and
   Picture this dish. Each acts on that reply only. Your own messages have Copy too.

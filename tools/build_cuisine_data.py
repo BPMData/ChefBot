@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS_DIR = ROOT / "docs" / "research" / "results"
 OVERRIDES_PATH = ROOT / "tools" / "cuisine_overrides.json"
+PANTRY_PATH = ROOT / "tools" / "cuisine_pantry.json"
 OUT_DIR = ROOT / "src" / "chefbot" / "cuisines"
 
 ORGANIZATIONAL_IDS = {"the_americas", "asia", "europe", "eight_great_cuisines"}
@@ -542,7 +543,7 @@ def normalize_pitfalls(pitfalls: list[str]) -> list[str]:
 def apply_overrides(node: dict, ov: dict) -> None:
     """Apply tools/cuisine_overrides.json entries to a normalized node."""
     for field in ("label", "heading", "subtitle", "about", "prompt_name", "flavors", "sweet_only",
-                  "signature_ingredients", "tips", "pitfalls", "avoid"):
+                  "signature_ingredients", "tips", "pitfalls", "avoid", "pantry"):
         if field in ov:
             node[field] = list(ov[field]) if isinstance(ov[field], list) else ov[field]
 
@@ -567,14 +568,22 @@ def apply_overrides(node: dict, ov: dict) -> None:
             if t not in node["tips"]:
                 node["tips"].append(t)
 
-    # Also ensure anything in avoid is never in flavors or signature_ingredients
+    # Also ensure anything in avoid is never in flavors, signature_ingredients, or pantry
     for avoided in node["avoid"]:
         root_word = avoided.split()[0].lower()
         node["flavors"] = [f for f in node["flavors"] if root_word not in f.lower()]
         node["signature_ingredients"] = [s for s in node["signature_ingredients"] if root_word not in s.lower()]
+        if "pantry" in node:
+            node["pantry"] = [p for p in node["pantry"] if root_word not in p.lower()]
 
 
-def build_node(raw: dict, kind: str, children: list[str], overrides: dict[str, dict]) -> dict:
+def build_node(
+    raw: dict,
+    kind: str,
+    children: list[str],
+    overrides: dict[str, dict],
+    pantry: list[str] | None = None,
+) -> dict:
     nid = raw["id"]
     selectable = kind in ("cuisine", "any")
     label = "Any" if kind == "any" else raw["label"].strip()
@@ -593,6 +602,8 @@ def build_node(raw: dict, kind: str, children: list[str], overrides: dict[str, d
         "avoid": [],
         "children": list(children),
     }
+    if selectable:
+        node["pantry"] = list(pantry or [])
     if nid in overrides:
         apply_overrides(node, overrides[nid])
     # A classic flavor can't also be a "signature ingredient, use only if the user has it": the prompt would
@@ -623,6 +634,10 @@ def build_all() -> dict[str, list[dict]]:
     overrides: dict[str, dict] = {}
     if OVERRIDES_PATH.exists():
         overrides = json.loads(OVERRIDES_PATH.read_text(encoding="utf-8"))
+    pantry_map: dict[str, list[str]] = {}
+    if PANTRY_PATH.exists():
+        raw_pantry = json.loads(PANTRY_PATH.read_text(encoding="utf-8"))
+        pantry_map = {k: v for k, v in raw_pantry.items() if k != "_note"}
 
     # Load addition files if present
     additions_by_continent: dict[str, list[dict]] = {"asia": [], "africa": [], "europe": [], "americas": []}
@@ -741,10 +756,10 @@ def build_all() -> dict[str, list[dict]]:
                 nodes.append(build_node(raw_node, "country", ordered_kids, overrides))
                 for cid in ordered_kids:
                     ckind = "any" if cid.endswith("_any") else "cuisine"
-                    nodes.append(build_node(raw_by_id[cid], ckind, [], overrides))
+                    nodes.append(build_node(raw_by_id[cid], ckind, [], overrides, pantry_map.get(cid)))
             else:
                 ckind = "any" if top_id.endswith("_any") else "cuisine"
-                nodes.append(build_node(raw_node, ckind, [], overrides))
+                nodes.append(build_node(raw_node, ckind, [], overrides, pantry_map.get(top_id)))
 
         output[cont_id] = nodes
 

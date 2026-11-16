@@ -20,10 +20,12 @@ more than cost.
 
 ## Pinned (do these next, in this order)
 
-**Pantry defaults: decided 2026-11-15, build next (handed to Antigravity).** An opt-in "Pantry defaults" switch
-in the Pick a cuisine card, with an (i) sheet that explains it and lists the staples assumed for the picked
-cuisine. Full brief, research first and then the build: `docs/PANTRY_DEFAULTS.md`. Draft lists for all 73
-cuisines are in `tools/cuisine_pantry.json` (28 of them written by Claude, not researched; the brief lists them).
+**Pantry defaults: built (2026-11-15, waiting for Bryan's review).** Researched the 28 remaining cuisines and
+spot-checked all 73 in `tools/cuisine_pantry.json` (`docs/research/results/raw/pantry_defaults.md`, run note in
+`docs/research/FINDINGS.md`). `tools/build_cuisine_data.py` adds `pantry` to every `cuisine` and `any` node and
+strips `avoid` matches. The "Pick a cuisine" card has an opt-in "Pantry defaults" switch (`PREF_PANTRY` =
+`"chefbot.pantry_defaults"`, off by default) and an info sheet explaining it and listing the picked cuisine's
+staples; `prompts.system_prompt(..., pantry=True)` passes them and marks assumed items `(from your pantry)`.
 
 **Third batch of cuisines built (2026-11-15), PR #35 (branch `claude/third-batch-and-pantry`), waiting for
 Bryan's review** (PR #34 was merged before the build was pushed, so only the research prompt reached `main`): New England (`us_new_england`, replaces New England Seafood; old saved chats resolve to it

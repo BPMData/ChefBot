@@ -66,6 +66,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "extra-virgin olive oil",
+      "za'atar",
+      "sumac",
+      "tahini",
+      "lemons",
+      "garlic",
+      "chickpeas and lentils",
+      "rice, bulgur or freekeh",
+      "plain yogurt",
+      "flatbread"
+    ],
     "substitutes": []
   },
   {
@@ -115,6 +127,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "basmati rice",
+      "onions",
+      "turmeric and black pepper",
+      "dried herbs (mint, fenugreek, dill)",
+      "plain yogurt",
+      "dried limes",
+      "tomato paste",
+      "saffron",
+      "butter or neutral oil"
+    ],
     "substitutes": [
       "dried limes (لیمو عمانی, līmū-ye ʿomānī): fresh lime juice plus a small amount of lime zest; misses the fermented earthy bitterness"
     ]
@@ -169,6 +192,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "tomato and red pepper paste (salça)",
+      "plain yogurt",
+      "onions",
+      "garlic",
+      "dried mint",
+      "red pepper flakes (pul biber)",
+      "rice and bulgur",
+      "olive oil and butter",
+      "bread"
+    ],
     "substitutes": []
   }
 ]

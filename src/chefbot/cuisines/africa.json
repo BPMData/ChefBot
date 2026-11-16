@@ -65,6 +65,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "olive oil",
+      "preserved lemons",
+      "garlic and onions",
+      "ground cumin, sweet paprika, ginger and turmeric",
+      "cinnamon",
+      "couscous",
+      "fresh cilantro and parsley",
+      "chickpeas",
+      "tomato paste",
+      "green or black olives"
+    ],
     "substitutes": [
       "salt-preserved lemon: no close substitute (fresh lemon gives acidity but not the fermented peel aroma or texture)"
     ]
@@ -112,6 +124,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "harissa",
+      "olive oil",
+      "tomato paste",
+      "caraway",
+      "ground coriander or tabil",
+      "ground cumin",
+      "garlic",
+      "couscous",
+      "black pepper"
+    ],
     "substitutes": []
   },
   {
@@ -158,6 +181,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "olive oil or neutral oil",
+      "garlic and onions",
+      "tomato paste",
+      "ground cumin",
+      "paprika",
+      "cinnamon",
+      "black pepper",
+      "dried chickpeas",
+      "couscous"
+    ],
     "substitutes": []
   },
   {
@@ -201,6 +235,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "spiced clarified butter (niter kibbeh)",
+      "neutral oil",
+      "berbere",
+      "mitmita",
+      "turmeric",
+      "red onions",
+      "garlic and fresh ginger",
+      "red lentils (misir) and split peas",
+      "seasoned chickpea flour (shiro)",
+      "teff flour or injera"
+    ],
     "substitutes": []
   },
   {
@@ -248,6 +294,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "short- or medium-grain white rice",
+      "vermicelli",
+      "dried brown and red lentils",
+      "dried fava beans and chickpeas",
+      "onions and garlic",
+      "ground cumin and coriander",
+      "tomato paste",
+      "tahini",
+      "white vinegar and lemons",
+      "ghee (samna) or neutral oil"
+    ],
     "substitutes": []
   },
   {
@@ -293,6 +351,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "red palm oil and neutral oil",
+      "Scotch bonnet peppers",
+      "tomatoes and red bell peppers",
+      "onions, garlic and ginger",
+      "bouillon cubes",
+      "ground crayfish",
+      "long-grain parboiled rice",
+      "garri or yam flour",
+      "dried thyme and curry powder"
+    ],
     "substitutes": []
   },
   {
@@ -339,6 +408,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "broken or jasmine rice",
+      "peanut or neutral oil",
+      "onions and garlic",
+      "tomato paste",
+      "Dijon mustard",
+      "unsweetened peanut butter",
+      "Scotch bonnet peppers",
+      "bouillon cubes",
+      "dried or smoked fish",
+      "limes"
+    ],
     "substitutes": []
   }
 ]

@@ -108,6 +108,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "neutral oil",
+      "butter",
+      "all-purpose flour",
+      "eggs",
+      "onions and garlic",
+      "ketchup and yellow mustard",
+      "mayonnaise",
+      "chicken broth",
+      "apple cider vinegar",
+      "brown sugar"
+    ],
     "substitutes": []
   },
   {
@@ -154,6 +166,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "frozen roasted New Mexico green chile",
+      "pure ground New Mexico red chile or dried pods",
+      "dried pinto beans",
+      "garlic",
+      "white onions",
+      "lard",
+      "all-purpose flour",
+      "Mexican oregano",
+      "Cheddar and Monterey Jack"
+    ],
     "substitutes": []
   },
   {
@@ -206,6 +229,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "medium-grain white rice",
+      "soy sauce (shoyu)",
+      "toasted sesame oil",
+      "furikake",
+      "mayonnaise",
+      "canned luncheon meat",
+      "oyster sauce and mirin",
+      "sweet onions and green onions",
+      "fresh ginger and garlic"
+    ],
     "substitutes": []
   },
   {
@@ -246,6 +280,16 @@
       "filé powder"
     ],
     "children": [],
+    "pantry": [
+      "onions, celery and green bell peppers (the trinity)",
+      "long-grain white rice",
+      "all-purpose flour and neutral oil",
+      "garlic",
+      "scallions and flat-leaf parsley",
+      "Louisiana hot sauce",
+      "chicken stock",
+      "bay leaves"
+    ],
     "substitutes": []
   },
   {
@@ -289,6 +333,18 @@
       "filé powder"
     ],
     "children": [],
+    "pantry": [
+      "onions, celery and green bell peppers (the trinity)",
+      "long-grain white rice",
+      "dried red kidney beans",
+      "butter and all-purpose flour",
+      "canned tomatoes",
+      "garlic",
+      "scallions and flat-leaf parsley",
+      "Louisiana hot sauce",
+      "Worcestershire sauce",
+      "Creole mustard"
+    ],
     "substitutes": []
   },
   {
@@ -330,6 +386,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "cornmeal and grits",
+      "all-purpose flour",
+      "dried black-eyed peas",
+      "buttermilk",
+      "bacon drippings or lard",
+      "neutral oil",
+      "onions and garlic",
+      "apple cider vinegar",
+      "hot sauce",
+      "brown sugar or molasses"
+    ],
     "substitutes": []
   },
   {
@@ -367,6 +435,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "flour and corn tortillas",
+      "canned pinto or refried beans",
+      "long-grain white rice",
+      "chili powder and ground cumin",
+      "canned tomatoes or tomato sauce",
+      "onions and garlic",
+      "pickled jalapeños",
+      "Cheddar or Monterey Jack",
+      "lard or neutral oil"
+    ],
     "substitutes": []
   },
   {
@@ -419,6 +498,15 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "butter",
+      "all-purpose flour",
+      "salt pork or bacon",
+      "yellow onions and potatoes",
+      "dark molasses",
+      "pure maple syrup",
+      "oyster crackers or saltines"
+    ],
     "substitutes": []
   },
   {
@@ -472,6 +560,15 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "canned whole or crushed plum tomatoes and tomato paste",
+      "dried pasta (spaghetti, rigatoni, ziti, linguine)",
+      "olive oil",
+      "garlic and yellow onions",
+      "dried oregano and red pepper flakes",
+      "a wedge of Pecorino Romano or Parmesan",
+      "plain or Italian-seasoned breadcrumbs"
+    ],
     "substitutes": []
   },
   {
@@ -520,6 +617,16 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "pure maple syrup (sirop d'érable)",
+      "brown sugar (cassonade)",
+      "molasses (mélasse)",
+      "dried summer savory (sarriette)",
+      "butter and lard",
+      "potatoes and yellow onions",
+      "all-purpose flour",
+      "ketchup"
+    ],
     "substitutes": []
   },
   {
@@ -605,6 +712,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "corn tortillas or masa harina",
+      "dried or canned black or pinto beans",
+      "white rice",
+      "white onions and garlic",
+      "tomatoes",
+      "dried chiles (ancho, guajillo, árbol)",
+      "Mexican oregano",
+      "lard or neutral oil",
+      "limes"
+    ],
     "substitutes": []
   },
   {
@@ -642,6 +760,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "flour tortillas",
+      "dried pinto beans",
+      "dried red chiles (guajillo, ancho, chiltepín)",
+      "white onions and garlic",
+      "tomatoes",
+      "Mexican oregano and ground cumin",
+      "lard or neutral oil",
+      "limes",
+      "queso fresco"
+    ],
     "substitutes": []
   },
   {
@@ -683,6 +812,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "corn tortillas or masa harina",
+      "dried black beans",
+      "dried chiles (ancho, guajillo, pasilla)",
+      "white onions and garlic",
+      "tomatoes and tomatillos",
+      "lard or neutral oil",
+      "Mexican oregano",
+      "dried avocado leaves (hoja de aguacate)",
+      "sesame seeds and Ceylon cinnamon (canela)"
+    ],
     "substitutes": [
       "hoja santa: no close substitute (fennel/tarragon approximation only)"
     ]
@@ -724,6 +864,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "achiote paste (recado rojo)",
+      "sour orange juice (or orange and lime)",
+      "habanero chiles",
+      "dried black beans",
+      "corn tortillas",
+      "red and white onions",
+      "garlic",
+      "lard or neutral oil",
+      "Mexican oregano and allspice"
+    ],
     "substitutes": []
   },
   {
@@ -809,6 +960,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "long-grain white rice",
+      "dried or canned beans or pigeon peas",
+      "onions, garlic and bell peppers",
+      "scallions and fresh thyme",
+      "limes",
+      "Scotch bonnet or hot pepper sauce",
+      "coconut milk",
+      "allspice and curry powder",
+      "neutral oil"
+    ],
     "substitutes": []
   },
   {
@@ -848,6 +1010,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "long-grain white rice",
+      "dried black beans",
+      "olive oil",
+      "garlic",
+      "onions and green bell peppers",
+      "sour orange juice (or orange and lime)",
+      "ground cumin and dried oregano",
+      "bay leaves",
+      "dry white cooking wine (vino seco)",
+      "tomato sauce or tomato paste"
+    ],
     "substitutes": [
       "sour orange: orange juice plus lime juice"
     ]
@@ -892,6 +1066,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "medium-grain white rice",
+      "sofrito (recaíto)",
+      "canned or dried pink beans",
+      "pigeon peas (gandules)",
+      "adobo seasoning",
+      "annatto (achiote) or sazón",
+      "olives and capers (alcaparrado)",
+      "canned tomato sauce",
+      "olive oil",
+      "white or cider vinegar"
+    ],
     "substitutes": []
   },
   {
@@ -933,6 +1119,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "long-grain white rice",
+      "dried red kidney beans",
+      "coconut milk",
+      "scallions",
+      "fresh thyme",
+      "Scotch bonnet peppers",
+      "allspice (pimento) berries",
+      "Jamaican curry powder",
+      "garlic, onions and fresh ginger",
+      "browning sauce or soy sauce"
+    ],
     "substitutes": [
       "Scotch bonnet: habanero"
     ]
@@ -986,6 +1184,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "scallions (cebolla larga)",
+      "plum tomatoes",
+      "fresh cilantro",
+      "ground cumin",
+      "annatto (color)",
+      "garlic",
+      "long-grain white rice",
+      "panela (unrefined cane sugar)",
+      "neutral oil",
+      "bouillon cubes"
+    ],
     "substitutes": [
       "guascas herb (Galinsoga parviflora): no close substitute (dried oregano, parsley and a touch of cilantro only roughly approximate ajiaco)"
     ]
@@ -1031,6 +1241,17 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "long-grain white rice",
+      "dried black or carioca beans",
+      "garlic and onions",
+      "cassava flour (farinha de mandioca)",
+      "neutral oil",
+      "limes",
+      "parsley and scallions (cheiro-verde)",
+      "bay leaves",
+      "tomatoes"
+    ],
     "substitutes": []
   },
   {
@@ -1074,6 +1295,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "limes",
+      "red onions",
+      "ají amarillo and ají panca pastes",
+      "garlic",
+      "fresh cilantro",
+      "white rice",
+      "potatoes",
+      "ground cumin",
+      "soy sauce (sillao)",
+      "evaporated milk"
+    ],
     "substitutes": []
   },
   {
@@ -1115,6 +1348,18 @@
     ],
     "avoid": [],
     "children": [],
+    "pantry": [
+      "sunflower or olive oil",
+      "garlic and onions",
+      "flat-leaf parsley",
+      "dried oregano and crushed red chile (ají molido)",
+      "sweet paprika (pimentón)",
+      "red wine vinegar",
+      "all-purpose flour",
+      "plain breadcrumbs (pan rallado)",
+      "dried pasta",
+      "dulce de leche"
+    ],
     "substitutes": []
   }
 ]
