@@ -20,6 +20,10 @@ more than cost.
 
 ## Pinned (do these next, in this order)
 
+**Batch 4 geography expansion + Favorites, Search & "Try again" built (2026-11-15, branch `batch4-favorites-try-again`, PR waiting for Bryan's review):**
+- **Batch 4 (16 cuisines, 6th continent Oceania, 89 leaves total):** Researched and built `oceania` (`australian`, `new_zealander`), `central_west_india` (moved Rajasthan out of `north_india`), South America (`venezuelan`, `chilean`, `guianas`), Near East (`yemeni`, `iraqi`), Africa (`south_african`, `east_african`, `ghanaian`, `central_african`), and US (`us_native_american`, `us_pacific_northwest`, `us_great_lakes`, `us_appalachian`) with researched `pantry` defaults (`tools/cuisine_pantry.json`), full 3D globe + 2D map support (`src/chefbot/maps/oceania.json`, updated `globe.json`, `world.json`, `americas.json`, `near_east.json`, `africa.json`, `united_states.json`, `india.json`), and non-overlapping call-out chips. Raw research in `docs/research/results/raw/fourth_batch.md` and decisions in `docs/research/FINDINGS.md`.
+- **Favorites, saved search & "Try again":** Added backwards-compatible `favorite`, `access_count`, `last_accessed` fields and `toggle_favorite`/`record_access` methods (`src/chefbot/history.py`, preserving `updated` so Recents stays chronological), hierarchical Favorites folder & sorting (`src/chefbot/favorites.py`, `src/main.py`), Recents/Favorites search, live header/row star toggle, and one-tap `"Try again"` on the latest AI reply (guarded by `self.working`, keeping `kept_photos` safe, with rollback on failure). Note: rebuild Android APK and test on phone before relying on mobile background behavior.
+
 **Pantry defaults: built (2026-11-15, waiting for Bryan's review).** Researched the 28 remaining cuisines and
 spot-checked all 73 in `tools/cuisine_pantry.json` (`docs/research/results/raw/pantry_defaults.md`, run note in
 `docs/research/FINDINGS.md`). `tools/build_cuisine_data.py` adds `pantry` to every `cuisine` and `any` node and
@@ -555,7 +559,7 @@ The next `flet build apk` downloads it all again.
   - *Before shipping:* run the reviewer on the test case, then the existing judged recipe set with and without
     the review step; compare scores and time it. Reviewer: a fast model from one of Bryan's preferred labs.
     Pairs with Spoonacular idea 2 below (a hard-data allergen check).
-- "Try again" on a reply; deleting a single older message.
+- Deleting a single older message. ("Try again" on the latest reply: done 2026-11-15.)
 - If Android kills ChefBot outright mid-reply (not just freezes it; rare with the keep-alive), the follow-up being
   answered is lost: it's only saved together with its reply. Saving the user message first would let the
   auto-retry pick it up after a restart.

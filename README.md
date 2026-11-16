@@ -10,7 +10,8 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
 ## What's new
 
 - **Memory.** A recipe is a conversation. Ask for changes and ChefBot rewrites the whole recipe with them applied.
-- **Saved recipes.** Every conversation (and its dish photo) is kept on the device.
+- **Saved recipes & Favorites.** Every conversation (and its dish photo) is kept on the device, with
+  search across titles, cuisines, and ingredients, plus a hierarchical Favorites folder sorted by access.
 - **Runs anywhere.** One Python codebase ([Flet](https://flet.dev)) runs on desktop, in a browser, and as an
   Android app.
 - **New models.** Recipes come from GLM 5.3 (Z.ai) through [OpenRouter](https://openrouter.ai), sent to Z.ai's
@@ -18,7 +19,7 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
   dish pictures come from Gemini 3.1 Flash Lite Image.
 - **Fixed allergen rules.** "Free of major food allergens" now covers all nine U.S. allergens (FALCPA plus sesame,
   added by the FASTER Act), and dietary rules override a cuisine's classic ingredients.
-- **Cuisine explainers and map browser.** Browse 73 regional cuisines by list or on an interactive world map
+- **Cuisine explainers and map browser.** Browse 89 regional cuisines across 6 continents by list or on an interactive 3D globe and world map
   ("Browse by map") with continent and country drill-down, pinch-zoom, and call-out chips for small regions. Tap the
   info icon on any cuisine for a regional mini-map, where it's from, its style, the flavors ChefBot draws on, and
   substitutes if you're missing a signature ingredient. Recipes use only the classic flavors that suit the dish;
@@ -27,7 +28,7 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
 - **Pantry defaults** (opt-in when a cuisine is picked): assume you have that cuisine's everyday staples on hand and mark assumed items `(from your pantry)`.
 - **"Never use..." is remembered** between recipes and restarts (an allergy doesn't go away) until you clear it.
 - **Under every reply:** Copy (as Markdown), Save as PDF, Save as web page (.html), Email, Share, and
-  Picture this dish. Each acts on that reply only. Your own messages have Copy too.
+  Picture this dish (plus Try again on the latest reply). Each acts on that reply only. Your own messages have Copy too.
 - **Email** uses your own mail app, no setup needed. On a phone it opens the share sheet with the whole recipe
   and the PDF and photo attached; on a computer it opens a new message with the recipe text. A hidden developer
   setting (tap "Settings" 7 times) lets ChefBot send formatted emails itself through a small Google Apps Script

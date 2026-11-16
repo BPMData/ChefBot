@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 DATA_DIR = Path(__file__).resolve().parent / "cuisines"
-CONTINENT_FILES = ("americas", "asia", "europe", "near_east", "africa")
+CONTINENT_FILES = ("americas", "asia", "europe", "near_east", "africa", "oceania")
 
 # Maps every legacy label from the old flat prompts.CUISINES dict to a leaf node id.
 LEGACY_IDS: dict[str, str] = {
@@ -112,7 +112,7 @@ def children(node_id: str) -> list[dict]:
 
 
 def continents() -> list[dict]:
-    """Return the five continent nodes in display order."""
+    """Return the six continent nodes in display order."""
     return [_BY_ID[cid] for cid in CONTINENT_FILES if cid in _BY_ID]
 
 

@@ -32,6 +32,9 @@ class Conversation:
     settings: dict = field(default_factory=dict)
     messages: list[dict] = field(default_factory=list)
     photos: dict[str, str] = field(default_factory=dict)   # str(message index) -> file name
+    favorite: bool = False
+    access_count: int = 0
+    last_accessed: float = 0.0
 
     def chat_messages(self) -> list[dict]:
         return [{"role": m["role"], "content": m["content"]} for m in self.messages]
@@ -67,9 +70,35 @@ class History:
 
     def save(self, conv: Conversation) -> None:
         conv.updated = time.time()
-        convs = [c for c in self.load() if c.id != conv.id]
+        existing = self.load()
+        is_new = not any(c.id == conv.id for c in existing)
+        if is_new and conv.access_count == 0 and conv.last_accessed == 0.0:
+            conv.access_count = 1
+            conv.last_accessed = conv.created
+        convs = [c for c in existing if c.id != conv.id]
         convs.insert(0, conv)
         self._write(convs)       # no cap: recipes stay until you delete them
+
+    def toggle_favorite(self, conv_id: str) -> bool:
+        """Toggle favorite on a saved conversation without changing `updated`."""
+        convs = self.load()
+        for conv in convs:
+            if conv.id == conv_id:
+                conv.favorite = not conv.favorite
+                self._write(convs)
+                return conv.favorite
+        return False
+
+    def record_access(self, conv_id: str) -> Conversation | None:
+        """Increment access_count and refresh last_accessed without changing `updated`."""
+        convs = self.load()
+        for conv in convs:
+            if conv.id == conv_id:
+                conv.access_count += 1
+                conv.last_accessed = time.time()
+                self._write(convs)
+                return conv
+        return None
 
     def delete(self, conv_id: str) -> None:
         convs = self.load()

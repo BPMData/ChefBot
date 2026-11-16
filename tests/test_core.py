@@ -297,7 +297,7 @@ def test_build_cuisine_data_reproduces_committed_json():
     builder = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(builder)
     built = builder.build_all()
-    for cont_id in ("americas", "asia", "europe", "near_east", "africa"):
+    for cont_id in cuisines.CONTINENT_FILES:
         committed = json.loads((ROOT / "src" / "chefbot" / "cuisines" / f"{cont_id}.json").read_text(encoding="utf-8"))
         assert built[cont_id] == committed
 
@@ -359,4 +359,40 @@ def test_pantry_defaults_prompt():
         assert "Dietary requirements and anything the user must not have override everything, including these pantry items." in on
         for item in node["pantry"]:
             assert item in on, (cid, item)
+
+
+def test_batch4_cuisines_and_oceania():
+    cont_ids = [c["id"] for c in cuisines.continents()]
+    assert cont_ids == ["americas", "asia", "europe", "near_east", "africa", "oceania"]
+
+    expected_parent = {
+        "australian": "oceania",
+        "new_zealander": "oceania",
+        "central_west_india": "india",
+        "venezuelan": "americas",
+        "chilean": "americas",
+        "guianas": "americas",
+        "yemeni": "near_east",
+        "iraqi": "near_east",
+        "south_african": "africa",
+        "east_african": "africa",
+        "ghanaian": "africa",
+        "central_african": "africa",
+        "us_native_american": "united_states",
+        "us_pacific_northwest": "united_states",
+        "us_great_lakes": "united_states",
+        "us_appalachian": "united_states",
+    }
+    for cid, parent_id in expected_parent.items():
+        node = cuisines.get(cid)
+        assert node is not None, cid
+        assert len(node["label"]) <= 20
+        assert 6 <= len(node["pantry"]) <= 10
+        assert cid in cuisines.get(parent_id)["children"]
+
+    assert "Rajasthan" not in cuisines.get("north_india")["about"]
+    native = cuisines.get("us_native_american")
+    assert "frybread" in native["avoid"]
+    assert "Three Sisters" in native["about"]
+
 

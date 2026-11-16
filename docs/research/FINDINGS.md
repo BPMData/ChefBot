@@ -321,3 +321,47 @@ Key changes from the draft:
   to `north_india`, added `dried kelp (dasima) and dried anchovies` to `korean`, added `Cheddar and Monterey Jack`
   to `us_new_mexican`, and trimmed hedging/prose tags (`us_new_england`, `us_cajun`, `shandong`, `kansai`,
   `hungarian`, `portuguese`).
+
+## Batch 4 Geography Expansion (2026-11-15)
+
+Researched 16 new cuisines (plus pantry defaults of 9–10 everyday staples each) across six continents in isolated
+agent runs against published cookbooks, culinary historians, and food-composition authorities; full reports and
+bibliographies are in `docs/research/results/raw/fourth_batch.md`, and machine data in
+`docs/research/results/fourth_batch.json` and `docs/research/results/fourth_batch_pantry.json`.
+
+Key taxonomy, boundary, and content decisions:
+- **New 6th continent — Oceania (`oceania`):** Added `australian` and `new_zealander`. Highlighted shared
+  Antipodean colonial baking vs. contemporary divergence, while keeping the pavlova origin question neutrally
+  documented (referencing Helen Leach's early print evidence alongside competing Australian claims). Native bush
+  ingredients (`lemon myrtle`, `Tasmanian pepperberry`, `finger lime`, `horopito`, `kawakawa`) include practical
+  supermarket substitutes (`replace:`/`substitute:`/`alternative:`), and commercial yeast-extract spreads, chicken
+  salt, and New Zealand-style tomato sauce use generic descriptions without brand names.
+- **India alignment (`central_west_india` vs. `north_india` and `india_any`):** West & Central India covers
+  Maharashtra, Gujarat, Rajasthan, Madhya Pradesh, and Goa (millet breads `jowar`/`bajra`, `besan`, peanuts,
+  sesame, `jaggery`, `kokum`, tamarind, and Goan toddy vinegar, noting both Jain/Vaishnava no-allium/vegetarian
+  and coastal Malvani/Goan meat-seafood traditions). Moved `Rajasthan` out of `north_india`'s `about` description
+  (via override) and map polygon set (`IN_CENTRAL_WEST`) so `north_india` and `central_west_india` stay cleanly
+  partitioned, while leaving `india_any` framed as international/export restaurant clichés rather than a baseline.
+- **US & Native American (`us_native_american`, `us_pacific_northwest`, `us_great_lakes`, `us_appalachian`):**
+  - `us_native_american` strictly distinguishes pre-colonial, ecosystem-specific foodways (Eastern Woodlands and
+    Southwest Three Sisters agriculture, Great Lakes hand-harvested `manoomin`, PNW cedar-smoked salmon, Diné
+    juniper-ash blue corn) from post-1860s forced-relocation commodity survival foods such as frybread made from
+    government rations of white flour and lard, and warns against pan-Indigenous or Tex-Mex homogenization.
+  - `us_great_lakes` uses the concise UI label `"Great Lakes"` (11 chars, within the 20-char cap) while covering
+    Minnesota, Wisconsin, and Michigan lake fish, hand-harvested wild rice, Upper Peninsula pasties, smoked/cured
+    sausages, rye/caraway/dill, tart cherries, and farmstead dairy rather than mid-century canned-soup clichés.
+  - `us_appalachian` highlights Blue Ridge and Cumberland mountain preservation, Cherokee Three Sisters roots,
+    Affrilachian contributions, sorghum syrup (not sugar-cane molasses), unsweetened white cornmeal, and ramps.
+- **The Guianas (`guianas`):** Combines Guyana, Suriname, and French Guiana around Indigenous detoxified bitter
+  cassava (`cassareep`, `couac`) alongside Afro-Creole, Maroon, Indo-Caribbean, Javanese-Surinamese (`kecap
+  manis`, `trassi`), Sephardic, and Franco-Antillean (`colombo`, `bouillon d'awara`) traditions, explicitly flagging
+  the distinction between sweet soy sauce (`kecap manis`) and unsalted bitter-cassava `cassareep` as well as toxic
+  raw bitter cassava handling.
+- **Near East & Africa (`yemeni`, `iraqi`, `south_african`, `east_african`, `ghanaian`, `central_african`):**
+  Established crisp boundaries with neighboring Batch 1–3 cuisines: Yemeni `hawaij` and fenugreek `hulba` distinct
+  from Levantine/Gulf cuisines; Iraqi black-pepper `baharat`, `noomi basra`, and sweet-sour `dibis`/tamarind;
+  South African four-stream traditions (Indigenous Nguni/Sotho-Tswana grains/fermented dairy, Afrikaans curing/braai,
+  Cape Malay spices, Durban curry); Swahili-coast + inland East African; Ghanaian jasmine/basmati jollof,
+  fermented `banku`/`kenkey`, and `shito` distinct from `nigerian`/`senegalese`; Central African red palm oil,
+  cassava leaves (`pondu`), `njangsang`, and `ndolé`. Commercial paste/spice-mix sodium figures across all 16
+  nodes carry explicit `LOW CONFIDENCE` qualifiers in raw research.

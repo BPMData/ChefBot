@@ -24,10 +24,12 @@ CONTINENT_SPECS = [
      "Cuisines of East, South, Southeast and Central Asia."),
     ("europe", "Europe", "Mediterranean, Western, Central, Northern & Caucasus",
      "Cuisines of Mediterranean, Western, Central, Northern and Eastern Europe and the Caucasus."),
-    ("near_east", "Near East", "Levant, Iran & Anatolia",
-     "Cuisines of the Levant, Iran and Anatolia."),
-    ("africa", "Africa", "North, West & East Africa",
-     "Cuisines of North, West and East Africa."),
+    ("near_east", "Near East", "Levant, Arabia, Iraq, Iran & Anatolia",
+     "Cuisines of the Levant, Arabia, Mesopotamia, Iran and Anatolia."),
+    ("africa", "Africa", "North, West, Central, East & Southern",
+     "Cuisines of North, West, Central, East and Southern Africa."),
+    ("oceania", "Oceania", "Australia and Aotearoa New Zealand",
+     "Cuisines of Australia and Aotearoa New Zealand."),
 ]
 
 # Country branch nodes and the prefix/set of child ids belonging to each.
@@ -35,6 +37,7 @@ COUNTRY_CHILDREN: dict[str, list[str]] = {
     "united_states": [
         "us_any", "us_cajun", "us_creole", "us_southern_soul", "us_tex_mex", "us_new_england",
         "us_italian_american", "us_new_mexican", "us_hawaiian",
+        "us_native_american", "us_pacific_northwest", "us_great_lakes", "us_appalachian",
     ],
     "mexico": [
         "mx_any", "mx_northern_baja", "mx_central_oaxacan", "mx_yucatan",
@@ -49,7 +52,7 @@ COUNTRY_CHILDREN: dict[str, list[str]] = {
         "japan_any", "kanto", "kansai",
     ],
     "india": [
-        "india_any", "north_india", "south_india",
+        "india_any", "north_india", "south_india", "central_west_india",
     ],
     "italy": [
         "italy_any", "northern_italy", "roman_central_italy", "southern_sicilian_italy",
@@ -78,6 +81,23 @@ ADDITION_CONTINENT = {
     "us_new_england": "americas",
     "us_italian_american": "americas",
     "roman_central_italy": "europe",
+    # Fourth batch (2026-11-15)
+    "australian": "oceania",
+    "new_zealander": "oceania",
+    "central_west_india": "asia",
+    "venezuelan": "americas",
+    "chilean": "americas",
+    "guianas": "americas",
+    "yemeni": "near_east",
+    "iraqi": "near_east",
+    "south_african": "africa",
+    "east_african": "africa",
+    "ghanaian": "africa",
+    "central_african": "africa",
+    "us_native_american": "americas",
+    "us_pacific_northwest": "americas",
+    "us_great_lakes": "americas",
+    "us_appalachian": "americas",
 }
 
 # Third batch (2026-11-15): research ids that replace an existing node in place.
@@ -95,6 +115,10 @@ PROMPT_NAMES: dict[str, str] = {
     "us_italian_american": "Italian-American",
     "us_new_mexican": "New Mexican",
     "us_hawaiian": "Hawaiian & Local",
+    "us_native_american": "Native American",
+    "us_pacific_northwest": "Pacific Northwestern",
+    "us_great_lakes": "Great Lakes and Upper Midwest",
+    "us_appalachian": "Appalachian",
     "quebecois": "Québécois",
     "mx_any": "Mexican",
     "mx_northern_baja": "Northern Mexican and Baja",
@@ -105,6 +129,9 @@ PROMPT_NAMES: dict[str, str] = {
     "caribbean_puerto_rican": "Puerto Rican",
     "caribbean_jamaican": "Jamaican",
     "colombian": "Colombian",
+    "venezuelan": "Venezuelan",
+    "chilean": "Chilean",
+    "guianas": "Guyanese, Surinamese, and French Guianese",
     "brazilian": "Brazilian",
     "peruvian": "Peruvian",
     "argentinian": "Argentinian",
@@ -123,6 +150,7 @@ PROMPT_NAMES: dict[str, str] = {
     "india_any": "Indian",
     "north_india": "North Indian",
     "south_india": "South Indian",
+    "central_west_india": "West and Central Indian",
     "korean": "Korean",
     "thai": "Thai",
     "vietnamese": "Vietnamese",
@@ -152,6 +180,8 @@ PROMPT_NAMES: dict[str, str] = {
     "palestinian_levantine": "Palestinian and Levantine",
     "persian": "Persian",
     "turkish": "Turkish",
+    "yemeni": "Yemeni",
+    "iraqi": "Iraqi",
     "moroccan_north_african": "Moroccan",
     "tunisian": "Tunisian",
     "algerian": "Algerian",
@@ -159,11 +189,18 @@ PROMPT_NAMES: dict[str, str] = {
     "egyptian": "Egyptian",
     "nigerian": "Nigerian",
     "senegalese": "Senegalese",
+    "south_african": "South African",
+    "east_african": "East African",
+    "ghanaian": "Ghanaian",
+    "central_african": "Central African",
+    "australian": "Australian",
+    "new_zealander": "New Zealander",
 }
 
 ENGLISH_PRIMARY_NODES = {
     "united_states", "us_any", "us_cajun", "us_creole", "us_southern_soul", "us_new_england",
-    "caribbean", "caribbean_any", "caribbean_jamaican",
+    "us_pacific_northwest", "us_great_lakes", "us_appalachian",
+    "caribbean", "caribbean_any", "caribbean_jamaican", "australian", "new_zealander",
 }
 
 PROPER_PREFIXES = (
@@ -174,6 +211,9 @@ PROPER_PREFIXES = (
     "Ethiopian", "Moroccan", "Hunan", "Zhejiang", "Chinese", "Maine", "Scotch", "Piper", "Lippia",
     "California", "Kyoto", "Italian", "Southeast Asian", "Indian", "Korean",
     "Portuguese", "Roman", "Pecorino", "Castelluccio", "French", "Belgian",
+    "Iraqi", "Cape", "Walla", "Ghanaian", "Yemeni", "Chilean", "Venezuelan",
+    "Australian", "New Zealand", "Goan", "Gujarati", "Maharashtrian", "Rajasthani",
+    "Swahili", "Cameroonian", "Congolese", "Gabonese", "Guyanese", "Surinamese",
 )
 
 
@@ -640,9 +680,11 @@ def build_all() -> dict[str, list[dict]]:
         pantry_map = {k: v for k, v in raw_pantry.items() if k != "_note"}
 
     # Load addition files if present
-    additions_by_continent: dict[str, list[dict]] = {"asia": [], "africa": [], "europe": [], "americas": []}
+    additions_by_continent: dict[str, list[dict]] = {
+        "asia": [], "africa": [], "europe": [], "americas": [], "near_east": [], "oceania": [],
+    }
     for add_name in ("additions.json", "additions_europe.json", "additions_americas.json",
-                     "third_batch.json"):
+                     "third_batch.json", "fourth_batch.json"):
         additions_path = RESULTS_DIR / add_name
         if additions_path.exists():
             for item in json.loads(additions_path.read_text(encoding="utf-8")):
@@ -654,21 +696,25 @@ def build_all() -> dict[str, list[dict]]:
     output: dict[str, list[dict]] = {}
 
     for cont_id, cont_label, cont_subtitle, cont_about in CONTINENT_SPECS:
-        raw_list = json.loads((RESULTS_DIR / f"{cont_id}.json").read_text(encoding="utf-8"))
+        base_path = RESULTS_DIR / f"{cont_id}.json"
+        raw_list = json.loads(base_path.read_text(encoding="utf-8")) if base_path.exists() else []
         # Merge additions for this continent
         extra_nodes = additions_by_continent.get(cont_id, [])
         if cont_id == "africa" and extra_nodes:
-            # Place tunisian and algerian right after moroccan_north_african per taxonomy
+            # Place tunisian and algerian right after moroccan_north_african per taxonomy;
+            # append newer sub-Saharan additions after existing entries.
+            maghreb = [n for n in extra_nodes if n["id"] in ("tunisian", "algerian")]
+            rest_af = [n for n in extra_nodes if n["id"] not in ("tunisian", "algerian")]
             merged = []
             inserted = False
             for r in raw_list:
                 merged.append(r)
                 if r["id"] == "moroccan_north_african":
-                    merged.extend(extra_nodes)
+                    merged.extend(maghreb)
                     inserted = True
             if not inserted:
-                merged.extend(extra_nodes)
-            raw_list = merged
+                merged.extend(maghreb)
+            raw_list = merged + rest_af
         elif cont_id == "europe" and extra_nodes:
             # Replace central_european in-place with its 5 split countries; append remaining European additions
             by_id = {n["id"]: n for n in extra_nodes}
@@ -707,9 +753,13 @@ def build_all() -> dict[str, list[dict]]:
                 if r["id"] == "united_states":
                     if "quebecois" in by_id:
                         merged.append(by_id["quebecois"])
-                    for us_kid in ("us_new_mexican", "us_hawaiian"):
+                    for us_kid in ("us_new_mexican", "us_hawaiian", "us_native_american",
+                                   "us_pacific_northwest", "us_great_lakes", "us_appalachian"):
                         if us_kid in by_id:
                             merged.append(by_id[us_kid])
+            for sa_kid in ("venezuelan", "chilean", "guianas"):
+                if sa_kid in by_id:
+                    merged.append(by_id[sa_kid])
             raw_list = merged
         elif extra_nodes:
             raw_list = raw_list + extra_nodes

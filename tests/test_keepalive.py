@@ -435,5 +435,6 @@ def test_recent_cuisines_and_legacy_history_resolution(tmp_path):
     app.history.save(Conversation(title="Gumbo", settings={"cuisine_id": "us_cajun"}))
     app.history.save(Conversation(title="Mystery", settings={"cuisine": "Martian"}))
     app._refresh_recent()
-    assert len(app.recent.controls) == 4  # header + 3 recipe rows
+    assert len(app.recent.controls) == 3  # favorites folder + header + rows column
+    assert len(app.recent_rows_col.controls) == 3  # 3 recipe rows
 

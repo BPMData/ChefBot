@@ -80,6 +80,18 @@ Three cuisines in one run. Prompt: `docs/research/third-batch.md` (`tools/make_r
   so Fairfield and New Haven became Western Connecticut, Greater Bridgeport and South Central Connecticut
   (Naugatuck Valley stays New England). Italy gets `IT_CENTRAL`. 73 leaves in all.
 
+### Fourth batch (decided and built 2026-11-15)
+
+Sixteen cuisines plus a new 6th continent (**Oceania**), bringing the tree to **89 leaves across 6 continents** (`src/chefbot/cuisines/oceania.json` added alongside the 5 existing files):
+
+- **Oceania (`oceania`):** Australian (`australian`), New Zealander (`new_zealander`). First-class 6th continent on both the 3D globe and world map (`src/chefbot/maps/oceania.json`).
+- **Asia (India):** West & Central India (`central_west_india` — Maharashtra, Gujarat, Rajasthan, Madhya Pradesh, Goa); Rajasthan moved out of North India's `about` override and map polygon set (`IN_CENTRAL_WEST`).
+- **The Americas:** Venezuelan (`venezuelan`), Chilean (`chilean`), The Guianas (`guianas` — Guyana, Suriname, French Guiana), plus 4 new US nodes: Native American (`us_native_american`, distinguishing pre-colonial Three Sisters / manoomin / salmon traditions from post-reservation frybread, with Southwest/Plains/OK cluster polygons and a call-out chip), Pacific Northwest (`us_pacific_northwest`, WA & OR), Great Lakes (`us_great_lakes`, label <= 20 chars covering MN, WI, MI / Upper Midwest), and Appalachian (`us_appalachian`, WV & KY).
+- **Near East:** Yemeni (`yemeni`), Iraqi (`iraqi`).
+- **Africa:** South African (`south_african`), East African (`east_african`, Kenya & Tanzania / Swahili coast), Ghanaian (`ghanaian`), Central African (`central_african`, Congo Basin / Cameroon / Gabon belt).
+
+All 16 include 9–10 researched `pantry` defaults (`tools/cuisine_pantry.json`), full `src/chefbot/maps/*.json` polygons and non-overlapping call-out chips, and citations in `docs/research/results/raw/fourth_batch.md` + `docs/research/FINDINGS.md`.
+
 1. **Research (Bryan):** the five prompts in `docs/research/` are ready to paste whole (select all), one per continent, with the
    taxonomy and the current entries already filled in. Paste one into a deep research tool (for example
    claude.ai with Research turned on) and save the whole answer.

@@ -71,6 +71,12 @@ def test_small_regions_and_known_cases_have_callouts():
         "us_new_england",
         "us_italian_american",
         "us_hawaiian",
+        "us_appalachian",
+        "us_native_american",
+        "venezuelan",
+        "chilean",
+        "guianas",
+        "ghanaian",
         "portuguese",
         "irish",
         "austrian",
@@ -88,7 +94,7 @@ def test_small_regions_and_known_cases_have_callouts():
     seen_callouts: set[str] = set()
     world_lvl = maps.get_level("world")
     assert all(r["callout"] is None for r in world_lvl["regions"])
-    assert len({r["color"] for r in world_lvl["regions"]}) == 5
+    assert len({r["color"] for r in world_lvl["regions"]}) == 6
 
     for level_id, lvl in maps.levels().items():
         w, h = lvl["width"], lvl["height"]
@@ -332,7 +338,7 @@ def test_globe_continent_centers_and_cuisine_tree_coverage():
     globe_ids = {r["id"] for r in globe["regions"]}
     cuisine_continent_ids = {c["id"] for c in cuisines.continents()}
     assert globe_ids == cuisine_continent_ids
-    assert len({r["color"] for r in globe["regions"]}) == 5
+    assert len({r["color"] for r in globe["regions"]}) == 6
 
     cx, cy, radius = 180.0, 260.0, 150.0
     for reg in globe["regions"]:
@@ -472,3 +478,38 @@ def test_third_batch_map_regions():
     for cid in ("us_new_england", "us_italian_american", "roman_central_italy"):
         lvl, hi = maps.region_for_cuisine(cid)
         assert hi == [cid]
+
+
+def test_batch4_oceania_and_new_map_regions():
+    world_ids = {r["id"] for r in maps.get_level("world")["regions"]}
+    assert world_ids == {"americas", "europe", "near_east", "africa", "asia", "oceania"}
+    oc = {r["id"]: r for r in maps.get_level("oceania")["regions"]}
+    assert set(oc) == {"australian", "new_zealander"}
+
+    batch4_expected = {
+        "australian": "oceania",
+        "new_zealander": "oceania",
+        "central_west_india": "india",
+        "venezuelan": "americas",
+        "chilean": "americas",
+        "guianas": "americas",
+        "yemeni": "near_east",
+        "iraqi": "near_east",
+        "south_african": "africa",
+        "east_african": "africa",
+        "ghanaian": "africa",
+        "central_african": "africa",
+        "us_native_american": "united_states",
+        "us_pacific_northwest": "united_states",
+        "us_great_lakes": "united_states",
+        "us_appalachian": "united_states",
+    }
+    for cid, expected_lvl in batch4_expected.items():
+        lvl, hi = maps.region_for_cuisine(cid)
+        assert lvl["id"] == expected_lvl and hi == [cid], (cid, lvl, hi)
+        reg = next(r for r in lvl["regions"] if r["id"] == cid)
+        assert maps.hit_test(lvl["id"], reg["center"][0], reg["center"][1]) == cid
+
+    us_native = next(r for r in maps.get_level("united_states")["regions"] if r["id"] == "us_native_american")
+    assert us_native["callout"] is not None
+

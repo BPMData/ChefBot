@@ -15,6 +15,7 @@ LEVEL_IDS = (
     "europe",
     "near_east",
     "africa",
+    "oceania",
     "united_states",
     "mexico",
     "caribbean",
