@@ -777,7 +777,8 @@
     "children": [
       "india_any",
       "north_india",
-      "south_india"
+      "south_india",
+      "central_west_india"
     ]
   },
   {
@@ -841,7 +842,7 @@
     "kind": "cuisine",
     "label": "North India",
     "subtitle": "Wheat, dairy, warm spices",
-    "about": "This broad app category covers the Indo-Gangetic plain, Punjab, Delhi, Rajasthan, Kashmir and Himalayan regions, whose cuisines differ substantially. Persianate and Mughal court traditions strongly shaped some urban northern cooking while farming and pastoral traditions shaped others; roti with dal or vegetables, kebabs, biryani and Punjabi-style tandoori foods are representative but not universal.",
+    "about": "This broad app category covers the Indo-Gangetic plain, Punjab, Delhi, Uttar Pradesh, Bihar, Kashmir and Himalayan regions, whose cuisines differ substantially. Persianate and Mughal court traditions strongly shaped some urban northern cooking while farming and pastoral traditions shaped others; roti with dal or vegetables, kebabs, biryani and Punjabi-style tandoori foods are representative but not universal.",
     "prompt_name": "North Indian",
     "flavors": [
       "cumin (जीरा, jeera)",
@@ -947,6 +948,74 @@
       "shallots or onions",
       "coconut or sesame oil",
       "asafoetida"
+    ],
+    "substitutes": []
+  },
+  {
+    "id": "central_west_india",
+    "kind": "cuisine",
+    "label": "West & Central India",
+    "subtitle": "Millets, kokum, jaggery, roasted masalas",
+    "about": "Spanning the Arabian Sea coast, the Sahyadri (Western Ghats) mountains, the Deccan plateau, the Narmada and Chambal river basins, and the arid Thar Desert across Maharashtra, Gujarat, Rajasthan, Madhya Pradesh, and Goa, this region shifts from lush tropical shoreline to dryland interior plains. Arabian Sea maritime trade, Maratha and Rajput courts, Bhopal's Nawabi kitchens, Jain and Vaishnava mercantile communities, and Portuguese rule in Goa shaped cooking that ranges from sweet-sour vegetarian thalis and desert-adapted preserves to fiery Deccan masalas and vinegar-tangy coastal seafood and meats. Meals center on sorghum (jowar), pearl millet (bajra), wheat, or coastal rice paired with pulses, peanuts, sesame, and souring agents such as kokum, tamarind, and toddy vinegar; representative dishes include Maharashtrian varan-bhaat, Gujarati undhiyu, Rajasthani dal baati churma, Madhya Pradesh poha or dal bafla, and Goan vindaloo.",
+    "prompt_name": "West and Central Indian",
+    "flavors": [
+      "mustard seed (राई / मोहरी, rai / mohri)",
+      "asafoetida (हींग, hing)",
+      "kokum (कोकम / आमसूल, kokam / amsul)",
+      "jaggery (गुड़ / गूळ, gud / gul)",
+      "tamarind (इमली / चिंच, imli / chinch)",
+      "cumin (जीरा, jeera)",
+      "turmeric (हल्दी / हळद, haldi / halad)",
+      "dried red chile (लाल मिर्च / सुकी मिरची, lal mirch / suki mirchi)",
+      "coriander (धनिया, dhania)",
+      "curry leaf (कड़ी पत्ता / कढीपत्ता, kadi patta)",
+      "sesame seed (तिल / तीळ, til)",
+      "toddy vinegar (ताड़ी का सिरका / विनेगर, tadi ka sirka / vinagre)"
+    ],
+    "sweet_only": [
+      "saffron (केसर, kesar)",
+      "rose water (गुलाब जल, gulab jal)"
+    ],
+    "signature_ingredients": [
+      "sorghum flour (jowar atta) (substitute: whole-wheat flour or fine cornmeal changes texture and flavor markedly)",
+      "pearl millet flour (bajra atta) (substitute: buckwheat or whole-wheat flour, imperfect)",
+      "chickpea flour (besan) (substitute: US supermarket garbanzo bean flour)",
+      "flattened rice flakes (poha) (substitute: none exact for texture)",
+      "dried desert ker berries and sangri pods (substitute: none exact)",
+      "fresh or frozen grated coconut (substitute: unsweetened dried coconut soaked in warm water, imperfect)",
+      "moth beans (matki) or bitter field beans (vaal) (substitute: mung beans for matki; small dried lima beans for vaal, milder flavor)"
+    ],
+    "tips": [
+      "Packaged goda masala or kala masala (dry Maharashtrian spice blend): usually contains roasted coriander, cumin, dried coconut, sesame seeds, cloves, cassia bark, black cardamom, bay leaf, stone flower (dagad phool), and dried red chile (with roasted onion or garlic in some kala masalas). Use 5 to 12 g per 500 g dish; homemade blends have 0 g salt, while packaged versions vary from 0 g to roughly 0.5 g salt per 100 g (about 2.5 g salt per 1,000 mg sodium; varies widely because commercial salt additions vary by manufacturer).",
+      "Packaged Malvani or Kolhapuri masala (dry coastal or Deccan spice blend): usually contains dried red chiles, coriander, cumin, fennel, black pepper, cloves, nutmeg, and sometimes dried coconut or garlic. Use 8 to 15 g per 500 g protein or vegetables; pure spice blends usually add 0 g salt, though packaged mixes occasionally include added salt (uncertain across brands without checking the label).",
+      "Jarred Goan vindaloo or recheado curry paste (wet paste): usually contains dried red chiles, garlic, ginger, vinegar, tamarind, warm spices, oil, and added salt for preservation. Swap 30 to 60 g per 500 g meat or vegetables; commercial vindaloo pastes commonly supply roughly 1,300 to 1,600 mg sodium per 100 g (about 2.5 g salt per 1,000 mg sodium, or roughly 1 to 2.5 g salt per 30 to 60 g portion; varies widely because sodium varies widely across brands and paste styles).",
+      "Packaged pav bhaji or undhiyu masala (dry vegetable spice blend): usually contains coriander, cumin, red chile, dried mango powder (amchur), fennel, black pepper, warm spices, and often common salt or black salt. Use 8 to 15 g per 500 g vegetables; commercial blends range from nearly 0 g salt to more than 1 g salt per 15 g tablespoon (about 2.5 g salt per 1,000 mg sodium; uncertain across brands due to wide brand variation)."
+    ],
+    "pitfalls": [
+      "Do not treat Punjabi-Mughlai tandoori gravies, cream, paneer, or naan from 'india_any' or 'north_india' as everyday baselines here, as daily breads are usually wheat phulkas or millet bhakris and everyday sauces rarely rely on heavy cream.",
+      "Do not assume Rajasthan belongs solely in 'north_india' without accounting for its shared Thar-area preservation techniques and Jain and Vaishnava vegetarian traditions with Gujarat and western Madhya Pradesh.",
+      "Do not assume the entire region omits onion and garlic or cooks strictly vegetarian food, because only orthodox Jain and Vaishnava households avoid alliums while Malvani, Kolhapuri, Rajput, Bhopal, and Goan traditions rely heavily on meat, seafood, onion, and garlic.",
+      "Do not substitute generic 'india_any' garam masala or curry powder for Maharashtrian goda masala or Goan vinegar-and-chile pastes, and do not add coconut milk to inland Gujarati, Rajasthani, or Deccan dishes.",
+      "Do not omit jaggery or regional souring agents (kokum, tamarind, buttermilk, or toddy vinegar) where classic recipes depend on a sweet-sour or hot-tangy balance."
+    ],
+    "avoid": [
+      "heavy cream",
+      "paneer",
+      "naan",
+      "generic curry powder"
+    ],
+    "children": [],
+    "pantry": [
+      "peanut or neutral oil, and ghee",
+      "whole-wheat flour (atta) and chickpea flour (besan)",
+      "millet flours (jowar, bajra) and rice",
+      "dried dals (toor, moong, chana)",
+      "onions, garlic and fresh ginger",
+      "turmeric, cumin, coriander and dried red chiles",
+      "mustard seeds, curry leaves and asafoetida (hing)",
+      "jaggery (gur / gul) and tamarind or kokum",
+      "roasted peanuts and sesame seeds",
+      "plain yogurt or buttermilk"
     ],
     "substitutes": []
   },

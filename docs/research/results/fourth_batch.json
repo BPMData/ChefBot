@@ -1,0 +1,1380 @@
+[
+  {
+    "id": "australian",
+    "label": "Australian",
+    "subtitle": "Coastal seafood, bush herbs, multicultural pantry",
+    "about": "Spanning an island continent from tropical northern reefs and monsoon coasts to the temperate southern ocean, the Murray-Darling river basin, the Great Dividing Range, and coastal capitals like Sydney, Melbourne, Adelaide, and Perth, Australian home cooking draws heavily on abundant coastal seafood and pastoral produce. Built on more than 60,000 years of First Nations bush food traditions alongside British and Irish colonial baking, it was transformed after World War II by Greek and Italian immigration and from the 1970s onward by Chinese, Vietnamese, Thai, and Malaysian communities into a bright, produce-driven style pairing Mediterranean olive oil and herbs with Southeast Asian aromatics and subtle native botanicals. Representative everyday dishes include pan-seared barramundi or prawns with finger lime and Southeast Asian herbs, baked zucchini slice and roast lamb with rosemary, coconut laksa or quick stir-fries, and classic bakes such as ANZAC biscuits, lamingtons, and summer pavlova.",
+    "flavors": [
+      "garlic",
+      "extra-virgin olive oil",
+      "fresh rosemary",
+      "lemon myrtle (native citrus-scented leaf)",
+      "Tasmanian mountain pepperberry (fruity, warming native pepper)",
+      "chicken salt (Australian umami-spiced seasoned salt)",
+      "Australian brewer's yeast extract spread (dark savory umami paste)",
+      "verjuice (unfermented green-grape juice for dressings and deglazing)",
+      "fish sauce (nước mắm / nam pla; in Southeast Asian crossover dishes)",
+      "soy sauce",
+      "Worcestershire sauce (savory base in mince, pies, and marinades)",
+      "sweet chilli sauce (used as a glaze, dip, and dressing base)"
+    ],
+    "sweet_only": [
+      "golden syrup (amber inverted cane sugar syrup for biscuits and puddings)",
+      "wattleseed (roasted, ground Acacia seed with coffee-hazelnut notes)",
+      "passionfruit pulp (classic topping for pavlova and cheesecakes)",
+      "desiccated coconut (unsweetened finely shredded coconut for lamingtons and slices)",
+      "pure vanilla extract",
+      "ground cinnamon"
+    ],
+    "signature_ingredients": [
+      "barramundi (substitute: striped bass, black sea bass, or snapper; farm-raised barramundi is also sold at some US grocers)",
+      "Moreton Bay bugs / slipper lobster (substitute: Maine lobster tails, rock lobster tails, or sweet Dungeness crab)",
+      "King George whiting or flathead fillets (substitute: Gulf whiting, Atlantic hake, petrale sole, or cod for frying)",
+      "finger lime (substitute: fresh lime juice and zest; lacks the popping caviar-like pulp)",
+      "warrigal greens / New Zealand spinach (substitute: English spinach or Swiss chard; true warrigal greens are usually blanched briefly before cooking to reduce oxalates)",
+      "bush tomato / kutjera (substitute: finely minced sun-dried tomato with a small pinch of tamarind paste)",
+      "self-raising flour (substitute: 1 cup US all-purpose flour whisked with 1 1/2 teaspoons baking powder and a pinch of salt)",
+      "saltbush leaves (substitute: flaky sea salt mixed with a pinch of dried rosemary or oregano, or fresh samphire for succulent tips)",
+      "Davidson plum (substitute: tart blood plums or rhubarb cooked with a squeeze of lime)",
+      "Australian-style aged cheddar / 'tasty' cheese (substitute: sharp aged white or yellow cheddar)"
+    ],
+    "pantry_assumed": [
+      "extra-virgin olive oil",
+      "butter",
+      "self-raising flour",
+      "rolled oats and rice",
+      "garlic and brown (yellow) onions",
+      "lemons",
+      "soy sauce and fish sauce",
+      "Worcestershire sauce and sweet chilli sauce",
+      "golden syrup"
+    ],
+    "techniques": [
+      "outdoor charcoal or gas barbecuing ('barbie') for prawns, split slipper lobsters, fish, lamb chops, and sausages",
+      "high-heat wok stir-frying and quick assembly of aromatic noodle soups and fresh herb salads reflecting Southeast Asian home cooking",
+      "crispy-skin pan-searing and gentle oven roasting for coastal whitefish, shellfish, and herb-rubbed lamb",
+      "simple bowl-and-tin home baking using self-raising flour, golden syrup, and slow-dried meringue for slices, scones, dampers, and pavlova"
+    ],
+    "shortcuts": [
+      "Commercial chicken salt (seasoned umami salt blend): traditionally contains salt, chicken bouillon, MSG, onion powder, garlic powder, celery salt, paprika, and mild curry powder, though many modern supermarket blends are chicken-free and use yeast extract or vegetable powders. Sodium varies widely by brand from roughly 15,600 to 28,600 mg per 100 g, or about 39 to 71.5 g salt per 100 g using about 2.5 g salt per 1,000 mg sodium (roughly 2.0 to 3.6 g salt per 5 g teaspoon) [LOW CONFIDENCE]. Swap 5 g commercial chicken salt for 3.5 g flaky sea salt plus 1.5 g mixed garlic powder, onion powder, sweet paprika, and a pinch of mild curry powder, and omit other added salt.",
+      "Australian brewer's yeast extract spread (jarred dark umami paste): contains concentrated brewer's yeast extract (commonly grown on barley and wheat), salt, mineral salt, malt extract, caramel color, and added B vitamins, with roughly 3,300 mg sodium per 100 g, or about 8.25 g salt per 100 g (about 0.4 g salt per 5 g teaspoon) [LOW CONFIDENCE across variants]. Stir 5 to 10 g into beef stews, gravies, or pan glazes in place of a bouillon cube, and reduce added salt accordingly.",
+      "Jarred laksa paste (Southeast Asian crossover shortcut): usually contains shallots or onion, lemongrass, galangal, garlic, dried red chilies, turmeric, candlenut or macadamia, shrimp paste, and salt. Commercial pastes vary around 1,100 to 2,600 mg sodium per 100 g, or about 2.75 to 6.5 g salt per 100 g (roughly 0.4 to 1.0 g salt per 15 g tablespoon) [LOW CONFIDENCE]. Swap 50 g jarred paste for 50 g freshly pounded aromatics plus about 1.5 to 3 g salt, or taste the broth after adding coconut milk and fish sauce before salting.",
+      "Bottled sweet chilli sauce and Australian-style tomato sauce: commercial sweet chilli sauce is largely sugar, chili, garlic, vinegar, and salt at roughly 250 to 640 mg sodium per 100 g, or about 0.6 to 1.6 g salt per 100 g (about 0.1 to 0.3 g per 20 g tablespoon) [LOW CONFIDENCE]; commercial Australian-style tomato sauce ranges widely from about 350 to 1,360 mg sodium per 100 g, or about 0.9 to 3.4 g salt per 100 g [LOW CONFIDENCE]. Swap 20 g sweet chilli sauce for 15 g honey or sugar, 5 g rice vinegar, minced chili, garlic, and a pinch of salt; swap Australian tomato sauce 1:1 by weight with US ketchup sharpened with a dash of malt vinegar and a tiny pinch of ground cloves."
+    ],
+    "allergen_notes": [
+      "Wheat: Australian brewer's yeast extract spread is traditionally made from yeast grown on barley and wheat with barley malt extract (gluten-free variants exist); self-raising flour, meat pies, sausage rolls, fish batters, and many commercial soy sauces also contain wheat.",
+      "Fish: fish sauce (common in Southeast Asian crossover dressings, salads, and stir-fries) and Worcestershire sauce (containing anchovies, used in mince dishes, gravies, and marinades) are frequent hidden fish sources.",
+      "Shellfish: jarred laksa and curry pastes often contain fermented shrimp paste, oyster sauce in Australian-Chinese stir-fries contains mollusk extracts, and coastal dishes feature prawns, crabs, and slipper lobsters.",
+      "Tree nuts: native macadamias appear in cookies, cakes, and salads, while cafe-style dukkah blends commonly contain hazelnuts, almonds, or pistachios.",
+      "Sesame: toasted sesame oil and sesame seeds are routine in Asian-Australian dressings and stir-fries, as well as in dukkah spice blends.",
+      "Soy: regular soy sauce and sweet soy sauce (kecap manis) are everyday stir-fry and marinade staples, and some commercial seasonings use hydrolyzed soy protein.",
+      "Peanuts: crushed peanuts and satay sauces appear often in Thai- and Malaysian-influenced Australian weeknight noodle dishes and slaws.",
+      "Milk and Egg: classic Australian baking (pavlova, lamingtons, vanilla slice, zucchini slice) and cafe-style brunches rely heavily on butter, whipped cream, custard, cheese, and eggs."
+    ],
+    "pitfalls": [
+      "Treating tourism-ad clichés like 'shrimp on the barbie,' mass-market lager batters, or kangaroo steaks as everyday home cooking, when Australians eat prawns (not shrimp) and rarely cook kangaroo at home.",
+      "Assuming Australian home cooking is still 1950s British 'meat and three veg,' ignoring how post-war Greek and Italian migrants and 1970s-onward Southeast and East Asian communities made olive oil, pasta, laksa, and stir-fries everyday staples.",
+      "Overusing raw bush tucker spices in every dish instead of recognizing that home cooks usually apply native botanicals like lemon myrtle, finger lime, or wattleseed as subtle accents alongside familiar coastal seafood and baking.",
+      "Substituting US ketchup 1:1 for Australian tomato sauce without accounting for its sharper vinegar tang and warm clove-allspice notes, or US all-purpose flour 1:1 for Australian self-raising flour without adding leavening.",
+      "Presenting pavlova as an undisputed Australian invention rather than a shared Antipodean dessert with earlier documented print recipes in New Zealand."
+    ],
+    "sources": [
+      "One Continuous Picnic: A History of Eating in Australia, Michael Symons, 1982",
+      "Bold Palates: Australia's Gastronomic Heritage, Barbara Santich, 2012",
+      "The Cook's Companion, Stephanie Alexander, 1996",
+      "The Complete Asian Cookbook, Charmaine Solomon, 1976",
+      "Warndu Mai (Good Food): Introducing Native Australian Ingredients to Your Kitchen, Rebecca Sullivan and Damien Coulthard, 2019",
+      "The Pavlova Story: A Slice of New Zealand's Culinary History, Helen Leach, 2008",
+      "https://www.nma.gov.au/exhibitions/defining-symbols-australia/vegemite",
+      "https://australian.museum"
+    ]
+  },
+  {
+    "id": "new_zealander",
+    "label": "New Zealander",
+    "subtitle": "Lamb, mussels, kūmara, hāngī, baking",
+    "about": "Aotearoa New Zealand spans two mountainous main islands (the North Island, Te Ika-a-Māui, and the South Island, Te Waipounamu) plus Stewart Island (Rakiura), stretching from subtropical northern harbors and volcanic plateaus across braided glacial rivers and the Southern Alps around cities such as Auckland, Wellington, Christchurch, and Dunedin. Shaped first by East Polynesian ancestors of Māori in the 13th century, then by 19th-century British, Scottish, Irish, and Chinese settlers building pastoral sheep and dairy farms, and later by Pacific Island and Asian migrations, its foodways pair coastal seafood, pasture-raised lamb, kūmara, and orchard stone fruit with both indigenous earth-oven traditions and a deep culture of home baking. Representative dishes include Māori hāngī and pork-bone boil-up with pūhā, pan-fried whitebait fritters, steamed green-lipped mussels, Southland cheese rolls, and pavlova or ANZAC biscuits.",
+    "flavors": [
+      "native pepper tree leaf (horopito; fiery, pungent bush spice used in rubs and marinades)",
+      "kawakawa leaf (kawakawa; aromatic heart-shaped native leaf with mild pepper-citrus notes)",
+      "mānuka wood smoke (mānuka; sweet, resinous smoke used for curing fish, mussels, and meats)",
+      "fresh mint and malt-vinegar mint sauce (classic bright accompaniment to roast lamb)",
+      "rosemary (everyday herb for roast lamb and root vegetables)",
+      "brown or yellow onion (foundation aromatic for roasts, gravies, and savory mince)",
+      "garlic (everyday aromatic in pan-fried seafood, roasts, and contemporary cooking)",
+      "black pepper (coarse or cracked pepper for meats, fritters, and sauces)",
+      "Worcestershire sauce (pantry umami dash for savory mince, stews, gravies, and cheese rolls)",
+      "sweet spiced tomato sauce (vinegar-bright, mildly spiced table condiment paired with meat pies, sausages, and fish and chips)",
+      "savory yeast extract spread (dark, salty umami paste spread on toast and dissolved into gravies and stews)",
+      "mild curry powder (British-colonial turmeric-warm blend used in curried sausages, curried eggs, and savory mince)"
+    ],
+    "sweet_only": [
+      "golden syrup",
+      "dark treacle",
+      "mixed spice",
+      "ground cinnamon",
+      "ground ginger (in classic baking like ginger crunch and ginger kisses)",
+      "vanilla extract or essence"
+    ],
+    "signature_ingredients": [
+      "kūmara / New Zealand sweet potato (substitute: firm orange-fleshed Beauregard or white-fleshed Hannah sweet potato, noting NZ red and gold kūmara are drier and less sugary)",
+      "New Zealand green-lipped mussels (kūtai) (substitute: blue or black mussels, which are smaller and slightly less plump)",
+      "pāua / New Zealand blackfoot abalone (substitute: canned or fresh Pacific abalone, or thinly pounded conch or squid for fritters)",
+      "whitebait (īnanga) (substitute: tiny silverbait, smelt fry, or fresh white anchovies, though flavor and delicacy differ)",
+      "pūhā / sow thistle (substitute: dandelion greens, watercress, or mustard greens)",
+      "pikopiko / native fern shoots (substitute: fiddlehead ferns or slender young asparagus tips)",
+      "blue cod or tarakihi (substitute: haddock, Pacific cod, or striped bass for firm flaky white fillets)",
+      "pasture-raised New Zealand lamb or hogget (substitute: domestic rack, shoulder, or leg of lamb)",
+      "feijoa / pineapple guava (substitute: none for its distinct aromatic-tart flavor; guava plus ripe pear only roughly approximates)",
+      "New Zealand canned reduced cream (substitute: sour cream or thickened heavy cream, though sour cream adds more tang to onion dip and cheese rolls)",
+      "Central Otago stone fruit or boysenberries (substitute: ripe orchard apricots, cherries, peaches, or blackberries mixed with raspberries)",
+      "rēwena parāoa / Māori potato-ferment bread (substitute: crusty country sourdough bread, though it lacks the faint sweet potato-ferment aroma)"
+    ],
+    "pantry_assumed": [
+      "salted or unsalted butter",
+      "all-purpose flour and baking powder",
+      "rolled oats",
+      "golden syrup",
+      "brown onions and garlic",
+      "malt vinegar",
+      "Worcestershire sauce",
+      "sweet spiced tomato sauce",
+      "savory yeast extract spread",
+      "mild curry powder"
+    ],
+    "techniques": [
+      "hāngī earth-oven cooking: heating stones over a wood fire in a pit, layering wrapped meats, seafood, and root crops above them, and sealing under damp cloths and earth to slow-steam with gentle woodsmoke",
+      "one-pot boil-up simmering: slowly simmering meaty pork bones or fatty cuts with kūmara, potatoes, wild greens like pūhā or watercress, and flour-and-water doughboys",
+      "mānuka wood-chip or sawdust smoking to give sweet, mild aromatic smoke to coastal finfish, trout, and mussels",
+      "whole-roasting pasture-raised lamb alongside root vegetables and pan-dripping gravy",
+      "everyday tin-filling home baking: creaming butter, sugar, or golden syrup for tray-baked slices, biscuits, scones, and crisp-crusted pavlova meringues"
+    ],
+    "shortcuts": [
+      "Commercial dry onion soup mix: typically contains dehydrated onion, cornstarch or wheat flour, yeast extract, hydrolyzed vegetable protein, soy sauce powder, sugar, and salt. Salt varies widely by market and packet size: North American 56 g packets often carry roughly 4,500 to 5,000 mg sodium (about 11 to 12.5 g salt per packet, using roughly 2.5 g salt per 1,000 mg sodium), while New Zealand 32 to 40 g sachets commonly range from roughly 3,000 to over 8,000 mg sodium per 100 g dry mix (about 7.5 to 20 g salt per 100 g, or roughly 2.5 to 8 g salt per sachet) [LOW CONFIDENCE]. For Kiwi onion dip or cheese rolls, swap a 32 to 40 g sachet for 30 g finely minced browned onion, 5 g dried onion flakes, 5 g cornstarch, and 2 to 3 g bouillon or yeast extract, holding back added salt until tasting.",
+      "Bottled sweet spiced tomato sauce: usually contains tomato paste or puree, sugar, vinegar, onion, spices such as allspice and cloves, and salt, averaging roughly 520 mg sodium per 100 g (about 1.3 g salt per 100 g, or roughly 0.2 g salt per 15 g tablespoon; reduced-salt formulations are lower) [LOW CONFIDENCE]. Swap 1:1 by weight with standard tomato ketchup or simmered tomato paste thinned with malt or cider vinegar, brown sugar, and a pinch of allspice, reducing added recipe salt slightly.",
+      "Commercial savory yeast extract spread: usually contains brewer's or baker's yeast extract, wheat or barley malt extract, caramel color, and salt, typically carrying roughly 3,380 to 4,300 mg sodium per 100 g (about 8.5 to 10.8 g salt per 100 g, or roughly 0.4 to 0.5 g salt per 5 g teaspoon; varies by formulation) [LOW CONFIDENCE]. When dissolving into gravies or stews, swap 5 g spread for 5 g dark miso or concentrated beef bouillon paste and omit about 0.5 g added salt.",
+      "Jarred mint sauce: usually contains chopped spearmint, malt or spirit vinegar, sugar, water, and salt, often carrying roughly 400 to 1,000 mg sodium per 100 g (about 1.0 to 2.5 g salt per 100 g; varies by brand) [LOW CONFIDENCE]. Swap 30 g jarred sauce for 15 g finely chopped fresh mint steeped in 15 g warm malt vinegar and 5 g sugar with a small pinch of salt.",
+      "Commercial mild curry powder and stock powders: plain curry powders usually contain turmeric, coriander, cumin, fenugreek, and chili with 0 g salt (check label), whereas dry stock powders carry salt as a primary ingredient at roughly 15,000 to 25,000 mg sodium per 100 g dry powder (about 37.5 to 62.5 g salt per 100 g, or roughly 2 to 3 g salt per 5 g teaspoon; varies widely by brand and reduced-salt labels) [LOW CONFIDENCE]. Swap plain curry powder 1:1 by weight with no salt adjustment, and omit added salt when using commercial stock powder until tasting."
+    ],
+    "allergen_notes": [
+      "Milk: canned reduced cream (used in Kiwi onion dip and Southland cheese rolls), butter, sweetened condensed milk in slices and lolly cake, and milk solids in some dry soup mixes.",
+      "Wheat: commercial dry onion soup mixes (wheat flour thickener and soy sauce powder), savory yeast extract spreads (often brewed with wheat or barley malt extract), doughboys in boil-ups, and classic slices and biscuits.",
+      "Soy: commercial dry onion soup mixes and bottled savory sauces often contain soy sauce powder or hydrolyzed soy protein.",
+      "Fish: traditional Worcestershire sauce contains anchovies, and contemporary New Zealand fusion dressings sometimes include fish sauce.",
+      "Shellfish: green-lipped mussels (kūtai), pāua, oysters, and scallop or seafood fritters contain molluscan shellfish; kina (sea urchin) is also commonly handled alongside kaimoana.",
+      "Egg: pavlova meringue, custard squares, whitebait fritters, and mayonnaise-based seafood sauces contain eggs.",
+      "Tree nuts: classic Afghan biscuits are traditionally topped with walnut halves, and modern slices or salads occasionally use almonds or hazelnuts."
+    ],
+    "pitfalls": [
+      "Conflating New Zealand cooking with Australian cuisine or assuming Australian bush staples and slang define Aotearoa home kitchens.",
+      "Treating a Māori hāngī like a backyard open-flame grill rather than an indirect earth-oven steam cook over heated stones sealed under wet cloths and soil.",
+      "Translating New Zealand \"tomato sauce\" as Italian marinara or passata rather than a sweet, vinegar-tangy spiced table condiment closer to ketchup.",
+      "Applying sugary American candied-yam treatments to Māori and Kiwi kūmara dishes, where red and gold varieties are usually roasted savory, steamed in hāngī, or simmered in boil-ups.",
+      "Reducing New Zealand food to mid-century colonial meat-and-three-veg while ignoring indigenous kai Māori ingredients and widespread Pacific Island and Asian influences."
+    ],
+    "sources": [
+      "The Pavlova Story: A Slice of New Zealand's Culinary History, Helen Leach, 2008",
+      "From Kai to Kiwi Kitchen: New Zealand Culinary Traditions and Cookbooks, Helen M. Leach (ed.), 2010",
+      "Two Hundred Years of New Zealand Food and Cookery, David Burton, 1982",
+      "Hiakai: Modern Māori Cuisine, Monique Fiso, 2020",
+      "Ladies, a Plate: Traditional Home Baking, Alexa Johnston, 2008",
+      "https://teara.govt.nz/en/maori-foods-kai-maori",
+      "https://teara.govt.nz/en/kumara",
+      "https://teara.govt.nz/en/cooking"
+    ]
+  },
+  {
+    "id": "central_west_india",
+    "label": "West & Central India",
+    "subtitle": "Millets, kokum, jaggery, roasted masalas",
+    "about": "Spanning the Arabian Sea coast, the Sahyadri (Western Ghats) mountains, the Deccan plateau, the Narmada and Chambal river basins, and the arid Thar Desert across Maharashtra, Gujarat, Rajasthan, Madhya Pradesh, and Goa, this region shifts from lush tropical shoreline to dryland interior plains. Arabian Sea maritime trade, Maratha and Rajput courts, Bhopal's Nawabi kitchens, Jain and Vaishnava mercantile communities, and Portuguese rule in Goa shaped cooking that ranges from sweet-sour vegetarian thalis and desert-adapted preserves to fiery Deccan masalas and vinegar-tangy coastal seafood and meats. Meals center on sorghum (jowar), pearl millet (bajra), wheat, or coastal rice paired with pulses, peanuts, sesame, and souring agents such as kokum, tamarind, and toddy vinegar; representative dishes include Maharashtrian varan-bhaat, Gujarati undhiyu, Rajasthani dal baati churma, Madhya Pradesh poha or dal bafla, and Goan vindaloo.",
+    "flavors": [
+      "mustard seed (राई / मोहरी, rai / mohri)",
+      "asafoetida (हींग, hing)",
+      "kokum (कोकम / आमसूल, kokam / amsul)",
+      "jaggery (गुड़ / गूळ, gud / gul)",
+      "tamarind (इमली / चिंच, imli / chinch)",
+      "cumin (जीरा, jeera)",
+      "turmeric (हल्दी / हळद, haldi / halad)",
+      "dried red chile (लाल मिर्च / सुकी मिरची, lal mirch / suki mirchi)",
+      "coriander (धनिया, dhania)",
+      "curry leaf (कड़ी पत्ता / कढीपत्ता, kadi patta)",
+      "sesame seed (तिल / तीळ, til)",
+      "toddy vinegar (ताड़ी का सिरका / विनेगर, tadi ka sirka / vinagre)"
+    ],
+    "sweet_only": [
+      "saffron (केसर, kesar)",
+      "rose water (गुलाब जल, gulab jal)"
+    ],
+    "signature_ingredients": [
+      "sorghum flour (jowar atta) (substitute: whole-wheat flour or fine cornmeal changes texture and flavor markedly)",
+      "pearl millet flour (bajra atta) (substitute: buckwheat or whole-wheat flour, imperfect)",
+      "chickpea flour (besan) (substitute: US supermarket garbanzo bean flour)",
+      "flattened rice flakes (poha) (substitute: none exact for texture)",
+      "dried desert ker berries and sangri pods (substitute: none exact)",
+      "fresh or frozen grated coconut (substitute: unsweetened dried coconut soaked in warm water, imperfect)",
+      "moth beans (matki) or bitter field beans (vaal) (substitute: mung beans for matki; small dried lima beans for vaal, milder flavor)"
+    ],
+    "pantry_assumed": [
+      "peanut or neutral oil, and ghee",
+      "whole-wheat flour (atta) and chickpea flour (besan)",
+      "millet flours (jowar, bajra) and rice",
+      "dried dals (toor, moong, chana)",
+      "onions, garlic and fresh ginger",
+      "turmeric, cumin, coriander and dried red chiles",
+      "mustard seeds, curry leaves and asafoetida (hing)",
+      "jaggery (gur / gul) and tamarind or kokum",
+      "roasted peanuts and sesame seeds",
+      "plain yogurt or buttermilk"
+    ],
+    "techniques": [
+      "Aromatic tempering in oil or ghee (vaghar, phodni, or tadka), usually blooming black mustard seeds, cumin, asafoetida, and curry leaves either before braising vegetables and dals or poured sizzling over finished dishes.",
+      "Dry-roasting and grinding whole spices with dried coconut, sesame, or peanuts into regional masalas (goda, kala, Malvani) or wet-grinding red chiles, coconut, and toddy vinegar into coastal Goan pastes.",
+      "Steaming chickpea-flour and rice batters (dhokla, patra, ukadiche modak) and hand-patting unleavened millet flatbreads (bhakri, bajra roti) cooked on a dry griddle and puffed directly over flame or coals.",
+      "Boiling-then-baking or ember-baking dense wheat dough balls (Rajasthani baati and Malwa bafla) before crushing and soaking them in warm ghee.",
+      "Vinegar-and-spice curing and slow braising of meats and seafood in Goan Catholic cooking alongside sun-drying desert pods, berries, and lentil nuggets (mangodi, papad) in arid Rajasthan, Gujarat, and Madhya Pradesh."
+    ],
+    "shortcuts": [
+      "Packaged goda masala or kala masala (dry Maharashtrian spice blend): usually contains roasted coriander, cumin, dried coconut, sesame seeds, cloves, cassia bark, black cardamom, bay leaf, stone flower (dagad phool), and dried red chile (with roasted onion or garlic in some kala masalas). Use 5 to 12 g per 500 g dish; homemade blends have 0 g salt, while packaged versions vary from 0 g to roughly 0.5 g salt per 100 g (about 2.5 g salt per 1,000 mg sodium; LOW CONFIDENCE because commercial salt additions vary by manufacturer).",
+      "Packaged Malvani or Kolhapuri masala (dry coastal or Deccan spice blend): usually contains dried red chiles, coriander, cumin, fennel, black pepper, cloves, nutmeg, and sometimes dried coconut or garlic. Use 8 to 15 g per 500 g protein or vegetables; pure spice blends usually add 0 g salt, though packaged mixes occasionally include added salt (LOW CONFIDENCE without checking the label).",
+      "Jarred Goan vindaloo or recheado curry paste (wet paste): usually contains dried red chiles, garlic, ginger, vinegar, tamarind, warm spices, oil, and added salt for preservation. Swap 30 to 60 g per 500 g meat or vegetables; commercial vindaloo pastes commonly supply roughly 1,300 to 1,600 mg sodium per 100 g (about 2.5 g salt per 1,000 mg sodium, or roughly 1 to 2.5 g salt per 30 to 60 g portion; LOW CONFIDENCE because sodium varies widely across brands and paste styles).",
+      "Packaged pav bhaji or undhiyu masala (dry vegetable spice blend): usually contains coriander, cumin, red chile, dried mango powder (amchur), fennel, black pepper, warm spices, and often common salt or black salt. Use 8 to 15 g per 500 g vegetables; commercial blends range from nearly 0 g salt to more than 1 g salt per 15 g tablespoon (about 2.5 g salt per 1,000 mg sodium; LOW CONFIDENCE due to wide brand variation)."
+    ],
+    "allergen_notes": [
+      "Peanuts: unrefined or refined peanut (groundnut) oil is an everyday cooking and tempering fat in Gujarat and Maharashtra, and crushed roasted peanuts often thicken Maharashtrian vegetable dishes, chutneys, snacks, and fasting foods.",
+      "Wheat: commercial powdered asafoetida (hing) is usually compounded with wheat flour as an anti-caking filler, introducing hidden wheat into otherwise gluten-free dals, millet flatbreads, and chickpea-flour batters unless pure resin or rice-flour-compounded hing is used; wheat also appears in atta, semolina (rava/sooji), and cracked wheat (dalia).",
+      "Milk: ghee (clarified butter), plain yogurt (dahi), buttermilk (chaas, central to Gujarati and Rajasthani kadhi), paneer, and reduced milk solids (mawa/khoya) appear widely in everyday tempering, gravies, and sweets.",
+      "Sesame: whole or toasted sesame seeds (til) are ground into Maharashtrian goda and kala masalas, added to Gujarati tempering and undhiyu, and used as sesame oil in parts of the region.",
+      "Tree nuts: cashews and almonds are common in Goan, Rajasthani, and Bhopal gravies and sweets, and grated coconut or coconut oil is foundational along the Konkan and Goan coasts and in goda masala.",
+      "Shellfish and fish: sun-dried tiny shrimp (sukat or javla) and dried Bombay duck (bombil) are pounded into coastal Konkan and Goan chutneys, salads (kismur), and vegetable sides, creating hidden crustacean shellfish and finfish exposure outside overt seafood mains.",
+      "Egg and soy: eggs are uncommon in inland everyday cooking but appear prominently in Goan Catholic baked desserts such as bebinca and in Parsi-influenced coastal dishes, while soy oil may appear in modern blended cooking oils."
+    ],
+    "pitfalls": [
+      "Do not treat Punjabi-Mughlai tandoori gravies, cream, paneer, or naan from 'india_any' or 'north_india' as everyday baselines here, as daily breads are usually wheat phulkas or millet bhakris and everyday sauces rarely rely on heavy cream.",
+      "Do not assume Rajasthan belongs solely in 'north_india' without accounting for its shared Thar-area preservation techniques and Jain and Vaishnava vegetarian traditions with Gujarat and western Madhya Pradesh.",
+      "Do not assume the entire region omits onion and garlic or cooks strictly vegetarian food, because only orthodox Jain and Vaishnava households avoid alliums while Malvani, Kolhapuri, Rajput, Bhopal, and Goan traditions rely heavily on meat, seafood, onion, and garlic.",
+      "Do not substitute generic 'india_any' garam masala or curry powder for Maharashtrian goda masala or Goan vinegar-and-chile pastes, and do not add coconut milk to inland Gujarati, Rajasthani, or Deccan dishes.",
+      "Do not omit jaggery or regional souring agents (kokum, tamarind, buttermilk, or toddy vinegar) where classic recipes depend on a sweet-sour or hot-tangy balance."
+    ],
+    "sources": [
+      "Indian Food: A Historical Companion, K. T. Achaya, 1994",
+      "Feasts and Fasts: A History of Food in India, Colleen Taylor Sen, 2014",
+      "The Penguin Food Guide to India, Charmaine O'Brien, 2013",
+      "Pangat, a Feast: Food and Lore from Marathi Kitchens, Saee Koranne-Khandekar, 2019",
+      "Cozinha de Goa: History and Tradition of Goan Food, Fatima da Silva Gracias, 2011",
+      "The Essential Goa Cookbook, Maria Teresa Menezes, 2000",
+      "The Complete Gujarati Cookbook, Tarla Dalal, 1999",
+      "Rajasthan on a Platter: Healthy, Tasty, Easy, Suman Bhatnagar and Pushpa Gupta, 2015"
+    ]
+  },
+  {
+    "id": "venezuelan",
+    "label": "Venezuelan",
+    "subtitle": "Ají dulce, masarepa, papelón, queso blanco",
+    "about": "Stretching from the Caribbean coast and Orinoco river basin across the grassy llanos plains to the Andean peaks around Mérida and cities like Caracas and Maracaibo, Venezuelan home cooking unites Indigenous maize and cassava traditions with Spanish, African, and later European and Caribbean influences. Everyday savory dishes usually favor gentle, aromatic warmth over chile heat, built on slow-sweated sofrito, annatto-tinted oil, unrefined cane sugar, and salty fresh white cheeses rather than heavy spices. Signature dishes range from griddled masarepa arepas and sweet corn cachapas to pabellón criollo and plantain-leaf-wrapped Christmas hallacas.",
+    "flavors": [
+      "sweet aromatic pepper (ají dulce)",
+      "annatto seeds and infused oil (onoto / aceite onotado)",
+      "unrefined cane sugar (papelón)",
+      "scallions (cebollín)",
+      "garlic (ajo)",
+      "leek (ajo porro)",
+      "cilantro and sawtooth coriander (cilantro / culantro de monte)",
+      "cumin (comino)",
+      "dried oregano (orégano)",
+      "Worcestershire-style seasoning sauce (salsa inglesa)",
+      "capers and green olives (alcaparras y aceitunas)",
+      "lime and sour orange (limón y naranja agria)"
+    ],
+    "sweet_only": [
+      "sweet aniseed (anís dulce)",
+      "cinnamon (canela)",
+      "cloves (clavo de olor)",
+      "vanilla (vainilla)",
+      "orange blossom water (agua de azahar)",
+      "nutmeg (nuez moscada)"
+    ],
+    "signature_ingredients": [
+      "precooked white or yellow cornmeal (harina de maíz precocida / masarepa) (substitute: none — nixtamalized masa harina behaves differently)",
+      "firm, salty aged white cheese (queso blanco llanero or queso duro) (substitute: cotija or a blend of queso fresco and feta)",
+      "soft, stretched-curd fresh cheese (queso de mano, queso telita, or queso guayanés) (substitute: fresh mozzarella or Oaxaca cheese)",
+      "ripe black-skinned and green plantains (plátanos maduros y verdes) (substitute: none — dessert bananas are too soft and lack starch)",
+      "fresh young sweet field corn kernels (jojoto, for cachapas) (substitute: fresh sweet corn kernels blended with a pinch of cornmeal)",
+      "plantain leaves (hojas de plátano, for wrapping hallacas) (substitute: banana leaves or parchment paper)",
+      "bitter cassava flatbread (casabe) (substitute: none — crisp water crackers for serving alongside only)",
+      "black turtle beans (caraotas negras) (substitute: dried black beans)",
+      "salted cultured whey condiment and clotted cream (suero y nata criolla) (substitute: salted buttermilk for suero; salted crème fraîche or thick sour cream for nata)",
+      "cassava and tropical tubers (yuca, ocumo, ñame, apio criollo) (substitute: frozen yuca and taro, parsnip, or potato for apio criollo)",
+      "raisins and sweet wine or sherry (pasas y vino dulce, for hallacas and pastel de chucho) (substitute: raisins and sweet Marsala or port)"
+    ],
+    "pantry_assumed": [
+      "neutral vegetable oil",
+      "precooked white cornmeal (masarepa)",
+      "long-grain white rice",
+      "dried black beans (caraotas negras)",
+      "unrefined cane sugar (papelón)",
+      "annatto seeds (onoto)",
+      "garlic and yellow onions",
+      "cumin and dried oregano",
+      "Worcestershire-style sauce (salsa inglesa) and white vinegar",
+      "limes"
+    ],
+    "techniques": [
+      "Slow-sweated aromatic sofrito: finely minced onions, garlic, scallions, and ají dulce are usually cooked gently over medium-low heat in annatto-infused oil (aceite onotado) so delicate aromatics release flavor without scorching.",
+      "Hydrating masarepa and budare griddling: precooked cornmeal is kneaded with water, rested briefly to hydrate, shaped into disks, and usually seared on a hot griddle (budare) before finishing in the oven or frying.",
+      "Simmered guisos and caramelized braising: shredded meats or mixed-meat stews for hallacas, empanadas, and arepa fillings are simmered in sofrito with salsa inglesa, capers, and olives, while roasts like asado negro are often browned directly in melted papelón.",
+      "Leaf-wrapping and boiling (hallacas and bollos): annatto-tinted corn masa is pressed onto oiled plantain leaves, topped with guiso and garnishes, folded into parcels tied with twine, and simmered in water.",
+      "Grating and griddling fresh corn or cassava: young sweet corn is ground into a thick batter for pan-griddled cachapas, while in eastern and coastal traditions grated bitter cassava is pressed and toasted dry on a budare into crisp casabe."
+    ],
+    "shortcuts": [
+      "Commercial adobo seasoning blend: usually contains salt, granulated garlic, black pepper, oregano, and cumin or turmeric. Often used at 4 to 5 g (about 1 teaspoon) in place of fresh garlic and dried oregano, typically contributing roughly 1,000 to 1,450 mg sodium (about 2.5 to 3.6 g salt equivalent, using about 2.5 g salt per 1,000 mg sodium), though levels vary substantially by brand (LOW CONFIDENCE — check the label and reduce added salt).",
+      "Commercial bouillon cubes or granules (cubitos): usually contain salt, monosodium glutamate, yeast extract, dehydrated onion and garlic, fat, and herbs. One 3.5 to 4 g cube is often dissolved in 250 to 500 ml liquid instead of homemade stock, typically supplying roughly 900 to 1,050 mg sodium (about 2.3 to 2.6 g salt equivalent, at about 2.5 g salt per 1,000 mg sodium), with wide variation across brands and low-sodium versions (LOW CONFIDENCE).",
+      "Commercial coriander-and-annatto seasoning packets (sazón): usually contain salt, monosodium glutamate, ground coriander, dehydrated garlic, and annatto for color. Often swapped in at 1 to 1.5 g (about 1/4 teaspoon) to mimic aceite onotado and garlic, typically contributing roughly 170 to 260 mg sodium per 1 to 1.5 g (about 0.4 to 0.7 g salt equivalent, at about 2.5 g salt per 1,000 mg sodium), though packet weights and salt ratios vary by manufacturer (LOW CONFIDENCE).",
+      "Bottled Worcestershire-style seasoning sauce (salsa inglesa): usually contains vinegar, molasses or sugar, salt, anchovies, tamarind, garlic, and spices. Used directly by weight at roughly 5 to 6 g per teaspoon (typically around 50 to 65 mg sodium, or about 0.13 to 0.16 g salt equivalent at about 2.5 g salt per 1,000 mg sodium) in black beans, marinades, and guisos, though regional formulations vary in salt, soy, and tamarind content (LOW CONFIDENCE).",
+      "Jarred sofrito or green aliños paste: usually contains pureed onions, sweet peppers, garlic, cilantro or culantro, vinegar, and oil with added salt. Can swap in roughly 15 to 30 g (1 to 2 tablespoons) per dish when fresh ají dulce and herbs are unavailable, though sodium varies widely by brand and commercial pastes rarely match fresh ají dulce aroma (LOW CONFIDENCE)."
+    ],
+    "allergen_notes": [
+      "Milk: very common across everyday dishes via fresh and aged white cheeses (queso llanero, queso de mano, queso telita, queso guayanés), salted clotted cream (nata), fermented whey condiment (suero), butter in cachapas and hallaca dough, milk in Andean pizca andina soup, and condensed or evaporated milk in desserts like quesillo and chicha.",
+      "Fish: hidden in commercial Worcestershire-style seasoning sauce (salsa inglesa, traditionally made with anchovies), which is widely used in caraotas negras, asado negro, carne mechada, and hallaca guisos, as well as in coastal dishes such as Margarita's pastel de chucho and fried snapper.",
+      "Shellfish: present in coastal and eastern seafood broths and stews such as fosforera and siete potencias, seafood asopados, and coastal empanadas filled with shrimp, crab, or squid.",
+      "Wheat: used in Andean wheat-flour arepas (arepas de trigo), pastelitos andinos, tequeños, pan de jamón, and golfeados, and sometimes stirred into hallaca guisos as a thickener or present in soy-based sauces.",
+      "Egg: used in breakfast perico (scrambled eggs with sofrito), poached in Andean pizca andina soup, in mayonnaise for reina pepiada arepa filling and holiday ensalada de gallina, and as a binder in quesillo, bienmesabe, and tortas.",
+      "Soy: commonly present as hydrolyzed soy protein, soy sauce, or soy lecithin in commercial bouillon cubes (cubitos), certain Latin American Worcestershire-style sauces, and Venezuelan-Chinese dishes like arroz chino.",
+      "Tree nuts: blanched almonds are used in classic Caracas-style hallacas as a garnish and sometimes ground in the guiso, as well as in bienmesabe and holiday cakes such as torta negra.",
+      "Peanuts: uncommon in everyday savory cooking, though peanuts (maní) appear in traditional sweets such as conservas de maní and occasional regional drinks.",
+      "Sesame: sesame seeds (ajonjolí) appear in traditional confections like turrón and conserva de ajonjolí, sesame-based carato or chicha de ajonjolí drinks, and occasionally as a crust topping on breads such as pan de jamón."
+    ],
+    "pitfalls": [
+      "Substituting Mexican nixtamalized masa harina for precooked masarepa (harina de maíz precocida), which behaves differently and will not produce classic Venezuelan arepas or hallaca dough.",
+      "Assuming Venezuelan food is chile-hot like Mexican cuisine and adding jalapeños or habaneros instead of sweet, non-spicy aromatic ají dulce.",
+      "Conflating hallacas with Mexican tamales by omitting the plantain-leaf wrapping, annatto-tinted masa, or sweet-savory guiso garnished with olives, capers, and raisins.",
+      "Assuming Venezuelan arepas are unstuffed side cakes rather than split main-meal pockets, or substituting pinto or kidney beans for black beans (caraotas negras) in pabellón criollo.",
+      "Treating casabe as a wheat flatbread or tortilla rather than a crisp, unleavened disc made from pressed bitter cassava."
+    ],
+    "sources": [
+      "Mi cocina: A la manera de Caracas, Armando Scannone, 1982",
+      "Historia de la alimentación en Venezuela: con textos para su estudio, José Rafael Lovera, 1988",
+      "Diccionario de alimentación y gastronomía en Venezuela, Rafael Cartay and Elvira Ablan, 1997",
+      "Gran Cocina Latina: The Food of Latin America, Maricel E. Presilla, 2012",
+      "Los panes en Venezuela, Ocarina Castillo, 2014",
+      "La cocina de Casilda: granjerías y dulces criollos, Graciela Schael Martínez, 1957",
+      "https://bibliofep.fundacionempresaspolar.org/"
+    ]
+  },
+  {
+    "id": "chilean",
+    "label": "Chilean",
+    "subtitle": "Merkén, cumin, pebre, Pacific seafood",
+    "about": "Stretching from the arid Atacama Desert and Andean highlands in the north, through the fertile Central Valley around Santiago and coastal ports like Valparaíso, down to the rainy Chiloé Archipelago and Patagonian steppes in the south, Chilean cuisine spans desert, valley, island, and long Pacific coastlines. It grew from Indigenous foodways (Mapuche, Aymara, Quechua, and Chono-Huilliche) fused with Spanish colonial livestock, wheat, and orchard crops, later shaped by 19th-century French fashions as well as German, British, and Italian immigration. Everyday home cooking is usually mildly spiced rather than fiery—anchored by paprika-fat bases, cumin, oregano, fresh cilantro, corn, squash, beans, and cold-water shellfish—in comforting dishes such as cazuela, pastel de choclo, porotos granados, and Chiloé's pit-steamed curanto.",
+    "flavors": [
+      "sweet paprika bloomed in oil or lard (ají de color)",
+      "smoked chili-coriander seasoning (merkén)",
+      "fresh cilantro (cilantro)",
+      "yellow or white onion (cebolla)",
+      "garlic (ajo)",
+      "ground cumin (comino)",
+      "dried oregano (orégano)",
+      "fresh green chili (ají verde or ají cristal)",
+      "fresh sweet basil (albahaca, classic in summer corn dishes)",
+      "chopped chili-cilantro-onion table sauce (pebre)",
+      "stone-crushed tomato-garlic-chili table sauce (chancho en piedra)",
+      "white or red wine vinegar and lemon juice (vinagre y limón)"
+    ],
+    "sweet_only": [
+      "whole or ground cinnamon (canela, in mote con huesillos, leche asada, and chancaca syrup)",
+      "whole cloves (clavo de olor, simmered in chancaca syrup and pan de pascua)",
+      "dried orange peel (cáscara de naranja, steeped in chancaca syrup and mote con huesillos)",
+      "unrefined cane sugar block (chancaca, melted into spiced syrup for sopaipillas pasadas and picarones)",
+      "aniseed (anís, in sweet pastries and aguardiente infusions)",
+      "vanilla extract or bean (vainilla, in leche asada and kuchen pastries)"
+    ],
+    "signature_ingredients": [
+      "starchy Chilean green corn (choclo chileno) (substitute: thawed frozen white corn or sweet corn blended with 1 tablespoon cornmeal or masa harina per cob for starch and body)",
+      "fresh shelled cranberry beans (porotos granados) (substitute: fresh or thawed cranberry/borlotti beans, or soaked dried cranberry or pinto beans)",
+      "dense orange winter squash (zapallo camote) (substitute: kabocha squash or butternut squash)",
+      "hulled wheat berries (trigo mote) (substitute: pearl barley for similar chew in savory stews, or wheat berries)",
+      "toasted whole-wheat flour (harina tostada) (substitute: whole-wheat flour dry-toasted in a skillet until nutty)",
+      "dried bull kelp (cochayuyo) (substitute: dried kombu kelp, though thinner and less chewy)",
+      "dried laver seaweed (luche) (substitute: dried wakame or unseasoned nori sheets)",
+      "sun-dried peaches (huesillos) (substitute: dried peach halves, preferably unsulfured)",
+      "Chilean abalone and pink surf clams (locos and machas) (substitute: canned abalone or tenderized conch for locos; razor clams or cherrystone clams for machas)",
+      "giant Chilean barnacles and edible sea squirt (picorocos and piure) (substitute: none)",
+      "caramelized milk spread (manjar) (substitute: canned or jarred dulce de leche)"
+    ],
+    "pantry_assumed": [
+      "neutral vegetable oil or lard",
+      "sweet paprika (for ají de color)",
+      "smoked chili-coriander blend (merkén)",
+      "ground cumin and dried oregano",
+      "onions and garlic",
+      "wine vinegar and lemons",
+      "fresh cilantro",
+      "dried beans (cranberry or pinto)",
+      "all-purpose flour and white rice"
+    ],
+    "techniques": [
+      "Blooming sweet paprika gently in hot oil or lard (hacer ají de color) before building an onion-and-garlic sofrito base for empanadas, stews, and soups",
+      "Simmering clear broths (cazuela and caldillo) in which large cuts of meat or fish and chunky vegetables cook gently together without pureeing",
+      "Grating or grinding starchy fresh corn off the cob with fresh basil (choclo molido) to form baked pastel de choclo crusts and husk-wrapped steamed humitas",
+      "Slow-steaming layered shellfish, meats, potatoes, and potato doughs over fire-heated stones in a leaf-lined earth pit (curanto al hoyo) or covered pot (pulmay), echoing stone-heated Andean calapurca in the north",
+      "Crushing raw tomatoes, garlic, and green chilies by hand in a stone mortar (chancho en piedra), alongside open-fire spit-roasting of whole lamb on iron crosses (cordero al palo) in Patagonia"
+    ],
+    "shortcuts": [
+      "Commercial salted merkén blend: typically combines dried smoked goat's-horn chili (ají cacho de cabra), toasted coriander seed, and salt, often around 70 percent chili, 20 percent salt, and 10 percent coriander, though some commercial labels reach higher sodium levels around 15,000 to 17,500 mg sodium per 100 g (roughly 38 to 44 g salt per 100 g, based on about 2.5 g salt per 1,000 mg sodium; salt percentages vary widely across producers [LOW CONFIDENCE]). Swap 10 g salt-free homemade smoked chili-coriander blend plus 2 to 4 g salt per 10 g salted merkén, or use salt-free artisanal merkén 1:1 without reducing recipe salt.",
+      "Jarred or bottled Chilean chili paste (pasta de ají verde or ají rojo): usually contains fresh chili peppers, water, salt, vinegar or acetic acid, modified cornstarch or xanthan gum, and preservatives; commercial pastes often carry about 2,200 to 3,900 mg sodium per 100 g (roughly 5.5 to 9.8 g salt per 100 g, or about 0.8 to 1.5 g salt per 15 g tablespoon; varies by producer [LOW CONFIDENCE]). Swap 15 g jarred paste for 15 g seeded fresh chili blended with a splash of vinegar and reduce added recipe salt by about 1 g.",
+      "Commercial beef or chicken bouillon cubes (caldos concentrados): usually contain salt, vegetable or palm fat, monosodium glutamate, cornstarch, sugar, dehydrated meat or poultry extract, onion and garlic powder, and herbs. Standard 10 g Chilean cubes typically supply around 1,985 to 2,360 mg sodium per cube, which is about 5.0 to 5.9 g salt per cube (about 2.5 g salt per 1,000 mg sodium; varies slightly by producer [LOW CONFIDENCE]). Replace 250 mL homemade stock with 250 mL water plus half a 10 g cube and omit about 2.5 to 3 g table salt.",
+      "Prepared chancaca block or bottled chancaca syrup: solid unrefined cane sugar blocks contain pure cane sugar (0 g salt) and are melted 1:1 by weight with water plus cinnamon, cloves, and orange peel; bottled ready-to-pour chancaca syrup adds water, thickeners, and sometimes preservatives (negligible salt, LOW CONFIDENCE on exact trace sodium across producers). Swap 100 g block chancaca for 100 g dark brown sugar or piloncillo with a small pinch of molasses."
+    ],
+    "allergen_notes": [
+      "Milk: butter, cream, milk, and melting cheeses appear in pastel de jaiba, chupe de mariscos, machas a la parmesana, and manjar-filled pastries.",
+      "Egg: hard-boiled egg wedges are classic inside empanadas de pino and pastel de choclo, egg wash glazes baked empanadas and breads, and egg yolks enrich leche asada and mayonnaise dressings.",
+      "Shellfish: clams, mussels, machas, locos, crab, and giant barnacles (picorocos) are central to curanto, pulmay, paila marina, chupe de jaiba, and machas a la parmesana.",
+      "Fish: conger eel (congrio), hake (merluza), and corvina base caldillo de congrio, pescado frito, and Chilean ceviche, and fish stock often flavors coastal stews.",
+      "Wheat: wheat flour forms empanada dough, sopaipillas, pan amasado, marraqueta, hallullas, and Chiloé chapaleles, while trigo mote (hulled wheat), harina tostada, and milk-soaked bread in chupes contain wheat gluten.",
+      "Tree nuts: walnuts and almonds frequently appear in pan de pascua and fruit preserves such as alcayota or membrillo con nueces.",
+      "Soy: commercial bouillon cubes and packaged savory seasoning blends may contain hydrolyzed soy protein or soy-derived flavorings.",
+      "Peanuts and sesame: rarely used in traditional Chilean savory home cooking, though occasional modern snacks or confections may include them."
+    ],
+    "pitfalls": [
+      "Making Chilean dishes fiery like Mexican or Peruvian cooking, when everyday savory recipes usually rely on mild paprika-fat bases (ají de color) and serve heat on the side as pebre or merkén.",
+      "Substituting Peruvian ají panca paste for Chilean ají de color, which is mild sweet paprika bloomed in oil or lard rather than a smoky dried Peruvian chili.",
+      "Treating starchy Chilean choclo as interchangeable with sugary US sweet corn without adding a starch binder in pastel de choclo or humitas, which otherwise turn watery.",
+      "Adding sweet baking spices like cinnamon or cloves to savory beef pino, or assuming raisins are universally accepted in empanadas de pino despite ongoing home-cook debate.",
+      "Treating Central Valley dishes as the whole cuisine while overlooking Andean northern stews (calapurca, patasca), Chiloé's curanto and seaweeds, and Patagonian spit-roasted lamb."
+    ],
+    "sources": [
+      "Apuntes para la historia de la cocina chilena, Eugenio Pereira Salas, 1943",
+      "La olla deleitosa: Cocinas mestizas de Chile, Sonia Montecino, 2004",
+      "Cocina Popular, Mariana Bravo Walker, 1964",
+      "Geografía gastronómica de Chile: artículos reunidos 1943–1994, Oreste Plath, 2018",
+      "The Chilean Kitchen: 75 Seasonal Recipes for Stews, Breads, Salads, Cocktails, Desserts, and More, Pilar Hernández and Eileen Smith, 2020",
+      "https://www.memoriachilena.gob.cl/602/w3-article-8033.html",
+      "https://repositorio.uchile.cl/handle/2250/171495"
+    ]
+  },
+  {
+    "id": "guianas",
+    "label": "The Guianas",
+    "subtitle": "Cassareep, masala, kecap manis, culantro",
+    "about": "The Guianas lie on the Atlantic shoulder of northeastern South America, where low coastal plains, tidal mudflats, and broad rivers—the Essequibo, Demerara, Suriname, and Maroni—give way inland to dense Amazonian rainforest and interior highlands around Georgetown, Paramaribo, and Cayenne. Indigenous cassava traditions fused with enslaved West African and Maroon foodways, British, Dutch, and French colonial larders, Sephardic Jewish baking in Suriname, and 19th- to 20th-century migrations from India, Java, China, and Laos. Home cooking balances bittersweet cassava reductions, fresh herb-and-chile seasonings, roasted-spice curries, sweet-soy stir-fries, and toasted-cassava sides, seen in Guyanese pepperpot, Surinamese pom and bami, and French Guianese bouillon d'awara.",
+    "flavors": [
+      "garlic (knoflook / ail)",
+      "scallion (bosui / cives)",
+      "culantro (bhandhania / sneki-wiwiri / coulante)",
+      "broadleaf and fine thyme (gros thym)",
+      "hot chile (wiri wiri, Madame Jeanette, piment)",
+      "cumin (geera / djinten)",
+      "masala curry or colombo blend (masala / poudre de colombo)",
+      "sweet soy sauce (kecap manis / zoete ketjap)",
+      "fermented shrimp paste (trassi)",
+      "galangal and lesser galangal (laos, kentjoer)",
+      "lime and sour orange (citron vert / zure oranje)",
+      "West Indian bay leaf, cinnamon, and clove (bois d'Inde)"
+    ],
+    "sweet_only": [
+      "vanilla extract",
+      "almond essence (amandelessence)",
+      "rosewater (gulab jal / rozenwater)"
+    ],
+    "signature_ingredients": [
+      "cassareep (substitute: none exact; dark unsweetened molasses simmered with warm spices approximates color and bittersweetness without bitter-cassava savoriness)",
+      "toasted fermented cassava semolina / couac (substitute: toasted Brazilian farinha de mandioca)",
+      "pomtayer / arrowleaf elephant ear corm (pomtajer) (substitute: malanga or yautia; taro is a softer texture fallback)",
+      "awara palm fruit pulp (pate d'awara) (substitute: none exact; West African red palm fruit concentrate approximates richness but differs in aroma)",
+      "salted cod and cured salted meats (bakkeljauw / morue / zoutvlees) (substitute: soaked dried salt cod for fish; smoked pork hock or salt pork for cured meats)",
+      "yardlong beans (kousenband / bora) (substitute: Chinese long beans or tender green beans)",
+      "bilimbi / sour tropical fruit (birambi) (substitute: unripe green mango or tamarind pulp for souring curries and chutneys)"
+    ],
+    "pantry_assumed": [
+      "neutral cooking oil and coconut oil",
+      "long-grain white or parboiled rice",
+      "dried yellow split peas and black-eyed peas",
+      "all-purpose flour",
+      "canned coconut milk",
+      "onions, garlic, and scallions",
+      "hot chiles (wiri wiri, Madame Jeanette, or habanero)",
+      "limes and cane or white vinegar",
+      "masala or curry powder and ground cumin (geera)",
+      "sweet soy sauce (kecap manis) and cassareep"
+    ],
+    "techniques": [
+      "Detoxifying grated bitter cassava in a woven matapee or tipiti press and boiling the extracted juice into cassareep or roasting fermented cassava meal into couac",
+      "Long-simmering ceremonial pots, such as multi-day Guyanese pepperpot kept on the hearth and 24- to 36-hour French Guianese bouillon d'awara",
+      "Blooming fresh green seasoning and dry-roasted masala or colombo spices in hot oil before stewing meats, salted fish, or pulses",
+      "Griddle-cooking (tawa) split-pea-filled dalpuri and layered flaky oil paratha roti",
+      "High-heat wok-style stir-frying and marinating in sweet soy sauce (kecap manis), garlic, and fermented shrimp paste for bami, nasi, and moksi meti"
+    ],
+    "shortcuts": [
+      "Jarred Caribbean green seasoning usually blends scallions, culantro or cilantro, thyme, garlic, onion, hot pepper, vinegar, and salt; swap roughly 1:1 by weight for fresh green seasoning and check the label, as commercial jars often supply roughly 4.5 to 8.7 g salt per 100 g (about 2.5 g salt per 1,000 mg sodium) whereas homemade blends are unsalted (LOW CONFIDENCE on exact brand salt levels).",
+      "Commercial bouillon cubes are widely used in Surinamese and Guyanese home cooking and usually combine salt, yeast extract or hydrolyzed protein, fat, and dried herbs; one ~4.8 g cube typically supplies roughly 2.5 to 2.9 g salt (about 2.5 g salt per 1,000 mg sodium), so dissolve 1 cube per 240 to 480 ml water in place of stock and sharply reduce added salt.",
+      "Dry masala and colombo powders are typically salt-free spice blends (swap 1:1 by weight for homemade spice mix), whereas jarred masala, Javanese bumbu, and peanut or chili sambal pastes add oil, aromatics, sugar, shrimp paste, and salt; swap jarred pastes roughly 1:1 by weight for freshly ground paste and adjust salt from the label (roughly 0.8 to 2.5 g salt per 100 g at about 2.5 g salt per 1,000 mg sodium, LOW CONFIDENCE due to wide brand variation).",
+      "Commercial sweet soy sauce (kecap manis) usually supplies roughly 3.5 to 3.7 g salt per 100 g (about 2.5 g salt per 1,000 mg sodium), so reduce added salt in stir-fries and marinades; traditional pure bottled cassareep contains no added salt, though some commercial bottles add sugar, caramel coloring, or preservatives (check labels and reduce added brown sugar if sweetened, LOW CONFIDENCE if soy extract is added)."
+    ],
+    "allergen_notes": [
+      "Peanuts: Core ingredient in Surinamese-Javanese pindasambal (spicy peanut sauce served with bakabana, teloh, and satay) and some street-food dressings.",
+      "Wheat and soy: Traditional kecap manis (sweet soy sauce) and standard soy sauces in bami, nasi, tjauw min, and moksi meti are usually fermented with both soy and wheat; wheat flour also forms roti, dalpuri, pholourie, and bakabana batter.",
+      "Shellfish: Fermented shrimp paste (trassi) is often dissolved invisibly into Surinamese-Javanese bumbu pastes, sambals, and stir-fries, and dried shrimp appears in cook-up rice, moksi alesi, and bouillon d'awara.",
+      "Fish: Salted cod (bakkeljauw / morue), smoked fish, and salted river fish are common in bouillon d'awara, moksi alesi, and Creole stews, and fish extracts occasionally appear in commercial seasoning pastes.",
+      "Egg and milk: Sliced hard-boiled egg is a classic topping for saoto soup and filling in Surinamese pastei (which also uses butter in pastry), while ghee, butter, evaporated or condensed milk appear in Indo-Caribbean sweets, cassava pone, and fiadu.",
+      "Tree nuts and sesame: Chopped almonds or cashews and almond essence appear in fiadu, bojo, black cake, and Indo-Caribbean sweets, while sesame oil and sesame seeds appear in Chinese-Guyanese and Chinese-Surinamese tjauw min, loempia, and moksi meti."
+    ],
+    "pitfalls": [
+      "Do not flatten the Guianas into generic island Caribbean 'jerk and coconut' cooking or assume Spanish-speaking Latin American profiles apply.",
+      "Do not treat the three territories as interchangeable: Guyana centers Indo-Guyanese and Afro-Creole dishes with cassareep, Suriname adds major Javanese, Hindustani, and Sephardic-Creole traditions, and French Guiana leans Franco-Antillean and Amazonian Creole.",
+      "Never suggest using raw or under-boiled bitter cassava root or juice in home recipes, as un-detoxified bitter cassava contains toxic cyanogenic glycosides.",
+      "Do not swap sweet soy sauce (kecap manis) and cassareep interchangeably: both are dark and thick, but kecap manis is salty-sweet fermented soy while cassareep is an unsalted bitter-cassava reduction.",
+      "Do not confuse Surinamese masala or French Guianese colombo powder with generic US curry powder, as colombo includes toasted rice and warm cloves while Guianas masalas emphasize roasted cumin and fenugreek."
+    ],
+    "sources": [
+      "What's Cooking in Guyana — Carnegie School of Home Economics (1973; rev. ed. Macmillan Caribbean, 2004)",
+      "Groot Surinaams Kookboek — A.A. Starke & M. Sam-Sin-Hewitt (1976; rev. ed. 2016)",
+      "Switi Sranan: The Rich Surinamese Cuisine — Noni Kooiman (2021)",
+      "L'essentiel de la cuisine guyanaise — Gilles Nourault (2022)",
+      "La cuisine guyanaise — Pierre Alibert (1996)",
+      "\"Journey by Bottle: Uncovering the Allure of Guyanese Cassareep\" — Darrin DuFord, Gastronomica, Vol. 12, No. 4 (2012)"
+    ]
+  },
+  {
+    "id": "yemeni",
+    "label": "Yemeni",
+    "subtitle": "Hawaij, fenugreek foam, zhoug, flatbreads",
+    "about": "Yemeni home cooking spans the terraced western highlands around Sana'a, the hot Red Sea coastal plain of Tihama, the southern port of Aden, and the eastern desert wadis of Hadhramaut. Summer monsoon rains and ancient mountain terraces sustained sorghum, millet, wheat, and coffee, while Red Sea and Indian Ocean trade connected Yemen with India, East Africa, and Southeast Asia alongside centuries of Jewish and Ottoman exchange. Everyday meals center on warm spice blends, clay-oven or skillet flatbreads, whipped fenugreek, chili-herb pastes, smoked clarified butter, and honey, with representative dishes including saltah, fahsa, mandi, and zhurbian.",
+    "flavors": [
+      "savory hawaij spice blend (حوايج, hawaij)",
+      "fenugreek (حلبة, hulba)",
+      "chili-herb paste (سحاوق, sahawiq or zhoug)",
+      "chili peppers (بسباس, bisbas)",
+      "cumin (كمون, kammun)",
+      "coriander and cilantro (كزبرة, kuzbara)",
+      "turmeric (كركم, kurkum)",
+      "green cardamom (هيل, hayl)",
+      "garlic (ثوم, thum)",
+      "smoked clarified butter (سمن, samn)",
+      "cold-pressed sesame oil (سليط, salit)",
+      "nigella seeds (حبة البركة, habbat al-baraka)"
+    ],
+    "sweet_only": [
+      "coffee hawaij spice blend (حوايج القهوة, hawaij al-qahwa) — ginger, cardamom, cinnamon, and cloves mainly for coffee, qishr, and sweet baking",
+      "rosewater (ماء الورد, ma' al-ward) — mainly in Adeni halwa and festive sweets",
+      "Sidr honey (عسل السدر, asal al-sidr) — prized jujube honey poured mainly over bint al-sahn, areeka, and masoub"
+    ],
+    "signature_ingredients": [
+      "sorghum flour and grain (ذرة, dhura) (substitute: millet flour or whole-wheat flour; earthy flavor differs)",
+      "lahooh (لحوح, spongy fermented flatbread) (substitute: East African injera, or a thin fermented pancake cooked on one side only)",
+      "malawah (ملوح, flaky ghee-layered flatbread) (substitute: uncooked frozen plain South Asian paratha)",
+      "qishr (قشر, dried coffee cherry husks) (substitute: specialty cascara tea; none in standard US supermarkets)",
+      "lakhm (لخم, Hadhrami cured dried shark) (substitute: salted dried cod, soaked well; flavor is milder)",
+      "wazif (وزف, sun-dried baby sardines) (substitute: Asian dried anchovies or rinsed oil-packed anchovies; intensity differs)"
+    ],
+    "pantry_assumed": [
+      "basmati rice",
+      "all-purpose and whole-wheat or sorghum flour",
+      "ghee (samn) or neutral oil",
+      "onions and garlic",
+      "tomato paste",
+      "savory hawaij spice blend",
+      "ground fenugreek seeds (hulba)",
+      "chili-herb paste (sahawiq or zhoug)",
+      "dried fava beans and lentils",
+      "plain yogurt and lemons or limes"
+    ],
+    "techniques": [
+      "Simmer meat broth (maraq) and finish bubbling stews in a preheated soapstone pot (haradah or maqla) topped with whipped fenugreek foam (hulba) and chili-herb paste (sahawiq), as in saltah and fahsa.",
+      "Slow-roast seasoned meat suspended over spiced basmati rice in an underground clay pit oven (tannur) or sealed pot so drippings and wood smoke flavor the grains, as in mandi and haneeth.",
+      "Braise meat with caramelized onions, yogurt, and potatoes, layer with parboiled rice, and finish with live-charcoal smoke trapped in oil or ghee (takhmeen), as in Adeni zhurbian.",
+      "Stretch dough paper-thin, brush with clarified butter (samn), fold into layers, and bake in a clay tannur or pan-fry until crisp and flaky, as in malawah and bint al-sahn.",
+      "Ferment a thin sorghum-and-wheat batter and cook it on one side only without flipping so steam pockets form a spongy surface for soaking up sauces, as in lahooh and shafout."
+    ],
+    "shortcuts": [
+      "Commercial savory hawaij spice blend: usually contains ground cumin, black pepper, turmeric, and cardamom, sometimes with coriander or cloves. Substitute 1:1 by weight for homemade savory hawaij. Most pure spice blends contain 0 mg sodium (0 g salt), though salted blends exist (LOW CONFIDENCE on whether an unlabeled mix is salted); check the nutrition label and reduce added recipe salt by about 2.5 g salt per 1,000 mg sodium for the weight used.",
+      "Prepared refrigerated or jarred zhoug paste: usually contains cilantro, hot green chiles, garlic, vegetable oil, salt, and warm spices such as cumin and cardamom. Swap 1:1 by weight for homemade green sahawiq, noting that commercial pastes are often milder and oilier than mortar-pounded versions. Sodium varies widely by producer — roughly 250 to 550 mg sodium per 100 g, or about 0.6 to 1.4 g salt per 100 g (LOW CONFIDENCE, brand-varying) — so read the label and reduce added dish salt by about 2.5 g salt per 1,000 mg sodium.",
+      "Commercial meat bouillon cubes or powder as a shortcut for slow-simmered meat broth (maraq): usually contain salt, yeast extract or hydrolyzed protein, fat, and onion or spice flavorings, lacking the gelatin and roasted-bone depth of homemade maraq. Reconstitute by weight per package directions, and reduce added recipe salt by about 2.5 g salt per 1,000 mg sodium on the label (sodium content varies substantially by brand, LOW CONFIDENCE)."
+    ],
+    "allergen_notes": [
+      "Sesame: cold-pressed sesame oil (salit) is widely used to cook and finish stews, rice, and breads, and sesame seeds often top baked breads and pastries.",
+      "Milk: clarified butter (samn), buttermilk, yogurt, and evaporated or condensed milk appear in malawah, bint al-sahn, shafout, zhurbian, and Adani chai, while cheese is blended into sahawiq bil-jibn.",
+      "Wheat: malawah, bint al-sahn, kuboos, jachnun, and many versions of lahooh contain wheat flour, even when blended with sorghum.",
+      "Fish: coastal and Tihama cooking uses sun-dried baby sardines (wazif) pounded into sahawiq or served as a condiment, and Hadhrami cooking features cured dried shark (lakhm).",
+      "Egg: eggs are often brushed onto pastries such as bint al-sahn, cracked into hot saltah or breakfast skillets, and served boiled alongside diaspora malawach.",
+      "Tree nuts: almonds, pistachios, and cashews appear as garnishes on festive rice dishes such as mandi and zhurbian and in sweets such as halwa Adaniya and masoub.",
+      "Shellfish, peanuts, and soy: not routine hidden components of core Yemeni spice blends, though coastal Red Sea and Gulf of Aden dishes use shrimp and commercial bouillons or sauces may contain soy; check U.S.-labeled commercial products for all nine major allergens."
+    ],
+    "pitfalls": [
+      "Do not default to Levantine za'atar, sumac, or pomegranate molasses in Yemeni recipes; everyday Yemeni cooking leans on hawaij, whipped fenugreek (hulba), and chili-herb paste (sahawiq).",
+      "Do not conflate Yemeni mandi with Gulf kabsa; classic Hadhrami mandi suspends lightly spiced meat over basmati rice with wood smoke and drippings rather than simmering rice in a tomato-based broth.",
+      "Do not omit whipped fenugreek foam (hulba) from saltah or fahsa, and do not boil dry ground fenugreek straight into the stew without soaking and draining or it turns harshly bitter.",
+      "Do not treat zhoug as strictly green or solely Israeli; Yemeni sahawiq includes red chile, cheese (bil-jibn), and dried-sardine (wazif) versions alongside the green cilantro paste.",
+      "Do not assume Yemeni flatbreads are standard pita; lahooh is a one-sided fermented sorghum-or-mixed-grain crepe, and traditional Yemeni malawah is ghee-laminated rather than margarine-fried."
+    ],
+    "sources": [
+      "The Book of Jewish Food: An Odyssey from Samarkand to New York, Claudia Roden, 1996",
+      "Encyclopedia of Jewish Food, Gil Marks, 2010",
+      "A Taste of Thyme: Culinary Cultures of the Middle East, Sami Zubaida and Richard Tapper (eds.), 1994",
+      "The Oxford Companion to Food (3rd ed.), Alan Davidson and Tom Jaine (eds.), 2014",
+      "Sifratna: Recipes from Our Yemeni Kitchen, Amjaad Al-Hussain, 2018",
+      "https://archive.aramcoworld.com/issue/200601/the.secret.gardens.of.sana.a.htm",
+      "https://www.washingtonpost.com/lifestyle/food/the-west-knows-yemens-war-and-famine-a-daughter-of-immigrants-is-spreading-the-word-about-the-countrys-cuisine/2019/06/12/37941ca2-8a9d-11e9-8fba-60362774f1d7_story.html",
+      "https://www.fda.gov/food/food-labeling-nutrition/food-allergies"
+    ]
+  },
+  {
+    "id": "iraqi",
+    "label": "Iraqi",
+    "subtitle": "Dried lime, tamarind, baharat, date syrup",
+    "about": "Spanning the Tigris and Euphrates river plains from Baghdad down to the Shatt al-Arab marshes and Basra near the Persian Gulf, and rising north toward Mosul and the Zagros mountains of Iraqi Kurdistan, Iraqi home cooking is shaped by fertile riverbeds, northern highlands, and date-palm groves. Rooted in ancient Mesopotamian foodways and medieval Abbasid Baghdad, it reflects centuries of Arab, Kurdish, Turkmen, Assyrian, Iraqi Jewish, Ottoman, Persian, and Indian Ocean trade influences, balancing warm spice blends against pronounced sour and sweet-sour accents. Representative dishes include wood-roasted Tigris carp (masgouf), sweet-and-sour mixed-vegetable dolma, filled cracked-wheat or rice kubba, slow-roasted lamb and rice quzi, and layered eggplant casserole tepsi baytinijan.",
+    "flavors": [
+      "dried black lime (نومي بصرة, noomi basra)",
+      "Iraqi spice blend (بهارات, baharat)",
+      "tamarind (تمر هندي, tamr hindi)",
+      "pomegranate molasses (دبس الرمان, dibis al-rumman)",
+      "date syrup (دبس, dibis)",
+      "turmeric (كركم, kurkum)",
+      "garlic (ثوم, thum)",
+      "cumin (كمون, kammun)",
+      "sumac (سماق, summaq)",
+      "dill (شبنت, shbint)",
+      "pickled mango condiment (عنبة, amba)",
+      "fenugreek (حلبة, hulba)"
+    ],
+    "sweet_only": [
+      "rosewater (ماء ورد, mai ward)",
+      "orange-blossom water (ماء قداح, mai qaddah)",
+      "mahlab (محلب, mahlab)"
+    ],
+    "signature_ingredients": [
+      "anbar / Iraqi amber rice (تمن عنبر, timman anbar) (substitute: aged basmati rice mixed with a small portion of jasmine rice for fragrance; texture differs)",
+      "fine cracked wheat for kubba shells (جريش, jarish) (substitute: fine-grind bulgur wheat; soak briefly before kneading)",
+      "fermented dried yogurt-wheat paste or powder (كشك / ترخينة, kashk / tarhana) (substitute: strained Greek yogurt whisked with a little cooked bulgur for body, though it lacks fermented tang)",
+      "Iraqi diamond-shaped hearth bread (صمون, samoon) (substitute: crusty ciabatta rolls or thick pita pockets)",
+      "split or shelled fava beans (باقلاء, bagilla) (substitute: peeled broad beans or frozen lima beans as a rough stand-in)",
+      "whole freshwater carp for masgouf (سمك شبوط / كطان, shabbut / kattan) (substitute: butterflied whole sea bass, red snapper, or trout)",
+      "crushed sour white citric acid crystals (لمندوزي, lamindozi) (substitute: fresh lemon juice, noting that it adds acidity with more liquid)"
+    ],
+    "pantry_assumed": [
+      "long-grain basmati or amber rice (timman)",
+      "cracked wheat (bulgur or jarish)",
+      "yellow onions and garlic",
+      "tomato paste",
+      "cooking oil or clarified butter (ghee)",
+      "dried chickpeas or white navy beans",
+      "dried black limes (noomi basra)",
+      "ground baharat spice blend and turmeric",
+      "pomegranate molasses or tamarind paste",
+      "sesame tahini (rashi)"
+    ],
+    "techniques": [
+      "Split whole freshwater fish down the back and roast upright beside a low wood or charcoal fire, basting with turmeric, oil, and tamarind or tomato sauce as in masgouf.",
+      "Layer stuffed onions, chard or grape leaves, eggplant, zucchini, and peppers in one heavy pot over meat or broad beans and slow-simmer in a sweet-and-sour broth for Iraqi dolma.",
+      "Encase spiced minced meat and onions in a thin, pliable shell of soaked bulgur, rice, or potato dough and simmer in broth or deep-fry for kubba.",
+      "Slow-simmer meat, dried legumes, or vegetables with tomato paste, garlic, and dried black limes into broth-rich stews (marag) served over steamed rice (timman).",
+      "Soak torn flatbread in rich lamb or chicken broth topped with chickpeas and aromatics for tashreeb, or layer rice with fried vegetables, meat, and caramelized onions for quzi and biryani."
+    ],
+    "shortcuts": [
+      "Commercial Iraqi baharat or Middle Eastern seven-spice blends: usually contain black pepper, cumin, coriander, allspice, cinnamon, cardamom, cloves, and nutmeg (though Levantine seven-spice mixes often omit cumin and turmeric or lean heavier on allspice). Swap 1:1 by weight for homemade Iraqi baharat, adding a pinch of cumin and turmeric if using a Levantine blend. Pure spice blends typically contain 0 mg sodium (0 g salt), though seasoned packets with added salt vary by brand [LOW CONFIDENCE]; check the nutrition panel and subtract about 2.5 g salt per 1,000 mg sodium from the recipe.",
+      "Jarred amba (pickled mango sauce): usually contains green mango, water, salt, vinegar or citric acid, fenugreek, turmeric, mustard, and chili. Commercial jars commonly carry roughly 2,200 to 2,500 mg sodium per 100 g (about 5.5 to 6.3 g salt per 100 g, or roughly 0.8 to 0.9 g salt per 15 g tablespoon, though levels vary by brand [LOW CONFIDENCE]). Use directly as a condiment or swap 1:1 by weight into marinades while reducing added recipe salt by about 2.5 g salt per 1,000 mg sodium shown on the label.",
+      "Commercial tamarind paste or concentrate: usually contains tamarind pulp and water, though some jars add salt or sugar. Pure unsalted tamarind concentrate contains only trace natural sodium (roughly 30 to 50 mg sodium per 100 g, under 0.15 g salt), whereas salted pastes vary by manufacturer [LOW CONFIDENCE]. Swap 1:1 by weight for strained homemade tamarind pulp liquid of similar thickness, adjusting water and sweetness to taste and reducing added recipe salt by about 2.5 g salt per 1,000 mg sodium if salted.",
+      "Bottled pomegranate molasses and canned tomato paste: pomegranate molasses usually contains concentrated pomegranate juice (sometimes with sugar and citric acid) and typically carries 0 mg sodium (0 g salt), though sweetness and tartness vary sharply by brand [LOW CONFIDENCE]; swap 1:1 by weight for homemade reduced pomegranate juice and taste before adjusting sourness. Unsalted tomato paste carries roughly 60 mg sodium per 100 g (about 0.15 g salt), whereas salted commercial tomato paste varies by brand [LOW CONFIDENCE]; swap 1:1 by weight for cooked-down tomato puree and subtract about 2.5 g salt per 1,000 mg sodium from the label.",
+      "Commercial beef or lamb bouillon cubes (sometimes used as a modern shortcut in home stews and rice): usually contain salt, hydrolyzed proteins or yeast extract, fat, starch, and onion or garlic flavoring, with high sodium that varies widely by brand [LOW CONFIDENCE]. Dissolve in hot water according to package directions to replace homemade meat stock by weight, and withhold added salt until tasting, counting about 2.5 g salt per 1,000 mg sodium from the package label."
+    ],
+    "allergen_notes": [
+      "Sesame: tahini (rashi) is pure sesame paste used in breakfasts with date syrup, dips, and sauces, and sesame seeds often top samoon and kaak breads.",
+      "Wheat: bulgur and jarish (used in kubba shells and northern dishes such as kashk or sawar), vermicelli toasted into everyday rice, samoon and khubz flatbreads, and kleicha pastry all contain wheat.",
+      "Tree nuts: almonds, walnuts, pistachios, and pine nuts are common in Iraqi biryani, quzi rice, kubba meat fillings, and date- or nut-filled kleicha.",
+      "Milk: strained yogurt, labneh, clarified butter (ghee), and fermented dried dairy (kashk or tarhana, especially in Mosul and Kurdish cooking) contain milk; do not assume creamy soups or rice dishes are dairy-free.",
+      "Fish: freshwater carp and other fish are central to masgouf and southern Basra fish stews, though fish sauce or anchovies are not routine hidden ingredients in inland Iraqi spice blends.",
+      "Egg, crustacean shellfish, peanuts, and soy are not routine hidden components of classic Iraqi seasonings, though egg washes appear on baked breads and kleicha, and commercial bouillon cubes or sauces must be checked for soy, wheat, milk, or sesame (note also that amba commonly contains mustard and legume-family fenugreek)."
+    ],
+    "pitfalls": [
+      "Do not treat Iraqi dolma as identical to Levantine or Turkish olive-oil dolma; classic Iraqi dolma usually combines multiple vegetables in one pot and leans distinctly sweet-and-sour from pomegranate molasses, tamarind, or citric acid.",
+      "Do not assume Iraqi baharat is the same as Levantine allspice-only bahar or Gulf bzar; Iraqi baharat is typically black-pepper-forward with cumin, coriander, allspice, cinnamon, cardamom, cloves, and nutmeg.",
+      "Do not flatten Iraq into Baghdad alone or erase regional contrasts, such as Basra's tamarind, dates, and Gulf seafood, Mosul's flat disc kubba and fermented kashk, and Kurdish mountain herbs, sumac, and dairy.",
+      "Do not substitute Indian garam masala or curry powder into Iraqi biryani, which usually relies on sweet-warm Iraqi spices, vermicelli, potatoes, peas, raisins, and fried nuts rather than chilies or coconut.",
+      "Do not claim masgouf can only be made with wild Tigris carp or ignore how home cooks adapt the split, turmeric-and-tamarind-basted technique in standard ovens and broilers."
+    ],
+    "sources": [
+      "Delights from the Garden of Eden: A Cookbook and a History of the Iraqi Cuisine, Nawal Nasrallah, 2003 (revised edition 2013)",
+      "Annals of the Caliphs' Kitchens: Ibn Sayyar al-Warraq's Tenth-Century Baghdadi Cookbook, Nawal Nasrallah (trans.), 2007",
+      "Dates: A Global History, Nawal Nasrallah, 2011",
+      "A Taste of Thyme: Culinary Cultures of the Middle East, Sami Zubaida and Richard Tapper (eds.), 1994",
+      "The Book of Jewish Food: An Odyssey from Samarkand to New York, Claudia Roden, 1996",
+      "Flavours of Babylon: A Family Cookbook, Linda Dangoor, 2011",
+      "The Iraqi Cookbook, Lamees Ibrahim, 2009",
+      "Traditional Kurdish Food: An Insight into Kurdish Culinary Heritage, Ala Barzinji, 2015"
+    ]
+  },
+  {
+    "id": "south_african",
+    "label": "South African",
+    "subtitle": "Pap, braai, Cape Malay, Durban curry",
+    "about": "Stretching from the Atlantic and Indian Ocean coasts around Cape Town and Durban across the Drakensberg escarpment to the Highveld around Johannesburg and the Orange and Limpopo river basins, South Africa encompasses distinct coastal, mountain, and interior foodways. Indigenous Xhosa, Zulu, and Sotho-Tswana grain-and-greens cooking met 17th-century Dutch settlement, enslaved and exiled Southeast Asian and Indian cooks at the Cape, and 19th-century Indian indentured laborers in KwaZulu-Natal, producing a multi-tradition cuisine spanning wood-fired grilled meats, slow-simmered maize and bean dishes, sweet-sour Cape stews, and fiery coastal curries. Representative dishes include umngqusho (samp and sugar beans), Cape Malay bobotie, potjiekos and braai boerewors, and Durban curry served in a hollowed-out bunny chow loaf.",
+    "flavors": [
+      "coriander seed (koljander)",
+      "Cape Malay and Durban curry masalas (kerriepoeier / masala)",
+      "fresh cilantro (dhania)",
+      "curry leaves (kerrieblare / kariveppilai)",
+      "fenugreek seed (methi)",
+      "tamarind (tamarinde / imli)",
+      "fruit chutney (blatjang)",
+      "mango or mixed-vegetable pickle (atchar)",
+      "spirit or cider vinegar (asyn)",
+      "cloves, nutmeg, and allspice (naeltjies, neutmuskaat, piment)",
+      "bird's eye chile and peri-peri sauce (piri-piri)",
+      "garlic and fresh ginger (knoffel en gemmer)"
+    ],
+    "sweet_only": [
+      "rosewater (rooswater)",
+      "vanilla (vanielje)",
+      "naartjie peel (naartjieskil, mainly in melktert, koesisters, and preserves, though historically used in some savory Cape stews)"
+    ],
+    "signature_ingredients": [
+      "white maize meal, coarse or fine (mieliemeel / impuphu) (substitute: white cornmeal or coarse white grits, with minor texture differences)",
+      "samp, coarsely cracked de-hulled dried corn kernels (substitute: dried white hominy or posole kernels, soaked and simmered longer)",
+      "speckled sugar beans (substitute: dried cranberry beans or pinto beans)",
+      "amasi or maas, thick cultured soured whole milk (substitute: plain whole-milk kefir or cultured buttermilk)",
+      "morogo or imifino, wild or cultivated leafy greens such as amaranth and pumpkin leaves (substitute: Swiss chard, collard greens, or mature spinach)",
+      "boerewors, fresh coiled coriander-and-vinegar beef-and-pork sausage (substitute: none exact; coarsely ground beef and pork sausage seasoned with toasted coriander, cloves, nutmeg, and vinegar approximates it)",
+      "biltong, air-dried vinegar-and-coriander-cured beef strips (substitute: none; commercial beef jerky is usually sweeter and smoked rather than air-dried with coriander and vinegar)",
+      "waterblommetjies, aquatic Cape pondweed buds used in traditional bredie (substitute: none exact; trimmed green beans or young artichoke hearts approximate the vegetable role)"
+    ],
+    "pantry_assumed": [
+      "white maize meal (mieliemeel)",
+      "dried samp and sugar beans",
+      "long-grain white rice",
+      "neutral oil and butter",
+      "onions, garlic, and fresh ginger",
+      "canned tomatoes or tomato paste",
+      "ground coriander, turmeric, cumin, and curry powder",
+      "fruit chutney and smooth apricot jam",
+      "cider or spirit vinegar and Worcestershire sauce"
+    ],
+    "techniques": [
+      "grilling meats and boerewors slowly over hardwood or charcoal embers (braai), often basted with vinegar, coriander, or peri-peri marinades",
+      "slow-simmering layered meat, root vegetables, and sauces undisturbed in a heavy three-legged cast-iron pot over coals (potjiekos)",
+      "steaming and stirring white maize meal with boiling water to achieve textures ranging from crumbly phuthu to smooth stiff pap, or long-simmering samp and sugar beans for umngqusho",
+      "tempering whole spices, curry leaves, onions, ginger, and garlic in hot oil before blooming masala and tomatoes to build a vibrant, oil-topped Durban curry",
+      "baking spiced minced meat with dried fruit and fruit chutney beneath a savory egg-and-milk custard for bobotie, or slow-braising meat and vegetables in sweet-sour Cape Malay bredies"
+    ],
+    "shortcuts": [
+      "Packaged South African curry powder or Durban masala: usually contains ground coriander, turmeric, cumin, chiles, fenugreek, paprika, cinnamon or cassia, ginger, cloves, and sometimes wheat flour or bran as a carrier. Swap 15 to 25 g dry blend per 1 kg meat or vegetables in curries or bobotie, or 50 to 80 g wet curry paste per 1 kg ingredients. Pure dry curry powders usually supply under 0.1 g salt per 100 g, whereas wet curry pastes vary substantially by brand (LOW CONFIDENCE for paste sodium; check the label and figure about 2.5 g salt per 1,000 mg sodium).",
+      "Commercial braai spice or seasoned braai salt: usually contains coarse sea or table salt, toasted coriander, paprika, black pepper, dried onion and garlic, sugar or dextrose, MSG or yeast extract, and sometimes mustard powder or vegetable oil. Rub 10 to 15 g per 1 kg meat or vegetables in place of separate salt and dry spices. Salt content ranges widely from roughly 50 g to 95 g salt per 100 g depending on whether sold as a spice rub or seasoned braai salt (LOW CONFIDENCE across brands; read the nutrition panel using about 2.5 g salt per 1,000 mg sodium and withhold extra salt until tasting).",
+      "Commercial boerewors sausage seasoning mix: usually contains salt, coarsely ground roasted coriander, black pepper, nutmeg, cloves, allspice, sugar or dextrose, wheat rusk or cereal binder, MSG, and often sulfite preservatives. Mix about 20 to 30 g dry seasoning with 40 to 50 ml vinegar per 1 kg coarse ground beef and pork instead of separate coriander, warm spices, and salt. Typical commercial packs run roughly 40 to 43 g salt per 100 g, around 15,000 to 17,000 mg sodium per 100 g (LOW CONFIDENCE across butcher and retail blends; verify the label at about 2.5 g salt per 1,000 mg sodium and omit additional salt).",
+      "Packaged brown onion soup powder (commonly used to thicken potjiekos and stews): usually contains cornstarch or wheat flour, salt, dehydrated onion, sugar, MSG or yeast extract, caramel color, and hydrolyzed vegetable or soy protein. Whisk 45 to 50 g dry powder into 250 ml water per 1.5 kg stew to thicken and season in place of flour and browned-onion stock. Standard US dry onion soup mixes average around 20 g salt per 100 g (roughly 8,000 mg sodium per 100 g), though South African packets subject to mandatory national sodium limits may contain less (LOW CONFIDENCE across US vs South African formulations; calculate from the label at about 2.5 g salt per 1,000 mg sodium and hold extra salt until tasting).",
+      "Store-bought fruit chutney or mango atchar: fruit chutney usually contains dried peaches or apricots, sugar, vinegar, onion, and warm spices, while mango atchar usually contains green mango, vegetable oil, mustard seed, fenugreek, turmeric, garlic, and chiles. Use 30 to 60 g fruit chutney in bobotie or glazes, or 15 to 30 g atchar as a sharp side condiment or stirred into beans and curries. Commercial fruit chutneys commonly supply roughly 1 g to 1.8 g salt per 100 g (though reduced-sodium versions can be under 0.2 g), while oil-cured mango atchars are far saltier at roughly 8 g to 12.5 g salt per 100 g (LOW CONFIDENCE across brands; check the label using about 2.5 g salt per 1,000 mg sodium)."
+    ],
+    "allergen_notes": [
+      "Milk appears in amasi (fermented sour milk), the baked egg-and-milk custard on bobotie, melktert, butter or ghee in curries and stews, and lactose in some commercial braai salts or soup packets.",
+      "Egg is used in the savory custard topping of bobotie, in melktert and malva pudding, and in commercial mayonnaise-based salads served alongside braai meats.",
+      "Wheat is present in bunny chow bread loaves, vetkoek, rotis, milk-soaked bread inside bobotie, and wheat flour or rusk binders in commercial boerewors seasonings, some packaged curry powders, and brown onion soup mixes.",
+      "Tree nuts, especially flaked or slivered almonds, are often folded into bobotie and Cape Malay breyani.",
+      "Peanuts (groundnuts or peanut butter) are stirred into cooked morogo or imifino leafy greens in many households and appear in some satay-style sosatie marinades.",
+      "Fish appears via anchovies in Worcestershire sauce (commonly used in biltong cures, bobotie, and braai marinades) as well as pickled fish (ingemaakte vis) and snoek dishes.",
+      "Shellfish is central to Durban prawn and crab curries and some Cape coastal seafood bredies, though it is not a hidden base in inland meat or grain dishes.",
+      "Soy appears as hydrolyzed soy protein or soy sauce in commercial braai seasonings, packaged brown onion soup mixes, and some marinades or Worcestershire variants.",
+      "Sesame is uncommon in classic savory South African home cooking, though sesame seeds appear on some bakery breads and modern fusion dishes."
+    ],
+    "pitfalls": [
+      "Do not treat Cape Malay and Durban curries as interchangeable; Cape Malay dishes usually emphasize warm sweet spices and fruit or vinegar balance, whereas Durban curries are fiery red, oil-topped, and dairy-free.",
+      "Do not thicken traditional Durban curries with coconut milk or heavy cream in the style of Thai or North Indian restaurant dishes.",
+      "Do not collapse crumbly phuthu, smooth stiff pap, and fermented sorghum ting into a single uniform maize porridge.",
+      "Do not assume South African home cooking is all grilled meat; Indigenous staples such as umngqusho and morogo and vegetarian bean curries are everyday foundations.",
+      "Do not put pork into Cape Malay or Muslim Durban dishes, or beef into Hindu-tradition Durban curries, even though both meats are common in Afrikaans and many Indigenous kitchens."
+    ],
+    "sources": [
+      "Cape Cookery, C. Louis Leipoldt, 1976",
+      "The South African Culinary Tradition, Renata Coetzee, 1977",
+      "The Cape Malay Cookbook, Faldela Williams, 1988",
+      "The Culture and Cuisine of the Cape Malays, Cass Abrahams, 1995",
+      "Regarding Muslims: From Slavery to Post-Apartheid, Gabeba Baderoon, 2014",
+      "Durban Curry: So Much of Flavour, People, Places & Secret Recipes, Erica Platter and Clinton Friedman, 2014",
+      "CURRY: Stories and Recipes Across South Africa, Ishay Govender, 2017",
+      "40 Years of Iconic Food, Dorah Sitole, 2020"
+    ]
+  },
+  {
+    "id": "east_african",
+    "label": "East African",
+    "subtitle": "Ugali, nyama choma, tamarind, coconut pilau",
+    "about": "Kenya and Tanzania span the Indian Ocean coast—including Mombasa, Lamu, Dar es Salaam and the Zanzibar archipelago—and rise inland past Mount Kilimanjaro and Mount Kenya to the Great Rift Valley, Nairobi and Lake Victoria. Bantu, Nilotic and Cushitic farming and pastoralist communities, centuries of Indian Ocean dhow trade with Omani Arab, Persian and South Asian merchants, and Columbian Exchange crops shaped distinct coastal and highland cooking traditions. Inland kitchens often pair mild maize staples, braised leafy greens, legumes and charcoal-roasted meat with fresh relishes, while Swahili coastal dishes frequently layer fresh coconut milk, tamarind and warm whole spices; representative dishes include ugali with sukuma wiki, nyama choma, githeri and Swahili coconut-cardamom pilau.",
+    "flavors": [
+      "cardamom (hiliki)",
+      "cloves (karafuu)",
+      "cinnamon (mdalasini)",
+      "cumin (binzari nyembamba)",
+      "turmeric (binzari ya manjano)",
+      "fresh coriander/cilantro (dhania / giligilani)",
+      "tamarind (ukwaju)",
+      "hot bird's-eye or Scotch-bonnet-type chile (pilipili kichaa / pilipili mbuzi)",
+      "fresh ginger (tangawizi)",
+      "garlic (kitunguu saumu)",
+      "black pepper (pilipili manga)",
+      "lime or lemon (ndimu / limao)"
+    ],
+    "sweet_only": [
+      "rose water (marashi ya waridi)"
+    ],
+    "signature_ingredients": [
+      "fine white maize meal for ugali, sifted sembe or whole-grain dona (substitute: finely ground white cornmeal; yellow cornmeal changes flavor and color, and coarse polenta gives a different texture)",
+      "freshly pressed coconut milk, tui la nazi (substitute: canned unsweetened full-fat coconut milk, using the thick top cream for tui la kwanza and thinned milk for tui la pili)",
+      "dried or fresh pigeon peas, mbaazi (substitute: dried or canned pigeon peas from international aisles, or black-eyed peas for a similar legume stew)",
+      "green cooking bananas or unripe plantains, ndizi mbichi (substitute: firm green plantains)",
+      "pounded cassava leaves, kisamvu (substitute: none exact; collard greens or spinach do not match the texture or flavor)",
+      "sun-dried small freshwater fish, omena or dagaa (substitute: none exact; dried anchovies or dried smelts fill a related savory dried-fish role with different size and flavor)",
+      "unripe green papaya for tenderizing mishkaki (substitute: plain grated kiwi or fresh pineapple applied very briefly, though flavor differs)"
+    ],
+    "pantry_assumed": [
+      "neutral cooking oil and ghee",
+      "white maize meal (unga wa mahindi)",
+      "long-grain or basmati rice",
+      "canned unsweetened coconut milk",
+      "dried beans or pigeon peas (mbaazi)",
+      "tomato paste",
+      "onions, garlic and ginger",
+      "cardamom, cloves, cinnamon, cumin and turmeric",
+      "tamarind paste (ukwaju) and limes",
+      "dried or fresh hot chiles"
+    ],
+    "techniques": [
+      "stirring white maize meal gradually into boiling water with a flat wooden paddle (mwiko) until thick and smooth for ugali",
+      "browning onions deeply with whole spices for one-pot coastal pilau, contrasted with layering separately cooked meat curry and parboiled rice to steam (dum) for biryani",
+      "extracting and adding coconut milk in two stages—thin milk (tui la pili) for simmering and thick first-press cream (tui la kwanza) added near the end to prevent curdling",
+      "slow-roasting goat or beef over charcoal coals (nyama choma) or grilling papaya-and-spice-marinated meat skewers (mishkaki)",
+      "coiling oiled wheat dough into spirals before rolling and pan-griddling into flaky layered chapati"
+    ],
+    "shortcuts": [
+      "Commercial mchuzi seasoning and thickener mix (usually contains cornstarch, iodized salt, sugar, MSG and flavor enhancers, dried garlic, ginger, coriander, cumin, turmeric, cinnamon and meat flavoring or coloring): dissolve about 10-20 g in cold water per 1 kg stew ingredients as a quick savory gravy thickener for everyday inland stews, rather than as a substitute for whole coastal spices. Salt: LOW CONFIDENCE because commercial mixes vary across markets and formulations (some retail packets report roughly 11-12 g salt or around 4,500 mg sodium per 100 g, roughly 2.5 g salt per 1,000 mg sodium), so check the package label and reduce separately added salt.",
+      "Packaged pilau masala spice blend (usually contains ground cumin, cardamom, cinnamon or cassia, cloves and black pepper, sometimes with coriander, nutmeg or bay leaf): use about 10-20 g per 1 kg rice and meat in place of freshly toasted and ground whole pilau spices. Salt: 0.0 g only when labeled pure spice; LOW CONFIDENCE for mixed retail packets that may include salt or fillers, so verify the nutrition label.",
+      "Commercial bouillon cubes or seasoning powder (usually contains salt, vegetable fat, starch, MSG or yeast extract, onion, spices and meat or vegetable flavorings): use only when a recipe explicitly calls for stock or bouillon (about 4-5 g per 500 ml liquid), and do not use it to replace coconut milk, tamarind or aromatic pilau spices. Salt: LOW CONFIDENCE because sodium varies widely by brand (standard 4.5-5 g cubes often contain roughly 900-1,150 mg sodium, or about 2.2-2.9 g salt per cube at roughly 2.5 g salt per 1,000 mg sodium), so calculate from the package label and adjust separate salt.",
+      "Prepared tamarind paste or concentrate (usually concentrated tamarind pulp and water, sometimes with salt or preservatives): use about 15-30 g thinned in warm water per 1 kg fish, stew or sauce in place of soaking and straining raw tamarind pods, adjusting to taste because acidity varies. Salt: usually near 0.0 g for pure unsalted tamarind paste (roughly 24-28 mg sodium, well under 0.1 g salt, per 100 g), though LOW CONFIDENCE for seasoned commercial jars that add salt; check the label."
+    ],
+    "allergen_notes": [
+      "Peanuts (karanga) are commonly ground into vegetable or coconut sauces such as mchuzi wa karanga and mchicha wa karanga, and appear in caramelized nut brittles (kashata).",
+      "Cashews (korosho) are widely grown along the coast and appear roasted as snacks, folded into festive rice dishes or sweets like halwa; coconut (nazi) is foundational in Swahili curries, breads and pastries, so coconut-sensitive eaters should check sauces and rice dishes.",
+      "Sesame (ufuta) is used in coastal breads, pastries and sugar-bound seed brittles (kashata ya ufuta), and sesame oil appears in some regional cooking.",
+      "Milk and dairy appear as ghee (samli) in pilau, biryani, chapati and halwa, as yogurt in many biryani marinades, and in milk-simmered spiced tea (chai ya tangawizi).",
+      "Wheat is the base of layered chapati, mandazi, mahamri, sambusa pastry and many viazi karai batters; commercial mchuzi thickeners and bouillon products can also contain wheat or soy derivatives.",
+      "Fish and shellfish enter inland dishes via sun-dried small freshwater fish (omena or dagaa) and coastal curries via marine fish, octopus and shrimp.",
+      "Egg appears in street foods and specialty bakes such as stuffed flatbreads and potato cutlets (katlesi), though it is not standard in everyday ugali, sukuma wiki or pilau."
+    ],
+    "pitfalls": [
+      "Do not confuse Kenyan and Tanzanian cooking with Ethiopian or Eritrean cuisines by adding berbere, niter qibe or injera.",
+      "Do not treat Swahili coastal coconut-and-spice cooking as identical to inland highland cooking built around ugali, sukuma wiki, githeri and nyama choma.",
+      "Do not merge Swahili pilau and Swahili biryani into the same method: pilau is usually a deeply browned one-pot rice dish, whereas biryani layers separately cooked spiced meat curry with parboiled rice.",
+      "Do not make every Kenyan or Tanzanian dish heavily chili-hot; everyday ugali, sukuma wiki and coconut bean dishes are often mild, with heat served on the side as pilipili or kachumbari.",
+      "Do not automatically add generic curry powder or coconut milk to inland classics like nyama choma, ugali or traditional githeri."
+    ],
+    "sources": [
+      "In Bibi's Kitchen: The Recipes and Stories of Grandmothers from the Eight African Countries that Touch the Indian Ocean, Hawa Hassan and Julia Turshen, 2020",
+      "A Taste of Zanzibar: Chakula Kizuri, Zarina Jafferji, 2002",
+      "A Lamu Cookbook, Fatma Shapi and Katie Halford, 1981",
+      "Stirring the Pot: A History of African Cuisine, James C. McCann, 2009",
+      "Food Culture in Sub-Saharan Africa, Fran Osseo-Asare, 2005",
+      "AfriCali: Recipes from My Jikoni, Kiano Moju, 2024",
+      "Kenya Food Composition Tables, Ministry of Health of Kenya and Food and Agriculture Organization of the United Nations (FAO), 2018",
+      "Tanzania Food Composition Tables, Muhimbili University of Health and Allied Sciences (MUHAS), Tanzania Food and Nutrition Centre (TFNC), and Harvard School of Public Health (HSPH), 2008"
+    ]
+  },
+  {
+    "id": "ghanaian",
+    "label": "Ghanaian",
+    "subtitle": "Banku, shito, groundnut, smoked fish",
+    "about": "Ghana stretches from the Gulf of Guinea coast around Accra and the Volta River basin through humid forest zones around Kumasi to the drier northern savanna around Tamale. Akan, Ga-Dangme, Ewe, Mole-Dagbani, and other communities, alongside trans-Saharan commerce and the Atlantic exchange that brought maize, cassava, tomatoes, chiles, and peanuts, shaped a cooking tradition built on fermented or pounded starchy staples paired with richly layered soups, tomato stews, and pungent condiments. Representative dishes include banku with grilled tilapia and pepper sauces, fufu with groundnut or palm nut soup, waakye, and Ghanaian jollof rice.",
+    "flavors": [
+      "black pepper-shrimp condiment (shito)",
+      "fermented African locust bean condiment (dawadawa)",
+      "four-angled aidan pod (prekese)",
+      "grains of Selim (hwentia)",
+      "calabash nutmeg (wedeaba)",
+      "grains of paradise or alligator pepper (fom wisa)",
+      "fresh ginger (akakaduro)",
+      "Scotch bonnet or local aromatic green chile (kpakpo shito / mako)",
+      "fermented salted fish seasoning (momoni)",
+      "anise seed (nkitinkiti)",
+      "cloves (pepre)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "fermented corn dough and cassava dough for banku and kenkey (substitute: none exact; unfermented cornmeal or masa harina lacks the lactic tang and cohesive stretch)",
+      "fresh oil palm fruit pulp and unrefined red palm oil for abenkwan and stews (substitute: canned palm fruit concentrate for soup; neutral oil lacks red palm oil flavor and color)",
+      "dried sorghum leaves (waakye leaves) for waakye (substitute: none exact; a pinch of baking soda mimics the alkaline effect on black-eyed peas without the burgundy color or earthy aroma)",
+      "cocoyam leaves (kontomire) for kontomire stew and ebunuebunu soup (substitute: fresh spinach or collard greens, approximate)",
+      "African garden eggs, small bitter-sweet eggplants (substitute: Thai or small globe eggplants, approximate)",
+      "white African yam (Dioscorea rotundata) and green plantain for fufu and ampesi (substitute: none exact for white yam, as orange sweet potato is distinct; green plantains are common in Latin markets)",
+      "agushie, ground oil-rich melon seeds for palava sauce (substitute: hulled pepitas approximate body but are not flavor-equivalent)"
+    ],
+    "pantry_assumed": [
+      "red palm oil and neutral oil",
+      "tomato paste",
+      "onions, garlic and fresh ginger",
+      "Scotch bonnet or habanero chiles",
+      "shito (black pepper-shrimp condiment)",
+      "unsweetened peanut butter",
+      "jasmine or long-grain white rice",
+      "dried black-eyed peas",
+      "gari (roasted cassava granules)",
+      "bouillon cubes"
+    ],
+    "techniques": [
+      "Pounding boiled plantains and cassava or white yams together in a wooden mortar with a pestle until smooth and elastic for fufu",
+      "Steeping and lactic-fermenting wet-milled maize (often blended with fermented cassava dough), then stirring vigorously over heat for banku or partially precooking and steaming in husks or plantain leaves for kenkey",
+      "Slow-frying blended onions, chiles, ginger, garlic, and tomato paste in oil until moisture cooks off and flavors deepen for Ghanaian stews and shito",
+      "Simmering meats or smoked fish with blended tomatoes, onions, and ginger before enriching the broth with peanut paste, palm-nut extract, or blended cocoyam leaves for traditional soups (nkwan)",
+      "One-pot steaming of fragrant jasmine or basmati rice in a reduced tomato-pepper stew base for Ghanaian jollof"
+    ],
+    "shortcuts": [
+      "Jarred shito (usually vegetable oil, onions, dried chiles, ginger, garlic, tomato paste, dried shrimp, dried smoked fish or herring, spices, and salt or bouillon): use 15 to 30 g as a condiment per serving or 20 to 40 g to season a pan of rice or stew base in place of homemade shito. Salt estimate is LOW CONFIDENCE because commercial jars vary widely (often roughly 800 to 2,300 mg sodium per 100 g, or roughly 2.0 to 5.8 g salt per 100 g, computed at about 2.5 g salt per 1,000 mg sodium); check the nutrition label and reduce added salt.",
+      "Canned palm fruit concentrate or palm nut soup base (usually pressed oil palm fruit pulp, water, and often added salt): dilute roughly 400 g canned concentrate with 700 to 1,000 ml stock and water to replace boiling and pounding fresh palm nuts for abenkwan. Salt estimate is LOW CONFIDENCE because some cans are unsalted while salted imports often report around 150 to 180 mg sodium per 100 to 133 g serving (about 0.38 to 0.45 g salt per serving at about 2.5 g salt per 1,000 mg sodium); taste before salting, especially when cooking with koobi or momoni.",
+      "Instant fufu flour or dehydrated plantain-cassava or yam flour (usually dehydrated cassava, plantain, or yam starch, sometimes with stabilizers): whisk 100 g dry flour into roughly 350 to 450 ml hot water and stir over medium-low heat to approximate pounded fufu without a mortar, though stretch and aroma differ. Salt is usually 0.0 g for pure dehydrated root and plantain flours, though seasoned blends vary; verify the ingredient list.",
+      "Commercial bouillon cube or shrimp seasoning powder (usually salt, flavor enhancers, vegetable or palm fat, starch, spices, and sometimes soy, wheat, or milk derivatives): use only when a modern recipe calls for commercial seasoning rather than replacing dawadawa or momoni 1:1; dose by package directions and reduce or omit separate salt. Salt estimate is LOW CONFIDENCE because brand formulations vary substantially (check the sodium line and use about 2.5 g salt per 1,000 mg sodium)."
+    ],
+    "allergen_notes": [
+      "Fish and crustacean shellfish: shito usually contains ground dried shrimp and dried smoked fish or herring (unless explicitly made vegan/vegetarian), and soups or stews frequently use momoni (fermented fish), koobi (salted dried tilapia), kako (salted dried fish), or dried shrimp powder as foundational flavorings.",
+      "Peanuts: nkatenkwan (groundnut soup) and many stews use roasted peanut paste, and kyinkyinga (grilled meat skewers) and its spice rub often contain ground kulikuli (defatted roasted peanut cake).",
+      "Wheat, soy, and milk: commercial bouillon cubes and seasoning powders used in modern Ghanaian kitchens often contain wheat, soy, or milk-derived ingredients; waakye is commonly served with boiled wheat spaghetti, and bofrot (fried dough) is made from wheat flour.",
+      "Egg: boiled eggs are a common accompaniment to waakye, and Ghanaian egg stew is a popular everyday dish.",
+      "Sesame and tree nuts: sesame is uncommon in everyday southern Ghanaian dishes, and agushie (melon seed) and oil palm fruit are seeds or fruits rather than tree nuts, though cross-contact can occur in imported dry goods."
+    ],
+    "pitfalls": [
+      "Do not treat Ghanaian and Nigerian jollof as identical; Ghanaian cooks usually use fragrant jasmine or basmati rice rather than parboiled long-grain rice and rarely aim for a charred firewood flavor.",
+      "Do not assume Ghanaian cooking is uniformly peanut-based or palm-oil-based; light soup (nkrakra), tomato stews, and northern millet-based tuo zaafi follow distinct fat and seasoning patterns.",
+      "Do not substitute Southeast Asian fish sauce or oyster sauce for Ghanaian momoni, koobi, or dried shrimp without noting the major difference in cured aroma and saltiness.",
+      "Do not replace white African yam (Dioscorea rotundata) with orange sweet potato without clarifying that they differ substantially in texture and sweetness.",
+      "Do not omit the lactic sourness of fermented maize and cassava dough when writing banku or kenkey recipes by presenting unfermented cornmeal or grits as equivalent."
+    ],
+    "sources": [
+      "The Ghana Cookbook, Fran Osseo-Asare and Barbara Baëta, 2015",
+      "Food Culture in Sub-Saharan Africa, Fran Osseo-Asare, 2005",
+      "Zoe's Ghana Kitchen: An Introduction to New African Cuisine – From Ghana With Love, Zoe Adjonyoh, 2017 (US ed. 2021)",
+      "Stirring the Pot: A History of African Cuisine, James C. McCann, 2009",
+      "Fermented cereals: A global perspective (FAO Agricultural Services Bulletin No. 138), https://www.fao.org/4/x2184e/x2184e00.htm",
+      "https://www.theguardian.com/lifeandstyle/2020/jun/09/whats-the-secret-to-great-jollof-rice",
+      "https://www.splendidtable.org/story/2017/07/20/aromatic-wholesome-african-cuisine-inside-zoes-ghana-kitchen",
+      "https://www.tastecooking.com/a-ghanaian-cookbook-brings-the-heat/"
+    ]
+  },
+  {
+    "id": "central_african",
+    "label": "Central African",
+    "subtitle": "Palm butter, cassava leaves, njangsang",
+    "about": "Stretching from Cameroon's volcanic highlands and Atlantic coast across Gabon's equatorial rainforests to the vast Congo River basin and cities such as Douala, Libreville, Brazzaville, and Kinshasa, Central African cooking is anchored in forest, river, and coastal ecologies. Bantu-speaking and forest-dwelling communities built traditions around palm oil, wild forest seeds, river fish, and plantains, later reshaped by Portuguese and transatlantic introductions of cassava, peanuts, and chiles alongside French and Belgian urban influences into slow-simmered stews, pounded greens, and leaf-wrapped steamed dishes. Representative dishes include pondu (or saka-saka), poulet moambe (or nyembwe), Cameroonian ndolé, and fish liboké served with fufu or chikwangue.",
+    "flavors": [
+      "hot bird's-eye or habanero chile (pili-pili / pilipili)",
+      "country onion (rondelle / olom / bobimbi)",
+      "Penja white or black pepper (poivre de Penja)",
+      "calabash nutmeg (pèbè)",
+      "njangsang seeds (njangsa / akpi)",
+      "mbongo charred spice blend (mbongo)",
+      "African basil / clove basil (masepo / masoso)",
+      "fresh ginger (tangawisi in Lingala)",
+      "fresh cilantro (cotomili)",
+      "leeks and scallions (poireaux / oignons verts)",
+      "commercial bouillon cubes or powder (cube d'assaisonnement)"
+    ],
+    "sweet_only": [
+      "vanilla (vanille) — used mainly in mikate beignets, sweet porridges, and drinks"
+    ],
+    "signature_ingredients": [
+      "palm nut pulp / moambe cream (substitute: unsweetened natural peanut butter blended with unrefined red palm oil and sweet paprika, which shifts the flavor toward groundnut stew)",
+      "unrefined red palm oil (substitute: none exact; neutral oil tinted with annatto mimics color only without the earthy berry-like flavor)",
+      "cassava leaves for pondu or saka-saka (substitute: finely chopped collard greens, kale, or turnip greens mixed with spinach; lacks cassava leaves' nutty bitterness and requires a shorter simmer)",
+      "bitterleaf / Vernonia amygdalina for ndolé (substitute: none exact; well-washed dandelion greens or mustard greens mixed with spinach approximate some bitterness)",
+      "chikwangue / bobolo fermented cassava loaves (substitute: none; plain boiled cassava or steamed rice serves as a different starchy accompaniment)",
+      "odika / wild mango seed paste (substitute: ground ogbono / Irvingia gabonensis if available, otherwise none)",
+      "fumbua / okok / Gnetum africanum shredded wild leaves (substitute: finely shredded kale or collard greens, which lack the chewy texture)",
+      "smoked river fish or dried stockfish / salted cod (makayabu) (substitute: smoked mackerel or dried salted cod/bacalao soaked to desalinate)",
+      "marantaceae or banana leaves for liboké wrapping (substitute: parchment paper sealed inside aluminum foil for steaming)"
+    ],
+    "pantry_assumed": [
+      "unrefined red palm oil",
+      "neutral vegetable oil",
+      "onions, garlic and fresh ginger",
+      "leeks or scallions",
+      "hot chiles (pili-pili or habanero)",
+      "tomato paste",
+      "unsweetened peanut butter",
+      "commercial bouillon cubes",
+      "ground dried crayfish",
+      "cassava flour (fufu) or white rice"
+    ],
+    "techniques": [
+      "Pounding and long-simmering cassava leaves (pondu/saka-saka) in water, then enriching with unrefined red palm oil, aromatics, and often smoked fish or peanut paste",
+      "Slow-simmering chicken, meat, or fish in extracted palm nut pulp (moambe/nyembwe) until the oil rises and the sauce thickens",
+      "Repeatedly boiling and rubbing bitterleaf (Vernonia amygdalina) in water to tame bitterness before simmering in boiled peanut paste for ndolé",
+      "Wrapping seasoned fish, meat, or greens tightly in banana or marantaceae leaves (liboké/maboke) and steaming or roasting over embers",
+      "Soaking, fermenting, and steaming cassava into chikwangue/bobolo loaves, or stirring cassava, plantain, or cornmeal into elastic fufu"
+    ],
+    "shortcuts": [
+      "Commercial canned palm nut cream or palm soup base (moambe or nyembwe paste): plain cans usually contain extracted oil palm fruit pulp and water (occasionally with added salt), while prepared soup bases may include salt, spices, or bouillon. Swap by weight: use 200-400 g canned palm cream per 1 kg poultry or meat, thinning with water or stock to stew consistency. Salt: LOW CONFIDENCE because plain cans may have near-zero salt while seasoned palm soup bases vary widely by brand; check the label and calculate about 2.5 g salt per 1,000 mg sodium before adding extra salt or bouillon.",
+      "Commercial bouillon cubes or powder: usually contain salt (commonly 40% to 76% by weight in regional nutrition analyses), monosodium glutamate, hydrolyzed vegetable protein or yeast extract, palm fat, starch, and dried aromatics. Swap by weight: use roughly 4-10 g (about half to one standard cube depending on cube size) per 1 kg stew or soup in place of salt and stock base. Salt: LOW CONFIDENCE across brands, as regional cubes often supply about 900 to over 1,000 mg sodium per cube (roughly 2.2 to 2.5 g salt, calculated at about 2.5 g salt per 1,000 mg sodium); verify the package label and omit or sharply reduce separately added salt.",
+      "Frozen pre-pounded cassava leaves: usually contain shredded or pounded cassava leaves (almost always pre-blanched before freezing, though package instructions vary) and water, without added spices. Swap by weight: replace fresh pounded cassava leaves 1:1 by weight (typically 450-900 g frozen leaves for a family pot), thawing and simmering 45 to 90 minutes to ensure tenderness and full breakdown. Salt: usually 0 g in plain frozen packs; verify the label for seasoned packs and calculate about 2.5 g salt per 1,000 mg sodium if seasoned."
+    ],
+    "allergen_notes": [
+      "Peanuts are foundational across Central African cooking—appearing in ndolé, many versions of pondu/saka-saka, fumbua stew, and peanut-enriched moambe sauces—even in vegetable-heavy dishes.",
+      "Fish and shellfish are pervasive hidden umami bases: smoked or dried fish and salted cod (makayabu) appear in vegetable stews like pondu and fumbua, while ground dried crayfish or shrimp are routine seasonings in ndolé and mbongo tchobi.",
+      "Soy and wheat may appear in commercial bouillon cubes, liquid seasoning sauces, and urban snacks such as mikate (beignets) or coupé-coupé served with wheat baguette; egg and milk may also appear in some modern mikate or cake batters.",
+      "Njangsang, odika (wild mango seed), and calabash nutmeg (pèbè) seeds are botanically distinct from orchard tree nuts, and sesame appears regionally in some seed pastes, but nut- and seed-allergic diners should exercise caution and check commercial spice blends for cross-contact."
+    ],
+    "pitfalls": [
+      "Do not treat canned palm nut cream (moambe/nyembwe) and clear unrefined red palm oil as interchangeable; palm cream provides thick body and emulsion while red palm oil is a cooking fat.",
+      "Do not confuse Central African country onion (Afrostyrax lepidophyllus, rondelle) with calabash nutmeg (Monodora myristica, pèbè); they are distinct spices with garlic-truffle versus nutmeg-like aromas.",
+      "Do not substitute raw, quickly sautéed spinach for cassava leaves or bitterleaf without adjusting technique; traditional pondu and ndolé require extended simmering or multi-stage washing to remove bitterness and cyanogenic compounds.",
+      "Do not assume Central African cuisine is uniform across Cameroon, Gabon, and the Congos or identical to West African cooking; signature ingredients such as odika, mbongo, and Penja pepper are strongly localized.",
+      "Do not omit soaking and rinsing salted fish (makayabu) or add full table salt alongside commercial bouillon cubes and ground crayfish, which easily over-salts stews."
+    ],
+    "sources": [
+      "Saka Saka: Adventures in African Cooking South of the Sahara, Anto Cocagne and Aline Princet, 2022",
+      "The Contemporary African Kitchen: Home Cooking Recipes from the Leading Chefs of Africa, Alexander Smalls with Nina Oduro, 2024",
+      "The Africa Cookbook: Tastes of a Continent, Jessica B. Harris, 1998",
+      "Food Culture in Sub-Saharan Africa, Fran Osseo-Asare, 2005",
+      "Sodium Reduction in Bouillon: Targeting a Food Staple to Reduce Hypertension in Sub-Saharan Africa, Nicholas S. Archer et al. (Frontiers in Nutrition, PMCID: PMC8850616), 2022",
+      "The Potential for Bouillon Fortification to Reduce Dietary Micronutrient Inadequacy: Modeling Analyses Using National Survey Data from Cameroon, Ghana, and Haiti, Reina Engle-Stone et al. (Current Developments in Nutrition, PMCID: PMC11617227), 2024",
+      "Trees, Forests and People (exploitation of Ricinodendron heudelotii and Afrostyrax lepidophyllus in eastern Cameroon), C. Mfoumou Eyi et al., 2024"
+    ]
+  },
+  {
+    "id": "us_native_american",
+    "label": "Native American",
+    "subtitle": "Three Sisters, wild rice, cedar smoke",
+    "about": "Spanning the Great Lakes waterways, Eastern Woodlands, Great Plains, arid mesas and Rio Grande valleys of the Southwest, and the cedar-lined Pacific Northwest coast, Native American foodways reflect hundreds of sovereign Indigenous nations connected by ancient trade networks such as Plains bison exchanges and coastal grease trails. Pre-colonial traditions center on seasonal hunting, fishing, foraging, and Three Sisters agriculture (corn, beans, and squash), kept distinct from post-1860s forced-relocation and reservation commodity foods like frybread made from government rations of white flour and lard. Representative regional dishes include Haudenosaunee white corn hominy soup, Anishinaabe manoomin (wild rice) broth and cakes, Pacific Northwest cedar-planked salmon, Diné juniper-ash blue corn mush, and Cherokee hickory-nut kanuchi.",
+    "flavors": [
+      "staghorn or three-leaf sumac (Ojibwe: baakwaanaatig; Navajo: chííłchin, tart crimson berry seasoning)",
+      "juniper berries and juniper ash (Navajo: gad bi łeeshtʼiizh, resinous spice and alkaline nixtamalizing ash)",
+      "wild bergamot / bee balm (Lakota: waȟpé waštémna; Ojibwe: zaasab, oregano-mint aromatic leaf)",
+      "ramps / wild leeks and wild onions (Ojibwe: zhigaagawanzh; Mohawk: jion’kwasa)",
+      "dried sassafras leaf powder / filé (Choctaw: kombo; Cherokee: kanasdatsi, earthy thickener and herb)",
+      "native red and green chiles (Navajo: azeedíchʼííʼ, including New Mexico pods and chiltepín)",
+      "western red or northern white cedar (Ojibwe: giizhik, aromatic boughs and wood for planking, smoking, and mild infusions)",
+      "maple sugar and dark maple syrup (Ojibwe: ziinzibaakwad, used sparingly in savory glazes and squash)",
+      "hardwood culinary ash (Mohawk: onónhtara, mineral-rich alkaline agent for hominy)",
+      "spicebush berries and wild sage (Cherokee: nogatatli, warm citrus-allspice berry and resinous prairie or white sage)"
+    ],
+    "sweet_only": [
+      "sweetgrass (Ojibwe: wiingashk, vanilla-like aromatic grass used mainly in sweet infusions and syrups)",
+      "sweetened wild berry sauces such as chokecherry or blueberry wojapi (though tart unsweetened versions also accompany savory meats)",
+      "mesquite pod flour (caramel-toned native desert flour used mainly in contemporary Indigenous baking and puddings)"
+    ],
+    "signature_ingredients": [
+      "hand-harvested lake wild rice / manoomin (substitute: cultivated paddy wild rice, darker and firmer with a longer simmer time)",
+      "nixtamalized flint white or blue corn hominy (substitute: canned white or golden hominy, rinsed and drained, or masa harina for doughs)",
+      "tepary beans (substitute: dried pinto, navy, or black-eyed peas, which cook faster and are less earthy)",
+      "bison or venison (substitute: extra-lean grass-fed beef chuck or ground sirloin)",
+      "wild Pacific salmon, especially chinook or sockeye (substitute: farmed Atlantic salmon or steelhead trout, milder and higher in fat)",
+      "camas bulbs (substitute: none; slow-roasted sunchokes or sweet potatoes approximate the caramelized sweetness only loosely)",
+      "eulachon / oolichan grease (substitute: none; rendered duck fat or sunflower oil supplies cooking fat without the fermented marine depth)",
+      "hickory nuts for kanuchi (substitute: raw pecans mixed with a small amount of black walnuts)",
+      "prickly pear cactus pads and cholla buds (substitute: jarred nopales from Latin American markets, or green beans for crisp texture)",
+      "piñon pine nuts (substitute: Mediterranean pine nuts, milder and less resinous)"
+    ],
+    "pantry_assumed": [
+      "wild rice (manoomin)",
+      "nixtamalized cornmeal or masa harina (blue, white, or yellow)",
+      "dried hominy (posole)",
+      "dried heirloom beans (tepary, pinto, kidney, or cranberry)",
+      "sunflower oil or rendered duck or bison fat",
+      "pure maple syrup or maple sugar",
+      "dried red chiles or pure red chile powder",
+      "ground sumac and dried juniper berries",
+      "onions and garlic"
+    ],
+    "techniques": [
+      "Nixtamalization: simmering dried flint or blue corn with hardwood ash or culinary juniper ash (gad bi łeeshtʼiizh) to remove hulls, unlock niacin and calcium, and yield hominy or masa.",
+      "Parching and winnowing: dry-toasting harvested wild rice (manoomin) over low heat to cure kernels and loosen hulls before winnowing chaff in shallow baskets.",
+      "Cedar-planking and alder-smoking: roasting salmon or game on soaked western red cedar near open embers, or slow-smoking over alder or maple wood for preservation.",
+      "Earth-oven pit roasting and stone-boiling: baking inulin-rich roots like camas in rock-lined pits for days to caramelize sugars, or simmering broths in watertight vessels using fire-heated stones.",
+      "Steeping and natural thickening: building broths without European butter-flour roux by steeping herbs, conifers, and berries directly in liquid and thickening with squash puree, parched cornmeal, or sassafras filé."
+    ],
+    "shortcuts": [
+      "Canned white or golden hominy (standard 425 g / 15 oz can): usually contains nixtamalized corn, water, salt, and sometimes sodium bisulfite. Labels commonly list about 340 mg to 550 mg sodium per 1-cup serving (roughly 0.85 g to 1.4 g salt per cup, using about 2.5 g salt per 1,000 mg sodium; LOW CONFIDENCE across manufacturers and rinsing). To replace dried hominy cooked from scratch (about 120 g dried yields 360 g cooked), drain and rinse canned hominy well and reduce added cooking salt by roughly 1 g to 2 g per can.",
+      "Jarred or canned red chile sauce (typically 425 g to 450 g jar): usually contains water, ground red chiles, tomato paste or vinegar, thickeners such as wheat or corn flour, garlic, spices, and salt. Sodium commonly falls around 200 mg to 370 mg per 60 mL to 120 mL serving (about 0.5 g to 0.9 g salt per serving, using about 2.5 g salt per 1,000 mg sodium; LOW CONFIDENCE across regional styles). To swap from scratch, rehydrate and blend 30 g seeded dried red chiles with 250 mL unsalted broth or water and season separately.",
+      "Boxed long-grain and wild rice pilaf mix (typically 170 g dry package): usually combines white rice and small amounts of paddy wild rice with a seasoning packet of salt, hydrolyzed soy or corn protein, yeast extract, dried aromatics, and bouillon powder. Prepared servings often supply 640 mg to 740 mg sodium per 55 g dry portion (roughly 1.6 g to 1.85 g salt per serving, using about 2.5 g salt per 1,000 mg sodium; LOW CONFIDENCE by package). To make from scratch, simmer 150 g pure wild rice in 600 mL unsalted stock with dried mushrooms, wild onion, and sage, omitting the packet.",
+      "Packaged frybread mix (post-reservation convenience product, typically 450 g to 900 g bag): usually contains enriched wheat flour, chemical leaveners (baking soda, monocalcium phosphate, or sodium acid pyrophosphate), cornstarch, sugar, and salt. Dry mix labels vary widely from roughly 350 mg to 790 mg sodium per 30 g to 40 g serving (about 0.9 g to 2.0 g salt per serving, using about 2.5 g salt per 1,000 mg sodium; LOW CONFIDENCE across mixes). To make from scratch, whisk 240 g all-purpose wheat flour with 10 g baking powder and 3 g fine salt.",
+      "Bottled liquid smoke: pure wood-smoke concentrates usually contain only water and hickory, alder, or applewood smoke condensate with 0 mg sodium, whereas blended savory varieties often add vinegar, molasses, caramel color, salt, or soy-derived seasonings (commonly around 10 mg sodium per 5 mL teaspoon, negligible salt, though sauce-style blends vary; LOW CONFIDENCE across blended formulas). Use 2.5 mL to 5 mL per 1 kg braised meat or stew when wood-smoking or cedar-planking is unavailable."
+    ],
+    "allergen_notes": [
+      "Tree nuts: crushed hickory nuts in Cherokee kanuchi, piñon pine nuts in Southwestern stews and sweets, and hazelnuts, black walnuts, chestnuts, and acorn meal in Woodland and California dishes, plus cold-pressed nut oils in contemporary Indigenous kitchens.",
+      "Fish and shellfish: smoked Pacific salmon, fermented eulachon (oolichan) grease, clams, and coastal shellfish in Northwest Coast cooking, as well as Great Lakes freshwater fish such as trout and walleye.",
+      "Wheat: pre-colonial Indigenous North American cooking usually relies on nixtamalized corn, wild rice, and roots without wheat, whereas post-reservation frybread, Indian tacos, and some commercial red chile sauces contain wheat flour.",
+      "Soy: not a traditional Indigenous ingredient, but hydrolyzed soy protein and soy derivatives often appear in packaged wild rice seasoning blends and some blended liquid smoke condiments.",
+      "Milk and egg: absent from pre-colonial North American diets (where juniper ash and bone broths supplied calcium), though post-reservation Indian tacos often include cheese or sour cream and some modern frybread batters add powdered milk or egg.",
+      "Peanuts and sesame: rare in traditional North American Indigenous cooking outside modern cross-regional adaptations."
+    ],
+    "pitfalls": [
+      "Treating frybread, Indian tacos, or cheese-topped commodity dishes as pre-colonial cuisine rather than post-1860s reservation survival foods built from government rations of white flour and lard.",
+      "Flattening hundreds of distinct sovereign nations into one generic menu, such as putting Southwest chiles into Great Lakes wild rice soups or Pacific Northwest cedar-salmon dishes.",
+      "Confusing Indigenous North American corn-and-chile cooking with Tex-Mex restaurant fare by automatically adding ground cumin, cilantro, sour cream, and shredded cheddar cheese.",
+      "Thickening pre-colonial stews with European butter-and-wheat-flour roux or heavy cream instead of squash puree, parched cornmeal, sassafras filé, or natural starch from steeping.",
+      "Assuming cultivated black paddy rice cooks like hand-harvested lake manoomin, which is lighter brown-green, nuttier, and cooks in roughly half the time."
+    ],
+    "sources": [
+      "The Sioux Chef's Indigenous Kitchen, Sean Sherman with Beth Dooley (2017)",
+      "Foods of the Southwest Indian Nations, Lois Ellen Frank with Walter Whitewater (2002)",
+      "New Native Kitchen: Celebrating Modern Recipes of the American Indian, Freddie J. Bitsoie with James O. Fraioli (2021)",
+      "The Mitsitam Cafe Cookbook: Recipes from the Smithsonian National Museum of the American Indian, Richard Hetzler (2010)",
+      "Original Local: Indigenous Foods, Stories, and Recipes from the Upper Midwest, Heid E. Erdrich (2013)",
+      "Recovering Our Ancestors' Gardens: Indigenous Recipes and Guide to Diet and Fitness, Devon A. Mihesuah (2005; rev. 2020)",
+      "https://www.nal.usda.gov/collections/stories/three-sisters",
+      "https://festival.si.edu/blog/three-sisters-corn-beans-squash"
+    ]
+  },
+  {
+    "id": "us_pacific_northwest",
+    "label": "Pacific Northwest",
+    "subtitle": "Cedar smoke, hazelnuts, shoyu, mushrooms",
+    "about": "Stretching from the rocky Pacific coast, Puget Sound, and the Columbia River across the evergreen Cascade Mountains into the dry Columbia Basin, Washington and Oregon home cooking centers on cities such as Seattle and Portland alongside coastal fishing towns and inland orchard valleys. Rooted in Coast Salish, Chinook, and Plateau Indigenous First Foods—wild salmon, shellfish, camas, and native berries—and later shaped by Euro-American farmers, Nordic fishers, and Chinese, Japanese, Korean, Vietnamese, and Filipino immigrant communities along the Pacific Rim, everyday cooking favors lightly seasoned, ingredient-driven dishes. Representative home meals include cedar-plank or alder-smoked wild salmon, Seattle-style chicken teriyaki, pan-fried Pacific razor clams or creamy clam chowder, and Dungeness crab cakes or marionberry crisp.",
+    "flavors": [
+      "Walla Walla sweet onion & green onion",
+      "shallot & garlic",
+      "fresh ginger (生姜, shōga)",
+      "soy sauce (醤油, shōyu)",
+      "miso paste (味噌, white or red miso)",
+      "toasted sesame oil (ごま油, goma abura)",
+      "fresh dill & flat-leaf parsley",
+      "apple cider vinegar",
+      "alder-smoked flaky sea salt",
+      "black pepper & fresh lemon",
+      "dark-roast ground coffee or espresso (in savory dry rubs)"
+    ],
+    "sweet_only": [
+      "ground cinnamon (in apple, pear, and berry crisps)",
+      "ground nutmeg",
+      "ground cardamom (in Nordic-heritage sweet breads and buns)",
+      "pure vanilla extract"
+    ],
+    "signature_ingredients": [
+      "wild Pacific salmon: Chinook/king, coho, or sockeye (substitute: frozen wild-caught Pacific salmon fillets; farmed Atlantic salmon is milder and fattier)",
+      "Dungeness crab (substitute: lump blue crabmeat or snow crab legs, though Dungeness is sweeter and more tender)",
+      "Pacific spot prawns (substitute: large shell-on wild pink or Gulf shrimp, cooked more briefly)",
+      "Pacific oysters, Manila clams, or razor clams (substitute: East Coast littleneck clams or shucked oysters; no close supermarket substitute for razor clam tenderness)",
+      "geoduck clam (substitute: none for crisp sashimi siphon; chopped sea clams or squid for chowders)",
+      "wild chanterelle or morel mushrooms (substitute: cremini or oyster mushrooms, plus rehydrated dried wild mushrooms for aroma)",
+      "Oregon hazelnuts / filberts (substitute: toasted blanched almonds or pecans, though hazelnuts have a distinct earthy flavor)",
+      "marionberries or trailing wild blackberries (substitute: standard cultivated blackberries with a splash of lemon juice or raspberry)",
+      "Pacific Northwest orchard apples & pears such as Honeycrisp, Anjou, or Comice (substitute: firm crisp baking apples or ripe Bartlett or Bosc pears)",
+      "stinging nettles or fiddlehead ferns (substitute: baby spinach or Swiss chard for nettles; asparagus tips for fiddleheads)"
+    ],
+    "pantry_assumed": [
+      "unsalted butter",
+      "neutral cooking oil and toasted sesame oil",
+      "apple cider vinegar",
+      "soy sauce (shoyu)",
+      "white or red miso paste",
+      "medium-grain white rice",
+      "all-purpose flour",
+      "brown sugar",
+      "onions, garlic, and fresh ginger",
+      "lemons"
+    ],
+    "techniques": [
+      "Cedar-plank and alder-wood roasting (adapted from Coast Salish vertical stake-roasting around open fires to keep wild salmon moist while infusing gentle wood smoke)",
+      "Brief high-heat pan-searing and steaming for shellfish (flour-dredged razor clams flashed 30 to 60 seconds per side in butter; Manila clams and oysters steamed briefly in dry white wine, cider, or broth)",
+      "High-heat char-grilling and broiling with sweet-savory glazes (Seattle-style teriyaki marinades and miso-mirin glazes brushed onto boneless chicken or fish)",
+      "Alder-wood hot or cold smoking and home fermentation (brining and smoking salmon, alongside lacto-fermenting vegetables, pressing orchard apples into cider, and wild sourdough baking)",
+      "Dry-sauteing wild forest mushrooms (cooking chanterelles or morels in a dry skillet to release moisture before finishing with butter, shallots, and herbs)"
+    ],
+    "shortcuts": [
+      "Bottled teriyaki sauce: usually contains soy sauce, sugar or corn syrup, vinegar or mirin, garlic, ginger, and starch thickeners. Standard ready-to-serve teriyaki sauce averages roughly 3,830 mg sodium per 100 g (about 690 mg sodium, or roughly 1.7 g salt at about 2.5 g salt per 1,000 mg sodium, per 18 g tablespoon; reduced-sodium styles vary widely — LOW CONFIDENCE on exact brand levels). Swap 18 g bottled glaze by combining 15 g regular soy sauce, 3 g brown sugar, and grated ginger and garlic, while omitting added table salt.",
+      "Commercial white or red miso paste: fermented soybeans, rice or barley koji, and salt, averaging about 3,730 mg sodium per 100 g (roughly 635 mg sodium, or about 1.6 g salt at about 2.5 g salt per 1,000 mg sodium, per 17 g tablespoon). White miso is typically milder (often 200 to 300 mg sodium, or 0.5 to 0.8 g salt, per 5 to 6 g teaspoon) while aged red miso often exceeds 300 to 400 mg sodium per teaspoon (LOW CONFIDENCE across brands and fermentation lengths). Reduce added table salt by roughly 1.5 g when stirring 17 g miso into broths, glazes, or compound butter.",
+      "Packaged alder-smoked seafood rub or cedar-plank seasoning blend: usually blends salt, brown sugar, paprika, garlic, onion, black pepper, and smoke flavoring or smoked salt. Sodium varies sharply by ratio of sugar to salt (commonly around 200 to 400 mg sodium, or roughly 0.5 to 1.0 g salt per teaspoon for sugar-herb rubs, versus about 280 to 420 mg sodium, or 0.7 to 1.05 g salt, per quarter teaspoon of pure alder-smoked flaky sea salt depending on crystal density — LOW CONFIDENCE without checking the label). Use weight-for-weight in place of plain dry herbs and sugar rubs, and withhold added salt until tasting.",
+      "Bottled sea clam juice: clam broth with added salt, usually around 410 to 465 mg sodium per 100 g (about 1.0 to 1.2 g salt per 100 g at about 2.5 g salt per 1,000 mg sodium, or roughly 2.5 to 2.9 g salt per 240 g cup; salted versus unsalted formulations vary — LOW CONFIDENCE by brand). Swap 1:1 by weight for homemade clam-steaming liquid in chowders and pan sauces, reducing added salt accordingly."
+    ],
+    "allergen_notes": [
+      "Fish and crustacean shellfish: wild Pacific salmon, Dungeness crab, and Pacific spot prawns are core proteins, while clam juice, oyster sauce, and occasional fish sauce can appear in chowders, glazes, and pan sauces (molluscan clams, oysters, and geoduck are also common).",
+      "Tree nuts: Oregon hazelnuts (filberts) frequently appear in fish and crab crusts, green salads, pestos, and fruit crisps or tortes.",
+      "Wheat and soy: brewed soy sauce (shoyu), bottled teriyaki sauces, miso pastes (soybeans and sometimes barley), flour-dredged razor clams or oysters, and chowder roux commonly contain wheat and soy.",
+      "Sesame: toasted sesame oil and sesame seed garnishes are standard in Seattle-style teriyaki, rice bowls, and Asian-coastal vegetable sides.",
+      "Milk and egg: butter, cream, and aged coastal cheddar are usual in clam chowder and Dungeness crab melts, while egg and mayonnaise bind crab cakes and dress the classic iceberg salad served with Seattle teriyaki.",
+      "Peanuts: uncommon in traditional Pacific Northwest cooking, though cross-contact or peanut oil can occur in pan-Asian stir-fries and dipping sauces."
+    ],
+    "pitfalls": [
+      "Confusing modern backyard cedar-plank grilling with historical Coast Salish cooking, which traditionally roasted split salmon upright on cedar or alder stakes angled around an open fire.",
+      "Treating every dish as fine-dining foraging while ignoring everyday home staples like Seattle-style chicken teriyaki, razor clam chowder, pan-fried oysters, and orchard fruit crisps.",
+      "Substituting farmed Atlantic salmon for wild Pacific Chinook, coho, or sockeye without adjusting cooking time, since wild Pacific salmon is leaner and dries out rapidly if overcooked.",
+      "Adding coffee or espresso indiscriminately to delicate crab or shellfish, when dark-roast coffee is usually reserved for meat dry rubs, chilis, and desserts.",
+      "Erasing the sharp divide between the wet maritime coast west of the Cascades and the dry eastern Columbia Basin and Yakima or Walla Walla valleys that supply sweet onions, apples, and grain."
+    ],
+    "sources": [
+      "The Way We Ate: Pacific Northwest Cooking, 1843-1900, Jacqueline B. Williams, 1996",
+      "The Northwest Essentials Cookbook: Cooking with the Ingredients That Define a Regional Cuisine, Greg Atkinson, 1999",
+      "The Pacific Northwest Seafood Cookbook: Salmon, Crab, Oysters, and More, Naomi Tomky, 2019",
+      "Feeding Seven Generations: A Salish Cookbook, Valerie Segrest, 2017",
+      "Fermented Vegetables, Kirsten K. Shockey and Christopher Shockey, 2014",
+      "Cooking in Eden: Inventing Regional Cuisine in the Pacific Northwest, Amy Jo Woodruff, Portland State University, 2000",
+      "Oregon Encyclopedia (Oregon Historical Society and Portland State University): https://www.oregonencyclopedia.org/articles/marionberry/ , https://www.oregonencyclopedia.org/articles/hazelnuts/ , https://www.oregonencyclopedia.org/articles/salmon/"
+    ]
+  },
+  {
+    "id": "us_great_lakes",
+    "label": "Great Lakes",
+    "subtitle": "Walleye, wild rice, rye, dill, dairy",
+    "about": "Spanning Minnesota, Wisconsin, and Michigan along Lakes Superior, Michigan, Huron, and Erie—from Minneapolis-St. Paul and Duluth to Green Bay, Milwaukee, Detroit, and the Upper Peninsula—this cuisine draws on glacial lakes, marshland wild rice beds, coastal cherry orchards, and dairy pastures. Shaped by Anishinaabe (Ojibwe) and Dakota fishing, foraging, and maple-sugaring alongside French-Canadian fur traders, Cornish miners, and Scandinavian, German, Polish, Finnish, and Belgian immigrants, everyday cooking usually balances sweet freshwater fish, winter preservation such as smoking, curing, and pickling, rye and caraway, sharp mustard, and farmstead butter and cheese. Representative dishes include pan-fried walleye or Friday fish fry yellow perch, smoked lake whitefish or Door County whitefish boil, wild rice soup or pilaf, and Upper Peninsula beef-and-rutabaga pasties.",
+    "flavors": [
+      "yellow or sweet onion",
+      "garlic",
+      "fresh or dried dill (koper in Polish; tilli in Finnish)",
+      "caraway seed (Kummel in German; kminek in Polish)",
+      "brown, yellow, or horseradish mustard (Senf in German; musztarda in Polish)",
+      "prepared horseradish (Meerrettich in German; chrzan in Polish)",
+      "coarsely ground black pepper",
+      "apple cider vinegar or distilled white vinegar",
+      "whole allspice and juniper berries (kryddpeppar and enbar in Swedish; used in Scandinavian curing and meatballs)",
+      "dried marjoram (majeranek in Polish; Majoran in German; signature herb of kielbasa and hearty stews)",
+      "pure maple syrup or maple sugar (zhiiwaagamizigan in Anishinaabemowin; used in savory glazes, curing brines, and Indigenous dishes)",
+      "lager or pilsner beer (cooking liquid for fish-fry batters, bratwurst braising, and beer-cheese soup)"
+    ],
+    "sweet_only": [
+      "ground cardamom (kardemumma; classic spice in Finnish pulla and Scandinavian sweet breads)",
+      "almond extract and almond paste (used in Danish-Wisconsin kringle, Scandinavian almond bars, and cherry tarts)",
+      "pure vanilla extract"
+    ],
+    "signature_ingredients": [
+      "hand-harvested lake wild rice / manoomin (substitute: cultivated paddy wild rice, which is darker, firmer, and less nutty; avoid packaged rice pilaf mixes dominated by white rice)",
+      "walleye fillets (substitute: fresh yellow perch, sauger, or mild flaky haddock or pollock)",
+      "yellow perch fillets (substitute: walleye, freshwater trout, or small mild flounder or sole fillets)",
+      "fresh or hot-smoked lake whitefish (substitute: rainbow trout or Arctic char for fresh fillets; hot-smoked trout for smoked whitefish spread)",
+      "fresh squeaky cheddar cheese curds (substitute: young mild white cheddar cubed small, though it lacks the signature squeak and fried stretch)",
+      "Wisconsin brick, Colby, or Limburger cheese (substitute: mild Muenster or young Havarti for brick; Monterey Jack-cheddar blend for Colby; washed-rind Munster for Limburger)",
+      "Montmorency tart cherries, fresh, frozen, or water-packed (substitute: jarred sour Morello cherries; sweet Bing cherries with lemon juice do not match tart cherry acidity)",
+      "rutabaga / swede for Upper Peninsula pasties (substitute: turnip or parsnip; carrots alter classic Cornish-Yooper flavor and are debated locally)",
+      "coarse or dark rye flour (substitute: medium rye flour mixed with whole-wheat flour; all-purpose flour alone lacks the earthy tang of regional breads and fish coatings)",
+      "fresh Polish-style kielbasa or Wisconsin veal-and-pork bratwurst (substitute: unsmoked or lightly smoked pork garlic sausage; avoid sweet fennel Italian sausage)"
+    ],
+    "pantry_assumed": [
+      "unsalted butter and neutral frying oil",
+      "all-purpose flour and rye flour",
+      "dried wild rice",
+      "yellow onions and garlic",
+      "apple cider vinegar or white vinegar",
+      "prepared mustard (yellow, brown, or horseradish)",
+      "prepared horseradish",
+      "caraway seed and dried dill",
+      "pure maple syrup",
+      "sauerkraut or dill pickles"
+    ],
+    "techniques": [
+      "pan-frying or deep-frying lightly dredged or beer-battered lake fish fillets in butter, lard, or neutral oil until crisp (Friday fish fry and shore-lunch style)",
+      "salting, brining, and hot- or cold-smoking fatty lake fish (whitefish, trout) and curing pork-beef sausages over fruitwoods or maple",
+      "hand-crimping butter-or-lard pastry around raw diced beef, potato, onion, and rutabaga for slow oven baking (Upper Peninsula Cornish pasty)",
+      "lacto-fermenting cabbage and cucumbers with dill, garlic, and caraway, alongside large-batch communal stewing (booyah) and outdoor cauldron fish boils",
+      "parching, soaking, and gentle covered simmering of wild rice (manoomin) until kernels split and curl without turning mushy"
+    ],
+    "shortcuts": [
+      "Commercial seasoned fish-fry breading or batter mix: typically wheat flour, cornmeal or cornstarch, leavening, onion and garlic powder, black pepper, paprika, and salt; dry mixes range roughly from 3,000 to 4,500 mg sodium per 100 g (about 7.5 to 11.3 g salt per 100 g at roughly 2.5 g salt per 1,000 mg sodium, or about 0.8 to 1.1 g salt per 10 g tablespoon, LOW CONFIDENCE as salt varies widely by brand). Swap 1:1 by weight for homemade flour-and-cornmeal coating and omit added salt from the breading and fish.",
+      "Commercial chicken or beef bouillon cube or paste: contains dehydrated meat or vegetable extract, yeast extract or hydrolyzed protein, fat, aromatics, and salt; standard dry cubes average roughly 24,000 mg sodium per 100 g (around 1,150 mg sodium, or about 2.9 g salt, per 5 g cube at about 2.5 g salt per 1,000 mg sodium, though pastes and reduced-salt styles vary, LOW CONFIDENCE). Dissolve one 5 g cube in 240 g water to replace unsalted stock and reduce added recipe salt by roughly 2.5 to 3 g.",
+      "Jarred prepared horseradish: grated horseradish root, distilled vinegar, water, and salt (plus oil or cream in creamy versions); plain prepared horseradish averages roughly 420 mg sodium per 100 g (about 1.05 g salt per 100 g, or roughly 0.16 g salt per 15 g tablespoon at about 2.5 g salt per 1,000 mg sodium, LOW CONFIDENCE across brands and creamy styles). Swap 1:1 by weight for freshly grated horseradish with a splash of white vinegar, adjusting dish salt lightly to taste.",
+      "Jarred tartar sauce: mayonnaise, diced dill pickles or sweet relish, onion or capers, dill, and salt; commercial jars typically carry around 600 to 700 mg sodium per 100 g (about 1.5 to 1.75 g salt per 100 g, or roughly 0.25 g salt per 15 g tablespoon at about 2.5 g salt per 1,000 mg sodium, LOW CONFIDENCE across brands). Use 1:1 by weight as a ready condiment alongside fried perch or walleye in place of homemade mayonnaise-pickle-dill sauce.",
+      "Store-bought pickling spice blend: usually whole mustard seed, allspice, black peppercorn, coriander, bay leaf, clove, and dill seed with 0 g salt (though brine packets contain curing or pickling salt—check the label). Swap 1:1 by weight (about 2 g per teaspoon) for whole mixed pickling spices."
+    ],
+    "allergen_notes": [
+      "Milk: butter, cream, cheddar cheese curds, aged cheeses, and buttermilk appear throughout fish fries, beer-cheese soups, creamy wild rice soups, smoked whitefish spreads, and baked goods.",
+      "Fish: lake whitefish, walleye, yellow perch, trout, and pickled herring are core proteins, and Worcestershire sauce used in pasty fillings and meat gravies contains anchovies.",
+      "Wheat: rye-wheat fish breadings, beer batters, pasty crusts, dumpling noodles, and Danish kringles contain wheat and gluten.",
+      "Egg: fish-fry egg washes, commercial tartar sauce, potato salads, and meatloaf or sausage binders often contain egg.",
+      "Soy: commercial frying oils, packaged fish-fry mixes, bouillon cubes or pastes, and creamy prepared horseradish sauces frequently contain soybean oil or hydrolyzed soy protein.",
+      "Tree nuts and sesame: pecans, walnuts, and almond paste appear in Wisconsin kringles and tart cherry baked goods, while sesame seeds are sometimes baked onto rye loaves or hard sandwich rolls."
+    ],
+    "pitfalls": [
+      "Reducing Upper Midwest and Great Lakes cooking to canned cream-of-mushroom soup casseroles while overlooking fresh lake fish, Indigenous wild rice (manoomin), scratch dairy, and cured European meats.",
+      "Treating industrially farmed paddy wild rice as identical to hand-harvested lake manoomin, which is usually lighter in color, nuttier, and quicker-cooking.",
+      "Substituting fennel-heavy sweet Italian sausage for warm-spiced Upper Peninsula cudighi (cinnamon, nutmeg, clove, red wine) or marjoram-and-garlic Polish kielbasa and Wisconsin bratwurst.",
+      "Presenting carrots versus rutabaga or gravy versus ketchup on Upper Peninsula Cornish pasties as a settled rule when local cooks actively dispute both.",
+      "Confusing Great Lakes freshwater fish fries (walleye, yellow perch, lake whitefish, bluegill) with coastal New England clam-and-haddock fries or Southern cornmeal catfish."
+    ],
+    "sources": [
+      "The Flavor of Wisconsin: An Informal History of Food and Eating in the Badger State, Harva Hachten and Terese Allen, 2009",
+      "The New Midwestern Table: 200 Heartland Recipes, Amy Thielen, 2013",
+      "Original Local: Indigenous Foods, Stories, and Recipes from the Upper Midwest, Heid E. Erdrich, 2013",
+      "The Sioux Chef's Indigenous Kitchen, Sean Sherman with Beth Dooley, 2017",
+      "Wild Rice and the Ojibway People, Thomas Vennum Jr., 1988",
+      "Classic Food and Restaurants of the Upper Peninsula, Russell M. Magnaghi, 2022",
+      "https://www.mnopedia.org/thing/wild-rice-and-ojibwe",
+      "https://www.smithsonianmag.com/travel/the-wonderful-wilderness-of-michigans-upper-peninsula-180968149/"
+    ]
+  },
+  {
+    "id": "us_appalachian",
+    "label": "Appalachian",
+    "subtitle": "Soup beans, sorghum, ramps, cornmeal",
+    "about": "Spanning the Blue Ridge, Great Smoky, and Cumberland mountains across western North Carolina, eastern Tennessee, eastern Kentucky, West Virginia, and western Virginia, Appalachian cuisine grew out of forested coves, cold mountain streams, and small homesteads. It blends Cherokee and neighboring Indigenous agriculture and foraging (corn, heirloom beans, squash, ramps, and woodland greens) with Scots-Irish, English, and German preservation traditions, the skill of enslaved and free Black and Affrilachian cooks, and later coal- and timber-camp influences. Everyday mountain cooking favors slow-simmered dried beans and greens seasoned with cured pork, cast-iron cornmeal baking, orchard fruit, and spring wild foods, exemplified by soup beans with unsweetened cornbread, shucky beans (leather britches), buttermilk biscuits with sawmill gravy, apple stack cake, and pan-fried mountain trout.",
+    "flavors": [
+      "black pepper",
+      "yellow onion",
+      "garlic",
+      "apple cider vinegar",
+      "garden sage (classic in fresh pork sausage and poultry dressing)",
+      "summer savory (traditional herb for green beans and poultry)",
+      "pepper vinegar (whole hot chiles steeped in vinegar)",
+      "chow-chow (pickled green-tomato, cabbage, and pepper relish)",
+      "mustard seed and celery seed (in chow-chow and slaws)",
+      "black coffee (deglazing liquid for country-ham red-eye gravy)"
+    ],
+    "sweet_only": [
+      "ground cinnamon",
+      "ground nutmeg",
+      "allspice",
+      "ground ginger",
+      "ground cloves",
+      "vanilla extract"
+    ],
+    "signature_ingredients": [
+      "shucky beans / leather britches, air-dried whole green bean pods (substitute: none for the chewy dried-pod texture; dried pinto beans make a different soup-bean dish)",
+      "heirloom dried beans such as greasy, half-runner, or soup beans (substitute: dried pinto beans or Great Northern beans)",
+      "ramps / wild mountain leeks (substitute: scallions plus a small clove of garlic, milder)",
+      "sorghum syrup (substitute: light or mild cane molasses; sweeter and lacks sorghum's grassy tang)",
+      "country ham, dry salt-cured aged ham (substitute: prosciutto for sliced texture, or smoked ham with extra black pepper, though much milder)",
+      "fatback or cured salt pork (substitute: thick-cut unsmoked slab bacon, or smoked bacon if smokiness is acceptable)",
+      "dried apples (substitute: unsweetened dried apple rings rehydrated in apple cider or water)",
+      "morel mushrooms (substitute: dried or fresh cremini and shiitake mushrooms, less woodsy)",
+      "fresh mountain brook or rainbow trout (substitute: farmed rainbow trout or Arctic char)",
+      "cushaw squash (substitute: butternut squash or winter pumpkin)"
+    ],
+    "pantry_assumed": [
+      "stone-ground white cornmeal",
+      "all-purpose or self-rising flour",
+      "dried pinto or heirloom beans",
+      "buttermilk",
+      "bacon drippings or lard",
+      "yellow onions and garlic",
+      "apple cider vinegar",
+      "sorghum syrup",
+      "apple butter"
+    ],
+    "techniques": [
+      "Preheated cast-iron skillet baking and pan-frying in bacon drippings or lard (developing crisp crusts on unsweetened cornbread, hoecakes, fried apples, and cornmeal-coated trout)",
+      "All-day slow simmering of dried or shucky beans and sturdy greens with cured pork to yield rich pot liquor",
+      "Hand-mixed buttermilk biscuit dough cut with cold lard or butter, patted gently, and baked at high heat",
+      "Hot-grease wilting ('killing') of tender spring greens or leaf lettuce with sizzling bacon drippings and apple cider vinegar",
+      "Homestead drying, stringing, pickling, and slow kettle reduction (leather britches, apple butter, chow-chow, and sorghum syrup)"
+    ],
+    "shortcuts": [
+      "Commercial self-rising flour and self-rising cornmeal typically contain flour or cornmeal pre-blended with baking powder and salt, supplying roughly 1,000 to 1,350 mg sodium per 100 g (about 2.5 to 3.4 g salt per 100 g, calculated as about 2.5 g salt per 1,000 mg sodium; LOW CONFIDENCE across brands, check the nutrition label). Swap 1:1 by weight for plain flour or cornmeal in biscuits and cornbread, omit separate baking powder, and subtract that label-derived salt from the recipe.",
+      "Commercial ham base or pork bouillon paste and cubes usually contain salt, cooked or smoked ham, pork stock, sugar, hydrolyzed soy or corn protein, and smoke flavoring, often supplying roughly 690 to 1,100 mg sodium per 4 to 6 g teaspoon or cube (about 1.7 to 2.8 g salt per teaspoon using about 2.5 g salt per 1,000 mg sodium; LOW CONFIDENCE across brands). Dissolve 5 to 6 g in 240 g hot water to stand in for 240 g ham-bone broth in beans or greens, and withhold added salt until tasting.",
+      "Jarred chow-chow usually combines cabbage, green tomatoes, onions, peppers, vinegar, sugar, mustard seed, turmeric, and brining salt at roughly 190 to 600 mg sodium per 100 g (about 0.5 to 1.5 g salt per 100 g; LOW CONFIDENCE across brands); use 1:1 by weight as a table relish without extra salt.",
+      "Commercial apple butter is slow-cooked apples, cider, sugar, and warm spices with negligible sodium (typically under 3 mg per 15 to 18 g tablespoon); swap 1:1 by weight for homemade apple butter with no salt adjustment."
+    ],
+    "allergen_notes": [
+      "Milk: buttermilk is standard in biscuits, cornbread, and spoonbread, while whole milk forms the base of sawmill gravy and butter is common in fried apples, sautéed ramps, and trout.",
+      "Wheat: all-purpose and self-rising wheat flour appear in buttermilk biscuits, sawmill gravy roux, apple stack cake, and pepperoni rolls, and are often blended into commercial self-rising cornmeal mixes and trout coatings.",
+      "Egg: used in spoonbread, custard pies, apple stack cake layers, and egg washes for fried fish or fritters.",
+      "Tree nuts: wild black walnuts and hickory nuts are traditional in mountain cakes, fudge, and baked goods.",
+      "Fish: mountain brook and rainbow trout are classic regional main dishes, though fish sauces or fish pastes are not part of traditional seasonings.",
+      "Soy: uncommon in traditional home seasonings, but commercial ham bases, packaged sausage seasonings, and vegetable shortenings often contain hydrolyzed soy protein or soybean oil.",
+      "Peanuts, shellfish, and sesame: rarely present in traditional Blue Ridge and Cumberland home cooking, though commercial snack mixes or packaged seasonings may introduce cross-contact."
+    ],
+    "pitfalls": [
+      "Do not sweeten savory Appalachian cornbread with sugar or default to cake-like yellow cornbread; traditional mountain versions usually rely on unsweetened stone-ground white cornmeal baked in hot fat-greased cast iron.",
+      "Do not collapse Appalachian cuisine into Deep South soul food or coastal Lowcountry cooking; okra, rice pilaus, shellfish, and heavy Cajun spice blends are not core Blue Ridge or Cumberland staples.",
+      "Do not treat sorghum syrup as identical to sugarcane molasses or corn syrup; sorghum comes from pressed sweet sorghum cane and has a distinct grassy, mildly tart finish.",
+      "Do not invent nostalgic pioneer clichés or suggest unsafe foraging such as eating raw or mature pokeweed, which must be harvested as young shoots and boiled in multiple changes of water.",
+      "Do not treat northern coal-camp specialties like West Virginia pepperoni rolls or Preston County buckwheat cakes as universal across the Blue Ridge, nor erase Cherokee and Affrilachian contributions."
+    ],
+    "sources": [
+      "Victuals: An Appalachian Journey, with Recipes, Ronni Lundy, 2016",
+      "Appalachian Home Cooking: History, Culture, and Recipes, Mark F. Sohn, 2005",
+      "Smokehouse Ham, Spoon Bread, & Scuppernong Wine: The Folklore and Art of Southern Appalachian Cooking, Joseph E. Dabney, 1998",
+      "The Foxfire Book of Appalachian Cookery, edited by Linda Garland Page and Eliot Wigginton, 1984",
+      "More Than Moonshine: Appalachian Recipes and Recollections, Sidney Saylor Farr, 1983",
+      "Kentucky Heirloom Seeds: Growing, Eating, Saving, Bill Best and Dobree Adams, 2017",
+      "Encyclopedia of Appalachia, edited by Rudy Abramson and Jean Haskell, 2006",
+      "https://fdc.nal.usda.gov/"
+    ]
+  }
+]

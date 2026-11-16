@@ -1,0 +1,162 @@
+[
+  {
+    "id": "oceania",
+    "kind": "continent",
+    "label": "Oceania",
+    "subtitle": "Australia and Aotearoa New Zealand",
+    "about": "Cuisines of Australia and Aotearoa New Zealand.",
+    "prompt_name": "",
+    "flavors": [],
+    "sweet_only": [],
+    "signature_ingredients": [],
+    "tips": [],
+    "pitfalls": [],
+    "avoid": [],
+    "children": [
+      "australian",
+      "new_zealander"
+    ]
+  },
+  {
+    "id": "australian",
+    "kind": "cuisine",
+    "label": "Australian",
+    "subtitle": "Coastal seafood, bush herbs, multicultural pantry",
+    "about": "Spanning an island continent from tropical northern reefs and monsoon coasts to the temperate southern ocean, the Murray-Darling river basin, the Great Dividing Range, and coastal capitals like Sydney, Melbourne, Adelaide, and Perth, Australian home cooking draws heavily on abundant coastal seafood and pastoral produce. Built on more than 60,000 years of First Nations bush food traditions alongside British and Irish colonial baking, it was transformed after World War II by Greek and Italian immigration and from the 1970s onward by Chinese, Vietnamese, Thai, and Malaysian communities into a bright, produce-driven style pairing Mediterranean olive oil and herbs with Southeast Asian aromatics and subtle native botanicals. Representative everyday dishes include pan-seared barramundi or prawns with finger lime and Southeast Asian herbs, baked zucchini slice and roast lamb with rosemary, coconut laksa or quick stir-fries, and classic bakes such as ANZAC biscuits, lamingtons, and summer pavlova.",
+    "prompt_name": "Australian",
+    "flavors": [
+      "garlic",
+      "extra-virgin olive oil",
+      "fresh rosemary",
+      "lemon myrtle (native citrus-scented leaf)",
+      "tasmanian mountain pepperberry (fruity, warming native pepper)",
+      "chicken salt (Australian umami-spiced seasoned salt)",
+      "Australian brewer's yeast extract spread (dark savory umami paste)",
+      "verjuice (unfermented green-grape juice for dressings and deglazing)",
+      "fish sauce (nước mắm / nam pla, in Southeast Asian crossover dishes)",
+      "soy sauce",
+      "Worcestershire sauce (savory base in mince, pies, and marinades)",
+      "sweet chilli sauce (used as a glaze, dip, and dressing base)"
+    ],
+    "sweet_only": [
+      "golden syrup (amber inverted cane sugar syrup for biscuits and puddings)",
+      "wattleseed (roasted, ground Acacia seed with coffee-hazelnut notes)",
+      "passionfruit pulp (classic topping for pavlova and cheesecakes)",
+      "desiccated coconut (unsweetened finely shredded coconut for lamingtons and slices)",
+      "pure vanilla extract",
+      "ground cinnamon"
+    ],
+    "signature_ingredients": [
+      "barramundi (substitute: striped bass, black sea bass, or snapper; farm-raised barramundi is also sold at some US grocers)",
+      "moreton Bay bugs / slipper lobster (substitute: Maine lobster tails, rock lobster tails, or sweet Dungeness crab)",
+      "king George whiting or flathead fillets (substitute: gulf whiting, Atlantic hake, petrale sole, or cod for frying)",
+      "finger lime (substitute: fresh lime juice and zest; lacks the popping caviar-like pulp)",
+      "warrigal greens / New Zealand spinach (substitute: english spinach or Swiss chard; true warrigal greens are usually blanched briefly before cooking to reduce oxalates)",
+      "bush tomato / kutjera (substitute: finely minced sun-dried tomato with a small pinch of tamarind paste)",
+      "self-raising flour (substitute: 1 cup US all-purpose flour whisked with 1 1/2 teaspoons baking powder and a pinch of salt)",
+      "saltbush leaves (substitute: flaky sea salt mixed with a pinch of dried rosemary or oregano, or fresh samphire for succulent tips)",
+      "davidson plum (substitute: tart blood plums or rhubarb cooked with a squeeze of lime)",
+      "Australian-style aged cheddar / 'tasty' cheese (substitute: sharp aged white or yellow cheddar)"
+    ],
+    "tips": [
+      "Commercial chicken salt (seasoned umami salt blend): traditionally contains salt, chicken bouillon, MSG, onion powder, garlic powder, celery salt, paprika, and mild curry powder, though many modern supermarket blends are chicken-free and use yeast extract or vegetable powders. Sodium varies widely by brand from roughly 15,600 to 28,600 mg per 100 g, or about 39 to 71.5 g salt per 100 g using about 2.5 g salt per 1,000 mg sodium (roughly 2.0 to 3.6 g salt per 5 g teaspoon) [uncertain across brands]. Swap 5 g commercial chicken salt for 3.5 g flaky sea salt plus 1.5 g mixed garlic powder, onion powder, sweet paprika, and a pinch of mild curry powder, and omit other added salt.",
+      "Australian brewer's yeast extract spread (jarred dark umami paste): contains concentrated brewer's yeast extract (commonly grown on barley and wheat), salt, mineral salt, malt extract, caramel color, and added B vitamins, with roughly 3,300 mg sodium per 100 g, or about 8.25 g salt per 100 g (about 0.4 g salt per 5 g teaspoon) [uncertain across brands across variants]. Stir 5 to 10 g into beef stews, gravies, or pan glazes in place of a bouillon cube, and reduce added salt accordingly.",
+      "Jarred laksa paste (Southeast Asian crossover shortcut): usually contains shallots or onion, lemongrass, galangal, garlic, dried red chilies, turmeric, candlenut or macadamia, shrimp paste, and salt. Commercial pastes vary around 1,100 to 2,600 mg sodium per 100 g, or about 2.75 to 6.5 g salt per 100 g (roughly 0.4 to 1.0 g salt per 15 g tablespoon) [uncertain across brands]. Swap 50 g jarred paste for 50 g freshly pounded aromatics plus about 1.5 to 3 g salt, or taste the broth after adding coconut milk and fish sauce before salting.",
+      "Bottled sweet chilli sauce and Australian-style tomato sauce: commercial sweet chilli sauce is largely sugar, chili, garlic, vinegar, and salt at roughly 250 to 640 mg sodium per 100 g, or about 0.6 to 1.6 g salt per 100 g (about 0.1 to 0.3 g per 20 g tablespoon) [uncertain across brands]; commercial Australian-style tomato sauce ranges widely from about 350 to 1,360 mg sodium per 100 g, or about 0.9 to 3.4 g salt per 100 g [uncertain across brands]. Swap 20 g sweet chilli sauce for 15 g honey or sugar, 5 g rice vinegar, minced chili, garlic, and a pinch of salt; swap Australian tomato sauce 1:1 by weight with US ketchup sharpened with a dash of malt vinegar and a tiny pinch of ground cloves."
+    ],
+    "pitfalls": [
+      "Treating tourism-ad clichés like 'shrimp on the barbie,' mass-market lager batters, or kangaroo steaks as everyday home cooking, when Australians eat prawns (not shrimp) and rarely cook kangaroo at home.",
+      "Assuming Australian home cooking is still 1950s British 'meat and three veg,' ignoring how post-war Greek and Italian migrants and 1970s-onward Southeast and East Asian communities made olive oil, pasta, laksa, and stir-fries everyday staples.",
+      "Overusing raw bush tucker spices in every dish instead of recognizing that home cooks usually apply native botanicals like lemon myrtle, finger lime, or wattleseed as subtle accents alongside familiar coastal seafood and baking.",
+      "Substituting US ketchup 1:1 for Australian tomato sauce without accounting for its sharper vinegar tang and warm clove-allspice notes, or US all-purpose flour 1:1 for Australian self-raising flour without adding leavening.",
+      "Presenting pavlova as an undisputed Australian invention rather than a shared Antipodean dessert with earlier documented print recipes in New Zealand."
+    ],
+    "avoid": [],
+    "children": [],
+    "pantry": [
+      "extra-virgin olive oil",
+      "butter",
+      "self-raising flour",
+      "rolled oats and rice",
+      "garlic and brown (yellow) onions",
+      "lemons",
+      "soy sauce and fish sauce",
+      "Worcestershire sauce and sweet chilli sauce",
+      "golden syrup"
+    ],
+    "substitutes": []
+  },
+  {
+    "id": "new_zealander",
+    "kind": "cuisine",
+    "label": "New Zealander",
+    "subtitle": "Lamb, mussels, kūmara, hāngī, baking",
+    "about": "Aotearoa New Zealand spans two mountainous main islands (the North Island, Te Ika-a-Māui, and the South Island, Te Waipounamu) plus Stewart Island (Rakiura), stretching from subtropical northern harbors and volcanic plateaus across braided glacial rivers and the Southern Alps around cities such as Auckland, Wellington, Christchurch, and Dunedin. Shaped first by East Polynesian ancestors of Māori in the 13th century, then by 19th-century British, Scottish, Irish, and Chinese settlers building pastoral sheep and dairy farms, and later by Pacific Island and Asian migrations, its foodways pair coastal seafood, pasture-raised lamb, kūmara, and orchard stone fruit with both indigenous earth-oven traditions and a deep culture of home baking. Representative dishes include Māori hāngī and pork-bone boil-up with pūhā, pan-fried whitebait fritters, steamed green-lipped mussels, Southland cheese rolls, and pavlova or ANZAC biscuits.",
+    "prompt_name": "New Zealander",
+    "flavors": [
+      "native pepper tree leaf (horopito, fiery, pungent bush spice used in rubs and marinades)",
+      "kawakawa leaf (kawakawa, aromatic heart-shaped native leaf with mild pepper-citrus notes)",
+      "mānuka wood smoke (mānuka, sweet, resinous smoke used for curing fish, mussels, and meats)",
+      "fresh mint and malt-vinegar mint sauce (classic bright accompaniment to roast lamb)",
+      "rosemary (everyday herb for roast lamb and root vegetables)",
+      "brown or yellow onion (foundation aromatic for roasts, gravies, and savory mince)",
+      "garlic (everyday aromatic in pan-fried seafood, roasts, and contemporary cooking)",
+      "black pepper (coarse or cracked pepper for meats, fritters, and sauces)",
+      "Worcestershire sauce (pantry umami dash for savory mince, stews, gravies, and cheese rolls)",
+      "sweet spiced tomato sauce (vinegar-bright, mildly spiced table condiment paired with meat pies, sausages, and fish and chips)",
+      "savory yeast extract spread (dark, salty umami paste spread on toast and dissolved into gravies and stews)",
+      "mild curry powder (British-colonial turmeric-warm blend used in curried sausages, curried eggs, and savory mince)"
+    ],
+    "sweet_only": [
+      "golden syrup",
+      "dark treacle",
+      "mixed spice",
+      "ground cinnamon",
+      "ground ginger (in classic baking like ginger crunch and ginger kisses)",
+      "vanilla extract or essence"
+    ],
+    "signature_ingredients": [
+      "kūmara / New Zealand sweet potato (substitute: firm orange-fleshed Beauregard or white-fleshed Hannah sweet potato, noting NZ red and gold kūmara are drier and less sugary)",
+      "New Zealand green-lipped mussels (kūtai) (substitute: blue or black mussels, which are smaller and slightly less plump)",
+      "pāua / New Zealand blackfoot abalone (substitute: canned or fresh Pacific abalone, or thinly pounded conch or squid for fritters)",
+      "whitebait (īnanga) (substitute: tiny silverbait, smelt fry, or fresh white anchovies, though flavor and delicacy differ)",
+      "pūhā / sow thistle (substitute: dandelion greens, watercress, or mustard greens)",
+      "pikopiko / native fern shoots (substitute: fiddlehead ferns or slender young asparagus tips)",
+      "blue cod or tarakihi (substitute: haddock, Pacific cod, or striped bass for firm flaky white fillets)",
+      "pasture-raised New Zealand lamb or hogget (substitute: domestic rack, shoulder, or leg of lamb)",
+      "feijoa / pineapple guava (substitute: none for its distinct aromatic-tart flavor; guava plus ripe pear only roughly approximates)",
+      "New Zealand canned reduced cream (substitute: sour cream or thickened heavy cream, though sour cream adds more tang to onion dip and cheese rolls)",
+      "central Otago stone fruit or boysenberries (substitute: ripe orchard apricots, cherries, peaches, or blackberries mixed with raspberries)",
+      "rēwena parāoa / Māori potato-ferment bread (substitute: crusty country sourdough bread, though it lacks the faint sweet potato-ferment aroma)"
+    ],
+    "tips": [
+      "Commercial dry onion soup mix: typically contains dehydrated onion, cornstarch or wheat flour, yeast extract, hydrolyzed vegetable protein, soy sauce powder, sugar, and salt. Salt varies widely by market and packet size: North American 56 g packets often carry roughly 4,500 to 5,000 mg sodium (about 11 to 12.5 g salt per packet, using roughly 2.5 g salt per 1,000 mg sodium), while New Zealand 32 to 40 g sachets commonly range from roughly 3,000 to over 8,000 mg sodium per 100 g dry mix (about 7.5 to 20 g salt per 100 g, or roughly 2.5 to 8 g salt per sachet) [uncertain across brands]. For Kiwi onion dip or cheese rolls, swap a 32 to 40 g sachet for 30 g finely minced browned onion, 5 g dried onion flakes, 5 g cornstarch, and 2 to 3 g bouillon or yeast extract, holding back added salt until tasting.",
+      "Bottled sweet spiced tomato sauce: usually contains tomato paste or puree, sugar, vinegar, onion, spices such as allspice and cloves, and salt, averaging roughly 520 mg sodium per 100 g (about 1.3 g salt per 100 g, or roughly 0.2 g salt per 15 g tablespoon; reduced-salt formulations are lower) [uncertain across brands]. Swap 1:1 by weight with standard tomato ketchup or simmered tomato paste thinned with malt or cider vinegar, brown sugar, and a pinch of allspice, reducing added recipe salt slightly.",
+      "Commercial savory yeast extract spread: usually contains brewer's or baker's yeast extract, wheat or barley malt extract, caramel color, and salt, typically carrying roughly 3,380 to 4,300 mg sodium per 100 g (about 8.5 to 10.8 g salt per 100 g, or roughly 0.4 to 0.5 g salt per 5 g teaspoon; varies by formulation) [uncertain across brands]. When dissolving into gravies or stews, swap 5 g spread for 5 g dark miso or concentrated beef bouillon paste and omit about 0.5 g added salt.",
+      "Jarred mint sauce: usually contains chopped spearmint, malt or spirit vinegar, sugar, water, and salt, often carrying roughly 400 to 1,000 mg sodium per 100 g (about 1.0 to 2.5 g salt per 100 g; varies by brand) [uncertain across brands]. Swap 30 g jarred sauce for 15 g finely chopped fresh mint steeped in 15 g warm malt vinegar and 5 g sugar with a small pinch of salt.",
+      "Commercial mild curry powder and stock powders: plain curry powders usually contain turmeric, coriander, cumin, fenugreek, and chili with 0 g salt (check label), whereas dry stock powders carry salt as a primary ingredient at roughly 15,000 to 25,000 mg sodium per 100 g dry powder (about 37.5 to 62.5 g salt per 100 g, or roughly 2 to 3 g salt per 5 g teaspoon; varies widely by brand and reduced-salt labels) [uncertain across brands]. Swap plain curry powder 1:1 by weight with no salt adjustment, and omit added salt when using commercial stock powder until tasting."
+    ],
+    "pitfalls": [
+      "Conflating New Zealand cooking with Australian cuisine or assuming Australian bush staples and slang define Aotearoa home kitchens.",
+      "Treating a Māori hāngī like a backyard open-flame grill rather than an indirect earth-oven steam cook over heated stones sealed under wet cloths and soil.",
+      "Translating New Zealand \"tomato sauce\" as Italian marinara or passata rather than a sweet, vinegar-tangy spiced table condiment closer to ketchup.",
+      "Applying sugary American candied-yam treatments to Māori and Kiwi kūmara dishes, where red and gold varieties are usually roasted savory, steamed in hāngī, or simmered in boil-ups.",
+      "Reducing New Zealand food to mid-century colonial meat-and-three-veg while ignoring indigenous kai Māori ingredients and widespread Pacific Island and Asian influences."
+    ],
+    "avoid": [],
+    "children": [],
+    "pantry": [
+      "salted or unsalted butter",
+      "all-purpose flour and baking powder",
+      "rolled oats",
+      "golden syrup",
+      "brown onions and garlic",
+      "malt vinegar",
+      "Worcestershire sauce",
+      "sweet spiced tomato sauce",
+      "savory yeast extract spread",
+      "mild curry powder"
+    ],
+    "substitutes": []
+  }
+]

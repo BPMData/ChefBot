@@ -11,7 +11,7 @@ from datetime import datetime
 import flet as ft
 import flet.canvas as cv
 
-from chefbot import android, api, cuisines, export, maps, prompts
+from chefbot import android, api, cuisines, export, favorites, maps, prompts
 from chefbot.history import Conversation, History
 from chefbot.keepalive import PICTURE, WRITING, KeepAlive
 from chefbot.recipe import extract_title
@@ -61,6 +61,7 @@ CONTINENT_ICONS = {
     "europe": ft.Icons.RESTAURANT,
     "near_east": ft.Icons.LOCAL_CAFE,
     "africa": ft.Icons.WB_SUNNY_OUTLINED,
+    "oceania": ft.Icons.KAYAKING,
 }
 # Distinct color families from Flet's built-in palette (fill shade, border/outline shade)
 MAP_PALETTE: dict[str, tuple[str, str]] = {
@@ -249,6 +250,11 @@ class ChefBotApp:
         self.working: dict[str, Conversation] = {}
         self.live_bubbles: dict[str, ft.Container] = {}   # conv id -> the reply card still being written
         self.kept_photos: set[str] = set()     # photo files an in-flight edit may still need (see send_text)
+        self.on_favorites = False
+        self.fav_path: tuple[str, ...] = ()
+        self.fav_query = ""
+        self.fav_limit = favorites.FAVORITES_PAGE_SIZE
+        self.recent_query = ""
         self.stop_requested = False
         # In another app (phones) or minimized (desktop). Replies keep going thanks to the keep-alive; if one dies
         # anyway while we're away, it starts again when we're back (see reply()).
@@ -629,6 +635,15 @@ class ChefBotApp:
                                      helper="Remembered for next time. Clear it to forget.",
                                      on_change=lambda e: show_clear_button(self.must_not),
                                      on_blur=lambda e: self._run(self._remember_must_not))
+        self.recent_search_clear = ft.IconButton(ft.Icons.CLOSE, tooltip="Clear search", icon_size=18,
+                                                 visible=False, on_click=self._clear_recent_search)
+        self.recent_search = ft.TextField(
+            hint_text="Search recipes, cuisines, ingredients...", filled=True,
+            border=soft_border(16), prefix_icon=ft.Icons.SEARCH,
+            suffix_icon=self.recent_search_clear,
+            on_change=self._on_recent_search,
+        )
+        self.recent_rows_col = ft.Column(spacing=10, horizontal_alignment=ft.CrossAxisAlignment.STRETCH)
         self.recent = ft.Column(spacing=10, horizontal_alignment=ft.CrossAxisAlignment.STRETCH)
 
     def _rebuild_cuisine_chips(self):
@@ -1027,6 +1042,7 @@ class ChefBotApp:
     def open_map_browser(self, e=None):
         """Full-screen interactive map browser replacing the screen until Back is pressed."""
         self.on_map = True
+        self.on_favorites = False
         self.map_stack = ["world"]
         self.map_highlight_id = None
         self.globe_lon = GLOBE_INITIAL_LON
@@ -1902,6 +1918,7 @@ class ChefBotApp:
     def show_home(self):
         self.conv = None
         self.on_map = False
+        self.on_favorites = False
         self._globe_motion_gen += 1
         self._globe_flying = False
         self.page.views[0].can_pop = True     # back on the home screen leaves the app
@@ -1940,26 +1957,350 @@ class ChefBotApp:
             self._hero(), self._pad(ft.Container(body), top=18, bottom=32)])
         self.page.update()
 
+    def _recipe_row(self, c: Conversation, show_delete: bool = True, sub_override: str | None = None) -> ft.Container:
+        cuisine = favorites.conv_cuisine_label(c)
+        when = datetime.fromtimestamp(c.updated).strftime("%b %d")
+        sub = sub_override if sub_override is not None else " · ".join(
+            x for x in [cuisine if cuisine != "Anything" else "", when] if x
+        )
+        star_btn = ft.IconButton(
+            ft.Icons.STAR if c.favorite else ft.Icons.STAR_BORDER,
+            icon_color=ft.Colors.AMBER_500 if c.favorite else None,
+            tooltip="Remove from Favorites" if c.favorite else "Save to Favorites",
+            icon_size=20,
+            on_click=lambda e, cid=c.id: self.toggle_favorite(cid),
+        )
+        trailing: list[ft.Control] = [star_btn]
+        if show_delete:
+            trailing.append(ft.IconButton(
+                ft.Icons.DELETE_OUTLINE, tooltip="Delete", icon_size=20,
+                on_click=lambda e, cid=c.id: self.delete_conversation(cid),
+            ))
+        return ft.Container(
+            ft.Row([
+                ft.Column([
+                    ft.Text(c.title, weight=ft.FontWeight.W_600, max_lines=2, size=15.5,
+                            overflow=ft.TextOverflow.ELLIPSIS, font_family=HEADING_FONT),
+                    ft.Text(sub, size=12.5, color=ft.Colors.ON_SURFACE_VARIANT),
+                ], spacing=2, expand=True, tight=True),
+                ft.Row(trailing, spacing=0, tight=True),
+            ], spacing=4, vertical_alignment=ft.CrossAxisAlignment.CENTER),
+            padding=ft.Padding(left=16, right=6, top=10, bottom=10), border_radius=18, ink=True,
+            bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+            on_click=lambda e, cid=c.id: self.open_conversation(cid),
+        )
+
+    def _safe_update(self, ctrl):
+        try:
+            ctrl.update()
+        except RuntimeError:
+            pass
+
+    def _on_recent_search(self, e):
+        self.recent_query = e.control.value or ""
+        show_clear_button(self.recent_search, self.recent_search_clear)
+        self._refresh_recent_rows()
+        self._safe_update(self.recent_rows_col)
+
+    def _clear_recent_search(self, e=None):
+        self.recent_query = ""
+        self.recent_search.value = ""
+        self.recent_search_clear.visible = False
+        self._safe_update(self.recent_search)
+        self._refresh_recent_rows()
+        self._safe_update(self.recent_rows_col)
+
+    def _refresh_recent_rows(self, convs: list[Conversation] | None = None):
+        all_convs = convs if convs is not None else self.history.load()
+        query = getattr(self, "recent_query", "")
+        shown = favorites.filter_conversations(all_convs, query)
+        col = getattr(self, "recent_rows_col", None)
+        if col is None:
+            col = ft.Column(spacing=10, horizontal_alignment=ft.CrossAxisAlignment.STRETCH)
+            self.recent_rows_col = col
+        if shown:
+            col.controls = [self._recipe_row(c) for c in shown]
+        else:
+            col.controls = [
+                ft.Text("No matching recipes.", size=13, color=ft.Colors.ON_SURFACE_VARIANT)
+            ]
+
     def _refresh_recent(self):
         convs = self.history.load()
-        rows: list[ft.Control] = [section_title(ft.Icons.MENU_BOOK, "Your recipes")] if convs else []
-        for c in convs:
-            raw_cid = c.settings.get("cuisine_id") or c.settings.get("cuisine", "")
-            resolved = cuisines.resolve(raw_cid) if raw_cid and raw_cid != prompts.NO_CUISINE else None
-            cuisine = cuisines.chip_label(resolved["id"]) if resolved else ""
-            when = datetime.fromtimestamp(c.updated).strftime("%b %d")
-            sub = " · ".join(x for x in [cuisine if cuisine != "Anything" else "", when] if x)
-            rows.append(ft.Container(
-                ft.Row([ft.Column([ft.Text(c.title, weight=ft.FontWeight.W_600, max_lines=2, size=15.5,
-                                           overflow=ft.TextOverflow.ELLIPSIS, font_family=HEADING_FONT),
-                                   ft.Text(sub, size=12.5, color=ft.Colors.ON_SURFACE_VARIANT)],
-                                  spacing=2, expand=True, tight=True),
-                        ft.IconButton(ft.Icons.DELETE_OUTLINE, tooltip="Delete", icon_size=20,
-                                      on_click=lambda e, cid=c.id: self.delete_conversation(cid))]),
-                padding=ft.Padding(left=18, right=6, top=10, bottom=10), border_radius=18, ink=True,
-                bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
-                on_click=lambda e, cid=c.id: self.open_conversation(cid)))
-        self.recent.controls = rows
+        fav_count = sum(1 for c in convs if c.favorite)
+        if not convs:
+            self.recent.controls = []
+            return
+        fav_sub = f"{fav_count} saved" if fav_count else "Star recipes to collect them here"
+        fav_folder = ft.Container(
+            ft.Row([
+                ft.Icon(ft.Icons.STAR, color=ft.Colors.AMBER_500, size=22),
+                ft.Column([
+                    ft.Text("Favorites", size=15.5, weight=ft.FontWeight.W_600, font_family=HEADING_FONT),
+                    ft.Text(fav_sub, size=12.5, color=ft.Colors.ON_SURFACE_VARIANT),
+                ], spacing=2, expand=True, tight=True),
+                ft.Icon(ft.Icons.CHEVRON_RIGHT, color=ft.Colors.ON_SURFACE_VARIANT),
+            ], spacing=12, vertical_alignment=ft.CrossAxisAlignment.CENTER),
+            padding=ft.Padding(left=16, right=12, top=12, bottom=12),
+            border_radius=18, ink=True, bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+            on_click=lambda _: self.open_favorites(),
+        )
+        self._refresh_recent_rows(convs)
+        controls: list[ft.Control] = [
+            fav_folder,
+            section_title(ft.Icons.MENU_BOOK, "Your recipes"),
+        ]
+        if getattr(self, "recent_search", None) is not None:
+            controls.append(self.recent_search)
+        controls.append(self.recent_rows_col)
+        self.recent.controls = controls
+
+    def toggle_favorite(self, conv_id: str, refresh_view: bool = True):
+        if self.conv and self.conv.id == conv_id:
+            if any(c.id == conv_id for c in self.history.load()):
+                new_state = self.history.toggle_favorite(conv_id)
+            else:
+                new_state = not self.conv.favorite
+            self.conv.favorite = new_state
+            if getattr(self, "star_btn", None) is not None:
+                self.star_btn.icon = ft.Icons.STAR if new_state else ft.Icons.STAR_BORDER
+                self.star_btn.icon_color = ft.Colors.AMBER_500 if new_state else None
+                self.star_btn.tooltip = "Remove from Favorites" if new_state else "Save to Favorites"
+                try:
+                    self.star_btn.update()
+                except Exception:
+                    pass
+            return
+        new_state = self.history.toggle_favorite(conv_id)
+        if conv_id in self.working:
+            self.working[conv_id].favorite = new_state
+        if not refresh_view:
+            return
+        if getattr(self, "on_favorites", False):
+            self._populate_favorites_body()
+            self._safe_update(self.fav_body)
+        elif self.conv is None and not getattr(self, "on_map", False):
+            self._refresh_recent()
+            self._safe_update(self.recent)
+
+    def _fav_folder_tile(self, icon, label: str, count: int, on_click) -> ft.Container:
+        return ft.Container(
+            ft.Row([
+                ft.Icon(icon, size=20, color=ft.Colors.PRIMARY),
+                ft.Text(label, size=14.5, weight=ft.FontWeight.W_600, font_family=HEADING_FONT,
+                        expand=True, max_lines=1, overflow=ft.TextOverflow.ELLIPSIS),
+                ft.Container(
+                    ft.Text(str(count), size=12, weight=ft.FontWeight.W_600,
+                            color=ft.Colors.ON_SURFACE_VARIANT),
+                    padding=ft.Padding(left=8, right=8, top=2, bottom=2),
+                    border_radius=10, bgcolor=ft.Colors.SURFACE_CONTAINER_HIGH,
+                ),
+                ft.Icon(ft.Icons.CHEVRON_RIGHT, size=20, color=ft.Colors.ON_SURFACE_VARIANT),
+            ], spacing=10, vertical_alignment=ft.CrossAxisAlignment.CENTER),
+            padding=ft.Padding(left=14, right=10, top=10, bottom=10),
+            border_radius=14, ink=True, bgcolor=ft.Colors.SURFACE_CONTAINER_LOW,
+            on_click=on_click,
+        )
+
+    def _fav_breadcrumb_row(self) -> ft.Control | None:
+        if not self.fav_path or self.fav_query.strip():
+            return None
+        crumbs: list[tuple[str, tuple[str, ...]]] = [("Favorites", ())]
+        if self.fav_path == (favorites.ANY_BUCKET,):
+            crumbs.append(("Any cuisine", (favorites.ANY_BUCKET,)))
+        else:
+            for idx in range(len(self.fav_path)):
+                nid = self.fav_path[idx]
+                node = cuisines.get(nid)
+                crumbs.append((node["label"] if node else nid, self.fav_path[: idx + 1]))
+        parts: list[ft.Control] = []
+        for idx, (label, target) in enumerate(crumbs):
+            if idx:
+                parts.append(ft.Icon(ft.Icons.CHEVRON_RIGHT, size=16, color=ft.Colors.ON_SURFACE_VARIANT))
+            if idx < len(crumbs) - 1:
+                parts.append(ft.Container(
+                    ft.Text(label, size=13, color=ft.Colors.PRIMARY, weight=ft.FontWeight.W_600),
+                    padding=ft.Padding(left=4, right=4, top=4, bottom=4),
+                    border_radius=8, ink=True,
+                    on_click=lambda _, t=target: self._go_fav_path(t),
+                ))
+            else:
+                parts.append(ft.Container(
+                    ft.Text(label, size=13, weight=ft.FontWeight.W_700),
+                    padding=ft.Padding(left=4, right=4, top=4, bottom=4),
+                ))
+        return ft.Row(parts, wrap=True, spacing=2, run_spacing=2,
+                      vertical_alignment=ft.CrossAxisAlignment.CENTER)
+
+    def _go_fav_path(self, path_ids: tuple[str, ...]):
+        self.fav_path = path_ids
+        self.fav_limit = favorites.FAVORITES_PAGE_SIZE
+        self._populate_favorites_body()
+        self._safe_update(self.fav_body)
+
+    def _show_more_favs(self, e=None):
+        self.fav_limit += favorites.FAVORITES_PAGE_SIZE
+        self._populate_favorites_body()
+        self._safe_update(self.fav_body)
+
+    def _fav_leaf_controls(self, items: list[Conversation]) -> list[ft.Control]:
+        controls: list[ft.Control] = [
+            self._recipe_row(c, show_delete=False) for c in items[: self.fav_limit]
+        ]
+        remaining = len(items) - self.fav_limit
+        if remaining > 0:
+            controls.append(ft.TextButton(
+                f"Show more ({remaining} more)", icon=ft.Icons.EXPAND_MORE,
+                on_click=self._show_more_favs,
+            ))
+        return controls
+
+    def _on_fav_search(self, e):
+        self.fav_query = e.control.value or ""
+        self.fav_limit = favorites.FAVORITES_PAGE_SIZE
+        show_clear_button(self.fav_search, self.fav_search_clear)
+        self._populate_favorites_body()
+        self._safe_update(self.fav_body)
+
+    def _clear_fav_search(self, e=None):
+        self.fav_query = ""
+        self.fav_limit = favorites.FAVORITES_PAGE_SIZE
+        self.fav_search.value = ""
+        self.fav_search_clear.visible = False
+        self._safe_update(self.fav_search)
+        self._populate_favorites_body()
+        self._safe_update(self.fav_body)
+
+    def _populate_favorites_body(self):
+        favs = favorites.favorite_conversations(self.history.load())
+        controls: list[ft.Control] = []
+        crumb = self._fav_breadcrumb_row()
+        if crumb is not None:
+            controls.append(crumb)
+
+        if not favs:
+            controls.append(card(ft.Text(
+                "No favorites yet. Tap the star icon in any recipe chat to save it here.",
+                size=14, color=ft.Colors.ON_SURFACE_VARIANT,
+            )))
+            self.fav_body.controls = controls
+            return
+
+        if self.fav_query.strip():
+            matches = favorites.sort_by_recent_access(favorites.filter_conversations(favs, self.fav_query))
+            controls.append(ft.Text(
+                f"{len(matches)} matching favorite{'s' if len(matches) != 1 else ''}",
+                size=13, weight=ft.FontWeight.W_600, color=ft.Colors.ON_SURFACE_VARIANT,
+            ))
+            if matches:
+                controls.extend(self._fav_leaf_controls(matches))
+            else:
+                controls.append(ft.Text("No matching favorites.", size=13, color=ft.Colors.ON_SURFACE_VARIANT))
+            self.fav_body.controls = controls
+            return
+
+        if not self.fav_path:
+            root_data = favorites.build_favorites_root(favs)
+            if root_data["top_recent"]:
+                controls.append(ft.Text("Recently accessed", size=13, weight=ft.FontWeight.W_600,
+                                        color=ft.Colors.ON_SURFACE_VARIANT))
+                for c in root_data["top_recent"]:
+                    controls.append(self._recipe_row(c, show_delete=False))
+            if root_data["continents"] or root_data["any_items"]:
+                controls.append(ft.Container(
+                    ft.Text("Browse by region", size=13, weight=ft.FontWeight.W_600,
+                            color=ft.Colors.ON_SURFACE_VARIANT),
+                    margin=ft.Margin(top=6, left=0, right=0, bottom=0),
+                ))
+                for cont in root_data["continents"]:
+                    controls.append(self._fav_folder_tile(
+                        CONTINENT_ICONS.get(cont["id"], ft.Icons.PUBLIC),
+                        cont["label"], cont["count"],
+                        lambda _, cid=cont["id"]: self._go_fav_path((cid,)),
+                    ))
+                if root_data["any_items"]:
+                    controls.append(self._fav_folder_tile(
+                        ft.Icons.AUTO_AWESOME, "Any cuisine", len(root_data["any_items"]),
+                        lambda _: self._go_fav_path((favorites.ANY_BUCKET,)),
+                    ))
+        elif self.fav_path == (favorites.ANY_BUCKET,):
+            controls.extend(self._fav_leaf_controls(favorites.build_leaf_list(favs, self.fav_path)))
+        elif len(self.fav_path) == 1:
+            cont_id = self.fav_path[0]
+            cdata = favorites.build_continent_view(favs, cont_id)
+            if not cdata["items"]:
+                controls.append(ft.Text("No favorites in this region yet.", size=13,
+                                        color=ft.Colors.ON_SURFACE_VARIANT))
+            for item in cdata["items"]:
+                controls.append(self._fav_folder_tile(
+                    ft.Icons.FOLDER_OUTLINED if item["has_children"] else ft.Icons.RESTAURANT_MENU,
+                    item["label"], item["count"],
+                    lambda _, nid=item["id"]: self._go_fav_path((cont_id, nid)),
+                ))
+        elif len(self.fav_path) == 2:
+            cont_id, top_id = self.fav_path
+            node = cuisines.get(top_id)
+            if node and node.get("kind") == "country":
+                kdata = favorites.build_country_view(favs, cont_id, top_id)
+                if kdata["top_recent"]:
+                    controls.append(ft.Text("Recently accessed", size=13, weight=ft.FontWeight.W_600,
+                                            color=ft.Colors.ON_SURFACE_VARIANT))
+                    for c in kdata["top_recent"]:
+                        controls.append(self._recipe_row(c, show_delete=False))
+                if kdata["subcategories"]:
+                    controls.append(ft.Container(
+                        ft.Text("Subcategories", size=13, weight=ft.FontWeight.W_600,
+                                color=ft.Colors.ON_SURFACE_VARIANT),
+                        margin=ft.Margin(top=6, left=0, right=0, bottom=0),
+                    ))
+                    for sub in kdata["subcategories"]:
+                        controls.append(self._fav_folder_tile(
+                            ft.Icons.RESTAURANT_MENU, sub["label"], sub["count"],
+                            lambda _, sid=sub["id"]: self._go_fav_path((cont_id, top_id, sid)),
+                        ))
+            else:
+                controls.extend(self._fav_leaf_controls(favorites.build_leaf_list(favs, self.fav_path)))
+        else:
+            controls.extend(self._fav_leaf_controls(favorites.build_leaf_list(favs, self.fav_path)))
+
+        self.fav_body.controls = controls
+
+    def open_favorites(self, path_ids: tuple[str, ...] = ()):
+        self.conv = None
+        self.on_map = False
+        self.on_favorites = True
+        self.fav_path = path_ids
+        self.fav_query = ""
+        self.fav_limit = favorites.FAVORITES_PAGE_SIZE
+        self._globe_motion_gen += 1
+        self._globe_flying = False
+        self.page.views[0].can_pop = False
+        self.padded = []
+        self.fav_search_clear = ft.IconButton(ft.Icons.CLOSE, tooltip="Clear search", icon_size=18,
+                                              visible=False, on_click=self._clear_fav_search)
+        self.fav_search = ft.TextField(
+            hint_text="Search favorites, cuisines, ingredients...", filled=True,
+            border=soft_border(16), prefix_icon=ft.Icons.SEARCH,
+            suffix_icon=self.fav_search_clear,
+            on_change=self._on_fav_search,
+        )
+        self.fav_body = ft.Column(spacing=10, horizontal_alignment=ft.CrossAxisAlignment.STRETCH)
+        self._populate_favorites_body()
+        self.page.appbar = ft.AppBar(
+            leading=ft.IconButton(ft.Icons.ARROW_BACK, tooltip="Back", on_click=lambda _: self._favorites_back()),
+            title=heading("Favorites", 19), bgcolor=ft.Colors.TRANSPARENT,
+        )
+        self.root.content = ft.ListView(expand=True, controls=[
+            self._pad(ft.Column([self.fav_search, self.fav_body], spacing=12,
+                                horizontal_alignment=ft.CrossAxisAlignment.STRETCH), top=12, bottom=28)
+        ])
+        self.page.update()
+
+    def _favorites_back(self):
+        if self.fav_path:
+            self._go_fav_path(self.fav_path[:-1])
+        else:
+            self.go_home()
 
     def delete_conversation(self, conv_id: str):
         if conv_id in self.working:
@@ -1971,7 +2312,15 @@ class ChefBotApp:
 
     def open_conversation(self, conv_id: str):
         # One still being written in the background: show that same conversation, live reply and all.
-        conv = self.working.get(conv_id) or next((c for c in self.history.load() if c.id == conv_id), None)
+        in_work = self.working.get(conv_id)
+        updated = self.history.record_access(conv_id)
+        if in_work is not None:
+            if updated is not None:
+                in_work.access_count = updated.access_count
+                in_work.last_accessed = updated.last_accessed
+            conv = in_work
+        else:
+            conv = updated or next((c for c in self.history.load() if c.id == conv_id), None)
         if conv:
             self.show_chat(conv)
 
@@ -2155,6 +2504,7 @@ class ChefBotApp:
     def show_chat(self, conv: Conversation):
         self.conv = conv
         self.on_map = False
+        self.on_favorites = False
         self._globe_motion_gen += 1
         self._globe_flying = False
         self.stop_requested = False           # a Stop pressed in another chat doesn't carry over
@@ -2162,10 +2512,19 @@ class ChefBotApp:
         self.padded = []
         self.title_text = heading(conv.title, 18)
         self.title_text.max_lines, self.title_text.overflow = 1, ft.TextOverflow.ELLIPSIS
+        self.star_btn = ft.IconButton(
+            ft.Icons.STAR if conv.favorite else ft.Icons.STAR_BORDER,
+            icon_color=ft.Colors.AMBER_500 if conv.favorite else None,
+            tooltip="Remove from Favorites" if conv.favorite else "Save to Favorites",
+            on_click=lambda _: self.toggle_favorite(conv.id, refresh_view=False),
+        )
         self.page.appbar = ft.AppBar(
             leading=ft.IconButton(ft.Icons.ARROW_BACK, tooltip="Back", on_click=lambda _: self.go_home()),
             title=self.title_text, bgcolor=ft.Colors.TRANSPARENT,
-            actions=[ft.IconButton(ft.Icons.SETTINGS_OUTLINED, tooltip="Settings", on_click=self.open_settings)])
+            actions=[
+                self.star_btn,
+                ft.IconButton(ft.Icons.SETTINGS_OUTLINED, tooltip="Settings", on_click=self.open_settings),
+            ])
         # Build every message up front (not lazily) so scroll_to(scroll_key=...) can find any of them.
         self.thread = self._pad(ft.ListView(expand=True, spacing=16, auto_scroll=True, build_controls_on_demand=False,
                                             scroll_interval=150, on_scroll=self._on_thread_scroll), top=8, bottom=8)
@@ -2246,6 +2605,9 @@ class ChefBotApp:
         elif getattr(self, "on_map", False):
             self._map_back()
             await e.control.confirm_pop(False)
+        elif getattr(self, "on_favorites", False):
+            self._favorites_back()
+            await e.control.confirm_pop(False)
         elif self.conv is not None:
             self.go_home()
             await e.control.confirm_pop(False)
@@ -2285,6 +2647,21 @@ class ChefBotApp:
             if row.visible != show:
                 row.visible = show
                 row.update()
+
+    def _refresh_assistant_actions(self):
+        """Try again shows only on the latest assistant reply, and not while ChefBot is answering."""
+        if not self.conv:
+            return
+        last = len(self.conv.messages) - 1
+        has_latest_ai = last >= 1 and self.conv.messages[last].get("role") == "assistant"
+        for i, card_ctrl in self.cards.items():
+            btn = card_ctrl.data.get("try_again") if isinstance(card_ctrl.data, dict) else None
+            if btn is None:
+                continue
+            show = has_latest_ai and i == last and not self.busy
+            if btn.visible != show:
+                btn.visible = show
+                btn.update()
 
     def _cut_from(self, index: int) -> tuple[list[dict], dict[str, str]]:
         """Remove message `index` and everything after it. Returns what was removed (for undo)."""
@@ -2369,6 +2746,17 @@ class ChefBotApp:
             row.controls.append(ft.TextButton(
                 "New picture" if has_photo else "Picture this dish", icon=ft.Icons.PHOTO_CAMERA_OUTLINED,
                 on_click=lambda e: self._run(self.make_picture, index, e.control)))
+        is_latest = bool(
+            self.conv and index == len(self.conv.messages) - 1
+            and self.conv.messages[index].get("role") == "assistant" and not self.busy
+        )
+        try_btn = ft.TextButton(
+            "Try again", icon=ft.Icons.REFRESH,
+            visible=is_latest,
+            on_click=lambda e: self._run(self.retry_reply, index),
+        )
+        c.data["try_again"] = try_btn
+        row.controls.append(try_btn)
         row.visible = True
 
     def _set_status(self, text: str | None):
@@ -2397,6 +2785,37 @@ class ChefBotApp:
             c.disabled = self.busy
             c.update()
         self._refresh_user_tools()
+        self._refresh_assistant_actions()
+
+    async def retry_reply(self, index: int):
+        """Drop the latest AI reply and stream a fresh response for the preceding user message."""
+        if self.busy or not self.conv or self._need_key():
+            return
+        conv = self.conv
+        if index <= 0 or index != len(conv.messages) - 1 or conv.messages[index].get("role") != "assistant":
+            return
+        prev_user = conv.messages[index - 1]
+        old_card = self.cards.pop(index, None)
+        removed, photos = self._cut_from(index)
+        self.kept_photos |= set(photos.values())
+        if old_card is not None and old_card in self.thread.controls:
+            self.thread.controls.remove(old_card)
+            self.thread.update()
+        got_reply = False
+        try:
+            got_reply = await self.reply()
+        finally:
+            self.kept_photos -= set(photos.values())
+        if not got_reply:
+            if len(conv.messages) == index - 1:
+                conv.messages.append(prev_user)
+            del conv.messages[index:]
+            conv.messages.extend(removed)
+            conv.photos.update(photos)
+            conv.title = _latest_title(conv)
+            self.history.save(conv)
+            if self.conv is conv:
+                self.show_chat(conv)
 
     async def send_followup(self, e):
         text = (self.composer.value or "").strip()
@@ -2541,7 +2960,10 @@ class ChefBotApp:
                 self.keepalive.notify(f"Ready: {conv.title}", "Tap to open your recipe.")
 
         if not on_screen():            # finished in the background
-            if self.conv is None:      # on the home screen: show it in the list
+            if getattr(self, "on_favorites", False):
+                self._populate_favorites_body()
+                self.fav_body.update()
+            elif self.conv is None and not getattr(self, "on_map", False):      # on the home screen: show it in the list
                 self._refresh_recent()
                 self.recent.update()
             if error:
@@ -2559,6 +2981,7 @@ class ChefBotApp:
             self.title_text.value = conv.title
             self.title_text.update()
             self._refresh_user_tools()
+            self._refresh_assistant_actions()
         elif unsent is not None:
             self.show_chat(conv)
             self.composer.value = unsent

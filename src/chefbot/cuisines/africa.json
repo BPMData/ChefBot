@@ -3,8 +3,8 @@
     "id": "africa",
     "kind": "continent",
     "label": "Africa",
-    "subtitle": "North, West & East Africa",
-    "about": "Cuisines of North, West and East Africa.",
+    "subtitle": "North, West, Central, East & Southern",
+    "about": "Cuisines of North, West, Central, East and Southern Africa.",
     "prompt_name": "",
     "flavors": [],
     "sweet_only": [],
@@ -19,7 +19,11 @@
       "ethiopian",
       "egyptian",
       "nigerian",
-      "senegalese"
+      "senegalese",
+      "south_african",
+      "east_african",
+      "ghanaian",
+      "central_african"
     ]
   },
   {
@@ -419,6 +423,254 @@
       "bouillon cubes",
       "dried or smoked fish",
       "limes"
+    ],
+    "substitutes": []
+  },
+  {
+    "id": "south_african",
+    "kind": "cuisine",
+    "label": "South African",
+    "subtitle": "Pap, braai, Cape Malay, Durban curry",
+    "about": "Stretching from the Atlantic and Indian Ocean coasts around Cape Town and Durban across the Drakensberg escarpment to the Highveld around Johannesburg and the Orange and Limpopo river basins, South Africa encompasses distinct coastal, mountain, and interior foodways. Indigenous Xhosa, Zulu, and Sotho-Tswana grain-and-greens cooking met 17th-century Dutch settlement, enslaved and exiled Southeast Asian and Indian cooks at the Cape, and 19th-century Indian indentured laborers in KwaZulu-Natal, producing a multi-tradition cuisine spanning wood-fired grilled meats, slow-simmered maize and bean dishes, sweet-sour Cape stews, and fiery coastal curries. Representative dishes include umngqusho (samp and sugar beans), Cape Malay bobotie, potjiekos and braai boerewors, and Durban curry served in a hollowed-out bunny chow loaf.",
+    "prompt_name": "South African",
+    "flavors": [
+      "coriander seed (koljander)",
+      "Cape Malay and Durban curry masalas (kerriepoeier / masala)",
+      "fresh cilantro (dhania)",
+      "curry leaves (kerrieblare / kariveppilai)",
+      "fenugreek seed (methi)",
+      "tamarind (tamarinde / imli)",
+      "fruit chutney (blatjang)",
+      "mango or mixed-vegetable pickle (atchar)",
+      "spirit or cider vinegar (asyn)",
+      "cloves, nutmeg, and allspice (naeltjies, neutmuskaat, piment)",
+      "bird's eye chile and peri-peri sauce (piri-piri)",
+      "garlic and fresh ginger (knoffel en gemmer)"
+    ],
+    "sweet_only": [
+      "rosewater (rooswater)",
+      "vanilla (vanielje)",
+      "naartjie peel (naartjieskil, mainly in melktert, koesisters, and preserves, though historically used in some savory Cape stews)"
+    ],
+    "signature_ingredients": [
+      "white maize meal, coarse or fine (mieliemeel / impuphu) (substitute: white cornmeal or coarse white grits, with minor texture differences)",
+      "samp, coarsely cracked de-hulled dried corn kernels (substitute: dried white hominy or posole kernels, soaked and simmered longer)",
+      "speckled sugar beans (substitute: dried cranberry beans or pinto beans)",
+      "amasi or maas, thick cultured soured whole milk (substitute: plain whole-milk kefir or cultured buttermilk)",
+      "morogo or imifino, wild or cultivated leafy greens such as amaranth and pumpkin leaves (substitute: swiss chard, collard greens, or mature spinach)",
+      "boerewors, fresh coiled coriander-and-vinegar beef-and-pork sausage (substitute: none exact; coarsely ground beef and pork sausage seasoned with toasted coriander, cloves, nutmeg, and vinegar approximates it)",
+      "biltong, air-dried vinegar-and-coriander-cured beef strips (substitute: none; commercial beef jerky is usually sweeter and smoked rather than air-dried with coriander and vinegar)",
+      "waterblommetjies, aquatic Cape pondweed buds used in traditional bredie (substitute: none exact; trimmed green beans or young artichoke hearts approximate the vegetable role)"
+    ],
+    "tips": [
+      "Packaged South African curry powder or Durban masala: usually contains ground coriander, turmeric, cumin, chiles, fenugreek, paprika, cinnamon or cassia, ginger, cloves, and sometimes wheat flour or bran as a carrier. Swap 15 to 25 g dry blend per 1 kg meat or vegetables in curries or bobotie, or 50 to 80 g wet curry paste per 1 kg ingredients. Pure dry curry powders usually supply under 0.1 g salt per 100 g, whereas wet curry pastes vary substantially by brand (uncertain across brands for paste sodium; check the label and figure about 2.5 g salt per 1,000 mg sodium).",
+      "Commercial braai spice or seasoned braai salt: usually contains coarse sea or table salt, toasted coriander, paprika, black pepper, dried onion and garlic, sugar or dextrose, MSG or yeast extract, and sometimes mustard powder or vegetable oil. Rub 10 to 15 g per 1 kg meat or vegetables in place of separate salt and dry spices. Salt content ranges widely from roughly 50 g to 95 g salt per 100 g depending on whether sold as a spice rub or seasoned braai salt (uncertain across brands across brands; read the nutrition panel using about 2.5 g salt per 1,000 mg sodium and withhold extra salt until tasting).",
+      "Commercial boerewors sausage seasoning mix: usually contains salt, coarsely ground roasted coriander, black pepper, nutmeg, cloves, allspice, sugar or dextrose, wheat rusk or cereal binder, MSG, and often sulfite preservatives. Mix about 20 to 30 g dry seasoning with 40 to 50 ml vinegar per 1 kg coarse ground beef and pork instead of separate coriander, warm spices, and salt. Typical commercial packs run roughly 40 to 43 g salt per 100 g, around 15,000 to 17,000 mg sodium per 100 g (uncertain across brands across butcher and retail blends; verify the label at about 2.5 g salt per 1,000 mg sodium and omit additional salt).",
+      "Packaged brown onion soup powder (commonly used to thicken potjiekos and stews): usually contains cornstarch or wheat flour, salt, dehydrated onion, sugar, MSG or yeast extract, caramel color, and hydrolyzed vegetable or soy protein. Whisk 45 to 50 g dry powder into 250 ml water per 1.5 kg stew to thicken and season in place of flour and browned-onion stock. Standard US dry onion soup mixes average around 20 g salt per 100 g (roughly 8,000 mg sodium per 100 g), though South African packets subject to mandatory national sodium limits may contain less (uncertain across brands across US vs South African formulations; calculate from the label at about 2.5 g salt per 1,000 mg sodium and hold extra salt until tasting).",
+      "Store-bought fruit chutney or mango atchar: fruit chutney usually contains dried peaches or apricots, sugar, vinegar, onion, and warm spices, while mango atchar usually contains green mango, vegetable oil, mustard seed, fenugreek, turmeric, garlic, and chiles. Use 30 to 60 g fruit chutney in bobotie or glazes, or 15 to 30 g atchar as a sharp side condiment or stirred into beans and curries. Commercial fruit chutneys commonly supply roughly 1 g to 1.8 g salt per 100 g (though reduced-sodium versions can be under 0.2 g), while oil-cured mango atchars are far saltier at roughly 8 g to 12.5 g salt per 100 g (uncertain across brands across brands; check the label using about 2.5 g salt per 1,000 mg sodium)."
+    ],
+    "pitfalls": [
+      "Do not treat Cape Malay and Durban curries as interchangeable; Cape Malay dishes usually emphasize warm sweet spices and fruit or vinegar balance, whereas Durban curries are fiery red, oil-topped, and dairy-free.",
+      "Do not thicken traditional Durban curries with coconut milk or heavy cream in the style of Thai or North Indian restaurant dishes.",
+      "Do not collapse crumbly phuthu, smooth stiff pap, and fermented sorghum ting into a single uniform maize porridge.",
+      "Do not assume South African home cooking is all grilled meat; Indigenous staples such as umngqusho and morogo and vegetarian bean curries are everyday foundations.",
+      "Do not put pork into Cape Malay or Muslim Durban dishes, or beef into Hindu-tradition Durban curries, even though both meats are common in Afrikaans and many Indigenous kitchens."
+    ],
+    "avoid": [],
+    "children": [],
+    "pantry": [
+      "white maize meal (mieliemeel)",
+      "dried samp and sugar beans",
+      "long-grain white rice",
+      "neutral oil and butter",
+      "onions, garlic, and fresh ginger",
+      "canned tomatoes or tomato paste",
+      "ground coriander, turmeric, cumin, and curry powder",
+      "fruit chutney and smooth apricot jam",
+      "cider or spirit vinegar and Worcestershire sauce"
+    ],
+    "substitutes": []
+  },
+  {
+    "id": "east_african",
+    "kind": "cuisine",
+    "label": "East African",
+    "subtitle": "Ugali, nyama choma, tamarind, coconut pilau",
+    "about": "Kenya and Tanzania span the Indian Ocean coast—including Mombasa, Lamu, Dar es Salaam and the Zanzibar archipelago—and rise inland past Mount Kilimanjaro and Mount Kenya to the Great Rift Valley, Nairobi and Lake Victoria. Bantu, Nilotic and Cushitic farming and pastoralist communities, centuries of Indian Ocean dhow trade with Omani Arab, Persian and South Asian merchants, and Columbian Exchange crops shaped distinct coastal and highland cooking traditions. Inland kitchens often pair mild maize staples, braised leafy greens, legumes and charcoal-roasted meat with fresh relishes, while Swahili coastal dishes frequently layer fresh coconut milk, tamarind and warm whole spices; representative dishes include ugali with sukuma wiki, nyama choma, githeri and Swahili coconut-cardamom pilau.",
+    "prompt_name": "East African",
+    "flavors": [
+      "cardamom (hiliki)",
+      "cloves (karafuu)",
+      "cinnamon (mdalasini)",
+      "cumin (binzari nyembamba)",
+      "turmeric (binzari ya manjano)",
+      "fresh coriander/cilantro (dhania / giligilani)",
+      "tamarind (ukwaju)",
+      "hot bird's-eye or Scotch-bonnet-type chile (pilipili kichaa / pilipili mbuzi)",
+      "fresh ginger (tangawizi)",
+      "garlic (kitunguu saumu)",
+      "black pepper (pilipili manga)",
+      "lime or lemon (ndimu / limao)"
+    ],
+    "sweet_only": [
+      "rose water (marashi ya waridi)"
+    ],
+    "signature_ingredients": [
+      "fine white maize meal for ugali, sifted sembe or whole-grain dona (substitute: finely ground white cornmeal; yellow cornmeal changes flavor and color, and coarse polenta gives a different texture)",
+      "freshly pressed coconut milk, tui la nazi (substitute: canned unsweetened full-fat coconut milk, using the thick top cream for tui la kwanza and thinned milk for tui la pili)",
+      "dried or fresh pigeon peas, mbaazi (substitute: dried or canned pigeon peas from international aisles, or black-eyed peas for a similar legume stew)",
+      "green cooking bananas or unripe plantains, ndizi mbichi (substitute: firm green plantains)",
+      "pounded cassava leaves, kisamvu (substitute: none exact; collard greens or spinach do not match the texture or flavor)",
+      "sun-dried small freshwater fish, omena or dagaa (substitute: none exact; dried anchovies or dried smelts fill a related savory dried-fish role with different size and flavor)",
+      "unripe green papaya for tenderizing mishkaki (substitute: plain grated kiwi or fresh pineapple applied very briefly, though flavor differs)"
+    ],
+    "tips": [
+      "Commercial mchuzi seasoning and thickener mix (usually contains cornstarch, iodized salt, sugar, MSG and flavor enhancers, dried garlic, ginger, coriander, cumin, turmeric, cinnamon and meat flavoring or coloring): dissolve about 10-20 g in cold water per 1 kg stew ingredients as a quick savory gravy thickener for everyday inland stews, rather than as a substitute for whole coastal spices. Salt: varies widely because commercial mixes vary across markets and formulations (some retail packets report roughly 11-12 g salt or around 4,500 mg sodium per 100 g, roughly 2.5 g salt per 1,000 mg sodium), so check the package label and reduce separately added salt.",
+      "Packaged pilau masala spice blend (usually contains ground cumin, cardamom, cinnamon or cassia, cloves and black pepper, sometimes with coriander, nutmeg or bay leaf): use about 10-20 g per 1 kg rice and meat in place of freshly toasted and ground whole pilau spices. Salt: 0.0 g only when labeled pure spice; uncertain across brands for mixed retail packets that may include salt or fillers, so verify the nutrition label.",
+      "Commercial bouillon cubes or seasoning powder (usually contains salt, vegetable fat, starch, MSG or yeast extract, onion, spices and meat or vegetable flavorings): use only when a recipe explicitly calls for stock or bouillon (about 4-5 g per 500 ml liquid), and do not use it to replace coconut milk, tamarind or aromatic pilau spices. Salt: varies widely because sodium varies widely by brand (standard 4.5-5 g cubes often contain roughly 900-1,150 mg sodium, or about 2.2-2.9 g salt per cube at roughly 2.5 g salt per 1,000 mg sodium), so calculate from the package label and adjust separate salt.",
+      "Prepared tamarind paste or concentrate (usually concentrated tamarind pulp and water, sometimes with salt or preservatives): use about 15-30 g thinned in warm water per 1 kg fish, stew or sauce in place of soaking and straining raw tamarind pods, adjusting to taste because acidity varies. Salt: usually near 0.0 g for pure unsalted tamarind paste (roughly 24-28 mg sodium, well under 0.1 g salt, per 100 g), though uncertain across brands for seasoned commercial jars that add salt; check the label."
+    ],
+    "pitfalls": [
+      "Do not confuse Kenyan and Tanzanian cooking with Ethiopian or Eritrean cuisines by adding berbere, niter qibe or injera.",
+      "Do not treat Swahili coastal coconut-and-spice cooking as identical to inland highland cooking built around ugali, sukuma wiki, githeri and nyama choma.",
+      "Do not merge Swahili pilau and Swahili biryani into the same method: pilau is usually a deeply browned one-pot rice dish, whereas biryani layers separately cooked spiced meat curry with parboiled rice.",
+      "Do not make every Kenyan or Tanzanian dish heavily chili-hot; everyday ugali, sukuma wiki and coconut bean dishes are often mild, with heat served on the side as pilipili or kachumbari.",
+      "Do not automatically add generic curry powder or coconut milk to inland classics like nyama choma, ugali or traditional githeri."
+    ],
+    "avoid": [],
+    "children": [],
+    "pantry": [
+      "neutral cooking oil and ghee",
+      "white maize meal (unga wa mahindi)",
+      "long-grain or basmati rice",
+      "canned unsweetened coconut milk",
+      "dried beans or pigeon peas (mbaazi)",
+      "tomato paste",
+      "onions, garlic and ginger",
+      "cardamom, cloves, cinnamon, cumin and turmeric",
+      "tamarind paste (ukwaju) and limes",
+      "dried or fresh hot chiles"
+    ],
+    "substitutes": []
+  },
+  {
+    "id": "ghanaian",
+    "kind": "cuisine",
+    "label": "Ghanaian",
+    "subtitle": "Banku, shito, groundnut, smoked fish",
+    "about": "Ghana stretches from the Gulf of Guinea coast around Accra and the Volta River basin through humid forest zones around Kumasi to the drier northern savanna around Tamale. Akan, Ga-Dangme, Ewe, Mole-Dagbani, and other communities, alongside trans-Saharan commerce and the Atlantic exchange that brought maize, cassava, tomatoes, chiles, and peanuts, shaped a cooking tradition built on fermented or pounded starchy staples paired with richly layered soups, tomato stews, and pungent condiments. Representative dishes include banku with grilled tilapia and pepper sauces, fufu with groundnut or palm nut soup, waakye, and Ghanaian jollof rice.",
+    "prompt_name": "Ghanaian",
+    "flavors": [
+      "black pepper-shrimp condiment (shito)",
+      "fermented African locust bean condiment (dawadawa)",
+      "four-angled aidan pod (prekese)",
+      "grains of Selim (hwentia)",
+      "calabash nutmeg (wedeaba)",
+      "grains of paradise or alligator pepper (fom wisa)",
+      "fresh ginger (akakaduro)",
+      "Scotch bonnet or local aromatic green chile (kpakpo shito / mako)",
+      "fermented salted fish seasoning (momoni)",
+      "anise seed (nkitinkiti)",
+      "cloves (pepre)"
+    ],
+    "sweet_only": [],
+    "signature_ingredients": [
+      "fermented corn dough and cassava dough for banku and kenkey (substitute: none exact; unfermented cornmeal or masa harina lacks the lactic tang and cohesive stretch)",
+      "fresh oil palm fruit pulp and unrefined red palm oil for abenkwan and stews (substitute: canned palm fruit concentrate for soup; neutral oil lacks red palm oil flavor and color)",
+      "dried sorghum leaves (waakye leaves) for waakye (substitute: none exact; a pinch of baking soda mimics the alkaline effect on black-eyed peas without the burgundy color or earthy aroma)",
+      "cocoyam leaves (kontomire) for kontomire stew and ebunuebunu soup (substitute: fresh spinach or collard greens, approximate)",
+      "african garden eggs, small bitter-sweet eggplants (substitute: Thai or small globe eggplants, approximate)",
+      "white African yam (Dioscorea rotundata) and green plantain for fufu and ampesi (substitute: none exact for white yam, as orange sweet potato is distinct; green plantains are common in Latin markets)",
+      "agushie, ground oil-rich melon seeds for palava sauce (substitute: hulled pepitas approximate body but are not flavor-equivalent)"
+    ],
+    "tips": [
+      "Jarred shito (usually vegetable oil, onions, dried chiles, ginger, garlic, tomato paste, dried shrimp, dried smoked fish or herring, spices, and salt or bouillon): use 15 to 30 g as a condiment per serving or 20 to 40 g to season a pan of rice or stew base in place of homemade shito. Salt estimate is varies widely because commercial jars vary widely (often roughly 800 to 2,300 mg sodium per 100 g, or roughly 2.0 to 5.8 g salt per 100 g, computed at about 2.5 g salt per 1,000 mg sodium); check the nutrition label and reduce added salt.",
+      "Canned palm fruit concentrate or palm nut soup base (usually pressed oil palm fruit pulp, water, and often added salt): dilute roughly 400 g canned concentrate with 700 to 1,000 ml stock and water to replace boiling and pounding fresh palm nuts for abenkwan. Salt estimate is varies widely because some cans are unsalted while salted imports often report around 150 to 180 mg sodium per 100 to 133 g serving (about 0.38 to 0.45 g salt per serving at about 2.5 g salt per 1,000 mg sodium); taste before salting, especially when cooking with koobi or momoni.",
+      "Instant fufu flour or dehydrated plantain-cassava or yam flour (usually dehydrated cassava, plantain, or yam starch, sometimes with stabilizers): whisk 100 g dry flour into roughly 350 to 450 ml hot water and stir over medium-low heat to approximate pounded fufu without a mortar, though stretch and aroma differ. Salt is usually 0.0 g for pure dehydrated root and plantain flours, though seasoned blends vary; verify the ingredient list.",
+      "Commercial bouillon cube or shrimp seasoning powder (usually salt, flavor enhancers, vegetable or palm fat, starch, spices, and sometimes soy, wheat, or milk derivatives): use only when a modern recipe calls for commercial seasoning rather than replacing dawadawa or momoni 1:1; dose by package directions and reduce or omit separate salt. Salt estimate is varies widely because brand formulations vary substantially (check the sodium line and use about 2.5 g salt per 1,000 mg sodium)."
+    ],
+    "pitfalls": [
+      "Do not treat Ghanaian and Nigerian jollof as identical; Ghanaian cooks usually use fragrant jasmine or basmati rice rather than parboiled long-grain rice and rarely aim for a charred firewood flavor.",
+      "Do not assume Ghanaian cooking is uniformly peanut-based or palm-oil-based; light soup (nkrakra), tomato stews, and northern millet-based tuo zaafi follow distinct fat and seasoning patterns.",
+      "Do not substitute Southeast Asian fish sauce or oyster sauce for Ghanaian momoni, koobi, or dried shrimp without noting the major difference in cured aroma and saltiness.",
+      "Do not replace white African yam (Dioscorea rotundata) with orange sweet potato without clarifying that they differ substantially in texture and sweetness.",
+      "Do not omit the lactic sourness of fermented maize and cassava dough when writing banku or kenkey recipes by presenting unfermented cornmeal or grits as equivalent."
+    ],
+    "avoid": [],
+    "children": [],
+    "pantry": [
+      "red palm oil and neutral oil",
+      "tomato paste",
+      "onions, garlic and fresh ginger",
+      "Scotch bonnet or habanero chiles",
+      "shito (black pepper-shrimp condiment)",
+      "unsweetened peanut butter",
+      "jasmine or long-grain white rice",
+      "dried black-eyed peas",
+      "gari (roasted cassava granules)",
+      "bouillon cubes"
+    ],
+    "substitutes": []
+  },
+  {
+    "id": "central_african",
+    "kind": "cuisine",
+    "label": "Central African",
+    "subtitle": "Palm butter, cassava leaves, njangsang",
+    "about": "Stretching from Cameroon's volcanic highlands and Atlantic coast across Gabon's equatorial rainforests to the vast Congo River basin and cities such as Douala, Libreville, Brazzaville, and Kinshasa, Central African cooking is anchored in forest, river, and coastal ecologies. Bantu-speaking and forest-dwelling communities built traditions around palm oil, wild forest seeds, river fish, and plantains, later reshaped by Portuguese and transatlantic introductions of cassava, peanuts, and chiles alongside French and Belgian urban influences into slow-simmered stews, pounded greens, and leaf-wrapped steamed dishes. Representative dishes include pondu (or saka-saka), poulet moambe (or nyembwe), Cameroonian ndolé, and fish liboké served with fufu or chikwangue.",
+    "prompt_name": "Central African",
+    "flavors": [
+      "hot bird's-eye or habanero chile (pili-pili / pilipili)",
+      "country onion (rondelle / olom / bobimbi)",
+      "penja white or black pepper (poivre de Penja)",
+      "calabash nutmeg (pèbè)",
+      "njangsang seeds (njangsa / akpi)",
+      "mbongo charred spice blend (mbongo)",
+      "african basil / clove basil (masepo / masoso)",
+      "fresh ginger (tangawisi in Lingala)",
+      "fresh cilantro (cotomili)",
+      "leeks and scallions (poireaux / oignons verts)",
+      "commercial bouillon cubes or powder (cube d'assaisonnement)"
+    ],
+    "sweet_only": [
+      "used mainly in mikate beignets, sweet porridges, and drinks (vanilla)"
+    ],
+    "signature_ingredients": [
+      "palm nut pulp / moambe cream (substitute: unsweetened natural peanut butter blended with unrefined red palm oil and sweet paprika, which shifts the flavor toward groundnut stew)",
+      "unrefined red palm oil (substitute: none exact; neutral oil tinted with annatto mimics color only without the earthy berry-like flavor)",
+      "cassava leaves for pondu or saka-saka (substitute: finely chopped collard greens, kale, or turnip greens mixed with spinach; lacks cassava leaves' nutty bitterness and requires a shorter simmer)",
+      "bitterleaf / Vernonia amygdalina for ndolé (substitute: none exact; well-washed dandelion greens or mustard greens mixed with spinach approximate some bitterness)",
+      "chikwangue / bobolo fermented cassava loaves (substitute: none; plain boiled cassava or steamed rice serves as a different starchy accompaniment)",
+      "odika / wild mango seed paste (substitute: ground ogbono / Irvingia gabonensis if available, otherwise none)",
+      "fumbua / okok / Gnetum africanum shredded wild leaves (substitute: finely shredded kale or collard greens, which lack the chewy texture)",
+      "smoked river fish or dried stockfish / salted cod (makayabu) (substitute: smoked mackerel or dried salted cod/bacalao soaked to desalinate)",
+      "marantaceae or banana leaves for liboké wrapping (substitute: parchment paper sealed inside aluminum foil for steaming)"
+    ],
+    "tips": [
+      "Commercial canned palm nut cream or palm soup base (moambe or nyembwe paste): plain cans usually contain extracted oil palm fruit pulp and water (occasionally with added salt), while prepared soup bases may include salt, spices, or bouillon. Swap by weight: use 200-400 g canned palm cream per 1 kg poultry or meat, thinning with water or stock to stew consistency. Salt: varies widely because plain cans may have near-zero salt while seasoned palm soup bases vary widely by brand; check the label and calculate about 2.5 g salt per 1,000 mg sodium before adding extra salt or bouillon.",
+      "Commercial bouillon cubes or powder: usually contain salt (commonly 40% to 76% by weight in regional nutrition analyses), monosodium glutamate, hydrolyzed vegetable protein or yeast extract, palm fat, starch, and dried aromatics. Swap by weight: use roughly 4-10 g (about half to one standard cube depending on cube size) per 1 kg stew or soup in place of salt and stock base. Salt: uncertain across brands across brands, as regional cubes often supply about 900 to over 1,000 mg sodium per cube (roughly 2.2 to 2.5 g salt, calculated at about 2.5 g salt per 1,000 mg sodium); verify the package label and omit or sharply reduce separately added salt.",
+      "Frozen pre-pounded cassava leaves: usually contain shredded or pounded cassava leaves (almost always pre-blanched before freezing, though package instructions vary) and water, without added spices. Swap by weight: replace fresh pounded cassava leaves 1:1 by weight (typically 450-900 g frozen leaves for a family pot), thawing and simmering 45 to 90 minutes to ensure tenderness and full breakdown. Salt: usually 0 g in plain frozen packs; verify the label for seasoned packs and calculate about 2.5 g salt per 1,000 mg sodium if seasoned."
+    ],
+    "pitfalls": [
+      "Do not treat canned palm nut cream (moambe/nyembwe) and clear unrefined red palm oil as interchangeable; palm cream provides thick body and emulsion while red palm oil is a cooking fat.",
+      "Do not confuse Central African country onion (Afrostyrax lepidophyllus, rondelle) with calabash nutmeg (Monodora myristica, pèbè); they are distinct spices with garlic-truffle versus nutmeg-like aromas.",
+      "Do not substitute raw, quickly sautéed spinach for cassava leaves or bitterleaf without adjusting technique; traditional pondu and ndolé require extended simmering or multi-stage washing to remove bitterness and cyanogenic compounds.",
+      "Do not assume Central African cuisine is uniform across Cameroon, Gabon, and the Congos or identical to West African cooking; signature ingredients such as odika, mbongo, and Penja pepper are strongly localized.",
+      "Do not omit soaking and rinsing salted fish (makayabu) or add full table salt alongside commercial bouillon cubes and ground crayfish, which easily over-salts stews."
+    ],
+    "avoid": [],
+    "children": [],
+    "pantry": [
+      "unrefined red palm oil",
+      "neutral vegetable oil",
+      "onions, garlic and fresh ginger",
+      "leeks or scallions",
+      "hot chiles (pili-pili or habanero)",
+      "tomato paste",
+      "unsweetened peanut butter",
+      "commercial bouillon cubes",
+      "ground dried crayfish",
+      "cassava flour (fufu) or white rice"
     ],
     "substitutes": []
   }

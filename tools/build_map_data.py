@@ -61,6 +61,9 @@ FORCE_CALLOUT_IDS = {
     "hungarian",
     "tunisian",
     "senegalese",
+    "ghanaian",
+    "guianas",
+    "us_native_american",
 }
 
 # Distinct palette key per region so every continent, country, and regional cuisine is visually distinct.
@@ -71,14 +74,21 @@ REGION_COLORS: dict[str, str] = {
     "near_east": "amber",
     "africa": "orange",
     "asia": "teal",
+    "oceania": "green",
+    # Oceania
+    "australian": "amber",
+    "new_zealander": "teal",
     # Americas
     "quebecois": "green",
     "united_states": "blue",
     "mexico": "amber",
     "caribbean": "teal",
     "colombian": "amber",
+    "venezuelan": "orange",
+    "guianas": "pink",
     "brazilian": "green",
     "peruvian": "coral",
+    "chilean": "indigo",
     "argentinian": "purple",
     # Asia
     "china": "coral",
@@ -112,14 +122,20 @@ REGION_COLORS: dict[str, str] = {
     "turkish": "coral",
     "palestinian_levantine": "teal",
     "persian": "amber",
+    "iraqi": "blue",
+    "yemeni": "green",
     # Africa
     "moroccan_north_african": "coral",
     "algerian": "amber",
     "tunisian": "teal",
     "egyptian": "blue",
     "senegalese": "purple",
+    "ghanaian": "amber",
     "nigerian": "green",
+    "central_african": "cyan",
     "ethiopian": "orange",
+    "east_african": "pink",
+    "south_african": "indigo",
     # United States
     "us_tex_mex": "amber",
     "us_new_mexican": "teal",
@@ -129,6 +145,10 @@ REGION_COLORS: dict[str, str] = {
     "us_southern_soul": "green",
     "us_new_england": "blue",
     "us_italian_american": "orange",
+    "us_pacific_northwest": "cyan",
+    "us_great_lakes": "indigo",
+    "us_appalachian": "amber",
+    "us_native_american": "purple",
     # Mexico
     "mx_northern_baja": "amber",
     "mx_central_oaxacan": "coral",
@@ -151,6 +171,7 @@ REGION_COLORS: dict[str, str] = {
     "kansai": "teal",
     # India
     "north_india": "amber",
+    "central_west_india": "coral",
     "south_india": "teal",
     # Italy
     "northern_italy": "blue",
@@ -173,11 +194,17 @@ ACADIANA_PARISHES = {
 CREOLE_PARISHES = {"Orleans", "Jefferson", "St. Bernard", "Plaquemines"}
 US_SOUTHEAST_STATES = {"AL", "GA", "MS", "SC", "NC", "TN", "AR"}
 US_NEW_ENGLAND_STATES = {"ME", "NH", "VT", "MA", "RI", "CT"}
-# Italian-American (NYC area), by county. NY, NJ and CT are drawn from county outlines; the rest of NY and NJ
-# is background, the rest of CT New England. Since 2022 the Census files use CT's planning regions instead of
-# counties: Western Connecticut and Greater Bridgeport cover old Fairfield County, South Central Connecticut
-# covers New Haven (Naugatuck Valley, borderline, stays New England).
-US_SPLIT_STATEFP = {"09": "CT", "34": "NJ", "36": "NY"}
+US_PNW_STATES = {"WA", "OR"}
+US_GREAT_LAKES_STATES = {"MN", "WI", "MI"}
+US_APPALACHIAN_STATES = {"WV", "KY"}
+# Italian-American (NYC area) and Indigenous US heartland clusters are drawn from county outlines;
+# remaining counties in those split states stay background (or New England for CT).
+US_SPLIT_STATEFP = {"04": "AZ", "09": "CT", "34": "NJ", "36": "NY", "40": "OK", "46": "SD"}
+US_NATIVE_AMERICAN_COUNTIES = {
+    "AZ": {"Apache", "Navajo"},
+    "SD": {"Oglala Lakota", "Todd", "Corson", "Dewey", "Ziebach"},
+    "OK": {"Osage", "Cherokee", "Adair", "Sequoyah", "Delaware"},
+}
 US_ITALIAN_AMERICAN_COUNTIES = {
     "NY": {"New York", "Kings", "Queens", "Bronx", "Richmond", "Nassau", "Suffolk", "Westchester", "Rockland",
            "Putnam", "Orange"},
@@ -200,8 +227,12 @@ JP_KANTO = {"Tokyo", "Kanagawa", "Saitama", "Chiba", "Ibaraki", "Tochigi", "Gunm
 JP_KANSAI = {"Ōsaka", "Kyōto", "Hyōgo", "Nara", "Wakayama", "Shiga", "Mie"}
 
 IN_NORTH = {
-    "Punjab", "Haryana", "Delhi", "Uttar Pradesh", "Rajasthan",
+    "Punjab", "Haryana", "Delhi", "Uttar Pradesh",
     "Himachal Pradesh", "Uttarakhand", "Jammu and Kashmir", "Ladakh", "Chandigarh",
+}
+IN_CENTRAL_WEST = {
+    "Maharashtra", "Gujarat", "Rajasthan", "Madhya Pradesh",
+    "Goa", "Dadra and Nagar Haveli and Daman and Diu",
 }
 IN_SOUTH = {"Tamil Nadu", "Kerala", "Karnataka", "Andhra Pradesh", "Telangana", "Puducherry"}
 
@@ -218,7 +249,7 @@ LEVANT_A3 = {"PSX", "LBN", "SYR", "JOR", "ISR"}
 
 def load_node_labels() -> dict[str, dict]:
     nodes: dict[str, dict] = {}
-    for name in ("americas", "asia", "europe", "near_east", "africa"):
+    for name in ("americas", "asia", "europe", "near_east", "africa", "oceania"):
         data = json.loads((CUISINES_DIR / f"{name}.json").read_text(encoding="utf-8"))
         for n in data:
             nodes[n["id"]] = n
@@ -508,9 +539,12 @@ CALLOUT_POSITIONS: dict[str, dict[str, tuple[float, float]]] = {
     "world": {},
     "americas": {
         "quebecois": (302.0, 128.0),
-        "caribbean": (294.0, 206.0),
-        "colombian": (160.0, 276.0),
-        "peruvian": (72.0, 344.0),
+        "caribbean": (288.0, 198.0),
+        "venezuelan": (296.0, 236.0),
+        "guianas": (310.0, 272.0),
+        "colombian": (156.0, 276.0),
+        "peruvian": (146.0, 316.0),
+        "chilean": (166.0, 360.0),
     },
     "asia": {
         "afghan": (52.0, 134.0),
@@ -538,11 +572,14 @@ CALLOUT_POSITIONS: dict[str, dict[str, tuple[float, float]]] = {
     "africa": {
         "tunisian": (204.0, 56.0),
         "senegalese": (54.0, 252.0),
+        "ghanaian": (94.0, 286.0),
     },
     "united_states": {
         "us_new_england": (274.0, 114.0),
         "us_italian_american": (300.0, 352.0),
+        "us_appalachian": (304.0, 290.0),
         "us_new_mexican": (104.0, 196.0),
+        "us_native_american": (124.0, 338.0),
         "us_hawaiian": (72.0, 384.0),
         "us_cajun": (188.0, 412.0),
         "us_creole": (282.0, 412.0),
@@ -723,6 +760,7 @@ def build_all() -> dict[str, dict]:
         "near_east": [],
         "asia": [],
         "africa": [],
+        "oceania": [],
     }
     world_bg: list[list[tuple[float, float]]] = []
     for rec, rings in country_records:
@@ -757,6 +795,12 @@ def build_all() -> dict[str, dict]:
             world_regions["africa"].extend(rings)
         elif cont == "Asia":
             world_regions["asia"].extend(rings)
+        elif cont == "Oceania":
+            for r in rings:
+                if ring_bbox(r)[0] > 100.0:
+                    world_regions["oceania"].append(r)
+                else:
+                    world_bg.append(r)
         else:
             world_bg.extend(rings)
 
@@ -773,6 +817,7 @@ def build_all() -> dict[str, dict]:
             "near_east": countries_by_a3["SAU"],
             "africa": countries_by_a3["COD"] + countries_by_a3["CAF"],
             "asia": countries_by_a3["CHN"],
+            "oceania": countries_by_a3["AUS"],
         },
     )
 
@@ -782,24 +827,45 @@ def build_all() -> dict[str, dict]:
         "mexico": {"MEX"},
         "caribbean": {"CUB", "JAM", "PRI"},
         "colombian": {"COL"},
+        "venezuelan": {"VEN"},
         "brazilian": {"BRA"},
         "peruvian": {"PER"},
+        "chilean": {"CHL"},
         "argentinian": {"ARG"},
     }
     am_regions = {k: [] for k in americas_map}
     am_regions["quebecois"] = []
+    am_regions["guianas"] = []
     am_bg = []
     for rec, rings in country_records:
         a3 = rec["ADM0_A3"]
         if a3 == "CAN":
             continue
+        if a3 in {"GUY", "SUR"}:
+            am_regions["guianas"].extend(rings)
+            continue
+        if a3 == "FRA":
+            for r in rings:
+                x0, y0, x1, y1 = ring_bbox(r)
+                if x1 < -30.0 and y1 < 10.0:
+                    am_regions["guianas"].append(r)
+                elif x1 < -30.0:
+                    am_bg.append(r)
+            continue
         matched = False
         for rid, a3_set in americas_map.items():
             if a3 in a3_set:
-                am_regions[rid].extend(rings)
+                if rid == "chilean":
+                    for r in rings:
+                        if ring_bbox(r)[0] > -85.0:
+                            am_regions[rid].append(r)
+                        else:
+                            am_bg.append(r)
+                else:
+                    am_regions[rid].extend(rings)
                 matched = True
                 break
-        if not matched and (rec["CONTINENT"] in ("North America", "South America") or rec["REGION_UN"] == "Americas" or a3 == "FRA"):
+        if not matched and (rec["CONTINENT"] in ("North America", "South America") or rec["REGION_UN"] == "Americas"):
             am_bg.extend(rings)
     for rec, rings in admin1_records:
         if rec["iso_a2"] != "CA":
@@ -908,6 +974,8 @@ def build_all() -> dict[str, dict]:
         "palestinian_levantine": LEVANT_A3,
         "persian": {"IRN"},
         "turkish": {"TUR"},
+        "yemeni": {"YEM"},
+        "iraqi": {"IRQ"},
     }
     ne_regions = {k: [] for k in ne_map}
     ne_bg = []
@@ -942,6 +1010,10 @@ def build_all() -> dict[str, dict]:
         "egyptian": {"EGY"},
         "nigerian": {"NGA"},
         "senegalese": {"SEN"},
+        "ghanaian": {"GHA"},
+        "central_african": {"COD", "COG", "CMR", "GAB"},
+        "east_african": {"KEN", "TZA"},
+        "south_african": {"ZAF"},
     }
     af_regions = {k: [] for k in africa_map}
     af_bg = []
@@ -966,6 +1038,40 @@ def build_all() -> dict[str, dict]:
         min_area_px=2.5,
     )
 
+    # 6b. OCEANIA
+    oceania_map = {
+        "australian": {"AUS"},
+        "new_zealander": {"NZL"},
+    }
+    oc_regions = {k: [] for k in oceania_map}
+    oc_bg = []
+    for rec, rings in country_records:
+        a3 = rec["ADM0_A3"]
+        matched = False
+        for rid, a3_set in oceania_map.items():
+            if a3 in a3_set:
+                for r in rings:
+                    x0, y0, x1, y1 = ring_bbox(r)
+                    if x0 > 100.0 and y0 > -48.0:
+                        oc_regions[rid].append(r)
+                matched = True
+                break
+        if not matched and rec["CONTINENT"] == "Oceania":
+            for r in rings:
+                x0, y0, x1, y1 = ring_bbox(r)
+                if x0 > 100.0 and y0 > -48.0:
+                    oc_bg.append(r)
+
+    levels_out["oceania"] = finalize_level(
+        "oceania",
+        oc_regions,
+        oc_bg,
+        window=(110.5, -48.5, 179.0, -8.5),
+        pad=(18.0, 26.0, 18.0, 26.0),
+        epsilon=0.55,
+        min_area_px=2.0,
+    )
+
     # 7. UNITED STATES
     us_regions: dict[str, list[list[tuple[float, float]]]] = {
         "us_cajun": [],
@@ -976,6 +1082,10 @@ def build_all() -> dict[str, dict]:
         "us_new_england": [],
         "us_italian_american": [],
         "us_hawaiian": [],
+        "us_pacific_northwest": [],
+        "us_great_lakes": [],
+        "us_appalachian": [],
+        "us_native_american": [],
     }
     us_bg: list[list[tuple[float, float]]] = []
     for pname, rings in la_parishes.items():
@@ -986,13 +1096,16 @@ def build_all() -> dict[str, dict]:
         else:
             us_regions["us_southern_soul"].extend(rings)
     found = {key for key in split_counties}
-    for state, names in US_ITALIAN_AMERICAN_COUNTIES.items():
-        missing = {n for n in names if (state, n) not in found}
-        if missing:
-            raise SystemExit(f"County names not in the shapefile for {state}: {sorted(missing)}")
+    for county_map in (US_ITALIAN_AMERICAN_COUNTIES, US_NATIVE_AMERICAN_COUNTIES):
+        for state, names in county_map.items():
+            missing = {n for n in names if (state, n) not in found}
+            if missing:
+                raise SystemExit(f"County names not in the shapefile for {state}: {sorted(missing)}")
     for (state, cname), rings in split_counties.items():
-        if cname in US_ITALIAN_AMERICAN_COUNTIES[state]:
+        if cname in US_ITALIAN_AMERICAN_COUNTIES.get(state, ()):
             us_regions["us_italian_american"].extend(rings)
+        elif cname in US_NATIVE_AMERICAN_COUNTIES.get(state, ()):
+            us_regions["us_native_american"].extend(rings)
         elif state in US_NEW_ENGLAND_STATES:
             us_regions["us_new_england"].extend(rings)
         else:
@@ -1031,6 +1144,12 @@ def build_all() -> dict[str, dict]:
             us_regions["us_new_mexican"].extend(rings)
         elif postal in US_NEW_ENGLAND_STATES:
             us_regions["us_new_england"].extend(rings)
+        elif postal in US_PNW_STATES:
+            us_regions["us_pacific_northwest"].extend(rings)
+        elif postal in US_GREAT_LAKES_STATES:
+            us_regions["us_great_lakes"].extend(rings)
+        elif postal in US_APPALACHIAN_STATES:
+            us_regions["us_appalachian"].extend(rings)
         else:
             us_bg.extend(rings)
 
@@ -1183,6 +1302,7 @@ def build_all() -> dict[str, dict]:
     # 12. INDIA
     in_regions: dict[str, list[list[tuple[float, float]]]] = {
         "north_india": [],
+        "central_west_india": [],
         "south_india": [],
     }
     in_bg: list[list[tuple[float, float]]] = []
@@ -1194,6 +1314,8 @@ def build_all() -> dict[str, dict]:
             continue
         if name in IN_NORTH:
             in_regions["north_india"].extend(rings)
+        elif name in IN_CENTRAL_WEST:
+            in_regions["central_west_india"].extend(rings)
         elif name in IN_SOUTH:
             in_regions["south_india"].extend(rings)
         else:
@@ -1250,6 +1372,7 @@ GLOBE_META: dict[str, dict[str, list[float]]] = {
     "near_east": {"center": [44.0, 26.0], "focus": [44.0, 26.0]},
     "africa": {"center": [20.0, 6.0], "focus": [20.0, 6.0]},
     "asia": {"center": [102.0, 35.0], "focus": [102.0, 35.0]},
+    "oceania": {"center": [134.0, -25.0], "focus": [146.0, -28.0]},
 }
 
 
@@ -1335,6 +1458,7 @@ def build_globe() -> dict:
         "near_east": [],
         "asia": [],
         "africa": [],
+        "oceania": [],
     }
     globe_bg: list[list[tuple[float, float]]] = []
     antarctica_rings: list[list[tuple[float, float]]] = []
@@ -1375,6 +1499,12 @@ def build_globe() -> dict:
             globe_regions["africa"].extend(rings)
         elif cont == "Asia":
             globe_regions["asia"].extend(rings)
+        elif cont == "Oceania":
+            for r in rings:
+                if ring_bbox(r)[0] > 100.0:
+                    globe_regions["oceania"].append(r)
+                else:
+                    globe_bg.append(r)
         else:
             globe_bg.extend(rings)
 

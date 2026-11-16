@@ -778,5 +778,35 @@
       "Jarred salsa tartufata (mushrooms, oil, black summer truffle, olives, salt and truffle aroma) runs roughly 1 to 1.5 g salt per 100 g, varying by brand; use 15 to 20 g per serving, thinned with starchy pasta water, and salt the sauce a little less.",
       "Bottled passata (strained raw tomato puree) ranges from no added salt to about 0.5 g salt per 100 g, so check the label; it replaces peeled plum tomatoes passed through a food mill 1:1 by weight."
     ]
+  },
+  "north_india": {
+    "about": "This broad app category covers the Indo-Gangetic plain, Punjab, Delhi, Uttar Pradesh, Bihar, Kashmir and Himalayan regions, whose cuisines differ substantially. Persianate and Mughal court traditions strongly shaped some urban northern cooking while farming and pastoral traditions shaped others; roti with dal or vegetables, kebabs, biryani and Punjabi-style tandoori foods are representative but not universal."
+  },
+  "central_west_india": {
+    "avoid": [
+      "heavy cream",
+      "paneer",
+      "naan",
+      "generic curry powder"
+    ]
+  },
+  "us_native_american": {
+    "avoid": [
+      "frybread",
+      "shredded cheddar cheese",
+      "sour cream",
+      "Tex-Mex taco seasoning",
+      "heavy cream",
+      "butter-flour roux",
+      "filé",
+      "sassafras"
+    ],
+    "pitfalls": [
+      "Treating frybread, Indian tacos, or cheese-topped commodity dishes as pre-colonial cuisine rather than post-1860s reservation survival foods built from government rations of white flour and lard.",
+      "Flattening hundreds of distinct sovereign nations into one generic menu, such as putting Southwest chiles into Great Lakes wild rice soups or Pacific Northwest cedar-salmon dishes.",
+      "Confusing Indigenous North American corn-and-chile cooking with Tex-Mex restaurant fare by automatically adding ground cumin, cilantro, sour cream, and shredded cheddar cheese.",
+      "Thickening pre-colonial stews with European butter-and-wheat-flour roux or heavy cream instead of squash puree, parched cornmeal, or natural starch from steeping.",
+      "Assuming cultivated black paddy rice cooks like hand-harvested lake manoomin, which is lighter brown-green, nuttier, and cooks in roughly half the time."
+    ]
   }
 }

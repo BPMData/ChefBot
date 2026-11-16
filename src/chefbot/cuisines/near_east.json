@@ -3,8 +3,8 @@
     "id": "near_east",
     "kind": "continent",
     "label": "Near East",
-    "subtitle": "Levant, Iran & Anatolia",
-    "about": "Cuisines of the Levant, Iran and Anatolia.",
+    "subtitle": "Levant, Arabia, Iraq, Iran & Anatolia",
+    "about": "Cuisines of the Levant, Arabia, Mesopotamia, Iran and Anatolia.",
     "prompt_name": "",
     "flavors": [],
     "sweet_only": [],
@@ -15,7 +15,9 @@
     "children": [
       "palestinian_levantine",
       "persian",
-      "turkish"
+      "turkish",
+      "yemeni",
+      "iraqi"
     ]
   },
   {
@@ -202,6 +204,133 @@
       "rice and bulgur",
       "olive oil and butter",
       "bread"
+    ],
+    "substitutes": []
+  },
+  {
+    "id": "yemeni",
+    "kind": "cuisine",
+    "label": "Yemeni",
+    "subtitle": "Hawaij, fenugreek foam, zhoug, flatbreads",
+    "about": "Yemeni home cooking spans the terraced western highlands around Sana'a, the hot Red Sea coastal plain of Tihama, the southern port of Aden, and the eastern desert wadis of Hadhramaut. Summer monsoon rains and ancient mountain terraces sustained sorghum, millet, wheat, and coffee, while Red Sea and Indian Ocean trade connected Yemen with India, East Africa, and Southeast Asia alongside centuries of Jewish and Ottoman exchange. Everyday meals center on warm spice blends, clay-oven or skillet flatbreads, whipped fenugreek, chili-herb pastes, smoked clarified butter, and honey, with representative dishes including saltah, fahsa, mandi, and zhurbian.",
+    "prompt_name": "Yemeni",
+    "flavors": [
+      "savory hawaij spice blend (حوايج, hawaij)",
+      "fenugreek (حلبة, hulba)",
+      "chili-herb paste (سحاوق, sahawiq or zhoug)",
+      "chili peppers (بسباس, bisbas)",
+      "cumin (كمون, kammun)",
+      "coriander and cilantro (كزبرة, kuzbara)",
+      "turmeric (كركم, kurkum)",
+      "green cardamom (هيل, hayl)",
+      "garlic (ثوم, thum)",
+      "smoked clarified butter (سمن, samn)",
+      "cold-pressed sesame oil (سليط, salit)",
+      "nigella seeds (حبة البركة, habbat al-baraka)"
+    ],
+    "sweet_only": [
+      "ginger (coffee hawaij spice blend)",
+      "mainly in Adeni halwa and festive sweets (rosewater)",
+      "prized jujube honey poured mainly over bint al-sahn, areeka, and masoub (Sidr honey)"
+    ],
+    "signature_ingredients": [
+      "sorghum flour and grain (ذرة, dhura) (substitute: millet flour or whole-wheat flour; earthy flavor differs)",
+      "lahooh (لحوح, spongy fermented flatbread) (substitute: east African injera, or a thin fermented pancake cooked on one side only)",
+      "malawah (ملوح, flaky ghee-layered flatbread) (substitute: uncooked frozen plain South Asian paratha)",
+      "qishr (قشر, dried coffee cherry husks) (substitute: specialty cascara tea; none in standard US supermarkets)",
+      "lakhm (لخم, Hadhrami cured dried shark) (substitute: salted dried cod, soaked well; flavor is milder)",
+      "wazif (وزف, sun-dried baby sardines) (substitute: asian dried anchovies or rinsed oil-packed anchovies; intensity differs)"
+    ],
+    "tips": [
+      "Commercial savory hawaij spice blend: usually contains ground cumin, black pepper, turmeric, and cardamom, sometimes with coriander or cloves. Substitute 1:1 by weight for homemade savory hawaij. Most pure spice blends contain 0 mg sodium (0 g salt), though salted blends exist (uncertain across brands on whether an unlabeled mix is salted); check the nutrition label and reduce added recipe salt by about 2.5 g salt per 1,000 mg sodium for the weight used.",
+      "Prepared refrigerated or jarred zhoug paste: usually contains cilantro, hot green chiles, garlic, vegetable oil, salt, and warm spices such as cumin and cardamom. Swap 1:1 by weight for homemade green sahawiq, noting that commercial pastes are often milder and oilier than mortar-pounded versions. Sodium varies widely by producer — roughly 250 to 550 mg sodium per 100 g, or about 0.6 to 1.4 g salt per 100 g (uncertain across brands, brand-varying) — so read the label and reduce added dish salt by about 2.5 g salt per 1,000 mg sodium.",
+      "Commercial meat bouillon cubes or powder as a shortcut for slow-simmered meat broth (maraq): usually contain salt, yeast extract or hydrolyzed protein, fat, and onion or spice flavorings, lacking the gelatin and roasted-bone depth of homemade maraq. Reconstitute by weight per package directions, and reduce added recipe salt by about 2.5 g salt per 1,000 mg sodium on the label (sodium content varies substantially by brand, approximate)."
+    ],
+    "pitfalls": [
+      "Do not default to Levantine za'atar, sumac, or pomegranate molasses in Yemeni recipes; everyday Yemeni cooking leans on hawaij, whipped fenugreek (hulba), and chili-herb paste (sahawiq).",
+      "Do not conflate Yemeni mandi with Gulf kabsa; classic Hadhrami mandi suspends lightly spiced meat over basmati rice with wood smoke and drippings rather than simmering rice in a tomato-based broth.",
+      "Do not omit whipped fenugreek foam (hulba) from saltah or fahsa, and do not boil dry ground fenugreek straight into the stew without soaking and draining or it turns harshly bitter.",
+      "Do not treat zhoug as strictly green or solely Israeli; Yemeni sahawiq includes red chile, cheese (bil-jibn), and dried-sardine (wazif) versions alongside the green cilantro paste.",
+      "Do not assume Yemeni flatbreads are standard pita; lahooh is a one-sided fermented sorghum-or-mixed-grain crepe, and traditional Yemeni malawah is ghee-laminated rather than margarine-fried."
+    ],
+    "avoid": [],
+    "children": [],
+    "pantry": [
+      "basmati rice",
+      "all-purpose and whole-wheat or sorghum flour",
+      "ghee (samn) or neutral oil",
+      "onions and garlic",
+      "tomato paste",
+      "savory hawaij spice blend",
+      "ground fenugreek seeds (hulba)",
+      "chili-herb paste (sahawiq or zhoug)",
+      "dried fava beans and lentils",
+      "plain yogurt and lemons or limes"
+    ],
+    "substitutes": []
+  },
+  {
+    "id": "iraqi",
+    "kind": "cuisine",
+    "label": "Iraqi",
+    "subtitle": "Dried lime, tamarind, baharat, date syrup",
+    "about": "Spanning the Tigris and Euphrates river plains from Baghdad down to the Shatt al-Arab marshes and Basra near the Persian Gulf, and rising north toward Mosul and the Zagros mountains of Iraqi Kurdistan, Iraqi home cooking is shaped by fertile riverbeds, northern highlands, and date-palm groves. Rooted in ancient Mesopotamian foodways and medieval Abbasid Baghdad, it reflects centuries of Arab, Kurdish, Turkmen, Assyrian, Iraqi Jewish, Ottoman, Persian, and Indian Ocean trade influences, balancing warm spice blends against pronounced sour and sweet-sour accents. Representative dishes include wood-roasted Tigris carp (masgouf), sweet-and-sour mixed-vegetable dolma, filled cracked-wheat or rice kubba, slow-roasted lamb and rice quzi, and layered eggplant casserole tepsi baytinijan.",
+    "prompt_name": "Iraqi",
+    "flavors": [
+      "dried black lime (نومي بصرة, noomi basra)",
+      "Iraqi spice blend (بهارات, baharat)",
+      "tamarind (تمر هندي, tamr hindi)",
+      "pomegranate molasses (دبس الرمان, dibis al-rumman)",
+      "date syrup (دبس, dibis)",
+      "turmeric (كركم, kurkum)",
+      "garlic (ثوم, thum)",
+      "cumin (كمون, kammun)",
+      "sumac (سماق, summaq)",
+      "dill (شبنت, shbint)",
+      "pickled mango condiment (عنبة, amba)",
+      "fenugreek (حلبة, hulba)"
+    ],
+    "sweet_only": [
+      "rosewater (ماء ورد, mai ward)",
+      "orange-blossom water (ماء قداح, mai qaddah)",
+      "mahlab (محلب)"
+    ],
+    "signature_ingredients": [
+      "anbar / Iraqi amber rice (تمن عنبر, timman anbar) (substitute: aged basmati rice mixed with a small portion of jasmine rice for fragrance; texture differs)",
+      "fine cracked wheat for kubba shells (جريش, jarish) (substitute: fine-grind bulgur wheat; soak briefly before kneading)",
+      "fermented dried yogurt-wheat paste or powder (كشك / ترخينة, kashk / tarhana) (substitute: strained Greek yogurt whisked with a little cooked bulgur for body, though it lacks fermented tang)",
+      "Iraqi diamond-shaped hearth bread (صمون, samoon) (substitute: crusty ciabatta rolls or thick pita pockets)",
+      "split or shelled fava beans (باقلاء, bagilla) (substitute: peeled broad beans or frozen lima beans as a rough stand-in)",
+      "whole freshwater carp for masgouf (سمك شبوط / كطان, shabbut / kattan) (substitute: butterflied whole sea bass, red snapper, or trout)",
+      "crushed sour white citric acid crystals (لمندوزي, lamindozi) (substitute: fresh lemon juice, noting that it adds acidity with more liquid)"
+    ],
+    "tips": [
+      "Commercial Iraqi baharat or Middle Eastern seven-spice blends: usually contain black pepper, cumin, coriander, allspice, cinnamon, cardamom, cloves, and nutmeg (though Levantine seven-spice mixes often omit cumin and turmeric or lean heavier on allspice). Swap 1:1 by weight for homemade Iraqi baharat, adding a pinch of cumin and turmeric if using a Levantine blend. Pure spice blends typically contain 0 mg sodium (0 g salt), though seasoned packets with added salt vary by brand [uncertain across brands]; check the nutrition panel and subtract about 2.5 g salt per 1,000 mg sodium from the recipe.",
+      "Jarred amba (pickled mango sauce): usually contains green mango, water, salt, vinegar or citric acid, fenugreek, turmeric, mustard, and chili. Commercial jars commonly carry roughly 2,200 to 2,500 mg sodium per 100 g (about 5.5 to 6.3 g salt per 100 g, or roughly 0.8 to 0.9 g salt per 15 g tablespoon, though levels vary by brand [uncertain across brands]). Use directly as a condiment or swap 1:1 by weight into marinades while reducing added recipe salt by about 2.5 g salt per 1,000 mg sodium shown on the label.",
+      "Commercial tamarind paste or concentrate: usually contains tamarind pulp and water, though some jars add salt or sugar. Pure unsalted tamarind concentrate contains only trace natural sodium (roughly 30 to 50 mg sodium per 100 g, under 0.15 g salt), whereas salted pastes vary by manufacturer [uncertain across brands]. Swap 1:1 by weight for strained homemade tamarind pulp liquid of similar thickness, adjusting water and sweetness to taste and reducing added recipe salt by about 2.5 g salt per 1,000 mg sodium if salted.",
+      "Bottled pomegranate molasses and canned tomato paste: pomegranate molasses usually contains concentrated pomegranate juice (sometimes with sugar and citric acid) and typically carries 0 mg sodium (0 g salt), though sweetness and tartness vary sharply by brand [uncertain across brands]; swap 1:1 by weight for homemade reduced pomegranate juice and taste before adjusting sourness. Unsalted tomato paste carries roughly 60 mg sodium per 100 g (about 0.15 g salt), whereas salted commercial tomato paste varies by brand [uncertain across brands]; swap 1:1 by weight for cooked-down tomato puree and subtract about 2.5 g salt per 1,000 mg sodium from the label.",
+      "Commercial beef or lamb bouillon cubes (sometimes used as a modern shortcut in home stews and rice): usually contain salt, hydrolyzed proteins or yeast extract, fat, starch, and onion or garlic flavoring, with high sodium that varies widely by brand [uncertain across brands]. Dissolve in hot water according to package directions to replace homemade meat stock by weight, and withhold added salt until tasting, counting about 2.5 g salt per 1,000 mg sodium from the package label."
+    ],
+    "pitfalls": [
+      "Do not treat Iraqi dolma as identical to Levantine or Turkish olive-oil dolma; classic Iraqi dolma usually combines multiple vegetables in one pot and leans distinctly sweet-and-sour from pomegranate molasses, tamarind, or citric acid.",
+      "Do not assume Iraqi baharat is the same as Levantine allspice-only bahar or Gulf bzar; Iraqi baharat is typically black-pepper-forward with cumin, coriander, allspice, cinnamon, cardamom, cloves, and nutmeg.",
+      "Do not flatten Iraq into Baghdad alone or erase regional contrasts, such as Basra's tamarind, dates, and Gulf seafood, Mosul's flat disc kubba and fermented kashk, and Kurdish mountain herbs, sumac, and dairy.",
+      "Do not substitute Indian garam masala or curry powder into Iraqi biryani, which usually relies on sweet-warm Iraqi spices, vermicelli, potatoes, peas, raisins, and fried nuts rather than chilies or coconut.",
+      "Do not claim masgouf can only be made with wild Tigris carp or ignore how home cooks adapt the split, turmeric-and-tamarind-basted technique in standard ovens and broilers."
+    ],
+    "avoid": [],
+    "children": [],
+    "pantry": [
+      "long-grain basmati or amber rice (timman)",
+      "cracked wheat (bulgur or jarish)",
+      "yellow onions and garlic",
+      "tomato paste",
+      "cooking oil or clarified butter (ghee)",
+      "dried chickpeas or white navy beans",
+      "dried black limes (noomi basra)",
+      "ground baharat spice blend and turmeric",
+      "pomegranate molasses or tamarind paste",
+      "sesame tahini (rashi)"
     ],
     "substitutes": []
   }
