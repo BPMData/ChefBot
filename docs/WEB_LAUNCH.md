@@ -91,6 +91,8 @@ Stop after any phase if the session runs out; say in the PR where you stopped.
   and `README.md`; don't invent new features.
 - Storage: IndexedDB (via `idb-keyval` or similar) for conversations, favourites and pictures. Same fields as
   `history.py` (`favorite`, `access_count`, `last_accessed`, `updated`) so an export/import is possible later.
+- **Keeping recipes safe** (browser storage can vanish; see "Recipe backups" below for why): call
+  `navigator.storage.persist()` on the first save, and put export/import in Settings in this phase.
 - Export: Copy, PDF (server endpoint), HTML (built in the browser), Email as a `mailto:` link (shorten long
   recipes, as `export.mailto_link` does), Share via `navigator.share` with copy as the fallback.
 - Ingredient photos: `<input type="file" accept="image/*" capture="environment">`, resized in the browser
@@ -123,6 +125,31 @@ Keep a server flag that streams the draft instead (Bryan's earlier choice) in ca
 - Spike scope: three regions (one country-level, one Indian state group, one US county group such as
   Italian-American), hover and tap to pick, fly-to on tap. Report frame rate on a phone and the GeoJSON size.
   The full map replaces the cuisine picker only after Bryan sees the spike.
+
+### Recipe backups (export in phase 2; Drive after phase 5 is live)
+
+Why: recipes live in IndexedDB, which is lost when someone clears "cookies and site data" (not plain "cached
+files"), in a private window, if the browser evicts it under storage pressure, and on **iPhone Safari after 7
+days without a visit** (Safari's tracking protection; an app added to the Home Screen is exempt). Clearing site
+data for `bpmdata.github.io` also clears every page on Bryan's hub at once, since they share one origin. Name the
+database `chefbot` so it never collides with another hub page's storage.
+
+1. **One file format** (`chefbot-recipes` JSON, with a `version` field): conversations with the same fields as
+   `history.py`, pictures as base64. Used for single-recipe export, the full dump, Drive, and a later Flet import.
+2. **Export:** "Export recipe" on each conversation (one `.json`), "Export all recipes" in Settings (one file).
+   **Import** in Settings: merges by conversation id, newest `updated` wins, shows "Added 3, updated 1".
+3. **Save to Google Drive**, copied from AllAboard (`src/lib/googleDrive.ts`, `src/lib/googleConfig.ts`, and its
+   `PLANS_GOOGLE_DRIVE.md`): Google Identity Services token client, **`drive.file` scope only** (AllAboard's
+   AGENTS rule 6: no sensitive scopes), token in memory, Google scripts loaded on click. ChefBot creates a
+   `ChefBot recipes` folder and writes one file per conversation (`<title>.chefbot.json`), updating it when the
+   conversation changes. With `drive.file`, ChefBot sees only the files it made, on any device, so "Restore from
+   Drive" on a new phone lists that folder with no file picker. Offer a "Back up to Drive automatically" switch,
+   off by default. Bryan adds `https://bpmdata.github.io` as an authorized origin on the OAuth client (or makes a
+   new client); ask which.
+4. **Plain warning** in Settings, and once after the third saved recipe if no backup exists: "Recipes are saved
+   in this browser only. Clearing site data deletes them. Export them or back them up to Google Drive."
+5. Tests: export then import gives back the same conversations and pictures; merge rules; a Playwright run that
+   clears site data, imports the dump, and sees every recipe again. Mock Drive in tests.
 
 ### Phase 5: deploy (ask Bryan before each billable step)
 
