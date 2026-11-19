@@ -221,3 +221,28 @@ Run the browser app with `npm ci && npm run dev` from `web/` and open
 Run `npm test` from `web/` with the server dependencies installed in the root `.venv`. Playwright
 starts a separate mocked API on port 8911, so stop any Vite server on port 5173 first. To use another
 Python or Chromium executable, set `CHEFBOT_TEST_PYTHON` or `PLAYWRIGHT_CHROMIUM_EXECUTABLE`.
+
+## Deployment setup
+
+Use the Google Cloud project and region from AllAboard's deployment guide. After Bryan approves the billable
+steps, set up a usage bucket in that project and grant the ChefBot runtime service account
+`roles/storage.objectUser` on that bucket. Give the same runtime identity access to the OpenRouter secret.
+Bryan creates the separate, capped key and adds it to Secret Manager.
+
+| GitHub Actions setting | Value |
+|---|---|
+| Secret `GCP_SA_KEY` | Credentials for the Cloud Run deployer |
+| Variable `CHEFBOT_GCP_PROJECT` | AllAboard's Google Cloud project ID |
+| Variable `CHEFBOT_GCP_REGION` | AllAboard's Cloud Run region |
+| Variable `CHEFBOT_RUNTIME_SA` | ChefBot runtime service account email |
+| Variable `CHEFBOT_USAGE_BUCKET` | Bare bucket name |
+| Variable `CHEFBOT_OPENROUTER_SECRET` | Secret Manager name for the capped key |
+| Optional variable `CHEFBOT_STREAM_DRAFT` | Set to `1` to show drafts during the review |
+| Variable `CHEFBOT_API_URL` | Cloud Run HTTPS origin, available after the first API deploy |
+
+After review and merge, dispatch **Deploy ChefBot API** from `main` and verify `/healthz`. Select **GitHub Actions**
+as the Pages publishing source in repo settings, add the API origin to the repo variables, and dispatch
+**Deploy ChefBot to Pages** from `main`. Open the Pages URL on a phone over mobile data and make a recipe.
+Close the tab while it is drafting, reopen it after 60 seconds, and inspect the reply and server logs. If processing
+stalled during the disconnect, get approval for instance-based billing and rerun the API workflow with
+`cpu_always_allocated` enabled. The minimum instance count remains zero in either mode.

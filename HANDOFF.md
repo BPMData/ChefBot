@@ -35,6 +35,9 @@ and Italian-American counties. Rebuild the two browser GeoJSON files with
 `.venv/bin/python tools/build_map_data.py --geojson` and the same shapefiles used by Flet. The 189,337-byte
 map data is loaded when the preview opens. Chromium verified a county tap and cuisine selection at
 phone and desktop widths. A physical-phone benchmark remains for the deployment session.
+**Phase 5 prep:** Manual Cloud Run and Pages workflows are ready for Phase 5 approval and configuration.
+See the deployment setup in `docs/WEB_LAUNCH.md`. The live review timing, mobile-data reconnect test,
+CPU allocation decision, and hub link are still pending.
 
 
 **Batch 4 geography expansion + Favorites, Search & "Try again" built (2026-11-15, branch `batch4-favorites-try-again`, PR waiting for Bryan's review):**
