@@ -15,3 +15,8 @@ storage/
 
 # Raw map downloads for the Browse by map build (docs/BROWSE_BY_MAP.md); only the built output is committed
 assets/maps/source/
+
+# Browser app dependencies and test output
+web/node_modules/
+web/playwright-report/
+web/test-results/

@@ -24,7 +24,10 @@ more than cost.
 can create and replay recipe jobs, serve the cuisine tree, read ingredient photos, make dish pictures,
 and export PDFs. Start it from the repo root with `.venv/bin/uvicorn server.app:app --port 8000`
 after installing `server/requirements.txt`. Offline tests are in `tests/server/`. No cloud resources
-were provisioned. Continue with Phase 2 in `docs/WEB_LAUNCH.md`.
+were provisioned. **Phase 2:** React/Vite browser app under `web/`, with the cuisine list, SSE waiting screen,
+follow-ups, recipe photos, favorites, and IndexedDB backups. For local dev, run the API on port 8000
+and `npm ci && npm run dev` from `web/`. Playwright exercises the real API against a deterministic
+model at 375 × 812 and 1280 × 800. See PR #40. Continue with Phase 3 in `docs/WEB_LAUNCH.md`.
 
 
 **Batch 4 geography expansion + Favorites, Search & "Try again" built (2026-11-15, branch `batch4-favorites-try-again`, PR waiting for Bryan's review):**
@@ -266,6 +269,7 @@ alone. GitHub never shows secrets in logs or hands them to pull requests from fo
 ## Architecture
 
 ```
+web/                     React/Vite web app, browser-owned recipes and backups
 server/                  FastAPI browser API, replayable jobs, one-object Cloud Storage usage checkpoints
 src/main.py              UI: home form, list & map cuisine browsers, recipe conversation, settings, email dialog
 src/chefbot/cuisines.py  cuisine tree loader, validator, breadcrumb paths, chip labels (`src/chefbot/cuisines/*.json`)

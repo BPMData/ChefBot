@@ -210,3 +210,9 @@ From the repo root, install `server/requirements.txt` and run `uvicorn server.ap
 - `CHEFBOT_USAGE_BUCKET` enables single-worker usage persistence with the Cloud Run runtime identity.
   The bucket only gets `usage.json`. Without it, local quotas are in memory. Build from the repository
   root with `docker build -f server/Dockerfile .` to include the CJK PDF fonts.
+
+Run the browser app with `npm ci && npm run dev` from `web/` and open
+`http://localhost:5173/ChefBot/`. The API defaults to `http://localhost:8000` for dev.
+Run `npm test` from `web/` with the server dependencies installed in the root `.venv`. Playwright
+starts a separate mocked API on port 8911, so stop any Vite server on port 5173 first. To use another
+Python or Chromium executable, set `CHEFBOT_TEST_PYTHON` or `PLAYWRIGHT_CHROMIUM_EXECUTABLE`.
