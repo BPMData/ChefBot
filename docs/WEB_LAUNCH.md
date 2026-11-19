@@ -204,7 +204,9 @@ From the repo root, install `server/requirements.txt` and run `uvicorn server.ap
   `history` contains prior raw user and assistant messages in complete pairs, starting with the
   original ingredients. Resend the original form options, including `must_not` and any `restrictions`.
 - Read SSE with a streaming fetch so the visitor header can be sent. Every connection replays all events,
-  so replace the progress display with each snapshot. Phase 1 emits `drafting` and `done`.
+  so replace the progress display with each snapshot. Recipes are reviewed before the final `result`.
+  Set `CHEFBOT_STREAM_DRAFT=1` on the API to display a provisional draft before checking. In that mode
+  append each `draft.delta` to a fresh buffer on every connection and use only the final result for saving.
 - Send the ingredient photo as raw JPEG, PNG, or WebP bytes. The picture route returns image bytes.
   PDF accepts JSON with `title`, `markdown`, and an optional base64 `photo` without a data URL prefix.
 - `CHEFBOT_USAGE_BUCKET` enables single-worker usage persistence with the Cloud Run runtime identity.

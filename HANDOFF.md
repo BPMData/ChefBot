@@ -27,7 +27,10 @@ after installing `server/requirements.txt`. Offline tests are in `tests/server/`
 were provisioned. **Phase 2:** React/Vite browser app under `web/`, with the cuisine list, SSE waiting screen,
 follow-ups, recipe photos, favorites, and IndexedDB backups. For local dev, run the API on port 8000
 and `npm ci && npm run dev` from `web/`. Playwright exercises the real API against a deterministic
-model at 375 × 812 and 1280 × 800. See PR #40. Continue with Phase 3 in `docs/WEB_LAUNCH.md`.
+model at 375 × 812 and 1280 × 800. See PR #40. **Phase 3:** The web API checks finished drafts with GLM 5.3 Flash before sending a recipe. It applies
+unique, non-overlapping text fixes directly or asks the main model for one revision. Mocked tests
+cover both lamb-fries errors. Run `.venv/bin/python -m tools.smoke_review` with a development key for
+a live check and timing. Continue with Phase 4 in `docs/WEB_LAUNCH.md`.
 
 
 **Batch 4 geography expansion + Favorites, Search & "Try again" built (2026-11-15, branch `batch4-favorites-try-again`, PR waiting for Bryan's review):**

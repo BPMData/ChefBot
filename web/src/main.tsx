@@ -78,6 +78,7 @@ function App() {
   const [ready, setReady] = useState(false);
   const [status, report] = useState("");
   const [busy, setBusy] = useState(false);
+  const [provisional, setProvisional] = useState("");
   const [progress, setProgress] = useState(initialProgress);
   const [reconnect, setReconnect] = useState(0);
   const [canReconnect, setCanReconnect] = useState(false);
@@ -124,6 +125,7 @@ function App() {
     const event = (message: JobEvent) => {
       if (message.kind === "stage") setProgress((old) => ({ ...old, stage: message.stage }));
       if (message.kind === "progress") setProgress((old) => ({ ...old, ingredients: message.ingredients, steps: message.step_count }));
+      if (message.kind === "draft") setProvisional((current) => current + message.delta);
       if (message.kind === "result" || message.kind === "error") terminal = message;
     };
 
@@ -131,6 +133,7 @@ function App() {
       let failure: unknown;
       for (let attempt = 0; attempt < 3 && !signal.aborted; attempt += 1) {
         try {
+          setProvisional("");
           await watchJob(jobId!, event, signal);
           break;
         } catch (error) {
@@ -238,7 +241,7 @@ function App() {
       {status && <div className="notice" role="status">{status}</div>}
       {settings ? <Settings recipes={recipes} refresh={setRecipes} report={report} /> :
         chat ? <Chat key={chat.id} conversation={chat} send={send} mutate={(transform) => mutate(chat.id, transform)}
-          favorite={() => toggleFavorite(chat.id)} progress={progress} busy={busy} canReconnect={canReconnect}
+          favorite={() => toggleFavorite(chat.id)} progress={progress} provisional={provisional} busy={busy} canReconnect={canReconnect}
           reconnect={() => { report(""); setReconnect((attempt) => attempt + 1); }}
           report={report} followUpLimit={tree?.limits.follow_ups ?? 5} messageLimit={tree?.limits.message_characters ?? 4000} /> :
         ready ? <Home tree={tree} draft={draft} setDraft={setDraft} create={() => void create()} busy={busy}

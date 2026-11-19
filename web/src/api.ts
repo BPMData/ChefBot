@@ -30,6 +30,7 @@ export type Result = { title: string | null; markdown: string; fixes: Fix[] };
 export type JobEvent =
   | { kind: "stage"; stage: "drafting" | "checking" | "fixing" | "done" }
   | { kind: "progress"; ingredients: string[]; step_count: number }
+  | { kind: "draft"; delta: string }
   | ({ kind: "result" } & Result)
   | { kind: "error"; message: string };
 

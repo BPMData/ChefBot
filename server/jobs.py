@@ -10,7 +10,8 @@ from dataclasses import dataclass, field
 
 from chefbot import api, recipe
 
-from .limits import LIMITS
+from .limits import LIMITS, LimitReached, UsageLimits
+from .review import review_recipe
 
 JOB_TTL_SECONDS = 30 * 60
 JOB_TIMEOUT_SECONDS = 600
@@ -89,9 +90,12 @@ class RecipeJob:
 
 
 class RecipeJobs:
-    def __init__(self, model: api.ChefBotAPI, available: bool = True):
+    def __init__(self, model: api.ChefBotAPI, available: bool = True,
+                 limits: UsageLimits | None = None, show_draft: bool = False):
         self.model = model
         self.available = available
+        self.limits = limits
+        self.show_draft = show_draft
         self.jobs: dict[str, RecipeJob] = {}
         self.tasks: set[asyncio.Task] = set()
 
@@ -107,7 +111,7 @@ class RecipeJobs:
         job = self.jobs.get(job_id)
         return job if job and secrets.compare_digest(job.visitor, visitor) else None
 
-    async def draft(self, job: RecipeJob, messages: list[dict]) -> str:
+    async def draft(self, job: RecipeJob | None, messages: list[dict]) -> str:
         markdown = ""
         progress = {"ingredients": [], "step_count": 0}
         parsed = 0
@@ -117,27 +121,45 @@ class RecipeJobs:
             markdown += chunk.text
             if len(markdown) > LIMITS["recipe_characters"]:
                 raise ValueError("The draft exceeded the recipe length limit")
+            if job is not None and self.show_draft:
+                job.emit("draft", {"delta": chunk.text})
             complete = markdown.rfind("\n")
-            if complete > parsed:
+            if job is not None and complete > parsed:
                 parsed = complete
                 new_progress = draft_progress(markdown[:complete])
                 if new_progress != progress:
                     progress = new_progress
                     job.emit("progress", progress)
-        final_progress = draft_progress(markdown)
-        if final_progress != progress:
-            job.emit("progress", final_progress)
+        if job is not None:
+            final_progress = draft_progress(markdown)
+            if final_progress != progress:
+                job.emit("progress", final_progress)
         if not markdown.strip():
             raise ValueError("The model returned an empty reply")
         return markdown
 
+    async def generate(self, job: RecipeJob, messages: list[dict]) -> dict:
+        markdown = await self.draft(job, messages)
+        fixes = []
+        if self.limits is not None:
+            markdown, fixes = await review_recipe(
+                self.model, messages, markdown,
+                charge=lambda kind: self.limits.charge(job.visitor, kind),
+                stage=lambda stage: job.emit("stage", {"stage": stage}),
+                revise=lambda revised_messages: self.draft(None, revised_messages),
+            )
+            if len(markdown) > LIMITS["recipe_characters"]:
+                raise ValueError("The checked recipe exceeded the recipe length limit")
+        return {"markdown": markdown, "title": recipe.extract_title(markdown), "fixes": fixes}
+
     async def run(self, job: RecipeJob, messages: list[dict]) -> None:
         job.emit("stage", {"stage": "drafting"})
         try:
-            markdown = await asyncio.wait_for(self.draft(job, messages), JOB_TIMEOUT_SECONDS)
-            job.result = {"markdown": markdown, "title": recipe.extract_title(markdown), "fixes": []}
+            job.result = await asyncio.wait_for(self.generate(job, messages), JOB_TIMEOUT_SECONDS)
             job.emit("stage", {"stage": "done"})
             job.emit("result", job.result)
+        except LimitReached as error:
+            job.emit("error", {"message": str(error)})
         except Exception as error:
             # Provider errors can include request details. Keep them out of logs and SSE.
             log.warning("ChefBot recipe job failed (%s).", type(error).__name__)

@@ -174,11 +174,12 @@ class UsageLimits:
                 if counts.pictures >= LIMITS["pictures"]:
                     raise LimitReached("You’ve reached today’s dish picture limit. Try again tomorrow.")
                 counts.pictures += 1
-            else:
+            elif kind not in {"review", "revision"}:
                 raise ValueError(f"Unknown model call type: {kind}")
 
             self.usage.calls += 1
-            self.usage.visitors[visitor] = counts
+            if kind not in {"review", "revision"}:
+                self.usage.visitors[visitor] = counts
             if self.store and self.restored:
                 try:
                     await self.store.save(self.usage)

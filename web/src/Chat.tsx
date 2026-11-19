@@ -56,12 +56,13 @@ function Reply({ message, title, photo, savePhoto, report }: {
   </article>;
 }
 
-export function Chat({ conversation, send, mutate, favorite, progress, busy, reconnect, canReconnect, report, followUpLimit, messageLimit }: {
+export function Chat({ conversation, send, mutate, favorite, progress, provisional, busy, reconnect, canReconnect, report, followUpLimit, messageLimit }: {
   conversation: Conversation;
   send: (args: ReplyArgs) => Promise<boolean>;
   mutate: (change: (recipe: Conversation) => Conversation) => Promise<void>;
   favorite: () => void;
   progress: Progress;
+  provisional: string;
   busy: boolean;
   reconnect: () => void;
   canReconnect: boolean;
@@ -124,6 +125,10 @@ export function Chat({ conversation, send, mutate, favorite, progress, busy, rec
           })} />)}
       {pending && <>
         <div className="user-message"><p>{pending.ingredients}</p></div>
+        {provisional && <article className="card reply" aria-label="Draft recipe">
+          <h2>Draft recipe</h2>
+          <div className="recipe-markdown" dangerouslySetInnerHTML={{ __html: recipeHtml(provisional) }} />
+        </article>}
         {canReconnect ? <button className="secondary" type="button" onClick={reconnect}>Reconnect to recipe</button> :
           <Waiting stage={progress.stage} ingredients={progress.ingredients} steps={progress.steps} />}
       </>}

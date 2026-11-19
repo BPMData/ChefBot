@@ -155,18 +155,30 @@ class ChefBotAPI:
             raise ApiError(f"OpenRouter error: {data['error'].get('message', data['error'])}")
         return data
 
-    async def stream_chat(self, messages: list[dict], model_key: str = DEFAULT_MODEL,
-                          effort: str = DEFAULT_EFFORT) -> AsyncIterator[Chunk]:
-        """Stream a reply to a recipe conversation. `messages` = system + user/assistant turns."""
+    @staticmethod
+    def _chat_body(messages: list[dict], model_key: str, effort: str, max_tokens: int) -> dict:
         model = MODELS.get(model_key, MODELS[DEFAULT_MODEL])
-        body = {
+        return {
             "model": model.id,
             "messages": messages,
-            "stream": True,
-            "max_tokens": MAX_TOKENS,
+            "max_tokens": max_tokens,
             "temperature": model.temperature,
             "reasoning": {"effort": effort_for(model_key, effort)},
             "provider": {"order": [model.provider], "allow_fallbacks": True},
+        }
+
+    async def complete_chat(self, messages: list[dict], model_key: str, effort: str,
+                            max_tokens: int) -> str:
+        """A short model reply requested as a single message."""
+        data = await self._post(self._chat_body(messages, model_key, effort, max_tokens))
+        return data["choices"][0]["message"].get("content") or ""
+
+    async def stream_chat(self, messages: list[dict], model_key: str = DEFAULT_MODEL,
+                          effort: str = DEFAULT_EFFORT) -> AsyncIterator[Chunk]:
+        """Stream a reply to a recipe conversation. `messages` = system + user/assistant turns."""
+        body = {
+            **self._chat_body(messages, model_key, effort, MAX_TOKENS),
+            "stream": True,
             "usage": {"include": True},
         }
         try:

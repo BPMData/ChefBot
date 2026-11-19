@@ -178,7 +178,7 @@ def cuisine_tree() -> dict:
 
 
 def create_app(model: api.ChefBotAPI | None = None, usage_store: UsageStore | None = None,
-               clock=None) -> FastAPI:
+               clock=None, review: bool = True) -> FastAPI:
     @asynccontextmanager
     async def lifespan(application: FastAPI):
         key = os.getenv("OPENROUTER_API_KEY", "").strip()
@@ -188,7 +188,10 @@ def create_app(model: api.ChefBotAPI | None = None, usage_store: UsageStore | No
             store = usage_store or (GcsUsageStore(bucket, storage_client) if bucket else None)
             limits = UsageLimits(store, **({"clock": clock} if clock is not None else {}))
             await limits.restore()
-            jobs = RecipeJobs(backend, available=bool(key or model is not None))
+            jobs = RecipeJobs(
+                backend, available=bool(key or model is not None),
+                limits=limits if review else None, show_draft=os.getenv("CHEFBOT_STREAM_DRAFT") == "1",
+            )
             application.state.jobs = jobs
             application.state.limits = limits
             application.state.pdf_slots = asyncio.Semaphore(2)

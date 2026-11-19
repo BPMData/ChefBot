@@ -19,6 +19,10 @@ class FixtureModel:
         await asyncio.sleep(1.2)
         yield Chunk("text", f"\n**Instructions**\n\n1. Roast the carrots.\n2. Add {seasoning}.")
 
+    async def complete_chat(self, *args):
+        await asyncio.sleep(0.25)
+        return '{"issues": []}'
+
     async def read_ingredients(self, image, mime):
         return "carrots, cumin"
 

@@ -59,7 +59,7 @@ def openrouter(png):
 @pytest.fixture
 def client(openrouter):
     model, _ = openrouter
-    with TestClient(create_app(model), headers=VISITOR) as browser:
+    with TestClient(create_app(model, review=False), headers=VISITOR) as browser:
         yield browser
 
 
@@ -252,7 +252,7 @@ def test_each_quota_and_checkpoint_restart(openrouter, png, monkeypatch):
     model, _ = openrouter
 
     def start():
-        return TestClient(create_app(model, store, clock=lambda: now), headers=VISITOR)
+        return TestClient(create_app(model, store, clock=lambda: now, review=False), headers=VISITOR)
 
     with start() as client:
         url = stream_url(create_recipe(client))
