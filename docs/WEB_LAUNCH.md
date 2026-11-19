@@ -43,6 +43,21 @@ Why the page lives on GitHub Pages rather than inside the Cloud Run container (A
 the page appears instantly even when the API is cold, and the cold start hides behind the "working" animation.
 A project repo's Pages site is `bpmdata.github.io/ChefBot/` automatically; the hub only needs a link to it.
 
+## Where to run
+
+Phases 1 to 4 need nothing from Bryan's laptop and can run as a Codex cloud task, as long as the environment
+can reach package registries (pip, npm). Two exceptions:
+
+- **Phase 3's live check** needs a real OpenRouter key. Tests always mock the model; if the cloud task has no key,
+  write the reviewer and its tests, and leave the live run on the lamb-fries example for a laptop session.
+- **Phase 4's shapefiles** are gitignored. Download the public originals into `assets/maps/source/` (same folder
+  names as `tools/build_map_data.py` expects): Natural Earth 10m admin 0 countries (the Palestine point-of-view
+  edition) and 10m admin 1 states and provinces from naturalearthdata.com, and the Census Bureau's
+  `cb_2025_us_county_500k` from census.gov. If the download is blocked, build the spike from the longitude and
+  latitude already in `src/chefbot/maps/globe.json` and say so.
+
+Phase 5 (deploy) needs `gcloud` signed in to Bryan's project: do it on his laptop.
+
 ## Phases (each ends in a commit; open the PR after phase 1 and keep pushing to it)
 
 | Phase | Needs Bryan? | Done when |
@@ -144,8 +159,9 @@ database `chefbot` so it never collides with another hub page's storage.
    `ChefBot recipes` folder and writes one file per conversation (`<title>.chefbot.json`), updating it when the
    conversation changes. With `drive.file`, ChefBot sees only the files it made, on any device, so "Restore from
    Drive" on a new phone lists that folder with no file picker. Offer a "Back up to Drive automatically" switch,
-   off by default. Bryan adds `https://bpmdata.github.io` as an authorized origin on the OAuth client (or makes a
-   new client); ask which.
+   off by default. **Use AllAboard's OAuth client** (same client id as `src/lib/googleConfig.ts`; decided with
+   Bryan). Its authorized JavaScript origins must include exactly `https://bpmdata.github.io` (origins take no
+   path or `/*`) and `http://localhost:5173` for dev; ask Bryan to confirm both are listed before testing.
 4. **Plain warning** in Settings, and once after the third saved recipe if no backup exists: "Recipes are saved
    in this browser only. Clearing site data deletes them. Export them or back them up to Google Drive."
 5. Tests: export then import gives back the same conversations and pictures; merge rules; a Playwright run that
