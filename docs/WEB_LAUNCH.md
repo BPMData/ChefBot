@@ -1,131 +1,149 @@
-# Run order: put ChefBot online, linked from bpmdata.github.io (for Codex)
+# Plan: ChefBot for the web, without Flet (for Codex)
 
-This is the order of work for one long session. **`docs/WEB_DEMO.md` is the spec** (what demo mode does, the
-limits, the tests, the Cloud Run settings); this file says what to do first, what's new since that brief, and
-where to stop. Where the two differ, this file wins.
+Decided with Bryan, 2026-11-19. This replaces the Flet server-mode plan in `docs/WEB_DEMO.md`; that file's
+**limits, privacy and AGPL sections still apply** (sections 2, 3, 5, 7), its Flet and Cloud Run volume details don't.
 
-Before anything: read `CLAUDE.md` (the ground rules apply to you too, not only to Claude), `HANDOFF.md`,
-`HANDOFF.local.md` if present, then `docs/WEB_DEMO.md` in full.
+Before anything: read `CLAUDE.md` (its ground rules apply to you), `HANDOFF.md`, `HANDOFF.local.md` if present,
+and AllAboard's `docs/DEPLOYMENT.md` (BPMData/allaboard), which records hard-won Cloud Run rules this plan reuses.
 
-## The shape of it
+## Why
+
+- Flet's web mode redraws in Python on the server and ships every frame over a WebSocket. A browser-native front
+  end is faster, and AllAboard (much heavier) already proves that stack on Bryan's Cloud Run.
+- **A real globe:** MapLibre GL JS's globe view zooms smoothly from space to county level, instead of today's
+  stacked flat maps.
+- **The second-model check before showing a recipe** (HANDOFF backlog, "Second-model review loop") needs a good
+  waiting screen. In a browser that's an EOMD piece (BPMData/EOMD) running directly, no web-view extension.
+- **Generation runs on the server**, so closing the tab or switching apps doesn't lose a reply.
+
+## What stays as it is
+
+- **The Flet app (`src/main.py`) and the Android APK are untouched.** Desktop and Android keep working as today.
+  A PWA may replace the APK later, only if it matches the app's feel on Bryan's phone; that's a later test, not
+  this plan.
+- `src/chefbot/api.py`, `prompts.py`, `cuisines.py` (+ `cuisines/*.json`), `recipe.py` and `export.py` import no
+  Flet. The new server imports them; don't fork copies. If one needs a change, keep the Flet app's behaviour the
+  same and its tests passing.
+
+## The shape
 
 ```
-bpmdata.github.io/chefbot/     static landing page (GitHub Pages, repo BPMData/bpmdata.github.io)
-        |  "Open ChefBot" button (new tab), plus a background ping that wakes the server
+Browser (bpmdata.github.io/ChefBot/, GitHub Pages, built from web/ by Actions)
+  React + Vite + TS + Tailwind + motion (same stack as AllAboard), MapLibre GL JS, EOMD piece
+  Saved recipes + pictures: IndexedDB in the visitor's own browser (no server storage per visitor)
+        |  HTTPS: POST /api/jobs, GET /api/jobs/<id>/events (Server-Sent Events)
         v
-Cloud Run service "chefbot"    Flet server web mode, CHEFBOT_DEMO=1, max 1 instance, min 0
-        |  OPENROUTER_API_KEY from Secret Manager; /data = Cloud Storage bucket
+Cloud Run "chefbot-api" (Python, FastAPI, imports src/chefbot/*)
+  OPENROUTER_API_KEY from Secret Manager; usage counters in memory, saved as one JSON object in a bucket
         v
-OpenRouter
+OpenRouter (main model, then the reviewer model)
 ```
 
-Why not serve the app itself from GitHub Pages: Pages is static files only. The only static form of a Flet app is
-`flet build web` (Pyodide in the browser), and then the OpenRouter key would be in the browser. Making that work
-would mean a key-holding proxy (a Cloudflare Worker could do it) **and** rewriting `api.py`'s httpx streaming for
-the browser, dropping `flet-camera`, and a 20+ MB first load. Not today; see "Later" at the bottom.
+Why the page lives on GitHub Pages rather than inside the Cloud Run container (AllAboard does the latter):
+the page appears instantly even when the API is cold, and the cold start hides behind the "working" animation.
+A project repo's Pages site is `bpmdata.github.io/ChefBot/` automatically; the hub only needs a link to it.
 
-## Stop points
-
-Each phase ends with a commit on the branch, so a session that runs out partway still leaves usable work.
-Open the PR after phase 1 and keep pushing to it.
+## Phases (each ends in a commit; open the PR after phase 1 and keep pushing to it)
 
 | Phase | Needs Bryan? | Done when |
 |---|---|---|
-| 1. Demo mode in the app | No | `WEB_DEMO.md` tests pass; demo off = no behaviour change |
-| 2. Container, run locally | No | Docker image serves the app; two browser profiles see separate recipes |
-| 3. Deploy to Cloud Run | **Yes** (approval, secret) | Cold-start URL works from a phone |
-| 4. Landing page on bpmdata.github.io | Yes (approve the PR there) | `/chefbot/` opens and wakes the service |
-| 5. Featured recipes | Yes (picks and approves each) | Optional today |
+| 1. API server, local | No | A recipe job runs end to end with a mocked model; tests pass |
+| 2. Front end, local | No | Ingredients form, waiting animation, recipe card, saved recipes, at 375 px and desktop |
+| 3. Review step | No (dev key for live checks) | Catches both mistakes in `docs/review-loop/example-lamb-fries.md` |
+| 4. Globe spike | No | MapLibre globe with 3 cuisine regions, zooms to US counties |
+| 5. Deploy | **Yes** | Pages URL makes a real recipe from a phone on mobile data |
 
-## Phase 1: demo mode (no cloud, no key, start here)
+Stop after any phase if the session runs out; say in the PR where you stopped.
 
-Build `WEB_DEMO.md` sections 1, 2, 3, 5 and 6 behind `CHEFBOT_DEMO=1`. Suggested order, smallest risk first:
+### Phase 1: API server (`server/`)
 
-1. `src/chefbot/demo.py`: `enabled()`, the limit numbers in one dict, and the in-memory counters with one lock,
-   written through to `<data>/usage.json` after every change and read back on start.
-2. Per-visitor history (`history.py` takes a root folder instead of a global; `main.py` waits for the visitor id
-   before creating `History`; never a shared fallback). Write the `prune_photos` isolation test before touching it.
-3. Lock settings: ignore stored key/model/thinking/dev mode/relay; hide those controls.
-4. Limits wired into `reply()`, the picture call, the photo-reading call, and `send_text` (message length).
-   Plain-language messages when hit; no cost talk.
-5. "Source code" link (AGPL) and a one-line note that demo recipes are deleted after 30 days untouched.
-6. Globe: idle spin off in demo mode. Leave the drag test for phase 3 (it needs real network latency).
+- FastAPI app in `server/app.py`, its own `server/requirements.txt` (fastapi, uvicorn, httpx, markdown, fpdf2,
+  pillow; no Flet). It adds `src/` to the path and imports `chefbot.api`, `chefbot.prompts`, `chefbot.cuisines`.
+- Endpoints:
+  - `GET /healthz` returns `{"status": "ok"}` (the front end pings it on load to wake the service).
+  - `GET /api/cuisines`: the cuisine tree, for the picker and the globe.
+  - `POST /api/jobs`: `{ingredients, must_not, cuisine, audience, dessert, pantry, history?}` (history = the
+    earlier turns, for follow-up edits; the browser owns the conversation). Returns `{job_id}`.
+  - `GET /api/jobs/<id>/events`: Server-Sent Events: `stage` (drafting / checking / fixing / done),
+    `progress` (ingredient names and step count parsed from the draft as it streams, for the animation),
+    `result` (final markdown, title, list of fixes), `error` (a plain message, safe to show).
+    Reconnecting with the same id replays from the start; jobs are kept in memory 30 minutes after finishing.
+  - `POST /api/photo/ingredients` (image, size-capped) and `POST /api/jobs/<id>/picture` (dish picture).
+  - `POST /api/pdf` returns the PDF bytes from `export.recipe_pdf` (bake the CJK fonts into the image).
+- **Limits** (`server/limits.py`, numbers in one dict): per-visitor (a random id the browser sends in a header;
+  friendly, not secure) and a **global daily cap**, which together with the OpenRouter key's credit limit is the
+  real protection. Counters in memory behind one lock, written to `gs://<bucket>/usage.json` after each change
+  over the Cloud Storage JSON API (as AllAboard's `GcsBackend` does), read back on start, and **fail open** if
+  the bucket is unreachable (AllAboard rule R7). Plain messages when a limit is hit; no cost talk.
+- Model and thinking level are fixed on the server; the browser can't choose them. Max message length enforced.
+- CORS: allow only the Pages origin (`https://bpmdata.github.io`) and `http://localhost:5173`.
+- Tests in `tests/server/` with a mocked `OpenRouter` (never call the real API): job lifecycle, SSE replay,
+  each limit including after a simulated restart, CORS, message and photo size caps.
 
-Run `.venv/bin/python -m pytest` after each step. Commit, push, open the PR into `main` (never merge).
+### Phase 2: front end (`web/`)
 
-## Phase 2: container
+- Vite + React 19 + TypeScript + Tailwind 4 + `motion`, mirroring AllAboard's `package.json` versions. Dark
+  theme by default, Fraunces + DM Sans, content in a centered column on desktop. **No emojis**; icons are
+  `lucide-react` or SVG.
+- Screens: home (ingredients, must-not, cuisine picker, audience/dessert/pantry options, Recents and Favorites),
+  the conversation (recipe card, follow-up box, Edit/Delete on the last follow-up, Try again), Settings
+  (Source code link for AGPL, a note that recipes stay in this browser only). Port behaviour from `src/main.py`
+  and `README.md`; don't invent new features.
+- Storage: IndexedDB (via `idb-keyval` or similar) for conversations, favourites and pictures. Same fields as
+  `history.py` (`favorite`, `access_count`, `last_accessed`, `updated`) so an export/import is possible later.
+- Export: Copy, PDF (server endpoint), HTML (built in the browser), Email as a `mailto:` link (shorten long
+  recipes, as `export.mailto_link` does), Share via `navigator.share` with copy as the fallback.
+- Ingredient photos: `<input type="file" accept="image/*" capture="environment">`, resized in the browser
+  before upload.
+- **Waiting screen:** a placeholder animation built with `motion` first (dots that settle into the ingredient
+  names from `progress` events, then a "Checking" stage). Leave a clean slot for an EOMD piece; making that piece
+  happens in the EOMD repo under its own process, not here. The stages shown must be the real ones from the
+  server, not a timer.
+- Base URL of the API from `VITE_API_URL`. Playwright check at 375x812 and 1280x800.
 
-`Dockerfile` + `.dockerignore` exactly as `WEB_DEMO.md` "How it runs" describes (pin `flet-web==1.0.5`, no
-Android deps, bake in the CJK fonts, `FLET_SERVER_IP=0.0.0.0`, `FLET_SERVER_PORT=$PORT`,
-`FLET_APP_STORAGE_DATA=/data/chefbot`). Run it with a local folder mounted at `/data` and Bryan's dev key passed
-in the environment (never printed). Check at 375x812 and desktop, two profiles: separate recipes, a limit
-triggers, photo upload and Save PDF download work. Add `tools/deploy.sh` with the `gcloud` commands, not yet run.
+### Phase 3: the review step (server)
 
-## Phase 3: deploy (ask Bryan first)
+Follow the flow already designed in HANDOFF's "Second-model review loop" backlog item, with one change Bryan
+made today: **the recipe is shown only after it's checked**, behind the waiting screen. Draft with the main model;
+send the full recipe to a fast reviewer from Z.ai, Moonshot or DeepSeek, asking for JSON issues (issue,
+location, fix), not a rewrite; minor issues get targeted edits, major ones (diet, allergen, must-not violation,
+missing step) one revision round with the main model. The result lists what was fixed ("Fixed 2 things", tap to
+see). Put the reviewer model and prompt in `prompts.py` so the Flet app can adopt it later.
+Check it on `docs/review-loop/example-lamb-fries.md` (both mistakes caught) and note the total time in the PR.
+Keep a server flag that streams the draft instead (Bryan's earlier choice) in case the wait proves too long.
 
-Same Google Cloud project and region as AllAboard (look at AllAboard's setup, change nothing there).
-Ask before each billable thing:
+### Phase 4: globe spike (`web/src/globe/`)
 
-1. Bryan makes a **new** OpenRouter key with a hard credit limit and puts it in Secret Manager himself. You only
-   reference the secret name.
-2. Bucket for `/data`, with a lifecycle rule deleting objects older than 30 days under `visitors/`.
-   (Lifecycle rules go by object age, not "folder untouched"; every save rewrites the conversation file, so an
-   active visitor's recent files stay. Note this in HANDOFF.)
-3. `gcloud run deploy` with: `--max-instances 1 --min-instances 0 --timeout 3600 --session-affinity
-   --cpu 1 --memory 1Gi --set-secrets OPENROUTER_API_KEY=<secret>:latest`, the volume mount, `CHEFBOT_DEMO=1`,
-   `--allow-unauthenticated`.
-4. Test from a cold start (record the time), on a phone on mobile data: make a recipe, drag the globe, open in a
-   second browser and confirm it can't see the first one's recipe. If the globe drags badly, default demo mode to
-   the flat map and say so in the PR.
+- MapLibre GL JS v5, `projection: globe`. No third-party tile service: draw land and borders from Natural Earth
+  GeoJSON shipped with the page, styled to match the app.
+- Add a `--geojson` output to `tools/build_map_data.py` that writes the cuisine regions in longitude/latitude
+  (skip its screen projection; reuse its region definitions). The source shapefiles are in
+  `assets/maps/source/` on Bryan's Mac (gitignored); if they're missing, download the same Natural Earth and
+  2025 Census files it names.
+- Spike scope: three regions (one country-level, one Indian state group, one US county group such as
+  Italian-American), hover and tap to pick, fly-to on tap. Report frame rate on a phone and the GeoJSON size.
+  The full map replaces the cuisine picker only after Bryan sees the spike.
 
-The URL goes in `HANDOFF.local.md`. It will also be public once phase 4 links it, which is fine (see below).
+### Phase 5: deploy (ask Bryan before each billable step)
 
-## Phase 4: landing page on bpmdata.github.io
-
-A separate repo (`BPMData/bpmdata.github.io`): its own branch and its own PR; never push to its main branch.
-Match that site's existing style; read its structure before adding anything.
-
-- `chefbot/index.html`: one screen. What ChefBot is in two sentences, one or two screenshots (take them in
-  phase 3 from the live demo, dark theme), an **"Open ChefBot"** button to the Cloud Run URL in a new tab, a note
-  that the first open after a quiet spell takes a few seconds, and links to the GitHub repo and the Android APK
-  release if one exists. No emojis. Fraunces + DM Sans to match the app.
-- **Wake the server early:** on page load, `fetch(CLOUD_RUN_URL, {mode: "no-cors"})` once, so the cold start
-  happens while the visitor reads. Nothing else in the page talks to the service.
-- **Link, don't iframe.** Inside an iframe on another site, the browser treats ChefBot's storage as third-party:
-  Safari partitions and expires it, which would mint new visitor ids and lose people's saved recipes. A new tab
-  avoids that.
-- Add a card or link to ChefBot from the hub's front page, the same way the other projects are listed.
-
-## Decision for Bryan before phase 4
-
-`WEB_DEMO.md` assumed a private link, not advertised. Linking it from the hub homepage makes it public. That's
-fine **if** the global daily cap and the OpenRouter credit limit are set low enough that a crawler or a shared
-link can only burn a day's cap. Codex: ask Bryan for the global daily reply cap and the credit limit he wants
-before publishing the link, and put both in the PR description.
-
-## Cloudflare (optional, only if it saves effort)
-
-Not needed for any phase above. Two places it could help, if Bryan's Cloudflare account already has a domain:
-
-- **A nicer URL:** a Worker on `chefbot.<his domain>` that proxies HTTP and WebSocket traffic to the Cloud Run
-  URL (Workers pass WebSocket upgrades through `fetch`). Test that the Flet WebSocket and session reconnect still
-  work through it before switching the landing page's link.
-- **An edge kill switch:** the Worker can return a "resting" page without waking Cloud Run when a flag in
-  Workers KV is set. The in-app global cap already covers this, so it's a nice-to-have.
-
-Don't move the app itself to Workers: Python Workers can't run a Flet server.
+- Same Google Cloud project and region as AllAboard (named in its `docs/DEPLOYMENT.md`). Service
+  `chefbot-api`, Dockerfile-based, `--max-instances 1 --min-instances 0 --allow-unauthenticated`.
+- **CPU throttling gotcha:** with request-based billing, Cloud Run throttles the CPU when no request is open,
+  so a job whose browser disconnected may stall. Test it (start a recipe, close the tab, reopen 60 s later). If
+  it stalls, deploy with `--no-cpu-throttling` (instances still scale to zero when idle) and say so in the PR.
+- Bryan creates a **new** OpenRouter key with a hard credit limit and stores it in Secret Manager himself;
+  reference it with `--set-secrets`. Never see, print or commit it. Bucket for `usage.json` only.
+- Deploy workflows, modelled on AllAboard's `deploy.yml` but **`workflow_dispatch` only for now** (not on every
+  push to `main`): `deploy-api.yml` (Cloud Run; Bryan adds the deployer credential as a repo secret) and
+  `pages.yml` (build `web/` with `VITE_API_URL`, publish to Pages). Bryan switches Pages on in repo settings.
+- Ask Bryan for the global daily cap and the key's credit limit before the link goes on his hub page: the hub
+  makes it public.
+- Hub link: a separate PR in `BPMData/bpmdata.github.io`, matching how AllAboard is listed there.
 
 ## Finishing
 
-- PR into `main` with what was built, the tests, the cold-start time, the globe finding, the proposed limits.
-  Check the GitHub Actions tests pass. Don't merge.
-- Update `HANDOFF.md` (Pinned list: web demo built/deployed, how to redeploy) and `HANDOFF.local.md` (project,
-  region, service, bucket, secret names, URL).
-- Commit messages end with a `Co-Authored-By` line naming the model that wrote them.
-
-## Later (not this session)
-
-Static `flet build web` on Pages with a Cloudflare Worker holding the key and enforcing limits. Upside: no server
-to run, no WebSocket, the globe runs locally, recipes live in the browser with no bucket. Cost: `api.py` needs a
-browser-side streaming path, the camera and keep-alive extensions must be skipped, and the first load is slow.
-Worth a spike only once the Cloud Run demo is live.
+- PR into `main` (never merge), GitHub Actions tests passing, with: what was built, where you stopped, review-step
+  timing, globe frame rate, proposed limits, CPU-throttling result.
+- Update `HANDOFF.md` (Pinned list, architecture section for `server/` and `web/`, how to deploy) and
+  `HANDOFF.local.md` (service, bucket, secret names, URLs). Commit messages end with a `Co-Authored-By` line naming
+  the model that wrote them.

@@ -65,8 +65,11 @@ Connecticut, Greater Bridgeport and South Central Connecticut (`US_ITALIAN_AMERI
    $10 to $50 a month for little gain), session affinity with maximum 1 instance, Bryan's own key with a credit
    cap via Secret Manager, a Cloud Storage volume at `/data` for per-visitor history and usage limits, and an
    AGPL source link. The brief supersedes the older notes below where they differ.
-   **Run order for building it (2026-11-19): `docs/WEB_LAUNCH.md`**, written for Codex: phases with stop points,
-   plus a landing page at bpmdata.github.io/chefbot/ that links (not iframes) to the Cloud Run service. Not built yet.
+   **Superseded 2026-11-19: the web version drops Flet. Plan: `docs/WEB_LAUNCH.md`** (for Codex): React/Vite
+   front end on GitHub Pages (bpmdata.github.io/ChefBot/, recipes in the browser's IndexedDB), a Python FastAPI
+   server on Cloud Run reusing `src/chefbot/` (key, limits, the second-model check before a recipe is shown), a
+   MapLibre globe spike. The Flet app and APK stay as they are; a PWA replaces the APK only if it matches it on
+   the phone. Not built yet.
    **Earlier plan (2026-11-09: a portfolio piece, since recruiters won't run Flet commands):**
    - **Host it as a server app**, not a static build: Flet's web mode on a small always-on host (Fly.io, Render,
      Google Cloud Run or similar; pick one when building). A static `flet build web` would put the OpenRouter key in
