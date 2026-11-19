@@ -140,6 +140,9 @@ Keep a server flag that streams the draft instead (Bryan's earlier choice) in ca
 - Spike scope: three regions (one country-level, one Indian state group, one US county group such as
   Italian-American), hover and tap to pick, fly-to on tap. Report frame rate on a phone and the GeoJSON size.
   The full map replaces the cuisine picker only after Bryan sees the spike.
+- The local preview uses 189,337 bytes of GeoJSON. In a single-worker Chromium run, the flight from the
+  globe to New York City averaged 41.3 rendered frames/s at 375 × 812 and 39.3 at 1280 × 800.
+  These are headless measurements. Record device performance during the phone check.
 
 ### Recipe backups (export in phase 2; Drive after phase 5 is live)
 

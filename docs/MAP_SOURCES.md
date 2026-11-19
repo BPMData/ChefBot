@@ -17,7 +17,7 @@ The "Browse by map" view and the cuisine info-sheet mini-maps use pre-projected,
    - **Licence:** Public domain (https://www.naturalearthdata.com/about/terms-of-use/). Made with Natural Earth.
 
 3. **U.S. Census Bureau Cartographic Boundary File — County and Equivalent, 1:500,000 (`cb_2025_us_county_500k`, 2025)**
-   - **Used for:** the 64 parishes of Louisiana (`STATEFP` 22) only, dividing the state into Acadiana (`us_cajun`,
+   - **Used for:** the Italian-American and Native American county groups and the 64 parishes of Louisiana (`STATEFP` 22), dividing the state into Acadiana (`us_cajun`,
      22 parishes), the New Orleans area (`us_creole`, Orleans, Jefferson, St. Bernard and Plaquemines parishes),
      and the remaining 38 parishes in `us_southern_soul`.
    - **URL:** https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html
@@ -30,3 +30,7 @@ Unzip the three source archives into `assets/maps/source/` (git-ignored) and run
 ```bash
 .venv/bin/python tools/build_map_data.py
 ```
+
+For the browser globe, run `.venv/bin/python tools/build_map_data.py --geojson`. It writes latitude and
+longitude GeoJSON into `web/src/globe/`. The preview uses Natural Earth borders, Greece, the central and
+western Indian state group, and the U.S. Census county and county-equivalent boundaries around New York City.

@@ -1,6 +1,6 @@
 import { ArrowLeft, Download, ExternalLink, Settings as SettingsIcon, Upload } from "lucide-react";
 import { MotionConfig } from "motion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import logo from "../../src/assets/logo_white.svg";
 import { Chat } from "./Chat";
@@ -14,6 +14,8 @@ import {
   type Conversation, type Message,
 } from "./storage";
 import "./style.css";
+
+const Globe = lazy(() => import("./globe/Globe"));
 
 const storageNotice = "Recipes are saved in this browser only. Clearing site data deletes them. Export them to keep a backup.";
 const emptyDraft: Draft = {
@@ -74,6 +76,7 @@ function App() {
   const [tree, setTree] = useState<CuisineTree | null>(null);
   const [recipes, setRecipes] = useState<Conversation[]>([]);
   const [chatId, setChatId] = useState(() => sessionStorage.getItem("chefbot.open-chat"));
+  const [globe, setGlobe] = useState(false);
   const [settings, setSettings] = useState(false);
   const [ready, setReady] = useState(false);
   const [status, report] = useState("");
@@ -178,6 +181,7 @@ function App() {
     else sessionStorage.removeItem("chefbot.open-chat");
     setChatId(id);
     setSettings(showSettings);
+    setGlobe(false);
     report("");
     window.scrollTo(0, 0);
   }
@@ -235,17 +239,27 @@ function App() {
       </div>
     </header>
     <main>
-      {(settings || chat) && <button type="button" className="text-button back" onClick={() => navigate(settings ? chatId : null)}>
+      {(settings || chat || globe) && <button type="button" className="text-button back" onClick={() => navigate(settings ? chatId : null)}>
         <ArrowLeft size={17} /> {settings && chat ? "Back to recipe" : "Back to recipes"}
       </button>}
       {status && <div className="notice" role="status">{status}</div>}
       {settings ? <Settings recipes={recipes} refresh={setRecipes} report={report} /> :
+        globe ? <Suspense fallback={<p role="status">Loading the globe…</p>}>
+          <Globe choose={(id) => {
+            setDraft((current) => ({ ...current, settings: { ...current.settings, cuisine: id } }));
+            navigate(null);
+          }} />
+        </Suspense> :
         chat ? <Chat key={chat.id} conversation={chat} send={send} mutate={(transform) => mutate(chat.id, transform)}
           favorite={() => toggleFavorite(chat.id)} progress={progress} provisional={provisional} busy={busy} canReconnect={canReconnect}
           reconnect={() => { report(""); setReconnect((attempt) => attempt + 1); }}
           report={report} followUpLimit={tree?.limits.follow_ups ?? 5} messageLimit={tree?.limits.message_characters ?? 4000} /> :
         ready ? <Home tree={tree} draft={draft} setDraft={setDraft} create={() => void create()} busy={busy}
-          recipes={recipes} open={(id) => {
+          recipes={recipes} openGlobe={() => {
+            setGlobe(true);
+            report("");
+            window.scrollTo(0, 0);
+          }} open={(id) => {
             navigate(id);
             void mutate(id, (recipe) => ({ ...recipe, access_count: recipe.access_count + 1, last_accessed: Date.now() }))
               .catch(() => report("Couldn’t update recipe history."));

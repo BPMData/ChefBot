@@ -1,4 +1,4 @@
-import { Camera, ChevronDown, ChevronLeft, ChevronRight, Leaf, Search, Star, X } from "lucide-react";
+import { Camera, ChevronDown, ChevronLeft, ChevronRight, Globe2, Leaf, Search, Star, X } from "lucide-react";
 import { useState, type Dispatch, type FormEvent, type SetStateAction } from "react";
 import { dietLimit, readPhoto, resizePhoto, type CuisineTree, type Options } from "./api";
 import type { Conversation } from "./storage";
@@ -46,9 +46,10 @@ function CuisinePicker({ tree, options, change }: {
   </div>;
 }
 
-export function Home({ tree, draft, setDraft, create, busy, recipes, open, toggleFavorite }: {
+export function Home({ tree, draft, setDraft, create, busy, recipes, open, toggleFavorite, openGlobe }: {
   tree: CuisineTree | null; draft: Draft; setDraft: Dispatch<SetStateAction<Draft>>;
   create: () => void; busy: boolean; recipes: Conversation[];
+  openGlobe: () => void;
   open: (id: string) => void; toggleFavorite: (id: string) => void;
 }) {
   const [reading, setReading] = useState(false);
@@ -124,6 +125,9 @@ export function Home({ tree, draft, setDraft, create, busy, recipes, open, toggl
           </select>
         </div>
       </div>
+      {tree && <button type="button" className="text-button globe-button" onClick={openGlobe}>
+        <Globe2 size={17} /> Preview cuisine globe
+      </button>}
       <fieldset>
         <legend>Dietary requirements</legend>
         <div className="chips">{tree?.restrictions.map((restriction) => {

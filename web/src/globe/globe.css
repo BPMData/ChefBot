@@ -1,0 +1,13 @@
+.globe-panel { display: grid; gap: .9rem; }
+.globe-frame { position: relative; border-radius: .85rem; overflow: hidden; border: 1px solid var(--border); background: #16191c; }
+.globe-host { width: 100%; height: clamp(17rem, 53vh, 32rem); }
+.globe-host.maplibregl-map { font-family: "DM Sans", system-ui, sans-serif; }
+.globe-location, .globe-message {
+  position: absolute; left: .65rem; bottom: .65rem; max-width: calc(100% - 1.3rem);
+  z-index: 2; pointer-events: none; color: var(--ink); background: #17110ef0;
+  border: 1px solid var(--border); padding: .4rem .65rem; border-radius: .5rem;
+}
+.globe-cuisines { display: flex; flex-wrap: wrap; gap: .45rem; }
+.globe-cuisines [aria-pressed=true] { color: var(--accent); border-color: var(--accent); }
+.region-swatch { width: .62rem; height: .62rem; flex: 0 0 .62rem; border-radius: 100%; }
+.globe-panel .primary { justify-self: start; }

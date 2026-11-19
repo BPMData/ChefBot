@@ -1,4 +1,4 @@
-# ChefBot handoff (as of 2026-11-15)
+# ChefBot handoff (as of 2026-11-19)
 
 Everything a new session needs to keep going without the original conversation. Read this first, then
 `README.md` (features, how models were chosen) and `docs/EMAIL.md` (mail relay setup).
@@ -23,14 +23,18 @@ more than cost.
 **Web launch Phase 1 (2026-11-19, branch `chefbot-web-launch`).** The local FastAPI service
 can create and replay recipe jobs, serve the cuisine tree, read ingredient photos, make dish pictures,
 and export PDFs. Start it from the repo root with `.venv/bin/uvicorn server.app:app --port 8000`
-after installing `server/requirements.txt`. Offline tests are in `tests/server/`. No cloud resources
-were provisioned. **Phase 2:** React/Vite browser app under `web/`, with the cuisine list, SSE waiting screen,
+after installing `server/requirements.txt`. Offline tests are in `tests/server/`. **Phase 2:** React/Vite browser app under `web/`, with the cuisine list, SSE waiting screen,
 follow-ups, recipe photos, favorites, and IndexedDB backups. For local dev, run the API on port 8000
 and `npm ci && npm run dev` from `web/`. Playwright exercises the real API against a deterministic
 model at 375 × 812 and 1280 × 800. See PR #40. **Phase 3:** The web API checks finished drafts with GLM 5.3 Flash before sending a recipe. It applies
 unique, non-overlapping text fixes directly or asks the main model for one revision. Mocked tests
 cover both lamb-fries errors. Run `.venv/bin/python -m tools.smoke_review` with a development key for
-a live check and timing. Continue with Phase 4 in `docs/WEB_LAUNCH.md`.
+a live check and timing.
+**Phase 4:** The cuisine form links to a MapLibre globe preview for Greece, central and western India,
+and Italian-American counties. Rebuild the two browser GeoJSON files with
+`.venv/bin/python tools/build_map_data.py --geojson` and the same shapefiles used by Flet. The 189,337-byte
+map data is loaded when the preview opens. Chromium verified a county tap and cuisine selection at
+phone and desktop widths. A physical-phone benchmark remains for the deployment session.
 
 
 **Batch 4 geography expansion + Favorites, Search & "Try again" built (2026-11-15, branch `batch4-favorites-try-again`, PR waiting for Bryan's review):**

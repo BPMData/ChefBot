@@ -87,6 +87,7 @@ legend { margin-bottom: .45rem; }
 .primary.icon-button { color: var(--action-ink); }
 .text-button { padding: .35rem .5rem; color: var(--accent); }
 .text-button:hover, .secondary:hover { color: var(--accent); }
+.globe-button { justify-self: start; margin-top: -.35rem; }
 .saved { margin-top: 1.6rem; }
 .saved-header, .chat-heading { display: flex; justify-content: space-between; align-items: center; gap: .7rem; }
 .segmented { display: flex; gap: .2rem; border: 1px solid var(--border); padding: .2rem; border-radius: .8rem; }
