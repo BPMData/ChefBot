@@ -20,6 +20,13 @@ more than cost.
 
 ## Pinned (do these next, in this order)
 
+**Web launch Phase 1 (2026-11-19, branch `chefbot-web-launch`).** The local FastAPI service
+can create and replay recipe jobs, serve the cuisine tree, read ingredient photos, make dish pictures,
+and export PDFs. Start it from the repo root with `.venv/bin/uvicorn server.app:app --port 8000`
+after installing `server/requirements.txt`. Offline tests are in `tests/server/`. No cloud resources
+were provisioned. Continue with Phase 2 in `docs/WEB_LAUNCH.md`.
+
+
 **Batch 4 geography expansion + Favorites, Search & "Try again" built (2026-11-15, branch `batch4-favorites-try-again`, PR waiting for Bryan's review):**
 - **Batch 4 (16 cuisines, 6th continent Oceania, 89 leaves total):** Researched and built `oceania` (`australian`, `new_zealander`), `central_west_india` (moved Rajasthan out of `north_india`), South America (`venezuelan`, `chilean`, `guianas`), Near East (`yemeni`, `iraqi`), Africa (`south_african`, `east_african`, `ghanaian`, `central_african`), and US (`us_native_american`, `us_pacific_northwest`, `us_great_lakes`, `us_appalachian`) with researched `pantry` defaults (`tools/cuisine_pantry.json`), full 3D globe + 2D map support (`src/chefbot/maps/oceania.json`, updated `globe.json`, `world.json`, `americas.json`, `near_east.json`, `africa.json`, `united_states.json`, `india.json`), and non-overlapping call-out chips. Raw research in `docs/research/results/raw/fourth_batch.md` and decisions in `docs/research/FINDINGS.md`.
 - **Favorites, saved search & "Try again":** Added backwards-compatible `favorite`, `access_count`, `last_accessed` fields and `toggle_favorite`/`record_access` methods (`src/chefbot/history.py`, preserving `updated` so Recents stays chronological), hierarchical Favorites folder & sorting (`src/chefbot/favorites.py`, `src/main.py`), Recents/Favorites search, live header/row star toggle, and one-tap `"Try again"` on the latest AI reply (guarded by `self.working`, keeping `kept_photos` safe, with rollback on failure). Note: rebuild Android APK and test on phone before relying on mobile background behavior.
@@ -69,7 +76,7 @@ Connecticut, Greater Bridgeport and South Central Connecticut (`US_ITALIAN_AMERI
    front end on GitHub Pages (bpmdata.github.io/ChefBot/, recipes in the browser's IndexedDB), a Python FastAPI
    server on Cloud Run reusing `src/chefbot/` (key, limits, the second-model check before a recipe is shown), a
    MapLibre globe spike. The Flet app and APK stay as they are; a PWA replaces the APK only if it matches it on
-   the phone. Not built yet.
+   the phone. The API is implemented in Phase 1.
    **Earlier plan (2026-11-09: a portfolio piece, since recruiters won't run Flet commands):**
    - **Host it as a server app**, not a static build: Flet's web mode on a small always-on host (Fly.io, Render,
      Google Cloud Run or similar; pick one when building). A static `flet build web` would put the OpenRouter key in
@@ -259,6 +266,7 @@ alone. GitHub never shows secrets in logs or hands them to pull requests from fo
 ## Architecture
 
 ```
+server/                  FastAPI browser API, replayable jobs, one-object Cloud Storage usage checkpoints
 src/main.py              UI: home form, list & map cuisine browsers, recipe conversation, settings, email dialog
 src/chefbot/cuisines.py  cuisine tree loader, validator, breadcrumb paths, chip labels (`src/chefbot/cuisines/*.json`)
 src/chefbot/maps.py      map level loader, point-in-polygon hit-testing, mini-map lookup (`src/chefbot/maps/*.json`)

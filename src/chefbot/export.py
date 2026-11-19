@@ -5,6 +5,7 @@ import io
 import re
 import smtplib
 import ssl
+from collections.abc import Callable
 from email.message import EmailMessage
 from email.utils import make_msgid
 from pathlib import Path
@@ -257,7 +258,8 @@ def _add_photo(pdf, photo: bytes) -> bool:
 
 
 def recipe_pdf(title: str, text: str, photo: bytes | None = None,
-               cjk_fonts: dict[str, tuple[Path, Path]] | None = None) -> bytes:
+               cjk_fonts: dict[str, tuple[Path, Path]] | None = None, *,
+               html_filter: Callable[[str], str] | None = None) -> bytes:
     """A printable PDF of the reply, with the dish photo on top."""
     from fpdf import FPDF, TextStyle
 
@@ -273,6 +275,8 @@ def recipe_pdf(title: str, text: str, photo: bytes | None = None,
 
     title_html = f"<h1>{html.escape(title)}</h1>"
     body_html = re.sub(r"</?(?:em|i)>", "", markdown_to_html(without_title_line(text)))   # no italic cuts bundled for PDFs
+    if html_filter is not None:
+        body_html = html_filter(body_html)
     if (STATIC_FONTS / "DMSans-Regular.ttf").exists():
         pdf.add_font("DMSans", "", STATIC_FONTS / "DMSans-Regular.ttf")
         pdf.add_font("DMSans", "B", STATIC_FONTS / "DMSans-Bold.ttf")

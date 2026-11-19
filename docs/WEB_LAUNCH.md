@@ -190,3 +190,23 @@ database `chefbot` so it never collides with another hub page's storage.
 - Update `HANDOFF.md` (Pinned list, architecture section for `server/` and `web/`, how to deploy) and
   `HANDOFF.local.md` (service, bucket, secret names, URLs). Commit messages end with a `Co-Authored-By` line naming
   the model that wrote them.
+
+## Local API contract
+
+From the repo root, install `server/requirements.txt` and run `uvicorn server.app:app --port 8000`.
+`/healthz`, cuisines, and PDF work without OpenRouter credentials. Real model calls require
+`OPENROUTER_API_KEY` in the server environment. The tests inject a mock transport.
+
+- Send `X-Visitor-ID` on job, picture, photo, and PDF calls. Use a stable random UUID generated in the
+  browser. The job's id and the originating visitor id are both needed to replay it.
+- The cuisine response has an ordered `roots` array, a `nodes` object keyed by id, and the form options.
+- For a new job, `ingredients` is the opening text. For a follow-up it is the new user message, and
+  `history` contains prior raw user and assistant messages in complete pairs, starting with the
+  original ingredients. Resend the original form options, including `must_not` and any `restrictions`.
+- Read SSE with a streaming fetch so the visitor header can be sent. Every connection replays all events,
+  so replace the progress display with each snapshot. Phase 1 emits `drafting` and `done`.
+- Send the ingredient photo as raw JPEG, PNG, or WebP bytes. The picture route returns image bytes.
+  PDF accepts JSON with `title`, `markdown`, and an optional base64 `photo` without a data URL prefix.
+- `CHEFBOT_USAGE_BUCKET` enables single-worker usage persistence with the Cloud Run runtime identity.
+  The bucket only gets `usage.json`. Without it, local quotas are in memory. Build from the repository
+  root with `docker build -f server/Dockerfile .` to include the CJK PDF fonts.
