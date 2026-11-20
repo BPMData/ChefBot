@@ -40,7 +40,8 @@ export default function Globe({ choose }: { choose: (id: string) => void }) {
     try {
       globe = new MapLibreMap({
         container: host.current, center: [-20, 23], zoom: 0.55, minZoom: 0.2, maxZoom: 12,
-        dragRotate: false, pitchWithRotate: false, cooperativeGestures: true,
+        dragRotate: false, pitchWithRotate: false,
+        cooperativeGestures: !window.matchMedia("(any-pointer: coarse)").matches,
         style: {
           version: 8,
           projection: { type: "globe" },

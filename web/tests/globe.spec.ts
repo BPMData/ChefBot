@@ -37,3 +37,30 @@ test("flies to the Italian-American counties and uses the picked cuisine", async
   await expect(page.getByRole("button", { name: "Cuisine", exact: true })).toHaveText("Italian-American");
   expect(externalRequests).toEqual([]);
 });
+
+test("drags the globe with one finger on a phone", async ({ page }, info) => {
+  test.skip(info.project.name !== "phone", "Requires touchscreen emulation");
+  await page.goto("./");
+  await page.getByRole("button", { name: "Preview cuisine globe" }).click();
+  const map = page.getByLabel("Interactive cuisine map");
+  await expect(map).toHaveAttribute("data-ready", "true", { timeout: 15_000 });
+  const canvas = map.locator("canvas");
+  await canvas.scrollIntoViewIfNeeded();
+  const bounds = await canvas.boundingBox();
+  if (!bounds) throw new Error("Globe canvas is not visible");
+  await page.evaluate(() => performance.clearMarks("chefbot-globe-frame"));
+
+  const touch = await page.context().newCDPSession(page);
+  const x = Math.round(bounds.x + bounds.width / 3);
+  const y = Math.round(bounds.y + bounds.height / 2);
+  await touch.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] });
+  for (const distance of [20, 40, 60, 80]) {
+    await touch.send("Input.dispatchTouchEvent", {
+      type: "touchMove", touchPoints: [{ x: x + distance, y }],
+    });
+  }
+  await touch.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  await touch.detach();
+  await expect.poll(() => page.evaluate(() => performance.getEntriesByName("chefbot-globe-frame").length))
+    .toBeGreaterThan(0);
+});
