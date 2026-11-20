@@ -33,11 +33,12 @@ a live check and timing.
 **Phase 4:** The cuisine form links to a MapLibre globe preview for Greece, central and western India,
 and Italian-American counties. Rebuild the two browser GeoJSON files with
 `.venv/bin/python tools/build_map_data.py --geojson` and the same shapefiles used by Flet. The 189,337-byte
-map data is loaded when the preview opens. Chromium verified a county tap and cuisine selection at
-phone and desktop widths. A physical-phone benchmark remains for the deployment session.
-**Phase 5 prep:** Manual Cloud Run and Pages workflows are ready for Phase 5 approval and configuration.
-See the deployment setup in `docs/WEB_LAUNCH.md`. The live review timing, mobile-data reconnect test,
-CPU allocation decision, and hub link are still pending.
+map data is loaded when the preview opens. Chromium verifies a one-finger drag at phone width and a county
+tap and cuisine selection at phone and desktop widths. Mouse-only desktops keep cooperative gestures for
+scroll-wheel zoom. A physical-phone rendering benchmark is still pending.
+**Phase 5:** The API and web app are deployed. Bryan reported starting a recipe, force-quitting the browser,
+and finding the completed recipe an hour later. The API uses request-based billing with zero minimum
+instances. The live review timing and hub link are still pending.
 
 
 **Batch 4 geography expansion + Favorites, Search & "Try again" built (2026-11-15, branch `batch4-favorites-try-again`, PR waiting for Bryan's review):**
