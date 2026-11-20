@@ -8,18 +8,19 @@ export default defineConfig({
     {
       command: `${process.env.CHEFBOT_TEST_PYTHON ?? ".venv/bin/python"} -m uvicorn --app-dir tests/server browser_fixture:app --host localhost --port 8911`,
       cwd: resolve(".."),
+      env: { CHEFBOT_USAGE_BUCKET: "", OPENROUTER_API_KEY: "" },
       url: "http://localhost:8911/healthz",
       reuseExistingServer: false,
     },
     {
-      command: "npm run dev -- --host localhost",
+      command: "npm run dev -- --host localhost --port 5183",
       env: { VITE_API_URL: "http://localhost:8911" },
-      url: "http://localhost:5173/ChefBot/",
+      url: "http://localhost:5183/ChefBot/",
       reuseExistingServer: false,
     },
   ],
   use: {
-    baseURL: "http://localhost:5173/ChefBot/",
+    baseURL: "http://localhost:5183/ChefBot/",
     actionTimeout: 6_000,
     reducedMotion: "reduce",
     launchOptions: { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE },

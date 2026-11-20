@@ -40,11 +40,15 @@ export function exportHtml(title: string, markdown: string, photo?: string) {
   download(body, fileName(title) + ".html", "text/html");
 }
 
-export function mailto(title: string, markdown: string) {
-  const body = recipeText(markdown).replace(/\*\*|__|^`|`$/gm, "");
+export function plainRecipe(title: string, markdown: string) {
+  return title + "\n\n" + recipeText(markdown).replace(/^(?:#{1,6} |>[ ]?)/gm, "").replace(/\*\*|__|`/g, "");
+}
+
+export function mailto(title: string, markdown: string, recipient = "") {
+  const body = plainRecipe(title, markdown);
   let end = Math.min(body.length, 6500);
   const encode = (value: string) => encodeURIComponent(value.replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g, "�"));
-  const prefix = "mailto:?subject=" + encode(title.slice(0, 250)) + "&body=";
+  const prefix = "mailto:" + encode(recipient) + "?subject=" + encode(title.slice(0, 250)) + "&body=";
   while (end > 0 && prefix.length + encode(body.slice(0, end)).length > 6_900) end = Math.max(0, end - 128);
   return prefix + encode(body.slice(0, end) + (end < body.length ? "\n\n[Recipe shortened for email.]" : ""));
 }

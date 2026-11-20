@@ -96,9 +96,16 @@ def test_clean_review_and_optional_draft_stream(monkeypatch):
     monkeypatch.setenv("CHEFBOT_STREAM_DRAFT", "1")
     model = ReviewerFixture()
     model.findings = ()
+    model.draft = (
+        "Recipe Title: Sesame Squash\n\nIngredients: 450 g (about 1 lb) sliced squash, sesame oil and lime.\n"
+        "Allow 30 minutes. Roast the squash for 25 minutes. While it roasts, whisk the sesame oil and lime. "
+        "Toss the hot squash in the dressing and serve."
+    )
     with TestClient(create_app(model), headers=VISITOR) as client:
         events = run_recipe(client)
-    assert [data["delta"] for kind, data in events if kind == "draft"] == [DRAFT]
+    assert [data["delta"] for kind, data in events if kind == "draft"] == [model.draft]
+    assert model.calls[1][2][0] == {"role": "system", "content": prompts.RECIPE_REVIEW}
+    assert events[-1][1]["markdown"] == model.draft
     assert stages(events) == ["drafting", "checking", "done"]
     assert events[-1][1]["fixes"] == []
 

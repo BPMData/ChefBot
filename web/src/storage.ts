@@ -14,6 +14,7 @@ export type Conversation = {
   last_accessed: number;
   updated: number;
   pending?: Pending;
+  failedRequest?: { text: string; historyLength: number };
 };
 
 const db = createStore("chefbot", "recipes");
@@ -50,7 +51,7 @@ export function completeConversation(conversation: Conversation, pending: Pendin
     Object.entries(conversation.photos).filter(([index]) => Number(index) < pending.history.length),
   );
   return {
-    ...conversation, title: result.title || conversation.title, updated: Date.now(), pending: undefined, photos,
+    ...conversation, title: result.title || conversation.title, updated: Date.now(), pending: undefined, failedRequest: undefined, photos,
     messages: [...pending.history, { role: "user", content: pending.ingredients },
       { role: "assistant", content: result.markdown, title: result.title, fixes: result.fixes, jobId: pending.id }],
   };
@@ -58,7 +59,7 @@ export function completeConversation(conversation: Conversation, pending: Pendin
 
 export function backup(conversations: Conversation[]) {
   const recipes = conversations.filter((recipe) => recipe.messages.length > 0)
-    .map(({ pending, ...recipe }) => recipe);
+    .map(({ pending, failedRequest, ...recipe }) => recipe);
   return JSON.stringify({ format, version: 1, conversations: recipes }, null, 2);
 }
 
@@ -90,7 +91,7 @@ export async function restoreBackup(file: File) {
   const imported = new Map<string, Conversation>();
   for (const recipe of data.conversations as Conversation[]) {
     const previous = imported.get(recipe.id);
-    if (!previous || previous.updated < recipe.updated) imported.set(recipe.id, { ...recipe, pending: undefined });
+    if (!previous || previous.updated < recipe.updated) imported.set(recipe.id, { ...recipe, pending: undefined, failedRequest: undefined });
   }
   let added = 0;
   let changed = 0;

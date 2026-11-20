@@ -14,6 +14,11 @@ export type Cuisine = {
   children?: string[];
   subtitle?: string;
   about?: string;
+  prompt_name?: string;
+  flavors?: string[];
+  sweet_only?: string[];
+  signature_ingredients?: string[];
+  substitutes?: string[];
   pantry?: string[];
 };
 export type CuisineTree = {

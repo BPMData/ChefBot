@@ -4,7 +4,7 @@
 .globe-host.maplibregl-map { font-family: "DM Sans", system-ui, sans-serif; }
 .globe-location, .globe-message {
   position: absolute; left: .65rem; bottom: .65rem; max-width: calc(100% - 1.3rem);
-  z-index: 2; pointer-events: none; color: var(--ink); background: #17110ef0;
+  z-index: 2; pointer-events: none; color: #f7ede4; background: #17110ef0;
   border: 1px solid var(--border); padding: .4rem .65rem; border-radius: .5rem;
 }
 .globe-cuisines { display: flex; flex-wrap: wrap; gap: .45rem; }
