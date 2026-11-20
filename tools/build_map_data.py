@@ -2,9 +2,11 @@
 
 Run from the repo root:
     .venv/bin/python tools/build_map_data.py
+    .venv/bin/python tools/build_map_data.py --geojson  # browser globe
 """
 from __future__ import annotations
 
+import argparse
 import json
 import math
 from collections import defaultdict
@@ -1535,7 +1537,100 @@ def build_globe() -> dict:
     }
 
 
+def lonlat_geometry(shape, epsilon: float, min_area: float) -> dict | None:
+    """Keep polygon holes and simplify coordinates directly in longitude and latitude."""
+    geometry = shape.__geo_interface__
+    if geometry["type"] == "Polygon":
+        parts = [geometry["coordinates"]]
+    elif geometry["type"] == "MultiPolygon":
+        parts = geometry["coordinates"]
+    else:
+        return None
+    polygons = []
+    for polygon in parts:
+        rings = []
+        for index, source in enumerate(polygon):
+            if ring_area(source) >= min_area:
+                ring = simplify_ring(source, epsilon)
+                if ring:
+                    rings.append([[round(x, 4), round(y, 4)] for x, y in ring])
+                    continue
+            if index == 0:
+                break  # skip this polygon if its exterior is too small
+        if rings:
+            polygons.append(rings)
+    if not polygons:
+        return None
+    if len(polygons) == 1:
+        return {"type": "Polygon", "coordinates": polygons[0]}
+    return {"type": "MultiPolygon", "coordinates": polygons}
+
+
+def build_web_geojson() -> tuple[dict, dict]:
+    """Natural Earth country borders and three cuisines for the MapLibre globe spike."""
+    lands = []
+    regions = []
+    nodes = load_node_labels()
+
+    def add(destination, shape, epsilon, min_area, **properties):
+        geometry = lonlat_geometry(shape, epsilon, min_area)
+        if geometry is not None:
+            destination.append({"type": "Feature", "properties": properties, "geometry": geometry})
+
+    def selected(shape, region, name, epsilon, min_area):
+        add(regions, shape, epsilon, min_area, cuisine=region, label=nodes[region]["label"], name=name)
+
+    with shapefile.Reader(str(COUNTRIES_SHP)) as source:
+        for item in source.iterShapeRecords():
+            add(lands, item.shape, 0.32, 0.12)
+            if item.record["ADM0_A3"] == "GRC":
+                selected(item.shape, "greek", "Greece", 0.045, 0.015)
+
+    states = set()
+    with shapefile.Reader(str(ADMIN1_SHP)) as source:
+        for index, record in enumerate(source.iterRecords()):
+            if record["iso_a2"] == "IN" and record["name"] in IN_CENTRAL_WEST:
+                name = record["name"]
+                selected(source.shape(index), "central_west_india", name, 0.045, 0.001)
+                states.add(name)
+    if states != IN_CENTRAL_WEST:
+        raise SystemExit(f"Indian states not in the shapefile: {sorted(IN_CENTRAL_WEST - states)}")
+
+    counties = set()
+    with shapefile.Reader(str(COUNTIES_SHP)) as source:
+        for index, record in enumerate(source.iterRecords()):
+            state = US_SPLIT_STATEFP.get(record["STATEFP"])
+            name = record["NAME"]
+            if name in US_ITALIAN_AMERICAN_COUNTIES.get(state, ()):
+                selected(source.shape(index), "us_italian_american", name, 0.008, 0.0002)
+                counties.add((state, name))
+    expected = {(state, name) for state, names in US_ITALIAN_AMERICAN_COUNTIES.items() for name in names}
+    if counties != expected:
+        raise SystemExit(f"U.S. counties not in the shapefile: {sorted(expected - counties)}")
+    if {feature["properties"]["cuisine"] for feature in regions} != {"greek", "central_west_india", "us_italian_american"}:
+        raise SystemExit("Missing a cuisine geometry for the web globe.")
+    return (
+        {"type": "FeatureCollection", "features": lands},
+        {"type": "FeatureCollection", "features": regions},
+    )
+
+
+def write_web_geojson() -> None:
+    output = ROOT / "web" / "src" / "globe"
+    output.mkdir(parents=True, exist_ok=True)
+    for name, data in zip(("land", "regions"), build_web_geojson()):
+        path = output / f"{name}.geojson"
+        text = json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n"
+        path.write_text(text, encoding="utf-8")
+        print(f"wrote {path.relative_to(ROOT)} ({len(text.encode('utf-8')):,} bytes, {len(data['features'])} features)")
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--geojson", action="store_true", help="build longitude/latitude assets for MapLibre")
+    if parser.parse_args().geojson:
+        write_web_geojson()
+        return
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     built = build_all()
     total_bytes = 0

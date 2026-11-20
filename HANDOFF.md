@@ -1,4 +1,4 @@
-# ChefBot handoff (as of 2026-11-15)
+# ChefBot handoff (as of 2026-11-19)
 
 Everything a new session needs to keep going without the original conversation. Read this first, then
 `README.md` (features, how models were chosen) and `docs/EMAIL.md` (mail relay setup).
@@ -19,6 +19,26 @@ more than cost.
   opens the PR, Bryan merges it.
 
 ## Pinned (do these next, in this order)
+
+**Web launch Phase 1 (2026-11-19, branch `chefbot-web-launch`).** The local FastAPI service
+can create and replay recipe jobs, serve the cuisine tree, read ingredient photos, make dish pictures,
+and export PDFs. Start it from the repo root with `.venv/bin/uvicorn server.app:app --port 8000`
+after installing `server/requirements.txt`. Offline tests are in `tests/server/`. **Phase 2:** React/Vite browser app under `web/`, with the cuisine list, SSE waiting screen,
+follow-ups, recipe photos, favorites, and IndexedDB backups. For local dev, run the API on port 8000
+and `npm ci && npm run dev` from `web/`. Playwright exercises the real API against a deterministic
+model at 375 × 812 and 1280 × 800. See PR #40. **Phase 3:** The web API checks finished drafts with GLM 5.3 Flash before sending a recipe. It applies
+unique, non-overlapping text fixes directly or asks the main model for one revision. Mocked tests
+cover both lamb-fries errors. Run `.venv/bin/python -m tools.smoke_review` with a development key for
+a live check and timing.
+**Phase 4:** The cuisine form links to a MapLibre globe preview for Greece, central and western India,
+and Italian-American counties. Rebuild the two browser GeoJSON files with
+`.venv/bin/python tools/build_map_data.py --geojson` and the same shapefiles used by Flet. The 189,337-byte
+map data is loaded when the preview opens. Chromium verified a county tap and cuisine selection at
+phone and desktop widths. A physical-phone benchmark remains for the deployment session.
+**Phase 5 prep:** Manual Cloud Run and Pages workflows are ready for Phase 5 approval and configuration.
+See the deployment setup in `docs/WEB_LAUNCH.md`. The live review timing, mobile-data reconnect test,
+CPU allocation decision, and hub link are still pending.
+
 
 **Batch 4 geography expansion + Favorites, Search & "Try again" built (2026-11-15, branch `batch4-favorites-try-again`, PR waiting for Bryan's review):**
 - **Batch 4 (16 cuisines, 6th continent Oceania, 89 leaves total):** Researched and built `oceania` (`australian`, `new_zealander`), `central_west_india` (moved Rajasthan out of `north_india`), South America (`venezuelan`, `chilean`, `guianas`), Near East (`yemeni`, `iraqi`), Africa (`south_african`, `east_african`, `ghanaian`, `central_african`), and US (`us_native_american`, `us_pacific_northwest`, `us_great_lakes`, `us_appalachian`) with researched `pantry` defaults (`tools/cuisine_pantry.json`), full 3D globe + 2D map support (`src/chefbot/maps/oceania.json`, updated `globe.json`, `world.json`, `americas.json`, `near_east.json`, `africa.json`, `united_states.json`, `india.json`), and non-overlapping call-out chips. Raw research in `docs/research/results/raw/fourth_batch.md` and decisions in `docs/research/FINDINGS.md`.
@@ -69,7 +89,7 @@ Connecticut, Greater Bridgeport and South Central Connecticut (`US_ITALIAN_AMERI
    front end on GitHub Pages (bpmdata.github.io/ChefBot/, recipes in the browser's IndexedDB), a Python FastAPI
    server on Cloud Run reusing `src/chefbot/` (key, limits, the second-model check before a recipe is shown), a
    MapLibre globe spike. The Flet app and APK stay as they are; a PWA replaces the APK only if it matches it on
-   the phone. Not built yet.
+   the phone. The API is implemented in Phase 1.
    **Earlier plan (2026-11-09: a portfolio piece, since recruiters won't run Flet commands):**
    - **Host it as a server app**, not a static build: Flet's web mode on a small always-on host (Fly.io, Render,
      Google Cloud Run or similar; pick one when building). A static `flet build web` would put the OpenRouter key in
@@ -259,6 +279,8 @@ alone. GitHub never shows secrets in logs or hands them to pull requests from fo
 ## Architecture
 
 ```
+web/                     React/Vite web app, browser-owned recipes and backups
+server/                  FastAPI browser API, replayable jobs, one-object Cloud Storage usage checkpoints
 src/main.py              UI: home form, list & map cuisine browsers, recipe conversation, settings, email dialog
 src/chefbot/cuisines.py  cuisine tree loader, validator, breadcrumb paths, chip labels (`src/chefbot/cuisines/*.json`)
 src/chefbot/maps.py      map level loader, point-in-polygon hit-testing, mini-map lookup (`src/chefbot/maps/*.json`)

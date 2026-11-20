@@ -1,0 +1,43 @@
+name: Deploy ChefBot to Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: chefbot-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
+    env:
+      VITE_API_URL: ${{ vars.CHEFBOT_API_URL }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - uses: actions/configure-pages@v5
+      - name: Build
+        working-directory: web
+        run: |
+          node -e 'const url = new URL(process.env.VITE_API_URL); if (url.protocol !== "https:" || !url.hostname || url.username || url.password || url.search || url.hash || url.pathname !== "/") throw new Error("CHEFBOT_API_URL must be an HTTPS API origin")'
+          npm ci
+          npm run build
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: web/dist
+      - uses: actions/deploy-pages@v4
+        id: publish

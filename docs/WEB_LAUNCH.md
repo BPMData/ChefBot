@@ -140,6 +140,9 @@ Keep a server flag that streams the draft instead (Bryan's earlier choice) in ca
 - Spike scope: three regions (one country-level, one Indian state group, one US county group such as
   Italian-American), hover and tap to pick, fly-to on tap. Report frame rate on a phone and the GeoJSON size.
   The full map replaces the cuisine picker only after Bryan sees the spike.
+- The local preview uses 189,337 bytes of GeoJSON. In a single-worker Chromium run, the flight from the
+  globe to New York City averaged 41.3 rendered frames/s at 375 × 812 and 39.3 at 1280 × 800.
+  These are headless measurements. Record device performance during the phone check.
 
 ### Recipe backups (export in phase 2; Drive after phase 5 is live)
 
@@ -190,3 +193,56 @@ database `chefbot` so it never collides with another hub page's storage.
 - Update `HANDOFF.md` (Pinned list, architecture section for `server/` and `web/`, how to deploy) and
   `HANDOFF.local.md` (service, bucket, secret names, URLs). Commit messages end with a `Co-Authored-By` line naming
   the model that wrote them.
+
+## Local API contract
+
+From the repo root, install `server/requirements.txt` and run `uvicorn server.app:app --port 8000`.
+`/healthz`, cuisines, and PDF work without OpenRouter credentials. Real model calls require
+`OPENROUTER_API_KEY` in the server environment. The tests inject a mock transport.
+
+- Send `X-Visitor-ID` on job, picture, photo, and PDF calls. Use a stable random UUID generated in the
+  browser. The job's id and the originating visitor id are both needed to replay it.
+- The cuisine response has an ordered `roots` array, a `nodes` object keyed by id, and the form options.
+- For a new job, `ingredients` is the opening text. For a follow-up it is the new user message, and
+  `history` contains prior raw user and assistant messages in complete pairs, starting with the
+  original ingredients. Resend the original form options, including `must_not` and any `restrictions`.
+- Read SSE with a streaming fetch so the visitor header can be sent. Every connection replays all events,
+  so replace the progress display with each snapshot. Recipes are reviewed before the final `result`.
+  Set `CHEFBOT_STREAM_DRAFT=1` on the API to display a provisional draft before checking. In that mode
+  append each `draft.delta` to a fresh buffer on every connection and use only the final result for saving.
+- Send the ingredient photo as raw JPEG, PNG, or WebP bytes. The picture route returns image bytes.
+  PDF accepts JSON with `title`, `markdown`, and an optional base64 `photo` without a data URL prefix.
+- `CHEFBOT_USAGE_BUCKET` enables single-worker usage persistence with the Cloud Run runtime identity.
+  The bucket only gets `usage.json`. Without it, local quotas are in memory. Build from the repository
+  root with `docker build -f server/Dockerfile .` to include the CJK PDF fonts.
+
+Run the browser app with `npm ci && npm run dev` from `web/` and open
+`http://localhost:5173/ChefBot/`. The API defaults to `http://localhost:8000` for dev.
+Run `npm test` from `web/` with the server dependencies installed in the root `.venv`. Playwright
+starts a separate mocked API on port 8911, so stop any Vite server on port 5173 first. To use another
+Python or Chromium executable, set `CHEFBOT_TEST_PYTHON` or `PLAYWRIGHT_CHROMIUM_EXECUTABLE`.
+
+## Deployment setup
+
+Use the Google Cloud project and region from AllAboard's deployment guide. After Bryan approves the billable
+steps, set up a usage bucket in that project and grant the ChefBot runtime service account
+`roles/storage.objectUser` on that bucket. Give the same runtime identity access to the OpenRouter secret.
+Bryan creates the separate, capped key and adds it to Secret Manager.
+
+| GitHub Actions setting | Value |
+|---|---|
+| Secret `GCP_SA_KEY` | Credentials for the Cloud Run deployer |
+| Variable `CHEFBOT_GCP_PROJECT` | AllAboard's Google Cloud project ID |
+| Variable `CHEFBOT_GCP_REGION` | AllAboard's Cloud Run region |
+| Variable `CHEFBOT_RUNTIME_SA` | ChefBot runtime service account email |
+| Variable `CHEFBOT_USAGE_BUCKET` | Bare bucket name |
+| Variable `CHEFBOT_OPENROUTER_SECRET` | Secret Manager name for the capped key |
+| Optional variable `CHEFBOT_STREAM_DRAFT` | Set to `1` to show drafts during the review |
+| Variable `CHEFBOT_API_URL` | Cloud Run HTTPS origin, available after the first API deploy |
+
+After review and merge, dispatch **Deploy ChefBot API** from `main` and verify `/healthz`. Select **GitHub Actions**
+as the Pages publishing source in repo settings, add the API origin to the repo variables, and dispatch
+**Deploy ChefBot to Pages** from `main`. Open the Pages URL on a phone over mobile data and make a recipe.
+Close the tab while it is drafting, reopen it after 60 seconds, and inspect the reply and server logs. If processing
+stalled during the disconnect, get approval for instance-based billing and rerun the API workflow with
+`cpu_always_allocated` enabled. The minimum instance count remains zero in either mode.

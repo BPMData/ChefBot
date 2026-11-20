@@ -1,0 +1,66 @@
+name: Deploy ChefBot API
+
+on:
+  workflow_dispatch:
+    inputs:
+      cpu_always_allocated:
+        description: Allocate CPU outside requests if the phone reconnect test requires it
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chefbot-api-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PROJECT: ${{ vars.CHEFBOT_GCP_PROJECT }}
+      REGION: ${{ vars.CHEFBOT_GCP_REGION }}
+      BUCKET: ${{ vars.CHEFBOT_USAGE_BUCKET }}
+      RUNTIME_SA: ${{ vars.CHEFBOT_RUNTIME_SA }}
+      OPENROUTER_SECRET: ${{ vars.CHEFBOT_OPENROUTER_SECRET }}
+      STREAM_DRAFT: ${{ vars.CHEFBOT_STREAM_DRAFT }}
+      CPU_ALWAYS_ALLOCATED: ${{ inputs.cpu_always_allocated }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Stage API source
+        run: |
+          for name in PROJECT REGION BUCKET RUNTIME_SA OPENROUTER_SECRET; do
+            if [[ -z "${!name}" ]]; then
+              echo "::error::Missing ChefBot deploy configuration for $name."
+              exit 1
+            fi
+          done
+          source_dir="$RUNNER_TEMP/chefbot-source"
+          mkdir -p "$source_dir"
+          git archive HEAD server src/chefbot src/assets/fonts/static | tar -x -C "$source_dir"
+          cp "$source_dir/server/Dockerfile" "$source_dir/Dockerfile"
+      - uses: google-github-actions/auth@v3
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Deploy to Cloud Run
+        run: |
+          cpu=(--cpu-throttling)
+          if [[ "$CPU_ALWAYS_ALLOCATED" == true ]]; then
+            cpu=(--no-cpu-throttling)
+          fi
+          stream_draft=0
+          if [[ "$STREAM_DRAFT" == 1 ]]; then
+            stream_draft=1
+          fi
+          gcloud run deploy chefbot-api \
+            --source="$RUNNER_TEMP/chefbot-source" \
+            --project="$PROJECT" --region="$REGION" --service-account="$RUNTIME_SA" \
+            --port=8080 --min-instances=0 --max-instances=1 --timeout=900 \
+            --allow-unauthenticated "${cpu[@]}" \
+            --set-env-vars="CHEFBOT_USAGE_BUCKET=$BUCKET,CHEFBOT_STREAM_DRAFT=$stream_draft" \
+            --set-secrets="OPENROUTER_API_KEY=$OPENROUTER_SECRET:latest" \
+            --quiet

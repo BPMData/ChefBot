@@ -1,0 +1,7 @@
+fastapi>=0.115
+uvicorn>=0.34
+httpx>=0.28
+markdown>=3.7
+fpdf2>=2.8.4
+pillow>=12.3.0
+nh3>=0.3
