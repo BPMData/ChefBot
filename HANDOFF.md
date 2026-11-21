@@ -1,4 +1,4 @@
-# ChefBot handoff (as of 2026-11-19)
+# ChefBot handoff (as of 2026-11-20)
 
 Everything a new session needs to keep going without the original conversation. Read this first, then
 `README.md` (features, how models were chosen) and `docs/EMAIL.md` (mail relay setup).
@@ -19,6 +19,14 @@ more than cost.
   opens the PR, Bryan merges it.
 
 ## Pinned (do these next, in this order)
+
+**Web parity, November 20, branch `codex/web-recipe-parity`.** The cuisine grid and globe now open the
+same infobox on a cuisine tap. Regional maps, highlights and callouts use the existing Flet geography.
+The browser also restores cooking preferences, follow-up shortcuts, user-message copy, broader saved
+search, picture downloads, file sharing and themes. See the flow comparison and remaining gaps in
+[the web launch plan](docs/WEB_LAUNCH.md#android-and-browser-parity-2026-11-20). Next up are saved-recipe
+picture generation after job expiry, Favorites folders, and device checks. Confirm approval before publishing
+to Pages, redeploying the API or running live model checks.
 
 **Web launch Phase 1 (2026-11-19, branch `chefbot-web-launch`).** The local FastAPI service
 can create and replay recipe jobs, serve the cuisine tree, read ingredient photos, make dish pictures,

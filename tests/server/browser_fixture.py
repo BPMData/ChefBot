@@ -4,10 +4,11 @@ import io
 
 from PIL import Image
 
-from server.app import create_app
+from server.app import ORIGINS, create_app
 from server.limits import LIMITS
 from chefbot.api import Chunk
 
+ORIGINS.append("http://localhost:5183")
 LIMITS["reply_cooldown_seconds"] = 0
 
 

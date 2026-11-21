@@ -6,6 +6,32 @@ Decided with Bryan, 2026-11-19. This replaces the Flet server-mode plan in `docs
 Before anything: read `CLAUDE.md` (its ground rules apply to you), `HANDOFF.md`, `HANDOFF.local.md` if present,
 and AllAboard's `docs/DEPLOYMENT.md` (BPMData/allaboard), which records hard-won Cloud Run rules this plan reuses.
 
+## Android and browser parity, 2026-11-20
+
+The deployed comparison point is the Pages build of `351bd48`. PR #41 merged the one-finger globe gesture
+after that deployment. The handoff records handset checks for PDF and Share in October, background replies
+on November 3, and globe browsing on November 12. The November 15 APK artifact contains pantry defaults,
+the expanded cuisine data, Favorites and Try again. Installation of that build is unconfirmed.
+
+| Flow | Deployed browser | Changes in this branch and remaining work |
+| --- | --- | --- |
+| Start a recipe | Typed ingredients or one camera-oriented upload. “Never use” and pantry reset after reload. The submit button sits below every option. | Camera and gallery on touchscreens, remembered exclusions and pantry preference, submit beside the ingredients, and an opening summary of the actual choices. |
+| Follow-ups | Free text, Edit, Delete/Undo and Try again. Long conversations bury the composer. A failed job loses the request text. | A scrolling thread keeps the composer in reach. Seven quick changes include the confirmation for 1817. User messages have Copy. A failed replacement restores the draft for retry. **Remaining:** Stop during generation and background completion notifications. |
+| Cuisine selection | The list has the tree but immediately selects a leaf. The globe has three selectable areas and no cuisine infobox. | A searchable tile grid opens an infobox before applying the choice. The globe opens six continents and the APK’s regional maps, with small-region callouts and all 89 cuisines. Both paths show the same map, description, flavors, substitutes and pantry data where available. Back dismisses the infobox. Recent picks and Surprise me use it too. **Remaining:** physical-phone map and gesture checks. |
+| Saved recipes | Recents, flat Favorites and version 1 backups. Search uses titles alone. | Search also covers ingredients, cuisine and conversation text. A shortcut reaches the library from the top of the form. Individual deletion requires confirmation and checks for an active job. **Remaining:** access-ranked continent and country folders in Favorites. |
+| Sharing and pictures | Per-reply Markdown copy, PDF and HTML downloads, text share and email link. A picture is available only from a retained generation job. | Supported share sheets receive full text, PDF and the original picture. Other browsers can share text, copy, or open email. Tap a picture to view and download it. New picture replaces it after a successful request. **Remaining:** generating pictures for expired jobs or imported replies, and checking installed mail apps on a phone. |
+| Settings | Backup, restore, storage notice and source link. | Dark, Light and System appearance and an optional recipient for email links. The hosted service continues to own model selection, credentials and quotas. |
+
+The recipe watcher still saves and replays the original job ID. A fresh tab can open an in-progress recipe
+from Recents. The existing IndexedDB store, visitor ID and version 1 backup format are retained. The phone
+report of a completed recipe after about an hour describes one production run. In-memory replay expires
+30 minutes after completion and depends on the service instance surviving. The offline test covers closing
+and reopening during generation and checks that only one generation request was made.
+
+The review prompt now checks whether a numerical discrepancy affects the dish and accounts for cooking steps
+that can overlap. Mocked tests cover the review pipeline. Measuring real-model false positives and timing still
+requires an approved live run. Pages and API publication are separate manual steps after review and approval.
+
 ## Why
 
 - Flet's web mode redraws in Python on the server and ships every frame over a WebSocket. A browser-native front
@@ -219,7 +245,7 @@ From the repo root, install `server/requirements.txt` and run `uvicorn server.ap
 Run the browser app with `npm ci && npm run dev` from `web/` and open
 `http://localhost:5173/ChefBot/`. The API defaults to `http://localhost:8000` for dev.
 Run `npm test` from `web/` with the server dependencies installed in the root `.venv`. Playwright
-starts a separate mocked API on port 8911, so stop any Vite server on port 5173 first. To use another
+starts a separate mocked API on port 8911 and Vite on port 5183. Your regular dev preview can keep running. To use another
 Python or Chromium executable, set `CHEFBOT_TEST_PYTHON` or `PLAYWRIGHT_CHROMIUM_EXECUTABLE`.
 
 ## Deployment setup

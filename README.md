@@ -42,6 +42,13 @@ seasonings, and the dietary rules in `src/chefbot/prompts.py` are carried over f
 - **PDFs** keep Korean, Chinese and Japanese names: the matching Noto font is downloaded the first time it's
   needed (10–18 MB, once) and cached on the device.
 
+## Browser app
+
+The React app in `web/` uses the FastAPI service in `server/`. Browse cuisines by region tile, search,
+or globe. Tap a cuisine to see its regional map and cooking notes, then choose it for your recipe.
+Recipes and pictures are saved in this browser. Settings includes backup and restore.
+The [web launch plan](docs/WEB_LAUNCH.md#android-and-browser-parity-2026-11-20) tracks Android parity and deployment.
+
 ## Run it
 
 ```bash
