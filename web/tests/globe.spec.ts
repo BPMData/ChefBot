@@ -88,7 +88,11 @@ test("opens a continent from the globe and a regional cuisine from its map", asy
   await page.getByRole("button", { name: "Ghanaian", exact: true }).click();
   await expect(page.getByRole("dialog", { name: "Ghanaian" })).toBeVisible();
   await page.goBack();
+  await expect(page.getByRole("group", { name: "Africa cuisine map" })).toBeVisible();
   await page.getByRole("button", { name: "Back to globe" }).click();
+  await expect(map).toHaveAttribute("data-ready", "true", { timeout: 15_000 });
+  await page.getByRole("button", { name: "Zoom in", exact: true }).click();
+  await expect(map).toHaveAttribute("data-zoom", "1.55");
   await page.getByRole("button", { name: "The Americas", exact: true }).click();
   await page.getByRole("button", { name: "United States", exact: true }).click();
   await expect(page.getByRole("group", { name: "United States cuisine map" })).toBeVisible();
@@ -101,6 +105,14 @@ test("opens a continent from the globe and a regional cuisine from its map", asy
   });
   expect(withinMap).toBe(true);
   await page.screenshot({ path: info.outputPath("regional-map.png") });
+  await page.getByRole("button", { name: "Cajun", exact: true }).click();
+  await page.goBack();
+  await expect(page.getByRole("group", { name: "United States cuisine map" })).toBeVisible();
+  await page.goBack();
+  await page.goBack();
+  await expect(map).toHaveAttribute("data-zoom", "1.55");
+  await page.getByRole("button", { name: "The Americas", exact: true }).click();
+  await page.getByRole("button", { name: "United States", exact: true }).click();
   await page.getByRole("button", { name: "Cajun", exact: true }).click();
   await page.getByRole("button", { name: "Use Cajun" }).click();
   await expect(page.getByRole("button", { name: "Cajun", exact: true })).toBeVisible();

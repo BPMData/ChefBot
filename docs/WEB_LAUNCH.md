@@ -8,29 +8,73 @@ and AllAboard's `docs/DEPLOYMENT.md` (BPMData/allaboard), which records hard-won
 
 ## Android and browser parity, 2026-11-20
 
-The deployed comparison point is the Pages build of `351bd48`. PR #41 merged the one-finger globe gesture
-after that deployment. The handoff records handset checks for PDF and Share in October, background replies
-on November 3, and globe browsing on November 12. The November 15 APK artifact contains pantry defaults,
-the expanded cuisine data, Favorites and Try again. Installation of that build is unconfirmed.
+GitHub deployment [7945648675](https://github.com/BPMData/ChefBot/deployments/github-pages) identifies the
+successful public Pages build as `351bd48a32d1bad2c03b6473055858029c0688bf`. The live HTML loaded
+`index-DfL1hmrf.js` on November 20. That deployment predates PR #41 and merged PR #42
+(`859dff7a6f8a6f29354fda335f07b5ef16566d7c`), the base for this follow-up. Use the follow-up PR's recorded
+test SHA and its local fixture for review.
 
-| Flow | Deployed browser | Changes in this branch and remaining work |
+ADB found no connected handset. The installed APK version and build remain unknown. The November 15
+arm64 artifact reports version `0.1.0` and Android version code `2001`. Its installation was never confirmed.
+The Android comparisons below use Flet source and the handoff as references. The handoff records handset
+checks for PDF and Share in October, background replies on November 3, and globe browsing on November 12.
+
+| Flow | Flet and handoff reference | Web review build and remaining verification |
 | --- | --- | --- |
-| Start a recipe | Typed ingredients or one camera-oriented upload. “Never use” and pantry reset after reload. The submit button sits below every option. | Camera and gallery on touchscreens, remembered exclusions and pantry preference, submit beside the ingredients, and an opening summary of the actual choices. |
-| Follow-ups | Free text, Edit, Delete/Undo and Try again. Long conversations bury the composer. A failed job loses the request text. | A scrolling thread keeps the composer in reach. Seven quick changes include the confirmation for 1817. User messages have Copy. A failed replacement restores the draft for retry. **Remaining:** Stop during generation and background completion notifications. |
-| Cuisine selection | The list has the tree but immediately selects a leaf. The globe has three selectable areas and no cuisine infobox. | A searchable tile grid opens an infobox before applying the choice. The globe opens six continents and the APK’s regional maps, with small-region callouts and all 89 cuisines. Both paths show the same map, description, flavors, substitutes and pantry data where available. Back dismisses the infobox. Recent picks and Surprise me use it too. **Remaining:** physical-phone map and gesture checks. |
-| Saved recipes | Recents, flat Favorites and version 1 backups. Search uses titles alone. | Search also covers ingredients, cuisine and conversation text. A shortcut reaches the library from the top of the form. Individual deletion requires confirmation and checks for an active job. **Remaining:** access-ranked continent and country folders in Favorites. |
-| Sharing and pictures | Per-reply Markdown copy, PDF and HTML downloads, text share and email link. A picture is available only from a retained generation job. | Supported share sheets receive full text, PDF and the original picture. Other browsers can share text, copy, or open email. Tap a picture to view and download it. New picture replaces it after a successful request. **Remaining:** generating pictures for expired jobs or imported replies, and checking installed mail apps on a phone. |
-| Settings | Backup, restore, storage notice and source link. | Dark, Light and System appearance and an optional recipient for email links. The hosted service continues to own model selection, credentials and quotas. |
+| Start a recipe | In-app camera with gallery and cancel. Saved preferences and an opening summary of the chosen options. | Browser camera capture and a separate image picker on touchscreens. Exclusions and pantry defaults persist. Playwright injects files into both controls. Confirm that the phone opens the expected camera and gallery and returns an image. |
+| Cuisine selection | The Flet list drills down through regions and has a separate About icon for each leaf. The native globe and regional maps open details on a leaf tap. | PR #42's compact searchable picker and automatic infoboxes from both entry points stay in place. Phone-width Chromium verifies one-finger MapLibre drag. Playwright checks both infobox entry points, Back to the search and map, and the globe zoom after Back. Confirm gestures and the native Back action on the handset. |
+| Saved recipes | Flet Favorites has access-ranked continent, country and cuisine folders, recent shortcuts at the root and country level, and search across all starred recipes. | Favorites follows the Flet structure, with counts, five recent at the root, three per country, a separate Any cuisine folder, and breadcrumbs. Browser Back restores the folder and query. Playwright checks ranking, the legacy Greek label, cross-folder search, and version 1 backup round trips. IndexedDB and backup format stay in place. |
+| Sharing and pictures | The Android share sheet can hand text, PDF and dish photo to a mail app. Dish pictures are generated from saved recipes. | Playwright checks text and both file signatures handed to Web Share. Browser and target app determine attachment support. Saved and imported replies can generate pictures using the saved title after the original job expires. A failed replacement leaves the previous image in place. Check the actual share app's compose screen and attachment names. |
+| Stop | Flet can keep the streamed partial recipe. | The web API cancels the draft, review or revision in progress and replays a stopped event. The web restores the request for editing and keeps the previous saved reply and pictures. Only finished, checked replies enter history. |
+| Background and recovery | Android has a foreground service, a system notification, and an automatic retry for some connection losses. The installed build's force-quit behavior needs verification. | The server owns the job. The browser saves its ID before submitting, and reopens the same event stream after a tab or browser restart. The tab title and an in-app notice show replies that finish while away. A closed browser receives no push notification. Offline tests cover a new tab and a restarted disposable browser profile with one generation POST, including when the original response never reached the browser. Physical force-quit and Cloud Run behavior are pending. |
+| Settings | The APK owns its own settings and history. | Dark, Light and System appearance, optional email recipient, local recipes and version 1 backups. The service owns model selection, credentials and quotas. |
 
-The recipe watcher still saves and replays the original job ID. A fresh tab can open an in-progress recipe
-from Recents. The existing IndexedDB store, visitor ID and version 1 backup format are retained. The phone
-report of a completed recipe after about an hour describes one production run. In-memory replay expires
-30 minutes after completion and depends on the service instance surviving. The offline test covers closing
-and reopening during generation and checks that only one generation request was made.
+The result can be replayed for 30 minutes after completion as long as the service instance survives.
+The previously reported one-hour recovery describes one production run. Test a mobile-data disconnect
+on Cloud Run to establish whether request-based CPU throttling delays completion. The new browser build
+uses the new API contract. Coordinate both publications after approval, starting with the API, which
+continues to accept the older Pages client's requests.
 
-The review prompt now checks whether a numerical discrepancy affects the dish and accounts for cooking steps
-that can overlap. Mocked tests cover the review pipeline. Measuring real-model false positives and timing still
-requires an approved live run. Pages and API publication are separate manual steps after review and approval.
+### Physical Android review
+
+Check out the SHA recorded in the PR. Keep the installed APK and its data in place. Record the installed
+version name and code and the last-update date to distinguish builds that share a version number.
+
+```bash
+git rev-parse HEAD
+adb shell dumpsys package io.github.bpmdata.chefbot | rg 'versionName|versionCode|lastUpdateTime'
+```
+
+Use disposable recipes in a dedicated Android browser profile and the offline fixture. From the repo root,
+run the API and Vite in separate terminals with the normal dependencies installed. The fixture gives
+requests containing `slow fixture` 20 seconds of drafting time with these settings.
+
+```bash
+CHEFBOT_USAGE_BUCKET= OPENROUTER_API_KEY= CHEFBOT_FIXTURE_JOB_TTL=120 CHEFBOT_FIXTURE_SLOW_SECONDS=20 \
+  .venv/bin/python -m uvicorn --app-dir tests/server browser_fixture:app --host localhost --port 8911
+VITE_API_URL=http://localhost:8911 npm --prefix web run dev -- --host localhost --port 5183
+adb reverse tcp:5183 tcp:5183
+adb reverse tcp:8911 tcp:8911
+```
+
+Open `http://localhost:5183/ChefBot/` on the phone through the USB connection. Review the following.
+
+- Drag the globe with one finger. Open a cuisine from a globe region and from a typed picker search.
+  Observe the infobox before choosing. Use system Back and confirm that the previous map or search returns.
+  On the APK, check whether a list item opens its infobox directly or requires the About icon.
+- Use Camera and Gallery with a disposable photo. Confirm that an image returns and populates ingredients.
+- Generate a dish picture in the web fixture. Select Email or Share files and choose the intended mail app.
+  Check the full text and both the PDF and the original image in the draft, then close the draft before sending.
+  On the APK, use an existing disposable recipe with a picture if one is available.
+- Star disposable recipes from different cuisines, reopen them at different rates, and check folder order,
+  navigation and search. Record any installed-APK differences before applying the newer artifact as a reference.
+- Start a recipe with `slow fixture carrots`. Try Stop during drafting. For a separate recipe, switch apps,
+  then repeat with a closed tab and a force-stopped browser. Reopen the same test profile before replay
+  expires. Verify the completed recipe or continuing job and a single `POST /api/jobs` in the fixture log
+  for each generation. APK generation, live API checks and either publication require Bryan's approval.
+
+The review prompt checks numerical discrepancies and cooking steps that can overlap. The offline tests
+cover that pipeline. Real-model timing and false-positive checks still require an approved live run.
 
 ## Why
 
@@ -236,7 +280,11 @@ From the repo root, install `server/requirements.txt` and run `uvicorn server.ap
   so replace the progress display with each snapshot. Recipes are reviewed before the final `result`.
   Set `CHEFBOT_STREAM_DRAFT=1` on the API to display a provisional draft before checking. In that mode
   append each `draft.delta` to a fresh buffer on every connection and use only the final result for saving.
-- Send the ingredient photo as raw JPEG, PNG, or WebP bytes. The picture route returns image bytes.
+- The browser can supply a UUID v4 as `job_id` on `POST /api/jobs` and stores it before sending. Reopen or
+  reconnect with `GET /api/jobs/<id>/events` under the same visitor ID. `POST /api/jobs/<id>/stop` cancels an
+  active job and emits `stopped`. The previous request and saved reply remain available in the browser.
+- Send the ingredient photo as raw JPEG, PNG, or WebP bytes. `POST /api/picture` takes `{title}` and
+  returns image bytes. The original `/api/jobs/<id>/picture` endpoint continues to serve existing web clients.
   PDF accepts JSON with `title`, `markdown`, and an optional base64 `photo` without a data URL prefix.
 - `CHEFBOT_USAGE_BUCKET` enables single-worker usage persistence with the Cloud Run runtime identity.
   The bucket only gets `usage.json`. Without it, local quotas are in memory. Build from the repository

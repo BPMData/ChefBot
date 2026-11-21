@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 
-type Screen = "home" | "recipe" | "globe" | "settings";
-type Route = { screen: Screen; id: string | null; previous?: Screen; picker?: boolean; preview?: string; mapPath?: string[] };
+type Screen = "home" | "recipe" | "globe" | "settings" | "favorites";
+type Route = {
+  screen: Screen; id: string | null; previous?: Screen; picker?: boolean; preview?: string; mapPath?: string[];
+  favoritePath?: string[]; query?: string; favoriteLimit?: number;
+};
 const home: Route = { screen: "home", id: null };
 
 function remember(route: Route) {
@@ -43,6 +46,19 @@ export function useNavigation() {
     else navigate("home", null, true);
   }
 
+  function openFavoriteFolder(id: string) {
+    const next = { ...route, query: "", favoriteLimit: undefined, favoritePath: [...(route.favoritePath ?? []), id] };
+    history.pushState({ chefbot: next }, "");
+    setRoute(next);
+    window.scrollTo(0, 0);
+  }
+
+  function updateLibrary(fields: Pick<Route, "query" | "favoriteLimit">) {
+    const next = { ...route, ...fields };
+    history.replaceState({ ...history.state, chefbot: next }, "");
+    setRoute(next);
+  }
+
   function openCuisine(next: Pick<Route, "picker" | "preview" | "mapPath">) {
     const entry = { ...route, ...next };
     history.pushState({ chefbot: entry }, "");
@@ -60,5 +76,5 @@ export function useNavigation() {
     if (entries) history.go(-entries);
   }
 
-  return { route, navigate, back, openCuisine, dismissCuisine, finishCuisine };
+  return { route, navigate, back, openCuisine, dismissCuisine, finishCuisine, openFavoriteFolder, updateLibrary };
 }

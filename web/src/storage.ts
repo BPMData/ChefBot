@@ -2,7 +2,7 @@ import { createStore, get, update } from "idb-keyval";
 import type { Fix, Options, Result, Turn } from "./api";
 
 export type Message = Turn & { title?: string | null; fixes?: Fix[]; jobId?: string };
-export type Pending = { id: string; ingredients: string; history: Message[] };
+export type Pending = { id: string; ingredients: string; history: Message[]; submittedAt?: number };
 export type Conversation = {
   id: string;
   title: string;
@@ -15,6 +15,7 @@ export type Conversation = {
   updated: number;
   pending?: Pending;
   failedRequest?: { text: string; historyLength: number };
+  unreadReply?: boolean;
 };
 
 const db = createStore("chefbot", "recipes");
@@ -59,7 +60,7 @@ export function completeConversation(conversation: Conversation, pending: Pendin
 
 export function backup(conversations: Conversation[]) {
   const recipes = conversations.filter((recipe) => recipe.messages.length > 0)
-    .map(({ pending, failedRequest, ...recipe }) => recipe);
+    .map(({ pending, failedRequest, unreadReply, ...recipe }) => recipe);
   return JSON.stringify({ format, version: 1, conversations: recipes }, null, 2);
 }
 
@@ -91,7 +92,9 @@ export async function restoreBackup(file: File) {
   const imported = new Map<string, Conversation>();
   for (const recipe of data.conversations as Conversation[]) {
     const previous = imported.get(recipe.id);
-    if (!previous || previous.updated < recipe.updated) imported.set(recipe.id, { ...recipe, pending: undefined, failedRequest: undefined });
+    if (!previous || previous.updated < recipe.updated) imported.set(recipe.id, {
+      ...recipe, pending: undefined, failedRequest: undefined, unreadReply: undefined,
+    });
   }
   let added = 0;
   let changed = 0;

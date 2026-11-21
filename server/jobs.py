@@ -68,6 +68,7 @@ class RecipeJob:
     finished: bool = False
     result: dict | None = None
     expiry: asyncio.TimerHandle | None = None
+    task: asyncio.Task | None = None
 
     def emit(self, event: str, data: dict) -> None:
         self.events.append((event, data))
@@ -99,10 +100,11 @@ class RecipeJobs:
         self.jobs: dict[str, RecipeJob] = {}
         self.tasks: set[asyncio.Task] = set()
 
-    def start(self, visitor: str, messages: list[dict]) -> RecipeJob:
-        job = RecipeJob(visitor)
+    def start(self, visitor: str, messages: list[dict], job_id: str | None = None) -> RecipeJob:
+        job = RecipeJob(visitor, job_id) if job_id else RecipeJob(visitor)
         self.jobs[job.id] = job
         task = asyncio.create_task(self.run(job, messages))
+        job.task = task
         self.tasks.add(task)
         task.add_done_callback(self.tasks.discard)
         return job
@@ -110,6 +112,21 @@ class RecipeJobs:
     def get(self, job_id: str, visitor: str) -> RecipeJob | None:
         job = self.jobs.get(job_id)
         return job if job and secrets.compare_digest(job.visitor, visitor) else None
+
+    def finish(self, job: RecipeJob) -> None:
+        if job.finished:
+            return
+        job.finished = True
+        job.changed.set()
+        job.expiry = asyncio.get_running_loop().call_later(JOB_TTL_SECONDS, self.jobs.pop, job.id, None)
+
+    def stop(self, job: RecipeJob) -> None:
+        if job.finished:
+            return
+        job.emit("stopped", {})
+        self.finish(job)
+        if job.task:
+            job.task.cancel()
 
     async def draft(self, job: RecipeJob | None, messages: list[dict]) -> str:
         markdown = ""
@@ -165,9 +182,7 @@ class RecipeJobs:
             log.warning("ChefBot recipe job failed (%s).", type(error).__name__)
             job.emit("error", {"message": "ChefBot couldn’t finish this reply. Please try again."})
         finally:
-            job.finished = True
-            job.changed.set()
-            job.expiry = asyncio.get_running_loop().call_later(JOB_TTL_SECONDS, self.jobs.pop, job.id, None)
+            self.finish(job)
 
     async def close(self) -> None:
         tasks = list(self.tasks)

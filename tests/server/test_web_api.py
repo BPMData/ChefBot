@@ -5,6 +5,8 @@ import io
 import json
 from copy import deepcopy
 from datetime import datetime, timezone
+from threading import Event
+from uuid import uuid4
 
 import httpx
 import pytest
@@ -149,6 +151,55 @@ def test_disconnect_replays_and_job_expires(monkeypatch):
         await manager.close()
 
     asyncio.run(run())
+
+
+def test_client_assigned_job_is_replayed_without_a_second_model_call(client, openrouter):
+    job_id = str(uuid4())
+    url = stream_url(create_recipe(client, job_id=job_id))
+    assert url == f"/api/jobs/{job_id}/events"
+    assert stream_url(create_recipe(client, job_id=job_id)) == url
+    assert sse(client.get(url).text)[-1][0] == "result"
+    assert client.post(f"/api/jobs/{job_id}/stop").status_code == 204
+    assert sse(client.get(url).text)[-1][0] == "result"
+    assert len(openrouter[1]) == 1
+
+
+def test_stop_cancels_the_model_and_replays_a_terminal_event():
+    class PausedModel:
+        cancelled = False
+        started = Event()
+
+        async def stream_chat(self, *args):
+            self.started.set()
+            try:
+                await asyncio.sleep(60)
+                yield api.Chunk("text", MARKDOWN)
+            finally:
+                self.cancelled = True
+
+    model = PausedModel()
+    with TestClient(create_app(model, review=False), headers=VISITOR) as client:
+        job_id = create_recipe(client).json()["job_id"]
+        assert model.started.wait(2)
+        url = f"/api/jobs/{job_id}"
+        assert client.post(url + "/stop", headers=OTHER_VISITOR).status_code == 404
+        assert client.post(url + "/stop").status_code == 204
+        assert client.post(url + "/stop").status_code == 204
+        for _ in range(2):
+            assert sse(client.get(url + "/events").text)[-1] == ("stopped", {})
+    assert model.cancelled
+
+
+def test_saved_picture_is_independent_of_a_job_and_uses_picture_limits(client, openrouter, png):
+    assert client.post("/api/picture", json={"title": " "}).status_code == 422
+    assert client.post("/api/picture", json={"title": "x" * 251}).status_code == 422
+    for _ in range(LIMITS["pictures"]):
+        response = client.post("/api/picture", json={"title": "Imported Carrots"})
+        assert response.status_code == 200
+        assert response.content == png
+        assert response.headers["content-type"] == "image/png"
+    assert client.post("/api/picture", json={"title": "Imported Carrots"}).status_code == 429
+    assert len(openrouter[1]) == LIMITS["pictures"]
 
 
 def test_follow_up_prompt_and_cap(client, openrouter):

@@ -5,17 +5,20 @@ import { createRoot } from "react-dom/client";
 import logo from "../../src/assets/logo_white.svg";
 import { Chat } from "./Chat";
 import { Home, type Draft } from "./Home";
+import { Favorites, favoritePageSize } from "./RecipeLibrary";
 import {
-  loadCuisines, RequestError, startJob, warmUp, watchJob, type CuisineTree, type JobEvent,
+  loadCuisines, RequestError, startJob, stopJob, warmUp, type CuisineTree,
 } from "./api";
 import { RegionalMap } from "./CuisineMap";
 import { CuisineBrowser, CuisineInfo } from "./CuisinePicker";
 import { rememberCuisine } from "./cooking";
+import { initialJobView, JobWatch, type JobView, type Terminal } from "./JobWatch";
 import { useNavigation } from "./navigation";
 import { download } from "./exports";
+import type { GlobeCamera } from "./globe/Globe";
 import {
   backup, changeConversations, completeConversation, readConversations, requestPersistence, restoreBackup,
-  type Conversation, type Message,
+  type Conversation, type Message, type Pending,
 } from "./storage";
 import "./style.css";
 
@@ -29,7 +32,6 @@ const emptyDraft: Draft = {
     dessert: false, pantry: false, restrictions: [],
   },
 };
-const initialProgress = { stage: "drafting", ingredients: [] as string[], steps: 0 };
 
 function applyTheme(theme: string) {
   document.documentElement.dataset.theme = theme;
@@ -110,25 +112,33 @@ function App() {
   }));
   const [tree, setTree] = useState<CuisineTree | null>(null);
   const [recipes, setRecipes] = useState<Conversation[]>([]);
-  const { route, navigate, back, openCuisine, dismissCuisine, finishCuisine } = useNavigation();
+  const { route, navigate, back, openCuisine, dismissCuisine, finishCuisine, openFavoriteFolder, updateLibrary } = useNavigation();
   const chatId = route.id;
   const settings = route.screen === "settings";
   const globe = route.screen === "globe";
+  const favorites = route.screen === "favorites";
+  const favoritePath = route.favoritePath ?? [];
+  const favoriteLimit = route.favoriteLimit ?? favoritePageSize;
   const mapPath = route.mapPath ?? [];
   const level = mapPath.at(-1);
   const parentLevel = mapPath.at(-2);
   const backLabel = level ? (parentLevel ? "Back to " + (tree?.nodes[parentLevel]?.label ?? "region") : "Back to globe")
-    : route.previous === "globe" ? "Back to globe" : settings && chatId ? "Back to recipe" : "Back to recipes";
+    : route.previous === "globe" ? "Back to globe" : settings && chatId ? "Back to recipe" :
+      (favorites && !!favoritePath.length) || route.previous === "favorites" ? "Back to Favorites" : "Back to recipes";
   const [ready, setReady] = useState(false);
   const [status, report] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [provisional, setProvisional] = useState("");
-  const [progress, setProgress] = useState(initialProgress);
-  const [reconnect, setReconnect] = useState(0);
-  const [canReconnect, setCanReconnect] = useState(false);
+  const [startingJob, setStartingJob] = useState<string | null>(null);
+  const [jobViews, setJobViews] = useState<Record<string, JobView>>({});
+  const [retry, setRetry] = useState<{ id: string } | null>(null);
   const starting = useRef(false);
+  const globeCamera = useRef<GlobeCamera | null>(null);
+  const foregroundChat = useRef<string | null>(null);
+  foregroundChat.current = route.screen === "recipe" ? chatId : null;
   const chat = recipes.find((recipe) => recipe.id === chatId);
   const jobId = chat?.pending?.id;
+  const jobView = jobId ? jobViews[jobId] ?? initialJobView : initialJobView;
+  const readyReply = recipes.filter((recipe) => recipe.unreadReply).sort((a, b) => b.updated - a.updated)[0];
+  const busy = startingJob !== null;
 
   const change = useCallback(async (transaction: (recipes: Conversation[]) => Conversation[]) => {
     const result = await changeConversations(transaction);
@@ -160,64 +170,53 @@ function App() {
 
   useEffect(() => report(""), [route]);
 
-  useEffect(() => {
-    if (!jobId || !chatId || settings) return;
-    const controller = new AbortController();
-    const { signal } = controller;
-    setProgress(initialProgress);
-    setCanReconnect(false);
-    let terminal: Extract<JobEvent, { kind: "result" | "error" }> | undefined;
-    const event = (message: JobEvent) => {
-      if (message.kind === "stage") setProgress((old) => ({ ...old, stage: message.stage }));
-      if (message.kind === "progress") setProgress((old) => ({ ...old, ingredients: message.ingredients, steps: message.step_count }));
-      if (message.kind === "draft") setProvisional((current) => current + message.delta);
-      if (message.kind === "result" || message.kind === "error") terminal = message;
-    };
+  const updateJob = useCallback((id: string, view: JobView | null) => {
+    setJobViews((current) => {
+      if (view) return { ...current, [id]: view };
+      const { [id]: removed, ...remaining } = current;
+      return remaining;
+    });
+  }, []);
 
-    async function watch() {
-      let failure: unknown;
-      for (let attempt = 0; attempt < 3 && !signal.aborted; attempt += 1) {
-        try {
-          setProvisional("");
-          await watchJob(jobId!, event, signal);
-          break;
-        } catch (error) {
-          if (signal.aborted) return;
-          failure = error;
-          if (error instanceof RequestError && error.status === 404) break;
-          if (attempt < 2) await new Promise((resolve) => setTimeout(resolve, (attempt + 1) * 800));
-        }
+  const finishJob = useCallback(async (id: string, pending: Pending, terminal?: Terminal) => {
+    let applied = false;
+    const completed = await change((current) => current.map((recipe) => {
+      if (recipe.id !== id || recipe.pending?.id !== pending.id) return recipe;
+      applied = true;
+      if (terminal?.kind === "result") {
+        return { ...completeConversation(recipe, recipe.pending, terminal),
+          unreadReply: foregroundChat.current !== id || document.visibilityState === "hidden" };
       }
-      if (signal.aborted) return;
-      if (!terminal && !(failure instanceof RequestError && failure.status === 404)) {
-        setCanReconnect(true);
-        report("The connection paused. Reconnect to check your recipe.");
+      return { ...recipe, pending: undefined,
+        failedRequest: { text: pending.ingredients, historyLength: pending.history.length } };
+    }));
+    if (!applied || foregroundChat.current !== id) return;
+    if (terminal?.kind === "error") report(terminal.message);
+    else if (terminal?.kind === "stopped") report("Stopped. You can edit your request and send it again.");
+    else if (!terminal) report("This recipe job is no longer available. You can send the request again.");
+    else if (completed.filter((recipe) => recipe.messages.length).length >= 3
+      && !localStorage.getItem("chefbot.has-backup") && !localStorage.getItem("chefbot.backup-notice")) {
+      localStorage.setItem("chefbot.backup-notice", "yes");
+      report(storageNotice);
+    }
+  }, [change]);
+
+  useEffect(() => {
+    document.title = readyReply ? "Recipe ready · ChefBot" : "ChefBot";
+  }, [readyReply?.id]);
+
+  async function stop() {
+    if (!jobId) return;
+    try {
+      await stopJob(jobId);
+    } catch (error) {
+      if (!(error instanceof RequestError && error.status === 404)) {
+        report("Couldn’t stop the recipe. Check your connection and try again.");
         return;
       }
-      try {
-        const completed = await change((current) => current.map((recipe) => {
-          if (recipe.id !== chatId || !recipe.pending || recipe.pending.id !== jobId) return recipe;
-          return terminal?.kind === "result"
-            ? completeConversation(recipe, recipe.pending, terminal) : { ...recipe, pending: undefined,
-              failedRequest: { text: recipe.pending.ingredients, historyLength: recipe.pending.history.length } };
-        }));
-        if (signal.aborted) return;
-        if (terminal?.kind === "error") report(terminal.message);
-        else if (!terminal) report("This recipe job expired. Send the request again.");
-        else if (completed.filter((recipe) => recipe.messages.length).length >= 3
-          && !localStorage.getItem("chefbot.has-backup") && !localStorage.getItem("chefbot.backup-notice")) {
-          localStorage.setItem("chefbot.backup-notice", "yes");
-          report(storageNotice);
-        }
-      } catch {
-        if (signal.aborted) return;
-        setCanReconnect(true);
-        report("The recipe couldn’t be saved. Reconnect to try saving it again.");
-      }
     }
-    void watch();
-    return () => controller.abort();
-  }, [change, chatId, jobId, reconnect, settings]);
+    setRetry({ id: jobId });
+  }
 
   function pickCuisine(id: string) {
     if (id !== tree?.no_cuisine) rememberCuisine(id);
@@ -245,29 +244,56 @@ function App() {
   async function send({ conversation, text, history }: { conversation: Conversation; text: string; history: Message[] }) {
     if (starting.current || conversation.pending) return false;
     starting.current = true;
-    setBusy(true);
+    const pending = { id: crypto.randomUUID(), ingredients: text, history, submittedAt: Date.now() };
+    setStartingJob(pending.id);
     report("");
+    const isNew = chatId !== conversation.id;
     try {
-      const id = await startJob(conversation.settings, text, history.map(({ role, content }) => ({ role, content })));
-      const pending = { id, ingredients: text, history };
+      // Store the ID first so even a lost POST response can be recovered by replaying it.
       await change((current) => {
         const stored = current.find((recipe) => recipe.id === conversation.id);
-        if (!stored && !conversation.messages.length && !chatId) return [...current, { ...conversation, pending }];
+        if (!stored && isNew) return [...current, { ...conversation, pending }];
         if (!stored || stored.pending || stored.updated !== conversation.updated) {
           throw new RequestError("This recipe changed in another tab. Reopen it before sending another request.", 409);
         }
-        return current.map((recipe) => recipe.id === conversation.id ? { ...recipe, failedRequest: undefined, pending } : recipe);
+        return current.map((recipe) => recipe.id === conversation.id ? { ...recipe, pending, failedRequest: undefined } : recipe);
       });
+      let acknowledged = false;
+      try {
+        await startJob(pending.id, conversation.settings, text, history.map(({ role, content }) => ({ role, content })));
+        acknowledged = true;
+      } catch (error) {
+        // A lost connection or gateway error can happen after the server accepted the job.
+        if (!(error instanceof RequestError) || (error.status >= 400 && error.status < 500)) {
+          await change((current) => current.flatMap((recipe) => {
+            if (recipe.id !== conversation.id || recipe.pending?.id !== pending.id) return [recipe];
+            return isNew ? [] : [{ ...recipe, pending: undefined, failedRequest: conversation.failedRequest }];
+          }));
+          throw error;
+        }
+      }
+      if (acknowledged) {
+        // If this write fails, the persisted ID still works. Only the startup grace period remains.
+        await mutate(conversation.id, (recipe) => recipe.pending?.id === pending.id
+          ? { ...recipe, pending: { ...recipe.pending, submittedAt: undefined } } : recipe).catch(() => {});
+      }
       void requestPersistence();
-      if (chatId !== conversation.id || settings) navigate("recipe", conversation.id);
+      if (isNew || settings) navigate("recipe", conversation.id);
       return true;
     } catch (error) {
       report(error instanceof RequestError ? error.message : "ChefBot couldn’t save this request in your browser.");
       return false;
     } finally {
       starting.current = false;
-      setBusy(false);
+      setStartingJob(null);
     }
+  }
+
+  function openRecipe(id: string) {
+    navigate("recipe", id);
+    void mutate(id, (recipe) => ({
+      ...recipe, unreadReply: undefined, access_count: (recipe.access_count ?? 0) + 1, last_accessed: Date.now(),
+    })).catch(() => report("Couldn’t update recipe history."));
   }
 
   async function create() {
@@ -291,26 +317,45 @@ function App() {
       </div>
     </header>
     <main>
-      {(settings || chat || globe) && <button type="button" className="text-button back" onClick={back}>
+      {recipes.map(({ id, pending }) => pending && pending.id !== startingJob &&
+        <JobWatch key={pending.id} id={id} pending={pending} retry={retry?.id === pending.id ? retry : null}
+          update={updateJob} finish={finishJob} />)}
+      {(settings || chat || globe || favorites) && <button type="button" className="text-button back" onClick={back}>
         <ArrowLeft size={17} /> {backLabel}
       </button>}
       {status && <div className="notice" role="status">{status}</div>}
+      {readyReply && <div className="notice ready-reply">
+        <span role="status">Ready: {readyReply.title}</span>
+        {readyReply.id === foregroundChat.current
+          ? <button className="text-button" type="button" onClick={() => {
+            void mutate(readyReply.id, (recipe) => ({ ...recipe, unreadReply: undefined }))
+              .catch(() => report("Couldn’t dismiss this notice."));
+          }}>Dismiss</button>
+          : <button className="text-button" type="button" onClick={() => openRecipe(readyReply.id)}>Open recipe</button>}
+      </div>}
+      {chat && jobView.paused && <div className="notice" role="status">{jobView.paused}</div>}
       {settings ? <Settings recipes={recipes} refresh={setRecipes} report={report} /> :
+        favorites && ready ? <Favorites recipes={recipes} tree={tree} path={favoritePath} query={route.query ?? ""}
+          setQuery={(query) => updateLibrary({ query, favoriteLimit: favoritePageSize })}
+          limit={favoriteLimit} showMore={() => updateLibrary({ favoriteLimit: favoriteLimit + favoritePageSize })}
+          openFolder={openFavoriteFolder} goToLevel={(depth) => history.go(depth - favoritePath.length)}
+          open={openRecipe} toggleFavorite={toggleFavorite} /> :
         globe && level && tree ? <RegionalMap id={level} tree={tree} choose={(id) =>
           tree.nodes[id]?.children?.length ? openCuisine({ mapPath: [...mapPath, id] }) : openCuisine({ preview: id })} /> :
         globe ? <Suspense fallback={<p role="status">Loading the globe…</p>}>
-          <Globe openRegion={(id) => openCuisine({ mapPath: [id] })} preview={(id) => openCuisine({ preview: id })} />
+          <Globe camera={globeCamera} openRegion={(id) => openCuisine({ mapPath: [id] })}
+            preview={(id) => openCuisine({ preview: id })} />
         </Suspense> :
         chat ? <Chat key={chat.id} conversation={chat} tree={tree} send={send} mutate={(transform) => mutate(chat.id, transform)}
-          favorite={() => toggleFavorite(chat.id)} progress={progress} provisional={provisional} busy={busy} canReconnect={canReconnect}
-          reconnect={() => { report(""); setReconnect((attempt) => attempt + 1); }}
+          favorite={() => toggleFavorite(chat.id)} progress={jobView} provisional={jobView.draft} busy={busy} canReconnect={!!jobView.paused} stop={stop}
+          reconnect={() => { if (jobId) setRetry({ id: jobId }); }}
           report={report} followUpLimit={tree?.limits.follow_ups ?? 5} messageLimit={tree?.limits.message_characters ?? 4000} /> :
         ready ? <Home tree={tree} draft={draft} setDraft={setDraft} create={() => void create()} busy={busy}
-          recipes={recipes} browse={() => openCuisine({ picker: true })} preview={(id) => openCuisine({ preview: id })} removeRecipe={removeRecipe} openGlobe={() => navigate("globe")} open={(id) => {
-            navigate("recipe", id);
-            void mutate(id, (recipe) => ({ ...recipe, access_count: recipe.access_count + 1, last_accessed: Date.now() }))
-              .catch(() => report("Couldn’t update recipe history."));
-          }} toggleFavorite={toggleFavorite} /> : <p role="status">Opening your recipe book…</p>}
+          recipes={recipes} browse={() => openCuisine({ picker: true })} preview={(id) => openCuisine({ preview: id })}
+          removeRecipe={removeRecipe} openGlobe={() => { globeCamera.current = null; navigate("globe"); }}
+          open={openRecipe} toggleFavorite={toggleFavorite}
+          query={route.query ?? ""} setQuery={(query) => updateLibrary({ query })}
+          openFavorites={() => navigate("favorites")} /> : <p role="status">Opening your recipe book…</p>}
       {tree && route.picker && <CuisineBrowser tree={tree} close={dismissCuisine}
         preview={(id) => openCuisine({ preview: id })} reset={() => { pickCuisine(tree.no_cuisine); finishCuisine(); }} />}
       {tree && route.preview && tree.nodes[route.preview] && <CuisineInfo tree={tree} id={route.preview} close={dismissCuisine}

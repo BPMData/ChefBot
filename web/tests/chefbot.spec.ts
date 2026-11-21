@@ -17,6 +17,12 @@ test("creates a recipe, reconnects after reload, and saves favorites and exports
   await expect(page.getByRole("heading", { name: "What’s in your kitchen?" })).toBeVisible();
   await page.getByLabel("Add an ingredient photo").setInputFiles({ name: "carrot.png", mimeType: "image/png", buffer: png });
   await expect(page.getByLabel("Ingredients", { exact: true })).toHaveValue("carrots, cumin");
+  if (test.info().project.name === "phone") {
+    const camera = page.getByLabel("Photograph ingredients");
+    await expect(camera).toHaveAttribute("capture", "environment");
+    await camera.setInputFiles({ name: "camera.png", mimeType: "image/png", buffer: png });
+    await expect(page.getByLabel("Ingredients", { exact: true })).toHaveValue("carrots, cumin, carrots, cumin");
+  }
   await page.getByLabel("Never use").fill("pork");
   await page.getByRole("button", { name: "Browse cuisines", exact: true }).click();
   await page.getByRole("button", { name: "The Americas", exact: true }).click();
@@ -27,11 +33,17 @@ test("creates a recipe, reconnects after reload, and saves favorites and exports
   await expect(page.getByRole("img", { name: "Cajun region highlighted" })).toBeVisible();
   await page.getByRole("button", { name: "Use Cajun" }).click();
   await page.getByLabel("Pantry defaults").check();
+  const accepted = page.waitForResponse((response) => new URL(response.url()).pathname === "/api/jobs" && response.status() === 202);
   await page.getByRole("button", { name: "Make a recipe" }).click();
+  const { job_id } = await (await accepted).json();
   await expect(page.getByRole("heading", { name: "Writing your recipe" })).toBeVisible();
   await page.reload();
   await expect(page.getByRole("heading", { name: "Cumin Carrots", level: 1, exact: true })).toBeVisible();
   await expect(page.getByText("Roast the carrots.", { exact: true })).toBeVisible();
+  const visitor = await page.evaluate(() => localStorage.getItem("chefbot.visitor")!);
+  await expect.poll(async () => (await page.request.get(`http://localhost:8911/api/jobs/${job_id}/events`, {
+    headers: { "X-Visitor-ID": visitor },
+  })).status()).toBe(404);
   await page.getByRole("button", { name: "Picture", exact: true }).click();
   await expect(page.getByRole("img", { name: "Cumin Carrots" })).toBeVisible();
   await page.getByRole("button", { name: "View picture of Cumin Carrots" }).click();

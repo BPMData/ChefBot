@@ -20,6 +20,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from PIL import Image
 from pydantic import BaseModel, ConfigDict, Field, StringConstraints, ValidationError, model_validator
+from starlette.requests import ClientDisconnect
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from chefbot import api, cuisines, export, prompts
@@ -39,6 +40,8 @@ log = logging.getLogger(__name__)
 
 UserText = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=LIMITS["message_characters"])]
 RecipeText = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=LIMITS["recipe_characters"])]
+Title = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=250)]
+JobId = Annotated[str, StringConstraints(pattern=r"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$")]
 
 
 class Input(BaseModel):
@@ -58,6 +61,7 @@ class Turn(Input):
 
 class JobInput(Input):
     ingredients: UserText
+    job_id: JobId | None = None
     must_not: str = Field("", max_length=LIMITS["message_characters"])
     cuisine: str = Field(prompts.NO_CUISINE, max_length=100)
     audience: str = Field(prompts.DEFAULT_AUDIENCE, max_length=160)
@@ -86,8 +90,12 @@ class JobInput(Input):
         return [{"role": "system", "content": system}, *turns]
 
 
+class PictureInput(Input):
+    title: Title
+
+
 class PdfInput(Input):
-    title: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=250)]
+    title: Title
     markdown: RecipeText
     photo: str | None = Field(None, max_length=PHOTO_BASE64)
 
@@ -100,10 +108,13 @@ async def read_body(request: Request, cap: int, message: str) -> bytes:
     if length.isascii() and length.isdigit() and (len(length) > 12 or int(length) > cap):
         raise HTTPException(413, message)
     body = bytearray()
-    async for chunk in request.stream():
-        if len(chunk) > cap - len(body):
-            raise HTTPException(413, message)
-        body.extend(chunk)
+    try:
+        async for chunk in request.stream():
+            if len(chunk) > cap - len(body):
+                raise HTTPException(413, message)
+            body.extend(chunk)
+    except ClientDisconnect:
+        raise HTTPException(400, "The connection closed before the request arrived.") from None
     return bytes(body)
 
 
@@ -169,6 +180,7 @@ def cuisine_tree() -> dict:
     return {
         "roots": [root["id"] for root in roots],
         "nodes": nodes,
+        "legacy_ids": cuisines.LEGACY_IDS,
         "audiences": list(prompts.AUDIENCES),
         "default_audience": prompts.DEFAULT_AUDIENCE,
         "restrictions": list(prompts.RESTRICTIONS),
@@ -193,6 +205,7 @@ def create_app(model: api.ChefBotAPI | None = None, usage_store: UsageStore | No
                 limits=limits if review else None, show_draft=os.getenv("CHEFBOT_STREAM_DRAFT") == "1",
             )
             application.state.jobs = jobs
+            application.state.job_starts = asyncio.Lock()
             application.state.limits = limits
             application.state.pdf_slots = asyncio.Semaphore(2)
             application.state.font_dir = Path(os.getenv("CHEFBOT_PDF_FONTS", "/opt/chefbot/pdf-fonts"))
@@ -230,8 +243,15 @@ def create_app(model: api.ChefBotAPI | None = None, usage_store: UsageStore | No
         body = await json_input(request, JobInput, 8 * (LIMITS["history_characters"] + 2 * LIMITS["message_characters"]))
         if len(body.history) // 2 > LIMITS["follow_ups"]:
             raise HTTPException(429, "This recipe has reached its follow-up limit. Start a new recipe to continue.")
-        await charge(request, visitor, "follow_up" if body.history else "new_recipe")
-        job = request.app.state.jobs.start(visitor, body.messages())
+        jobs = request.app.state.jobs
+        async with request.app.state.job_starts:
+            # Claim a client-supplied id only once, including simultaneous submissions.
+            if body.job_id and body.job_id in jobs.jobs:
+                if jobs.get(body.job_id, visitor) is None:
+                    raise HTTPException(409, "This recipe request already exists.")
+                return {"job_id": body.job_id}
+            await charge(request, visitor, "follow_up" if body.history else "new_recipe")
+            job = jobs.start(visitor, body.messages(), body.job_id)
         return {"job_id": job.id}
 
     @application.get("/api/jobs/{job_id}/events")
@@ -242,6 +262,15 @@ def create_app(model: api.ChefBotAPI | None = None, usage_store: UsageStore | No
         return StreamingResponse(job.stream(), media_type="text/event-stream", headers={
             "Cache-Control": "no-store", "X-Accel-Buffering": "no",
         })
+
+    @application.post("/api/jobs/{job_id}/stop", status_code=204)
+    async def stop_job(job_id: str, request: Request, visitor: str = Depends(visitor_id)):
+        jobs = request.app.state.jobs
+        job = jobs.get(job_id, visitor)
+        if job is None:
+            raise HTTPException(404, "This recipe job is no longer available.")
+        jobs.stop(job)
+        return Response(status_code=204)
 
     @application.post("/api/photo/ingredients")
     async def read_photo(request: Request, visitor: str = Depends(visitor_id)):
@@ -262,9 +291,17 @@ def create_app(model: api.ChefBotAPI | None = None, usage_store: UsageStore | No
             raise HTTPException(404, "This recipe job is no longer available.")
         if not job.result or not job.result["title"]:
             raise HTTPException(409, "Wait until the recipe is ready before asking for a picture.")
+        return await make_picture(request, visitor, job.result["title"][:250])
+
+    @application.post("/api/picture")
+    async def saved_dish_picture(request: Request, visitor: str = Depends(visitor_id)):
+        body = await json_input(request, PictureInput, 4096)
+        return await make_picture(request, visitor, body.title)
+
+    async def make_picture(request: Request, visitor: str, title: str):
         await charge(request, visitor, "picture")
         try:
-            photo = await request.app.state.jobs.model.dish_photo(job.result["title"][:250])
+            photo = await request.app.state.jobs.model.dish_photo(title)
             if len(photo) > LIMITS["photo_bytes"]:
                 raise ValueError("The generated picture is too large")
             mime = await asyncio.to_thread(image_type, photo)

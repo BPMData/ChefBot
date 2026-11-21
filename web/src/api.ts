@@ -24,6 +24,7 @@ export type Cuisine = {
 export type CuisineTree = {
   roots: string[];
   nodes: Record<string, Cuisine>;
+  legacy_ids?: Record<string, string>;
   audiences: string[];
   default_audience: string;
   restrictions: string[];
@@ -37,6 +38,7 @@ export type JobEvent =
   | { kind: "progress"; ingredients: string[]; step_count: number }
   | { kind: "draft"; delta: string }
   | ({ kind: "result" } & Result)
+  | { kind: "stopped" }
   | { kind: "error"; message: string };
 
 const base = (import.meta.env.VITE_API_URL ?? "http://localhost:8000").replace(/\/$/, "");
@@ -80,10 +82,11 @@ function jsonPost(data: unknown) {
 export const warmUp = () => request("/healthz");
 export const loadCuisines = async (): Promise<CuisineTree> => (await request("/api/cuisines")).json();
 
-export async function startJob(options: Options, ingredients: string, history: Turn[]): Promise<string> {
-  const response = await request("/api/jobs", jsonPost({ ...options, ingredients, history }));
-  return (await response.json()).job_id;
+export async function startJob(id: string, options: Options, ingredients: string, history: Turn[]) {
+  await request("/api/jobs", jsonPost({ ...options, job_id: id, ingredients, history }));
 }
+
+export const stopJob = (id: string) => request(`/api/jobs/${encodeURIComponent(id)}/stop`, { method: "POST" });
 
 export async function watchJob(id: string, onEvent: (event: JobEvent) => void, signal: AbortSignal) {
   const response = await request(`/api/jobs/${encodeURIComponent(id)}/events`, { signal });
@@ -103,7 +106,7 @@ export async function watchJob(id: string, onEvent: (event: JobEvent) => void, s
         const data = frame.match(/^data: (.+)$/m)?.[1];
         if (kind && data) {
           onEvent({ ...JSON.parse(data), kind });
-          if (kind === "result" || kind === "error") return;
+          if (kind === "result" || kind === "error" || kind === "stopped") return;
         }
         boundary = buffer.indexOf("\n\n");
       }
@@ -123,8 +126,8 @@ export async function readPhoto(file: Blob): Promise<string> {
   return (await response.json()).ingredients;
 }
 
-export async function dishPicture(jobId: string) {
-  const response = await request(`/api/jobs/${encodeURIComponent(jobId)}/picture`, { method: "POST" });
+export async function dishPicture(title: string) {
+  const response = await request("/api/picture", jsonPost({ title: title.trim().slice(0, 250) }));
   return toDataUrl(await response.blob());
 }
 
