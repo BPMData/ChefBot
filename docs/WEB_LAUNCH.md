@@ -332,10 +332,13 @@ Bryan creates the separate, capped key and adds it to Secret Manager.
 | Variable `CHEFBOT_API_URL` | HTTPS origin of the public Cloud Run service |
 | Optional variable `CHEFBOT_AUTO_DEPLOY` | Set to `true` to release after both offline test jobs pass on pushes to `main` |
 
-The [November 21 API workflow run](https://github.com/BPMData/ChefBot/actions/runs/44902600686) stopped
-before Google Cloud authentication because the repository only had `CHEFBOT_API_URL`. The other Cloud Run
-variables and deployer authentication still need to be configured. The workflow now lists missing settings
-together. The service keeps the model key in Secret Manager.
+The [first manual API run](https://github.com/BPMData/ChefBot/actions/runs/44902600686) stopped before
+Google Cloud authentication because the repository only had `CHEFBOT_API_URL`. All variables above except
+the optional ones are now set, and GitHub deploys with keyless federation; `GCP_SA_KEY` is not configured.
+The [first Release ChefBot run](https://github.com/BPMData/ChefBot/actions/runs/44963205306) deployed the
+API as the dedicated deployer, passed the `/api/cuisines` check and published Pages. Its first attempt got a
+403 on `iam.serviceAccounts.getAccessToken` because new IAM bindings had not propagated; rerunning a few
+minutes later succeeded. The service keeps the model key in Secret Manager.
 
 For keyless authentication, use [Google Cloud's federation setup](https://docs.cloud.google.com/iam/docs/workload-identity-federation-with-deployment-pipelines).
 Restrict the provider's GitHub claims to this repository's numeric `repository_id` and `refs/heads/main`.
@@ -343,6 +346,12 @@ Give the federated identity permission to impersonate a dedicated deployer. Gran
 [Cloud Run source deploy permissions](https://docs.cloud.google.com/run/docs/deploying-source-code#required_roles),
 access to use the ChefBot runtime service account, and permission to set the public service's access
 policy. Set both federation variables in GitHub. An existing `GCP_SA_KEY` configuration can also authenticate.
+
+The configured deployer has `roles/run.sourceDeveloper` and `roles/serviceusage.serviceUsageConsumer` on
+the project, `roles/run.admin` on the `chefbot-api` service only (for its public access policy), and
+`roles/iam.serviceAccountUser` on the runtime account and on the Compute Engine default account that Cloud
+Build uses for source deploys. Only `roles/iam.workloadIdentityUser` for this repository's ID lets GitHub
+impersonate it, and the provider's condition also requires `refs/heads/main`.
 Select **GitHub Actions** as the Pages publishing source.
 
 After approval, use **Release ChefBot** from `main` once the offline tests are green. It deploys the API,
