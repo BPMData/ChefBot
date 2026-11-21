@@ -21,7 +21,36 @@ export type Conversation = {
 const db = createStore("chefbot", "recipes");
 const key = "conversations";
 const format = "chefbot-recipes";
+const visitorKey = "chefbot.visitor";
 const photoUrl = /^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/;
+let visitorId: Promise<string> | undefined;
+
+async function saveVisitorId() {
+  const previous = localStorage.getItem(visitorKey);
+  let id = "";
+  // Commit the identity before a request can reach the server. Android can kill the
+  // browser after IndexedDB commits the job, while localStorage still has buffered writes.
+  await update<string>(visitorKey, (stored) => {
+    id = stored ?? previous ?? crypto.randomUUID();
+    return id;
+  }, db);
+  if (id !== previous) {
+    try {
+      localStorage.setItem(visitorKey, id);
+    } catch {
+      // Older tabs can use the legacy key when there is space for it.
+    }
+  }
+  return id;
+}
+
+export function getVisitorId() {
+  visitorId ??= saveVisitorId().catch((error) => {
+    visitorId = undefined;
+    throw error;
+  });
+  return visitorId;
+}
 
 export function readConversations() {
   return get<Conversation[]>(key, db).then((value) => value ?? []);

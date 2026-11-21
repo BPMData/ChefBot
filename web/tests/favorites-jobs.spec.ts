@@ -86,13 +86,14 @@ test("stops a replacement and keeps the saved reply", async ({ page }) => {
   await expect(page.getByRole("textbox", { name: "Edit your follow-up" })).toHaveValue("slow fixture replacement");
 });
 
-test("recovers the same job in a new browser session when the submit response is lost", async ({}, info) => {
+test("recovers the same job when a browser restart loses the response and local visitor key", async ({}, info) => {
   const { baseURL, viewport, isMobile, hasTouch, launchOptions } = info.project.use;
   const profile = info.outputPath("disposable-browser-profile");
   const launch = () => chromium.launchPersistentContext(profile, { baseURL, viewport, isMobile, hasTouch, ...launchOptions });
   let context = await launch();
   let generationRequests = 0;
   let jobId = "";
+  const establishedVisitor = crypto.randomUUID();
   const observedReplays: string[] = [];
   let releaseSubmit: () => void = () => {};
   const holdResponse = new Promise<void>((resolve) => { releaseSubmit = resolve; });
@@ -110,9 +111,11 @@ test("recovers the same job in a new browser session when the submit response is
       await route.abort().catch(() => {});
     });
     await first.goto("./");
+    await first.evaluate((id) => localStorage.setItem("chefbot.visitor", id), establishedVisitor);
     await first.getByLabel("Ingredients", { exact: true }).fill("slow fixture carrots");
     await first.getByRole("button", { name: "Make a recipe" }).click();
     await accepted;
+    await first.evaluate(() => localStorage.removeItem("chefbot.visitor"));
     await first.close();
     releaseSubmit();
     await context.close();
@@ -130,6 +133,7 @@ test("recovers the same job in a new browser session when the submit response is
     await reopened.getByRole("button", { name: "Open recipe" }).click();
     await expect(reopened.getByRole("heading", { name: "Cumin Carrots", level: 1 })).toBeVisible();
     await expect(reopened).toHaveTitle("ChefBot");
+    expect(await reopened.evaluate(() => localStorage.getItem("chefbot.visitor"))).toBe(establishedVisitor);
     expect(generationRequests).toBe(1);
     expect(observedReplays).toEqual([`/api/jobs/${jobId}/events`]);
   } finally {
