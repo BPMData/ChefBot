@@ -24,8 +24,10 @@ more than cost.
 0.1.0 (2001), byte-for-byte the November 15 artifact. The physical review caught a web force-stop
 replay failure. PR #44 commits the visitor ID to IndexedDB before requesting generation. The handset
 replayed the original job with one POST after the fix, even with the legacy visitor key removed.
-Physical map, Back, and photo input results are in [WEB_LAUNCH.md](docs/WEB_LAUNCH.md). Public Pages
-still serves the PR #40 merge. Publishing, redeploying Cloud Run and billable checks need explicit approval.
+Bryan confirmed native ingredient recognition on a nearly empty lo mein container beside empty cans.
+Reserve further model checks for the web. Same-job browser force-stop recovery is a live web release
+criterion. See the handset results and mobile-data test in [WEB_LAUNCH.md](docs/WEB_LAUNCH.md). Public
+Pages still serves the PR #40 merge. Publishing, redeploying Cloud Run and billable checks need explicit approval.
 
 **Web launch Phase 1 (2026-11-19, branch `chefbot-web-launch`).** The local FastAPI service
 can create and replay recipe jobs, serve the cuisine tree, read ingredient photos, make dish pictures,

@@ -16,24 +16,32 @@ disposable Chromium 160.0.8176.0 profile over USB against the offline fixture.
 
 The installed ChefBot APK reports version `0.1.0` and Android version code `2001`. Android reports a
 November 15 last update, and the installed base APK's SHA-256 matches the November 15 arm64 artifact
-byte for byte. The source and handoff identify the expected native behavior. The handset observations
-below cover only the flows exercised with disposable data and without model calls.
+byte for byte. Bryan separately confirmed native ingredient recognition. His photo showed a nearly empty lo mein
+container surrounded by empty cans. The APK identified noodles as the only ingredient. The remaining
+handset observations came from the offline fixture and checks that required no model calls.
+
+The APK is the UX reference. The web can improve on it. Live web recovery from a browser force-stop
+mid-generation is a release criterion regardless of how the APK handles force-stop.
 
 | Flow | Flet and handoff reference | Web review build and remaining verification |
 | --- | --- | --- |
-| Start a recipe | In-app camera with gallery and cancel. Saved preferences and an opening summary of the chosen options. | Browser camera capture and a separate image picker on touchscreens. Exclusions and pantry defaults persist. On the handset, the APK opened its camera and Gallery. Both web paths returned a disposable image and populated ingredients through the offline fixture. Native model recognition was outside the offline check. |
+| Start a recipe | In-app camera with gallery and cancel. Saved preferences and an opening summary of the chosen options. | Browser camera capture and a separate image picker on touchscreens. Exclusions and pantry defaults persist. On the handset, the APK opened its camera and Gallery. Both web paths returned a disposable image and populated ingredients through the offline fixture. Bryan confirmed native recognition on the lo mein photo. Reserve any further model checks for the web. |
 | Cuisine selection | The Flet list drills down through regions and has a separate About icon for each leaf. The native globe and regional maps open details on a leaf tap. | PR #42's compact searchable picker and automatic infoboxes from both entry points stay in place. One-finger drag worked on both apps. On the handset the web opened infoboxes automatically from the picker and map, and Android Back returned to the search or map. The APK opened details from the map and selected directly from the list. Offline Playwright also checks the globe zoom after Back. |
 | Saved recipes | Flet Favorites has access-ranked continent, country and cuisine folders, recent shortcuts at the root and country level, and search across all starred recipes. | The APK's separate Favorites screen and recent shortcuts appeared on the handset. Web Favorites follows the Flet structure, with counts, five recent at the root, three per country, a separate Any cuisine folder, and breadcrumbs. Browser Back restores the folder and query. Playwright checks ranking, the legacy Greek label, cross-folder search, and version 1 backup round trips. IndexedDB and backup format stay in place. |
 | Sharing and pictures | The Android share sheet can hand text, PDF and dish photo to a mail app. Dish pictures are generated from saved recipes. | Playwright checks text and both file signatures handed to Web Share. Browser and target app determine attachment support. Saved and imported replies can generate pictures using the saved title after the original job expires. A failed replacement leaves the previous image in place. On the handset Gmail received the complete fixture text, PDF and PNG from the web share sheet. The APK-to-Gmail check with a disposable pictured recipe remains open. |
 | Stop | Flet can keep the streamed partial recipe. | The web API cancels the draft, review or revision in progress and replays a stopped event. The web restores the request for editing and keeps the previous saved reply and pictures. Only finished, checked replies enter history. |
-| Background and recovery | Android has a foreground service, a system notification, and an automatic retry for some connection losses. The installed build's force-quit behavior needs verification. | The server owns the job. The browser saves its ID before submitting, and reopens the same event stream after a tab or browser restart. The tab title and an in-app notice show replies that finish while away. A closed browser receives no push notification. Offline tests cover a new tab and a restarted disposable browser profile with one generation POST, including when the original response never reached the browser. The first handset force-stop replay returned 404 for the saved job. The recovery fix commits the visitor ID in IndexedDB before sending requests. On the handset both tab closure and force-stop recovered the original job. The force-stop test removed the legacy localStorage key before restart. The fixture logged one generation POST per test. The APK's generation recovery and the deployed Cloud Run behavior still need an approved live check. |
+| Background and recovery | Android has a foreground service, a system notification, and an automatic retry for some connection losses. | The server owns the job. The browser saves its ID before submitting, and reopens the same event stream after a tab or browser restart. The tab title and an in-app notice show replies that finish while away. A closed browser receives no push notification. Offline tests cover a new tab and a restarted disposable browser profile with one generation POST, including when the original response never reached the browser. The first handset force-stop replay returned 404 for the saved job. The recovery fix commits the visitor ID in IndexedDB before sending requests. On the handset both tab closure and force-stop recovered the original job. The force-stop test removed the legacy localStorage key before restart. The fixture logged one generation POST per test. The deployed web build still needs to prove same-job recovery over mobile data. |
 | Settings | The APK owns its own settings and history. | Dark, Light and System appearance, optional email recipient, local recipes and version 1 backups. The service owns model selection, credentials and quotas. |
 
 The result can be replayed for 30 minutes after completion as long as the service instance survives.
-The previously reported one-hour recovery describes one production run. Test a mobile-data disconnect
-on Cloud Run to establish whether request-based CPU throttling delays completion. The new browser build
-uses the new API contract. Coordinate both publications after approval, starting with the API, which
-continues to accept the older Pages client's requests.
+The previously reported one-hour recovery describes one production run. For the live web check, verify
+that Pages serves the approved web build and that it points to the matching API. Over mobile data, start one
+disposable recipe and force-stop the browser while it is drafting. Reopen the same browser profile within the
+replay window. Confirm that the same job recovered, the checked reply was saved, and the API recorded exactly
+one generation POST. Record whether the reply is available on reconnect or finishes after the browser
+returns. Request-based CPU throttling can delay work without an open connection.
+The new browser build uses the new API contract. Coordinate both publications after approval, starting with
+the API, which continues to accept the older Pages client's requests.
 
 ### Physical Android review
 
@@ -71,7 +79,7 @@ Open `http://localhost:5183/ChefBot/` on the phone through the USB connection. R
 - Start a recipe with `slow fixture carrots`. Try Stop during drafting. For a separate recipe, switch apps,
   then repeat with a closed tab and a force-stopped browser. Reopen the same test profile before replay
   expires. Verify the completed recipe or continuing job and a single `POST /api/jobs` in the fixture log
-  for each generation. APK generation, live API checks and either publication require Bryan's approval.
+  for each generation. Reserve real model calls for the web. Live checks and both publications require Bryan's approval.
 
 The review prompt checks numerical discrepancies and cooking steps that can overlap. The offline tests
 cover that pipeline. Real-model timing and false-positive checks still require an approved live run.
