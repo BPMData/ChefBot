@@ -6,27 +6,27 @@ Decided with Bryan, 2026-11-19. This replaces the Flet server-mode plan in `docs
 Before anything: read `CLAUDE.md` (its ground rules apply to you), `HANDOFF.md`, `HANDOFF.local.md` if present,
 and AllAboard's `docs/DEPLOYMENT.md` (BPMData/allaboard), which records hard-won Cloud Run rules this plan reuses.
 
-## Android and browser parity, 2026-11-20
+## Android and browser parity, 2026-11-21
 
 GitHub deployment [7945648675](https://github.com/BPMData/ChefBot/deployments/github-pages) identifies the
-successful public Pages build as `351bd48a32d1bad2c03b6473055858029c0688bf`. The live HTML loaded
-`index-DfL1hmrf.js` on November 20. That deployment predates PR #41 and merged PR #42
-(`859dff7a6f8a6f29354fda335f07b5ef16566d7c`), the base for this follow-up. Use the follow-up PR's recorded
-test SHA and its local fixture for review.
+successful public Pages build as `351bd48a32d1bad2c03b6473055858029c0688bf`. It still served that build on
+November 21. The local physical review used PR #43's web commit `b5cd7a767167bff27fa1278620d23df21530b3c8`
+and the recovery fix `0c330aadf50e1cecccbb171f4a54e14175f52895`, based on merged PR #43. The web ran in a
+disposable Chromium 160.0.8176.0 profile over USB against the offline fixture.
 
-ADB found no connected handset. The installed APK version and build remain unknown. The November 15
-arm64 artifact reports version `0.1.0` and Android version code `2001`. Its installation was never confirmed.
-The Android comparisons below use Flet source and the handoff as references. The handoff records handset
-checks for PDF and Share in October, background replies on November 3, and globe browsing on November 12.
+The installed ChefBot APK reports version `0.1.0` and Android version code `2001`. Android reports a
+November 15 last update, and the installed base APK's SHA-256 matches the November 15 arm64 artifact
+byte for byte. The source and handoff identify the expected native behavior. The handset observations
+below cover only the flows exercised with disposable data and without model calls.
 
 | Flow | Flet and handoff reference | Web review build and remaining verification |
 | --- | --- | --- |
-| Start a recipe | In-app camera with gallery and cancel. Saved preferences and an opening summary of the chosen options. | Browser camera capture and a separate image picker on touchscreens. Exclusions and pantry defaults persist. Playwright injects files into both controls. Confirm that the phone opens the expected camera and gallery and returns an image. |
-| Cuisine selection | The Flet list drills down through regions and has a separate About icon for each leaf. The native globe and regional maps open details on a leaf tap. | PR #42's compact searchable picker and automatic infoboxes from both entry points stay in place. Phone-width Chromium verifies one-finger MapLibre drag. Playwright checks both infobox entry points, Back to the search and map, and the globe zoom after Back. Confirm gestures and the native Back action on the handset. |
-| Saved recipes | Flet Favorites has access-ranked continent, country and cuisine folders, recent shortcuts at the root and country level, and search across all starred recipes. | Favorites follows the Flet structure, with counts, five recent at the root, three per country, a separate Any cuisine folder, and breadcrumbs. Browser Back restores the folder and query. Playwright checks ranking, the legacy Greek label, cross-folder search, and version 1 backup round trips. IndexedDB and backup format stay in place. |
-| Sharing and pictures | The Android share sheet can hand text, PDF and dish photo to a mail app. Dish pictures are generated from saved recipes. | Playwright checks text and both file signatures handed to Web Share. Browser and target app determine attachment support. Saved and imported replies can generate pictures using the saved title after the original job expires. A failed replacement leaves the previous image in place. Check the actual share app's compose screen and attachment names. |
+| Start a recipe | In-app camera with gallery and cancel. Saved preferences and an opening summary of the chosen options. | Browser camera capture and a separate image picker on touchscreens. Exclusions and pantry defaults persist. On the handset, the APK opened its camera and Gallery. Both web paths returned a disposable image and populated ingredients through the offline fixture. Native model recognition was outside the offline check. |
+| Cuisine selection | The Flet list drills down through regions and has a separate About icon for each leaf. The native globe and regional maps open details on a leaf tap. | PR #42's compact searchable picker and automatic infoboxes from both entry points stay in place. One-finger drag worked on both apps. On the handset the web opened infoboxes automatically from the picker and map, and Android Back returned to the search or map. The APK opened details from the map and selected directly from the list. Offline Playwright also checks the globe zoom after Back. |
+| Saved recipes | Flet Favorites has access-ranked continent, country and cuisine folders, recent shortcuts at the root and country level, and search across all starred recipes. | The APK's separate Favorites screen and recent shortcuts appeared on the handset. Web Favorites follows the Flet structure, with counts, five recent at the root, three per country, a separate Any cuisine folder, and breadcrumbs. Browser Back restores the folder and query. Playwright checks ranking, the legacy Greek label, cross-folder search, and version 1 backup round trips. IndexedDB and backup format stay in place. |
+| Sharing and pictures | The Android share sheet can hand text, PDF and dish photo to a mail app. Dish pictures are generated from saved recipes. | Playwright checks text and both file signatures handed to Web Share. Browser and target app determine attachment support. Saved and imported replies can generate pictures using the saved title after the original job expires. A failed replacement leaves the previous image in place. On the handset Gmail received the complete fixture text, PDF and PNG from the web share sheet. The APK-to-Gmail check with a disposable pictured recipe remains open. |
 | Stop | Flet can keep the streamed partial recipe. | The web API cancels the draft, review or revision in progress and replays a stopped event. The web restores the request for editing and keeps the previous saved reply and pictures. Only finished, checked replies enter history. |
-| Background and recovery | Android has a foreground service, a system notification, and an automatic retry for some connection losses. The installed build's force-quit behavior needs verification. | The server owns the job. The browser saves its ID before submitting, and reopens the same event stream after a tab or browser restart. The tab title and an in-app notice show replies that finish while away. A closed browser receives no push notification. Offline tests cover a new tab and a restarted disposable browser profile with one generation POST, including when the original response never reached the browser. Physical force-quit and Cloud Run behavior are pending. |
+| Background and recovery | Android has a foreground service, a system notification, and an automatic retry for some connection losses. The installed build's force-quit behavior needs verification. | The server owns the job. The browser saves its ID before submitting, and reopens the same event stream after a tab or browser restart. The tab title and an in-app notice show replies that finish while away. A closed browser receives no push notification. Offline tests cover a new tab and a restarted disposable browser profile with one generation POST, including when the original response never reached the browser. The first handset force-stop replay returned 404 for the saved job. The recovery fix commits the visitor ID in IndexedDB before sending requests. On the handset both tab closure and force-stop recovered the original job. The force-stop test removed the legacy localStorage key before restart. The fixture logged one generation POST per test. The APK's generation recovery and the deployed Cloud Run behavior still need an approved live check. |
 | Settings | The APK owns its own settings and history. | Dark, Light and System appearance, optional email recipient, local recipes and version 1 backups. The service owns model selection, credentials and quotas. |
 
 The result can be replayed for 30 minutes after completion as long as the service instance survives.
@@ -280,8 +280,8 @@ From the repo root, install `server/requirements.txt` and run `uvicorn server.ap
   so replace the progress display with each snapshot. Recipes are reviewed before the final `result`.
   Set `CHEFBOT_STREAM_DRAFT=1` on the API to display a provisional draft before checking. In that mode
   append each `draft.delta` to a fresh buffer on every connection and use only the final result for saving.
-- The browser can supply a UUID v4 as `job_id` on `POST /api/jobs` and stores it before sending. Reopen or
-  reconnect with `GET /api/jobs/<id>/events` under the same visitor ID. `POST /api/jobs/<id>/stop` cancels an
+- The browser can supply a UUID v4 as `job_id` on `POST /api/jobs` and stores it before sending. The browser commits the visitor ID to IndexedDB before its first API request and migrates
+  the original localStorage ID when present. Reopen or reconnect with `GET /api/jobs/<id>/events` under the same visitor ID. `POST /api/jobs/<id>/stop` cancels an
   active job and emits `stopped`. The previous request and saved reply remain available in the browser.
 - Send the ingredient photo as raw JPEG, PNG, or WebP bytes. `POST /api/picture` takes `{title}` and
   returns image bytes. The original `/api/jobs/<id>/picture` endpoint continues to serve existing web clients.
