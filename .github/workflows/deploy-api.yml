@@ -7,9 +7,14 @@ on:
         description: Allocate CPU outside requests if the phone reconnect test requires it
         type: boolean
         default: false
+  workflow_call:
+    secrets:
+      GCP_SA_KEY:
+        required: false
 
 permissions:
   contents: read
+  id-token: write
 
 concurrency:
   group: chefbot-api-deploy
@@ -28,30 +33,63 @@ jobs:
       OPENROUTER_SECRET: ${{ vars.CHEFBOT_OPENROUTER_SECRET }}
       STREAM_DRAFT: ${{ vars.CHEFBOT_STREAM_DRAFT }}
       CPU_ALWAYS_ALLOCATED: ${{ inputs.cpu_always_allocated }}
+      API_URL: ${{ vars.CHEFBOT_API_URL }}
+      WIF_PROVIDER: ${{ vars.CHEFBOT_WIF_PROVIDER }}
+      DEPLOY_SA: ${{ vars.CHEFBOT_DEPLOY_SA }}
     steps:
       - uses: actions/checkout@v5
-      - name: Stage API source
+      - name: Check deploy configuration
+        env:
+          HAS_GCP_SA_KEY: ${{ secrets.GCP_SA_KEY != '' }}
         run: |
-          for name in PROJECT REGION BUCKET RUNTIME_SA OPENROUTER_SECRET; do
+          missing=0
+          for pair in PROJECT:CHEFBOT_GCP_PROJECT REGION:CHEFBOT_GCP_REGION BUCKET:CHEFBOT_USAGE_BUCKET \
+              RUNTIME_SA:CHEFBOT_RUNTIME_SA OPENROUTER_SECRET:CHEFBOT_OPENROUTER_SECRET API_URL:CHEFBOT_API_URL; do
+            name="${pair%%:*}"
             if [[ -z "${!name}" ]]; then
-              echo "::error::Missing ChefBot deploy configuration for $name."
-              exit 1
+              echo "::error::Missing repository variable ${pair#*:}."
+              missing=1
             fi
           done
+          if [[ -n "$API_URL" ]] && ! node -e 'const url = new URL(process.env.API_URL); if (url.protocol !== "https:" || !url.hostname || url.username || url.password || url.search || url.hash || url.pathname !== "/") process.exit(1)' 2>/dev/null; then
+            echo '::error::CHEFBOT_API_URL must be an HTTPS API origin.'
+            missing=1
+          fi
+          if [[ -n "$WIF_PROVIDER" || -n "$DEPLOY_SA" ]]; then
+            if [[ -z "$WIF_PROVIDER" || -z "$DEPLOY_SA" ]]; then
+              echo '::error::Set both CHEFBOT_WIF_PROVIDER and CHEFBOT_DEPLOY_SA for Google Cloud authentication.'
+              missing=1
+            fi
+          elif [[ "$HAS_GCP_SA_KEY" != true ]]; then
+            echo '::error::Configure CHEFBOT_WIF_PROVIDER and CHEFBOT_DEPLOY_SA or set the GCP_SA_KEY repository secret.'
+            missing=1
+          fi
+          exit "$missing"
+      - name: Stage API source
+        run: |
           source_dir="$RUNNER_TEMP/chefbot-source"
           mkdir -p "$source_dir"
           git archive HEAD server src/chefbot src/assets/fonts/static | tar -x -C "$source_dir"
           cp "$source_dir/server/Dockerfile" "$source_dir/Dockerfile"
-      - uses: google-github-actions/auth@v3
+      - name: Authenticate with Workload Identity Federation
+        if: env.WIF_PROVIDER != ''
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.DEPLOY_SA }}
+      - name: Authenticate with the configured service account key
+        if: env.WIF_PROVIDER == ''
+        uses: google-github-actions/auth@v3
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
       - uses: google-github-actions/setup-gcloud@v3
       - name: Deploy to Cloud Run
         run: |
-          cpu=(--cpu-throttling)
-          if [[ "$CPU_ALWAYS_ALLOCATED" == true ]]; then
-            cpu=(--no-cpu-throttling)
-          fi
+          cpu=()
+          case "$CPU_ALWAYS_ALLOCATED" in
+            true) cpu=(--no-cpu-throttling) ;;
+            false) cpu=(--cpu-throttling) ;;
+          esac
           stream_draft=0
           if [[ "$STREAM_DRAFT" == 1 ]]; then
             stream_draft=1
@@ -64,3 +102,7 @@ jobs:
             --set-env-vars="CHEFBOT_USAGE_BUCKET=$BUCKET,CHEFBOT_STREAM_DRAFT=$stream_draft" \
             --set-secrets="OPENROUTER_API_KEY=$OPENROUTER_SECRET:latest" \
             --quiet
+      - name: Check the public API
+        run: |
+          curl --fail --silent --show-error --retry 3 --retry-all-errors --connect-timeout 10 --max-time 20 \
+            "${API_URL%/}/api/cuisines" > /dev/null

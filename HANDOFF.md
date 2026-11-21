@@ -20,6 +20,12 @@ more than cost.
 
 ## Pinned (do these next, in this order)
 
+**Release automation (2026-11-21).** The manual API run stopped before Google Cloud authentication.
+GitHub currently has the API URL. The Cloud Run deployment variables and deployer authentication still
+need setup. The coordinated release deploys and checks the API before publishing Pages. Review the
+[deployment setup](docs/WEB_LAUNCH.md#deployment-setup) before approving the first run. Automatic
+releases are controlled by `CHEFBOT_AUTO_DEPLOY` and stay off until enabled.
+
 **Web-to-Android follow-up (2026-11-21).** PR #43 merged. The installed APK was verified as version
 0.1.0 (2001), byte-for-byte the November 15 artifact. The physical review caught a web force-stop
 replay failure. PR #44 commits the visitor ID to IndexedDB before requesting generation. The handset

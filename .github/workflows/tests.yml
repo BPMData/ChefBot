@@ -54,3 +54,14 @@ jobs:
         working-directory: web
         env:
           CHEFBOT_TEST_PYTHON: python
+
+  release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.CHEFBOT_AUTO_DEPLOY == 'true'
+    needs: [test, web]
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/release.yml
+    secrets:
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
