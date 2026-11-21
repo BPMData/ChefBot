@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { Map as MapLibreMap, NavigationControl, type MapGeoJSONFeature } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import geography from "../../../src/chefbot/maps/globe.json";
@@ -23,7 +23,11 @@ const outlineLayer = "cuisine-outlines";
 const nameFrom = (feature?: MapGeoJSONFeature) => feature?.properties.name as string | undefined;
 const cuisineFrom = (feature?: MapGeoJSONFeature) => cuisines.find((region) => feature?.properties.cuisine === region.id);
 
-export default function Globe({ preview, openRegion }: { preview: (id: string) => void; openRegion: (id: string) => void }) {
+export type GlobeCamera = { center: [number, number]; zoom: number };
+
+export default function Globe({ preview, openRegion, camera }: {
+  preview: (id: string) => void; openRegion: (id: string) => void; camera: RefObject<GlobeCamera | null>;
+}) {
   const host = useRef<HTMLDivElement>(null);
   const actions = useRef({ preview, openRegion });
   actions.current = { preview, openRegion };
@@ -49,7 +53,8 @@ export default function Globe({ preview, openRegion }: { preview: (id: string) =
     let globe: MapLibreMap;
     try {
       globe = new MapLibreMap({
-        container: host.current, center: [-20, 23], zoom: 0.55, minZoom: 0.2, maxZoom: 12,
+        container: host.current, center: camera.current?.center ?? [-20, 23], zoom: camera.current?.zoom ?? 0.55,
+        minZoom: 0.2, maxZoom: 12,
         dragRotate: false, pitchWithRotate: false,
         cooperativeGestures: !window.matchMedia("(any-pointer: coarse)").matches,
         style: {
@@ -108,6 +113,7 @@ export default function Globe({ preview, openRegion }: { preview: (id: string) =
       else if (feature?.properties.continent) actions.current.openRegion(feature.properties.continent);
     });
     if (import.meta.env.DEV) {
+      host.current.dataset.zoom = globe.getZoom().toFixed(2);
       globe.on("render", () => {
         if (globe.isMoving()) performance.mark("chefbot-globe-frame");
       });
@@ -116,10 +122,11 @@ export default function Globe({ preview, openRegion }: { preview: (id: string) =
       });
     }
     return () => {
+      camera.current = { center: globe.getCenter().toArray(), zoom: globe.getZoom() };
       globe.remove();
       map.current = null;
     };
-  }, []);
+  }, [camera]);
 
   return <>
     <div className="intro">

@@ -1,15 +1,20 @@
 """Local Playwright backend. Serves the real API with deterministic model replies."""
 import asyncio
 import io
+import os
 
 from PIL import Image
 
 from server.app import ORIGINS, create_app
+from server import jobs
 from server.limits import LIMITS
 from chefbot.api import Chunk
 
 ORIGINS.append("http://localhost:5183")
 LIMITS["reply_cooldown_seconds"] = 0
+LIMITS["global_calls"] = 1_000
+jobs.JOB_TTL_SECONDS = int(os.getenv("CHEFBOT_FIXTURE_JOB_TTL", "3"))
+SLOW_SECONDS = int(os.getenv("CHEFBOT_FIXTURE_SLOW_SECONDS", "4"))
 
 
 class FixtureModel:
@@ -17,7 +22,7 @@ class FixtureModel:
         follow_up = len(messages) > 2
         title, seasoning = ("Spicy Cumin Carrots", "chili flakes") if follow_up else ("Cumin Carrots", "cumin")
         yield Chunk("text", f"Recipe Title: {title}\n\n**Ingredients**\n\n- 225 g carrots\n- 1 tsp {seasoning}\n")
-        await asyncio.sleep(1.2)
+        await asyncio.sleep(SLOW_SECONDS if "slow fixture" in messages[-1]["content"] else 1.2)
         yield Chunk("text", f"\n**Instructions**\n\n1. Roast the carrots.\n2. Add {seasoning}.")
 
     async def complete_chat(self, *args):
@@ -28,6 +33,8 @@ class FixtureModel:
         return "carrots, cumin"
 
     async def dish_photo(self, title):
+        if title == "Failed Picture Carrots":
+            raise ValueError("Fixture picture failure")
         output = io.BytesIO()
         Image.new("RGB", (80, 56), (190, 90, 40)).save(output, "PNG")
         return output.getvalue()

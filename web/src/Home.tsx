@@ -1,22 +1,22 @@
-import { BookOpen, Camera, ImagePlus, Leaf, Search, Star, Trash2, X } from "lucide-react";
+import { BookOpen, Camera, ImagePlus, Leaf, X } from "lucide-react";
 import { useState, type Dispatch, type FormEvent, type SetStateAction } from "react";
 import { dietLimit, readPhoto, resizePhoto, type CuisineTree, type Options } from "./api";
-import { audienceLabel, cuisinePath, requestTags } from "./cooking";
+import { audienceLabel } from "./cooking";
+import { Recents } from "./RecipeLibrary";
 import { CuisinePicker } from "./CuisinePicker";
 import type { Conversation } from "./storage";
 
 export type Draft = { ingredients: string; settings: Options };
 
-export function Home({ tree, draft, setDraft, create, busy, recipes, open, toggleFavorite, openGlobe, browse, preview, removeRecipe }: {
+export function Home({ tree, draft, setDraft, create, busy, recipes, open, toggleFavorite, openGlobe, browse, preview, removeRecipe, query, setQuery, openFavorites }: {
   tree: CuisineTree | null; draft: Draft; setDraft: Dispatch<SetStateAction<Draft>>;
   create: () => void; busy: boolean; recipes: Conversation[];
   openGlobe: () => void; browse: () => void; preview: (id: string) => void; removeRecipe: (id: string) => Promise<void>;
+  query: string; setQuery: (query: string) => void; openFavorites: () => void;
   open: (id: string) => void; toggleFavorite: (id: string) => void;
 }) {
   const [reading, setReading] = useState(false);
   const [photoStatus, setPhotoStatus] = useState("");
-  const [favorites, setFavorites] = useState(false);
-  const [query, setQuery] = useState("");
   const { ingredients, settings } = draft;
   const change = (settings: Options) => setDraft({ ...draft, settings });
   const messages = tree?.limits.message_characters ?? 4000;
@@ -37,15 +37,6 @@ export function Home({ tree, draft, setDraft, create, busy, recipes, open, toggl
     }
   }
 
-  const tokens = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
-  const visible = recipes.filter((recipe) => {
-    if (favorites && !recipe.favorite) return false;
-    if (!tokens.length) return true;
-    const path = tree?.nodes[recipe.settings.cuisine] ? cuisinePath(recipe.settings.cuisine, tree).map((node) => node.label) : [];
-    const searchable = [recipe.title, ...path, ...requestTags(recipe.settings, tree), recipe.pending?.ingredients,
-      ...recipe.messages.map((message) => message.content)].join("\n").toLowerCase();
-    return tokens.every((word) => searchable.includes(word));
-  }).sort((a, b) => favorites ? b.last_accessed - a.last_accessed || b.updated - a.updated : b.updated - a.updated);
   const submit = (event: FormEvent) => {
     event.preventDefault();
     if (ingredients.trim() && !busy && !reading) create();
@@ -132,29 +123,7 @@ export function Home({ tree, draft, setDraft, create, busy, recipes, open, toggl
         </div>
       </section>
     </form>
-    <section id="saved-recipes" className="saved" aria-label="Saved recipes">
-      <h2>Your recipes</h2>
-      <div className="saved-header">
-        <div className="segmented">
-          <button type="button" aria-pressed={!favorites} onClick={() => setFavorites(false)}>Recents</button>
-          <button type="button" aria-pressed={favorites} onClick={() => setFavorites(true)}>Favorites</button>
-        </div>
-        {!!recipes.length && <label className="search"><Search size={16} /><input placeholder="Search recipes" aria-label="Search recipes" value={query}
-          onChange={(event) => setQuery(event.target.value)} /></label>}
-      </div>
-      {visible.length ? <ul className="recipe-list">
-        {visible.map((recipe) => <li key={recipe.id}>
-          <button type="button" className="recipe-row" onClick={() => open(recipe.id)}>
-            <span>{recipe.title}</span><small>{recipe.pending ? "In progress" : new Date(recipe.updated).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</small>
-          </button>
-          {!!recipe.messages.length && <button type="button" className="icon-button star" aria-label={recipe.favorite ? "Remove from favorites" : "Add to favorites"}
-            aria-pressed={recipe.favorite} onClick={() => toggleFavorite(recipe.id)}><Star size={18} fill={recipe.favorite ? "currentColor" : "none"} /></button>}
-          {!recipe.pending && <button type="button" className="icon-button" aria-label={"Delete " + recipe.title}
-            onClick={() => {
-              if (window.confirm('Delete “' + recipe.title + '” and its pictures from this browser?')) void removeRecipe(recipe.id);
-            }}><Trash2 size={17} /></button>}
-        </li>)}
-      </ul> : <p className="empty">{query ? "No matching recipes." : favorites ? "Star a recipe to keep it here." : "Recipes you make appear here."}</p>}
-    </section>
+    <Recents recipes={recipes} tree={tree} query={query} setQuery={setQuery} openFavorites={openFavorites}
+      open={open} toggleFavorite={toggleFavorite} removeRecipe={removeRecipe} />
   </>;
 }

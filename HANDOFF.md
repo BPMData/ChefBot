@@ -20,6 +20,13 @@ more than cost.
 
 ## Pinned (do these next, in this order)
 
+**Web-to-Android follow-up (2026-11-20).** Started from merged PR #42. The review branch adds access-ranked
+Favorites folders, dish pictures for saved/imported replies, Stop, and a browser completion notice with
+same-job reconnect. Keep the installed APK for the side-by-side review. Its version is unverified, and the
+November 15 artifact is a separate reference. Public Pages still serves the PR #40 merge. See the parity
+table and physical Android review steps in [WEB_LAUNCH.md](docs/WEB_LAUNCH.md). Confirm the phone behavior
+before judging parity. Publishing Pages, redeploying Cloud Run and billable model checks need separate approval.
+
 **Web parity, November 20, branch `codex/web-recipe-parity`.** The cuisine grid and globe now open the
 same infobox on a cuisine tap. Regional maps, highlights and callouts use the existing Flet geography.
 The browser also restores cooking preferences, follow-up shortcuts, user-message copy, broader saved

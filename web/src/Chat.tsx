@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUp, Copy, Download, Image, RotateCcw, Star, X } from "lucide-react";
+import { ArrowDown, ArrowUp, CircleStop, Copy, Download, Image, RotateCcw, Star, X } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { dishPicture, recipePdf, type CuisineTree } from "./api";
 import { download, exportHtml, fileName, recipeHtml } from "./exports";
@@ -14,7 +14,7 @@ function Reply({ message, title, photo, savePhoto, report }: {
   message: Message; title: string; photo?: string; savePhoto: (photo: string) => Promise<void>; report: (message: string) => void;
 }) {
   const [action, setAction] = useState("");
-  const name = message.title || title;
+  const name = message.title?.trim() || title.trim() || "Recipe";
   const viewer = useRef<HTMLDialogElement>(null);
 
   async function run(label: string, execute: () => Promise<void>) {
@@ -56,15 +56,15 @@ function Reply({ message, title, photo, savePhoto, report }: {
       })}><Download size={15} /> {action === "PDF" ? "Preparing PDF…" : "PDF"}</button>
       <button type="button" disabled={!!action} onClick={() => exportHtml(name, message.content, photo)}>HTML</button>
       <ShareReply title={name} markdown={message.content} photo={photo} report={report} />
-      {message.jobId && message.title && <button type="button" disabled={!!action}
-        onClick={() => void run("Picture", async () => savePhoto(await dishPicture(message.jobId!)))}>
+      <button type="button" disabled={!!action}
+        onClick={() => void run("Picture", async () => savePhoto(await dishPicture(name)))}>
         <Image size={15} /> {action === "Picture" ? "Making picture…" : photo ? "New picture" : "Picture"}
-      </button>}
+      </button>
     </div>
   </article>;
 }
 
-export function Chat({ conversation, tree, send, mutate, favorite, progress, provisional, busy, reconnect, canReconnect, report, followUpLimit, messageLimit }: {
+export function Chat({ conversation, tree, send, mutate, favorite, progress, provisional, busy, reconnect, canReconnect, stop, report, followUpLimit, messageLimit }: {
   conversation: Conversation;
   tree: CuisineTree | null;
   send: (args: ReplyArgs) => Promise<boolean>;
@@ -75,12 +75,14 @@ export function Chat({ conversation, tree, send, mutate, favorite, progress, pro
   busy: boolean;
   reconnect: () => void;
   canReconnect: boolean;
+  stop: () => Promise<void>;
   report: (message: string) => void;
   followUpLimit: number;
   messageLimit: number;
 }) {
   const [text, setText] = useState("");
   const [editing, setEditing] = useState(false);
+  const [stopping, setStopping] = useState(false);
   const [undo, setUndo] = useState<{ before: Conversation; revision: number } | null>(null);
   const composer = useRef<HTMLTextAreaElement>(null);
   const thread = useRef<HTMLDivElement>(null);
@@ -183,7 +185,11 @@ export function Chat({ conversation, tree, send, mutate, favorite, progress, pro
             : <Reply key={message.jobId || index} message={message} title={conversation.title}
               photo={conversation.photos[index]} report={report}
               savePhoto={(photo) => mutate((recipe) => {
-                if (recipe.messages[index]?.jobId !== message.jobId) throw new Error("This reply has changed.");
+                const saved = recipe.messages[index];
+                if (saved?.role !== "assistant" || saved.jobId !== message.jobId || saved.title !== message.title
+                  || saved.content !== message.content || recipe.photos[index] !== conversation.photos[index]) {
+                  throw new Error("This reply or its picture has changed.");
+                }
                 return { ...recipe, photos: { ...recipe.photos, [index]: photo }, updated: Date.now() };
               })} />)}
           {pending && <>
@@ -196,6 +202,13 @@ export function Chat({ conversation, tree, send, mutate, favorite, progress, pro
             </article>}
             {canReconnect ? <button className="secondary" type="button" onClick={reconnect}>Reconnect to recipe</button> :
               <Waiting stage={progress.stage} ingredients={progress.ingredients} steps={progress.steps} />}
+            <div className="chat-actions">
+              <button className="secondary" type="button" disabled={stopping || busy} onClick={async () => {
+                setStopping(true);
+                try { await stop(); }
+                finally { setStopping(false); }
+              }}><CircleStop size={16} /> {stopping ? "Stopping…" : "Stop"}</button>
+            </div>
           </>}
         </div>
         {undo && undo.revision === conversation.updated && !blocked && <button type="button" className="secondary" onClick={() => {
