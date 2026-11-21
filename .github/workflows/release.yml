@@ -1,0 +1,54 @@
+name: Release ChefBot
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      GCP_SA_KEY:
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chefbot-production-release
+  cancel-in-progress: false
+
+jobs:
+  current:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      release: ${{ steps.check.outputs.release }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Check that the tested commit is still current
+        id: check
+        run: |
+          if [[ "$(git rev-parse HEAD)" == "$GITHUB_SHA" ]]; then
+            echo 'release=true' >> "$GITHUB_OUTPUT"
+          else
+            echo '::notice::A newer commit is on main. Skipping this release.'
+          fi
+
+  api:
+    if: needs.current.outputs.release == 'true'
+    needs: current
+    permissions:
+      contents: read
+      id-token: write
+    uses: ./.github/workflows/deploy-api.yml
+    secrets:
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+
+  pages:
+    needs: api
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pages.yml

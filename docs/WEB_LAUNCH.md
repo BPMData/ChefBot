@@ -264,9 +264,9 @@ database `chefbot` so it never collides with another hub page's storage.
   it stalls, deploy with `--no-cpu-throttling` (instances still scale to zero when idle) and say so in the PR.
 - Bryan creates a **new** OpenRouter key with a hard credit limit and stores it in Secret Manager himself;
   reference it with `--set-secrets`. Never see, print or commit it. Bucket for `usage.json` only.
-- Deploy workflows, modelled on AllAboard's `deploy.yml` but **`workflow_dispatch` only for now** (not on every
-  push to `main`): `deploy-api.yml` (Cloud Run; Bryan adds the deployer credential as a repo secret) and
-  `pages.yml` (build `web/` with `VITE_API_URL`, publish to Pages). Bryan switches Pages on in repo settings.
+- The release workflow deploys the API and Pages from the same commit on `main`. Set up GitHub
+  authentication to Cloud Run and verify a manual release before opting into deploys after passing tests.
+  See [Deployment setup](#deployment-setup).
 - Ask Bryan for the global daily cap and the key's credit limit before the link goes on his hub page: the hub
   makes it public.
 - Hub link: a separate PR in `BPMData/bpmdata.github.io`, matching how AllAboard is listed there.
@@ -320,18 +320,38 @@ Bryan creates the separate, capped key and adds it to Secret Manager.
 
 | GitHub Actions setting | Value |
 |---|---|
-| Secret `GCP_SA_KEY` | Credentials for the Cloud Run deployer |
+| Variable `CHEFBOT_WIF_PROVIDER` | Google Cloud Workload Identity Federation provider resource name |
+| Variable `CHEFBOT_DEPLOY_SA` | Dedicated deployment service account email |
+| Alternative secret `GCP_SA_KEY` | Existing service account JSON credential, used when federation is unconfigured |
 | Variable `CHEFBOT_GCP_PROJECT` | AllAboard's Google Cloud project ID |
 | Variable `CHEFBOT_GCP_REGION` | AllAboard's Cloud Run region |
 | Variable `CHEFBOT_RUNTIME_SA` | ChefBot runtime service account email |
 | Variable `CHEFBOT_USAGE_BUCKET` | Bare bucket name |
 | Variable `CHEFBOT_OPENROUTER_SECRET` | Secret Manager name for the capped key |
 | Optional variable `CHEFBOT_STREAM_DRAFT` | Set to `1` to show drafts during the review |
-| Variable `CHEFBOT_API_URL` | Cloud Run HTTPS origin, available after the first API deploy |
+| Variable `CHEFBOT_API_URL` | HTTPS origin of the public Cloud Run service |
+| Optional variable `CHEFBOT_AUTO_DEPLOY` | Set to `true` to release after both offline test jobs pass on pushes to `main` |
 
-After review and merge, dispatch **Deploy ChefBot API** from `main` and verify `/healthz`. Select **GitHub Actions**
-as the Pages publishing source in repo settings, add the API origin to the repo variables, and dispatch
-**Deploy ChefBot to Pages** from `main`. Open the Pages URL on a phone over mobile data and make a recipe.
-Close the tab while it is drafting, reopen it after 60 seconds, and inspect the reply and server logs. If processing
-stalled during the disconnect, get approval for instance-based billing and rerun the API workflow with
-`cpu_always_allocated` enabled. The minimum instance count remains zero in either mode.
+The [November 21 API workflow run](https://github.com/BPMData/ChefBot/actions/runs/44902600686) stopped
+before Google Cloud authentication because the repository only had `CHEFBOT_API_URL`. The other Cloud Run
+variables and deployer authentication still need to be configured. The workflow now lists missing settings
+together. The service keeps the model key in Secret Manager.
+
+For keyless authentication, use [Google Cloud's federation setup](https://docs.cloud.google.com/iam/docs/workload-identity-federation-with-deployment-pipelines).
+Restrict the provider's GitHub claims to this repository's numeric `repository_id` and `refs/heads/main`.
+Give the federated identity permission to impersonate a dedicated deployer. Grant that deployer the
+[Cloud Run source deploy permissions](https://docs.cloud.google.com/run/docs/deploying-source-code#required_roles),
+access to use the ChefBot runtime service account, and permission to set the public service's access
+policy. Set both federation variables in GitHub. An existing `GCP_SA_KEY` configuration can also authenticate.
+Select **GitHub Actions** as the Pages publishing source.
+
+After approval, use **Release ChefBot** from `main` once the offline tests are green. It deploys the API,
+checks the public `/api/cuisines` endpoint, then publishes Pages from the same commit. The health check makes
+no model calls. The two individual workflows are still available for manual use. Coordinated releases preserve
+the existing Cloud Run CPU allocation. A direct **Deploy ChefBot API** run still accepts the CPU override.
+
+After the first successful release, Bryan can enable `CHEFBOT_AUTO_DEPLOY`. Passing Python and Playwright
+jobs then release a push to `main`, which includes PR merges. Releases are serialized and skip commits
+superseded while waiting. Every push to `main` can build a new API revision with this option enabled. Cloud
+Build and image storage use Google Cloud resources, and changing revisions can interrupt in-memory recipe
+jobs. Leave the flag unset to keep the manual release process. Real-model phone checks need separate approval.
