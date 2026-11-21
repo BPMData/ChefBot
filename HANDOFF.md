@@ -1,4 +1,4 @@
-# ChefBot handoff (as of 2026-11-20)
+# ChefBot handoff (as of 2026-11-21)
 
 Everything a new session needs to keep going without the original conversation. Read this first, then
 `README.md` (features, how models were chosen) and `docs/EMAIL.md` (mail relay setup).
@@ -20,20 +20,15 @@ more than cost.
 
 ## Pinned (do these next, in this order)
 
-**Web-to-Android follow-up (2026-11-20).** Started from merged PR #42. The review branch adds access-ranked
-Favorites folders, dish pictures for saved/imported replies, Stop, and a browser completion notice with
-same-job reconnect. Keep the installed APK for the side-by-side review. Its version is unverified, and the
-November 15 artifact is a separate reference. Public Pages still serves the PR #40 merge. See the parity
-table and physical Android review steps in [WEB_LAUNCH.md](docs/WEB_LAUNCH.md). Confirm the phone behavior
-before judging parity. Publishing Pages, redeploying Cloud Run and billable model checks need separate approval.
-
-**Web parity, November 20, branch `codex/web-recipe-parity`.** The cuisine grid and globe now open the
-same infobox on a cuisine tap. Regional maps, highlights and callouts use the existing Flet geography.
-The browser also restores cooking preferences, follow-up shortcuts, user-message copy, broader saved
-search, picture downloads, file sharing and themes. See the flow comparison and remaining gaps in
-[the web launch plan](docs/WEB_LAUNCH.md#android-and-browser-parity-2026-11-20). Next up are saved-recipe
-picture generation after job expiry, Favorites folders, and device checks. Confirm approval before publishing
-to Pages, redeploying the API or running live model checks.
+**Web-to-Android follow-up (2026-11-21).** PR #43 merged. The installed APK was verified as version
+0.1.0 (2001), byte-for-byte the November 15 artifact. The physical review caught a web force-stop
+replay failure. PR #44 commits the visitor ID to IndexedDB before requesting generation. The handset
+replayed the original job with one POST after the fix, even with the legacy visitor key removed.
+Bryan confirmed native ingredient recognition on a nearly empty lo mein container beside empty cans.
+Reserve further model checks for the web. Prioritize returning to a finished recipe after switching tabs,
+windows or apps. Same-job browser force-stop recovery is a secondary check. See the handset results and
+mobile-data test in [WEB_LAUNCH.md](docs/WEB_LAUNCH.md). Public Pages still serves the PR #40 merge.
+Publishing, redeploying Cloud Run and billable checks need explicit approval.
 
 **Web launch Phase 1 (2026-11-19, branch `chefbot-web-launch`).** The local FastAPI service
 can create and replay recipe jobs, serve the cuisine tree, read ingredient photos, make dish pictures,

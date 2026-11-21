@@ -1,3 +1,5 @@
+import { getVisitorId } from "./storage";
+
 export type Turn = { role: "user" | "assistant"; content: string };
 export type Options = {
   must_not: string;
@@ -44,14 +46,6 @@ export type JobEvent =
 const base = (import.meta.env.VITE_API_URL ?? "http://localhost:8000").replace(/\/$/, "");
 export const dietLimit = 3;
 
-function visitor() {
-  const saved = localStorage.getItem("chefbot.visitor");
-  if (saved) return saved;
-  const id = crypto.randomUUID();
-  localStorage.setItem("chefbot.visitor", id);
-  return id;
-}
-
 export class RequestError extends Error {
   constructor(message: string, readonly status: number) {
     super(message);
@@ -60,7 +54,7 @@ export class RequestError extends Error {
 
 async function request(path: string, init?: RequestInit) {
   const headers = new Headers(init?.headers);
-  if (path !== "/healthz" && path !== "/api/cuisines") headers.set("X-Visitor-ID", visitor());
+  if (path !== "/healthz" && path !== "/api/cuisines") headers.set("X-Visitor-ID", await getVisitorId());
   let response: Response;
   try {
     response = await fetch(base + path, { ...init, headers });
