@@ -253,3 +253,6 @@ body:has(dialog[open]) { overflow: hidden; }
   .continents .catalog-tile { padding: .6rem; }
 }
 .map-land { fill: light-dark(#ddcdc0, #53483e); stroke: light-dark(#ac998b, #746556); }
+/* The spinning globe at the top of the home page; sized here so the space is kept while it loads. */
+.globe-frame.compact { min-height: clamp(16rem, 42dvh, 24rem); margin-bottom: 1rem; border-radius: .85rem; background: #16191c; }
+.picker-switch { margin-top: .5rem; font-size: .9rem; }

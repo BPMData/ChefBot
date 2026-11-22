@@ -23,9 +23,11 @@ more than cost.
 **Globe drill-down (2026-11-21, branch `claude/optimistic-joliot-745df1`, PR waiting for Bryan's review).**
 The web globe is now the full cuisine picker: planet, continent, country, cuisine, each with a hand-tuned
 camera (`web/src/globe/views.json`) and APK-style callout chips; a cuisine opens the infobox with "Start
-making ... food?" and Go. Every cuisine is covered by Playwright at phone and desktop sizes. Still to check on
+making ... food?" and Go. Every cuisine is covered by Playwright at phone and desktop sizes. The home page now
+opens with the globe spinning slowly (default; Settings > "Pick cuisines with" switches to the list). Still to check on
 Bryan's phone: Europe is dense at phone width (chips fan out on leader lines; pinch-zoom re-lays them out),
-and the flight frame rate. Details under "Globe drill-down" in `docs/WEB_LAUNCH.md`.
+the spin and flight frame rate (60 and 52 frames/s with the Mac's GPU), and that a
+one-finger scroll over the home globe turns it instead of scrolling the page. Details under "Globe drill-down" in `docs/WEB_LAUNCH.md`.
 
 **Release automation (2026-11-21).** The manual API run stopped before Google Cloud authentication.
 GitHub currently has the API URL. The Cloud Run deployment variables and deployer authentication still

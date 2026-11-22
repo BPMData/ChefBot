@@ -103,7 +103,7 @@ export function CuisineInfo({ tree, id, close, choose, question }: {
 }
 
 export function CuisinePicker({ tree, cuisine, browse, preview, openGlobe }: {
-  tree: CuisineTree; cuisine: string; browse: () => void; preview: (id: string) => void; openGlobe: () => void;
+  tree: CuisineTree; cuisine: string; browse: () => void; preview: (id: string) => void; openGlobe?: () => void;
 }) {
   const recents = recentCuisines().filter((id) => tree.nodes[id] && id !== cuisine);
   return <div className="form-field cuisine-field">
@@ -114,7 +114,7 @@ export function CuisinePicker({ tree, cuisine, browse, preview, openGlobe }: {
     </div>
     <div className="cuisine-tools">
       <button type="button" className="secondary" onClick={browse}><Compass size={18} /> Browse cuisines</button>
-      <button type="button" className="secondary" onClick={openGlobe}><Globe2 size={18} /> Cuisine globe</button>
+      {openGlobe && <button type="button" className="secondary" onClick={openGlobe}><Globe2 size={18} /> Cuisine globe</button>}
       <button type="button" className="text-button" onClick={() => {
         const choices = Object.values(tree.nodes).filter((node) => node.kind === "cuisine" || node.kind === "any");
         preview(choices[Math.floor(Math.random() * choices.length)].id);

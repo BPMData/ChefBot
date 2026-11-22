@@ -1,6 +1,7 @@
 .globe-panel { display: grid; gap: .9rem; }
 .globe-frame { position: relative; border-radius: .85rem; overflow: hidden; border: 1px solid var(--border); background: #16191c; }
 .globe-host { width: 100%; height: clamp(20rem, 64dvh, 38rem); }
+.globe-frame.compact .globe-host { height: clamp(16rem, 42dvh, 24rem); }
 .globe-host.maplibregl-map { font-family: "DM Sans", system-ui, sans-serif; }
 .globe-location, .globe-message {
   position: absolute; left: .65rem; bottom: .65rem; max-width: calc(100% - 1.3rem);

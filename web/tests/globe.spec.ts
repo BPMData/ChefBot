@@ -17,7 +17,9 @@ function foodName(node: Node) {
   return /\bfood$/i.test(name) ? name : name + " food";
 }
 
+/** Opens the globe screen from the list-first home page, the way the old flow did. */
 async function openGlobe(page: Page) {
+  await page.addInitScript(() => localStorage.setItem("chefbot.cuisine-picker", "list"));
   await page.goto("./");
   await page.getByRole("button", { name: "Cuisine globe", exact: true }).click();
   await settled(page, "world");
@@ -110,14 +112,16 @@ for (const continent of ["americas", "asia", "europe", "near_east", "africa", "o
   });
 }
 
-test("goes from Shandong to the recipe form with the cuisine picked", async ({ page }, info) => {
+test("goes from the home page globe to Shandong and back to the form with it picked", async ({ page }, info) => {
   await page.goto("./");
+  await expect(page.getByRole("button", { name: "Cuisine globe", exact: true })).toHaveCount(0);
+  const continents = page.getByRole("group", { name: "Continents" });
+  await expect(continents.locator(".globe-callout")).toHaveCount(6, { timeout: 15_000 });
+  await page.screenshot({ path: info.outputPath("home.png") });
   await page.getByLabel("Ingredients", { exact: true }).fill("leeks and eggs");
-  await page.getByRole("button", { name: "Cuisine globe", exact: true }).click();
-  await settled(page, "world");
-  await page.screenshot({ path: info.outputPath("world.png") });
-  await page.getByRole("button", { name: "Asia", exact: true }).click();
+  await continents.getByRole("button", { name: "Asia", exact: true }).click();
   await settled(page, "asia");
+  await expect(page.getByRole("heading", { name: "Asia", level: 1 })).toBeVisible();
   await page.getByRole("button", { name: "China", exact: true }).click();
   await settled(page, "china");
   await page.screenshot({ path: info.outputPath("china.png") });
@@ -199,6 +203,39 @@ test("Back returns to the previous level and the view the person left", async ({
 test.describe("with motion", () => {
   test.use({ reducedMotion: "no-preference" });
 
+  test("the home page globe spins slowly until it is touched", async ({ page }, info) => {
+    await page.goto("./");
+    await expect(page.getByRole("group", { name: "Continents" }).locator(".globe-callout")).toHaveCount(6, { timeout: 15_000 });
+    const center = () => page.evaluate(() => (window as unknown as { chefbotGlobe: { getCenter: () => { lng: number } } }).chefbotGlobe.getCenter().lng);
+    const before = await center();
+    await expect.poll(center, { timeout: 6_000 }).toBeGreaterThan(before + 2);
+    await page.evaluate(() => performance.clearMarks("chefbot-globe-frame"));
+    await page.waitForTimeout(2_000);
+    const fps = await page.evaluate(() => performance.getEntriesByName("chefbot-globe-frame").length / 2);
+    console.log(`Home globe spin at ${info.project.name} viewport: ${fps.toFixed(1)} rendered frames/s`);
+    // A short drag (not a tap, which would open a continent) stops the spin for good.
+    const box = (await page.locator(".globe-host canvas").boundingBox())!;
+    const x = Math.round(box.x + 20);
+    const y = Math.round(box.y + box.height / 2);
+    if (info.project.name === "phone") {
+      const touch = await page.context().newCDPSession(page);
+      await touch.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] });
+      await touch.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: x + 12, y }] });
+      await touch.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+      await touch.detach();
+    } else {
+      await page.mouse.move(x, y);
+      await page.mouse.down();
+      await page.mouse.move(x + 12, y, { steps: 3 });
+      await page.mouse.up();
+    }
+    await page.waitForTimeout(600);
+    await expect(page.getByRole("heading", { name: "What’s in your kitchen?" })).toBeVisible();
+    const stopped = await center();
+    await page.waitForTimeout(1_200);
+    expect(Math.abs((await center()) - stopped)).toBeLessThan(0.01);
+  });
+
   test("flies between levels without leaving this site", async ({ page }, info) => {
     const externalRequests: string[] = [];
     page.on("request", (request) => {
@@ -246,4 +283,42 @@ test.describe("with motion", () => {
     await expect.poll(() => page.evaluate(() => (window as unknown as { chefbotGlobe: { getCenter: () => { lng: number } } }).chefbotGlobe.getCenter().lng))
       .toBeLessThan(before - 1);
   });
+});
+
+test("the cuisine picker setting chooses between the globe and the list", async ({ page }) => {
+  await page.goto("./");
+  await expect(page.getByRole("group", { name: "Continents" })).toBeVisible({ timeout: 15_000 });
+  await page.getByRole("button", { name: "Start with the cuisine list instead" }).click();
+  await expect(page.getByRole("group", { name: "Continents" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Cuisine globe", exact: true })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole("button", { name: "Cuisine globe", exact: true })).toBeVisible();
+  await expect(page.locator(".globe-host")).toHaveCount(0);
+  await page.getByRole("button", { name: "Settings" }).click();
+  await expect(page.getByLabel("Pick cuisines with")).toHaveValue("list");
+  await page.getByLabel("Pick cuisines with").selectOption("globe");
+  await page.getByRole("button", { name: "Back to recipes" }).click();
+  await expect(page.getByRole("group", { name: "Continents" })).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByRole("button", { name: "Start with the cuisine list instead" })).toBeVisible();
+});
+
+test("Back from a continent opened on the home page climbs out to the globe, then home", async ({ page }) => {
+  await page.goto("./");
+  const continents = page.getByRole("group", { name: "Continents" });
+  await continents.getByRole("button", { name: "Europe", exact: true }).click();
+  await settled(page, "europe");
+  await page.getByRole("button", { name: "Back to globe", exact: true }).click();
+  await settled(page, "world");
+  await expect(page.getByRole("heading", { name: "Cuisine globe", level: 1 })).toBeVisible();
+  await page.getByRole("button", { name: "Back to recipes", exact: true }).click();
+  await expect(continents).toBeVisible({ timeout: 15_000 });
+});
+
+test("the home page globe holds still when the browser asks for less motion", async ({ page }) => {
+  await page.goto("./");
+  await expect(page.getByRole("group", { name: "Continents" }).locator(".globe-callout")).toHaveCount(6, { timeout: 15_000 });
+  const center = () => page.evaluate(() => (window as unknown as { chefbotGlobe: { getCenter: () => { lng: number } } }).chefbotGlobe.getCenter().lng);
+  const before = await center();
+  await page.waitForTimeout(1_500);
+  expect(await center()).toBe(before);
 });

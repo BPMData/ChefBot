@@ -73,9 +73,17 @@ function arc([lon1, lat1]: LngLat, [lon2, lat2]: LngLat) {
   return Math.acos(Math.max(-1, Math.min(1, cos))) / rad;
 }
 
-export default function Globe({ tree, path, choose, cameras }: {
+/** Set once the person touches a spinning globe, so it stays still for the rest of the visit. */
+let spinStopped = false;
+const spinDegreesPerSecond = 4;
+
+/**
+ * The cuisine globe. On its own screen it drills down through `path`; `compact` is the smaller globe at the
+ * top of the home page, which only shows continents and can spin slowly until the first touch.
+ */
+export default function Globe({ tree, path, choose, cameras, compact = false, spin = false, onFail }: {
   tree: CuisineTree; path: string[]; choose: (id: string) => void;
-  cameras: RefObject<Record<string, GlobeCamera>>;
+  cameras: RefObject<Record<string, GlobeCamera>>; compact?: boolean; spin?: boolean; onFail?: () => void;
 }) {
   const host = useRef<HTMLDivElement>(null);
   const map = useRef<MapLibreMap | null>(null);
@@ -84,7 +92,7 @@ export default function Globe({ tree, path, choose, cameras }: {
   const level = path.at(-1) ?? "world";
   const key = path.join("/") || "world";
   const shown = useRef({ level, key });
-  const [features, setFeatures] = useState<Feature[] | null>(null);
+  const [features, setFeatures] = useState<Feature[] | null>(compact ? [] : null);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
   const [hovered, setHovered] = useState("");
@@ -156,17 +164,25 @@ export default function Globe({ tree, path, choose, cameras }: {
   }
 
   useEffect(() => {
+    if (failed) onFail?.();
+  }, [failed, onFail]);
+
+  useEffect(() => {
+    if (compact) return;
     let active = true;
     fetch(regionsUrl).then((response) => response.json()).then((data) => {
       if (active) setFeatures(data.features);
     }).catch(() => { if (active) setFailed(true); });
     return () => { active = false; };
-  }, []);
+  }, [compact]);
 
   useEffect(() => {
     if (!host.current || !features) return;
     let globe: MapLibreMap;
-    const start = cameras.current[shown.current.key] ?? fixedView(shown.current.level, host.current);
+    const saved = cameras.current[shown.current.key];
+    // Opening a continent from the home page's globe starts where that globe was and flies in.
+    const flyIn = !saved && shown.current.level !== "world" ? cameras.current.world : undefined;
+    const start = saved ?? flyIn ?? fixedView(shown.current.level, host.current);
     try {
       globe = new MapLibreMap({
         container: host.current, ...start,
@@ -203,7 +219,10 @@ export default function Globe({ tree, path, choose, cameras }: {
     globe.touchZoomRotate.disableRotation();
     globe.addControl(new NavigationControl({ showCompass: false }), "top-right");
     // Starts the attribution folded into its info button so it doesn't cover the map on a phone.
-    globe.once("load", () => host.current?.querySelector(".maplibregl-compact-show")?.classList.remove("maplibregl-compact-show"));
+    globe.once("load", () => {
+      host.current?.querySelector(".maplibregl-compact-show")?.classList.remove("maplibregl-compact-show");
+      if (flyIn && host.current) globe.flyTo({ ...fixedView(shown.current.level, host.current), duration: 1_400 });
+    });
     globe.once("idle", () => {
       setReady(globe.isSourceLoaded("land") && globe.isSourceLoaded("regions"));
       relayout();
@@ -228,11 +247,44 @@ export default function Globe({ tree, path, choose, cameras }: {
       if (id) actions.current.choose(id);
     });
     globe.on("move", () => {
+      // A few chips are cheap to lay out every frame, which keeps them steady while the globe turns.
+      if (layoutInputs.current.choices.length <= 8) return relayout();
       const next = project(globe);
       setCallouts((current) => followAnchors(current, lastAnchors.current, next));
       lastAnchors.current = next;
     });
+
+    // The slow spin: short linear eases chained end to end, paused while hidden or scrolled away.
+    let visible = true;
+    let loaded = false;
+    const spinning = () => loaded && spin && !spinStopped && visible && document.visibilityState === "visible"
+      && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function turn() {
+      if (!spinning() || globe.isMoving()) return;
+      const [lng, lat] = globe.getCenter().toArray();
+      globe.easeTo({ center: [lng + spinDegreesPerSecond * 2, lat], duration: 2_000, easing: (t) => t, essential: true });
+    }
+    function stopSpin() {
+      if (!spin || spinStopped) return;
+      spinStopped = true;
+      globe.stop();
+    }
+    for (const type of ["mousedown", "touchstart", "wheel"] as const) globe.on(type, stopSpin);
+    const watch = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) turn(); else if (spin && !spinStopped) globe.stop();
+    });
+    watch.observe(host.current);
+    const resume = () => turn();
+    document.addEventListener("visibilitychange", resume);
+    globe.once("idle", () => {
+      loaded = true;
+      turn();
+    });
+    globe.on("moveend", () => turn());
+
     globe.on("moveend", () => {
+      if (host.current) host.current.dataset.spinning = String(spinning());
       relayout();
       setSettled(true);
       cameras.current[shown.current.key] = cameraOf(globe);
@@ -249,13 +301,15 @@ export default function Globe({ tree, path, choose, cameras }: {
     const resize = new ResizeObserver(() => relayout());
     resize.observe(host.current);
     return () => {
+      watch.disconnect();
+      document.removeEventListener("visibilitychange", resume);
       resize.disconnect();
       cameras.current[shown.current.key] = cameraOf(globe);
       globe.remove();
       map.current = null;
     };
     // The map is created once; level changes fly the existing map.
-  }, [features, cameras]);
+  }, [features, cameras, spin]);
 
   // Flies to the level's fixed view going down, or back to where the person left it going up.
   useLayoutEffect(() => {
@@ -269,6 +323,7 @@ export default function Globe({ tree, path, choose, cameras }: {
     const deeper = key.startsWith(previous.key + "/") || previous.key === "world";
     if (deeper) delete cameras.current[key];
     const target = cameras.current[key] ?? fixedView(level, host.current);
+    spinStopped = true;
     showLevel(globe, level);
     setCallouts([]);
     setSettled(false);
@@ -287,16 +342,10 @@ export default function Globe({ tree, path, choose, cameras }: {
     : choices.some((id) => tree.nodes[id]?.children?.length) ? "Tap a highlighted region to see its cuisines."
       : "Tap a cuisine to read about it.";
 
-  return <>
-    <div className="intro globe-intro">
-      <h1>{heading}</h1>
-      <p>{hint}</p>
-    </div>
-    <section className="card globe-panel" aria-label="Cuisine globe">
-      <div className="globe-frame">
+  const frame = <div className={"globe-frame" + (compact ? " compact" : "")}>
         <div className="globe-host" ref={host} data-ready={ready} data-level={level} data-settled={settled && ready}
           aria-label="Interactive cuisine map" />
-        {ready && !failed && <div className="globe-callouts" role="group" aria-label={heading + " regions"}>
+        {ready && !failed && <div className="globe-callouts" role="group" aria-label={compact ? "Continents" : heading + " regions"}>
           <svg aria-hidden="true">
             {callouts.map((callout) => {
               const color = regionColor(callout.id);
@@ -319,7 +368,16 @@ export default function Globe({ tree, path, choose, cameras }: {
         {hovered && <output className="globe-location">{label(hovered)}</output>}
         {failed && <p className="globe-message" role="status">The map couldn’t load. Choose by name below.</p>}
         {!ready && !failed && <p className="globe-message" role="status">Loading the globe…</p>}
-      </div>
+      </div>;
+  if (compact) return frame;
+
+  return <>
+    <div className="intro globe-intro">
+      <h1>{heading}</h1>
+      <p>{hint}</p>
+    </div>
+    <section className="card globe-panel" aria-label="Cuisine globe">
+      {frame}
       <div className="globe-actions">
         {anyId && <button type="button" className="secondary" onClick={() => choose(anyId)}>
           Any region <span className="globe-any">{cuisineLabel(anyId, tree)}</span></button>}

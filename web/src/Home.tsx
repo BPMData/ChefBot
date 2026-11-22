@@ -1,5 +1,5 @@
 import { BookOpen, Camera, ImagePlus, Leaf, X } from "lucide-react";
-import { useState, type Dispatch, type FormEvent, type SetStateAction } from "react";
+import { useState, type Dispatch, type FormEvent, type ReactNode, type SetStateAction } from "react";
 import { dietLimit, readPhoto, resizePhoto, type CuisineTree, type Options } from "./api";
 import { audienceLabel } from "./cooking";
 import { Recents } from "./RecipeLibrary";
@@ -7,13 +7,17 @@ import { CuisinePicker } from "./CuisinePicker";
 import type { Conversation } from "./storage";
 
 export type Draft = { ingredients: string; settings: Options };
+/** Whether the home page's cuisine section starts with the spinning globe or the list. */
+export type PickerStart = "globe" | "list";
 
-export function Home({ tree, draft, setDraft, create, busy, recipes, open, toggleFavorite, openGlobe, browse, preview, removeRecipe, query, setQuery, openFavorites }: {
+export function Home({ tree, draft, setDraft, create, busy, recipes, open, toggleFavorite, openGlobe, browse, preview, removeRecipe, query, setQuery, openFavorites, globe, picker, setPicker }: {
   tree: CuisineTree | null; draft: Draft; setDraft: Dispatch<SetStateAction<Draft>>;
   create: () => void; busy: boolean; recipes: Conversation[];
   openGlobe: () => void; browse: () => void; preview: (id: string) => void; removeRecipe: (id: string) => Promise<void>;
   query: string; setQuery: (query: string) => void; openFavorites: () => void;
   open: (id: string) => void; toggleFavorite: (id: string) => void;
+  /** The spinning globe, when it is the chosen way to pick a cuisine. */
+  globe?: ReactNode; picker: PickerStart; setPicker?: (picker: PickerStart) => void;
 }) {
   const [reading, setReading] = useState(false);
   const [photoStatus, setPhotoStatus] = useState("");
@@ -42,6 +46,24 @@ export function Home({ tree, draft, setDraft, create, busy, recipes, open, toggl
     if (ingredients.trim() && !busy && !reading) create();
   };
 
+  const cuisineCard = <>
+      {tree && <section className={"card form-card" + (globe ? " cuisine-card globe-first" : "")} aria-label="Cuisine">
+        {globe}
+        <CuisinePicker tree={tree} cuisine={settings.cuisine} browse={browse} preview={preview}
+          openGlobe={globe ? undefined : openGlobe} />
+        {setPicker && <button type="button" className="text-button picker-switch"
+          onClick={() => setPicker(picker === "globe" ? "list" : "globe")}>
+          {picker === "globe" ? "Start with the cuisine list instead" : "Start with the spinning globe instead"}</button>}
+        {settings.cuisine !== tree.no_cuisine && <div className="preferences">
+          <label><input type="checkbox" checked={settings.pantry} onChange={(event) => {
+            localStorage.setItem("chefbot.pantry", String(event.target.checked));
+            change({ ...settings, pantry: event.target.checked });
+          }} /> Pantry defaults</label>
+          <small>Assume the staples in this cuisine’s infobox. ChefBot marks them in the recipe.</small>
+        </div>}
+      </section>}
+  </>;
+
   return <>
     <div className="intro home-intro">
       <h1>What’s in your kitchen?</h1>
@@ -49,6 +71,7 @@ export function Home({ tree, draft, setDraft, create, busy, recipes, open, toggl
         onClick={() => document.getElementById("saved-recipes")?.scrollIntoView()}><BookOpen size={17} /> Your recipes</button>}
     </div>
     <form className="home-form" onSubmit={submit} aria-label="New recipe">
+      {globe && cuisineCard}
       <section className="card form-card" aria-label="Recipe ingredients">
         <div className="form-field">
           <label htmlFor="ingredients">Ingredients</label>
@@ -87,16 +110,7 @@ export function Home({ tree, draft, setDraft, create, busy, recipes, open, toggl
           <Leaf size={18} /> {busy ? "Starting…" : "Make a recipe"}
         </button>
       </section>
-      {tree && <section className="card form-card">
-        <CuisinePicker tree={tree} cuisine={settings.cuisine} browse={browse} preview={preview} openGlobe={openGlobe} />
-        {settings.cuisine !== tree.no_cuisine && <div className="preferences">
-          <label><input type="checkbox" checked={settings.pantry} onChange={(event) => {
-            localStorage.setItem("chefbot.pantry", String(event.target.checked));
-            change({ ...settings, pantry: event.target.checked });
-          }} /> Pantry defaults</label>
-          <small>Assume the staples in this cuisine’s infobox. ChefBot marks them in the recipe.</small>
-        </div>}
-      </section>}
+      {!globe && cuisineCard}
       <section className="card form-card">
         <div className="form-field">
           <label htmlFor="audience">Who’s eating?</label>

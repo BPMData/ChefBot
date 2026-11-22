@@ -66,6 +66,19 @@ export function useNavigation() {
     if (next.mapPath) window.scrollTo(0, 0);
   }
 
+  /** Opens the globe screen, optionally already inside `path` (one history entry per level, so Back climbs out). */
+  function openGlobe(path: string[] = []) {
+    let next: Route = { screen: "globe", id: null, previous: route.screen };
+    history.pushState({ chefbot: next }, "");
+    for (let depth = 1; depth <= path.length; depth++) {
+      next = { ...next, mapPath: path.slice(0, depth) };
+      history.pushState({ chefbot: next }, "");
+    }
+    remember(next);
+    setRoute(next);
+    window.scrollTo(0, 0);
+  }
+
   function dismissCuisine() {
     history.back();
   }
@@ -76,5 +89,5 @@ export function useNavigation() {
     if (entries) history.go(-entries);
   }
 
-  return { route, navigate, back, openCuisine, dismissCuisine, finishCuisine, openFavoriteFolder, updateLibrary };
+  return { route, navigate, back, openCuisine, openGlobe, dismissCuisine, finishCuisine, openFavoriteFolder, updateLibrary };
 }

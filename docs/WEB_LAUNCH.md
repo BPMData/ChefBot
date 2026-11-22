@@ -243,6 +243,17 @@ The globe is now the whole cuisine-picking flow, level by level, driven by the c
 4. Back goes up one level and restores the camera the person left there (spin, zoom). Going down always
    starts from the level's fixed view. One-finger drag on touch screens is unchanged.
 
+**Globe first (default).** The home page opens with a smaller globe at the top of the cuisine card, spinning
+slowly (4 degrees a second) until the first touch, drag or scroll on it, after which it stays still for the
+visit. It doesn't spin when the browser asks for reduced motion, while the tab is hidden, or while it is
+scrolled out of view. Tapping a continent opens the globe screen already inside that continent, flying in
+from where the home globe was; Back climbs out to the world, then home. Settings > "Pick cuisines with"
+(`chefbot.cuisine-picker` in local storage: `globe`, the default, or `list`) and a "Start with the ... instead"
+link under the card switch between the globe and the original list layout. If WebGL fails, the home page falls
+back to the list for that visit. The home globe draws only the continents, so it doesn't load the regions
+file. Frame rate with the Mac's GPU (Playwright with Metal): 60 frames/s spinning and 52 during flights at both
+sizes; the default headless run draws in software and reports 13 to 17.
+
 Files: `web/src/globe/views.json` holds the hand-tuned camera per level (center, zoom, bearing, pitch). The
 zoom is for a 500-pixel frame and is scaled by the frame's size, so a phone and a desktop show about the same
 area. `regions.geojson` has every selectable region at every level (`level`, `cuisine`, `color`), and
