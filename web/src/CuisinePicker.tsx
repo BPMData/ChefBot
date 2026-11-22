@@ -73,8 +73,8 @@ export function CuisineBrowser({ tree, close, preview, reset }: {
   </CuisineDialog>;
 }
 
-export function CuisineInfo({ tree, id, close, choose }: {
-  tree: CuisineTree; id: string; close: () => void; choose: () => void;
+export function CuisineInfo({ tree, id, close, choose, question }: {
+  tree: CuisineTree; id: string; close: () => void; choose: () => void; question?: string;
 }) {
   const path = cuisinePath(id, tree);
   const node: Cuisine = tree.nodes[id];
@@ -96,7 +96,9 @@ export function CuisineInfo({ tree, id, close, choose }: {
         <h3>{heading}</h3><p>{items.join(", ")}</p>
       </section> : null)}
     </div>
-    <div className="dialog-footer"><button type="button" className="primary" onClick={choose}>Use {name}</button></div>
+    {question ? <div className="dialog-footer go-footer"><p>{question}</p>
+      <button type="button" className="primary" onClick={choose}>Go</button></div>
+      : <div className="dialog-footer"><button type="button" className="primary" onClick={choose}>Use {name}</button></div>}
   </CuisineDialog>;
 }
 

@@ -9,13 +9,13 @@ import { Favorites, favoritePageSize } from "./RecipeLibrary";
 import {
   loadCuisines, RequestError, startJob, stopJob, warmUp, type CuisineTree,
 } from "./api";
-import { RegionalMap } from "./CuisineMap";
 import { CuisineBrowser, CuisineInfo } from "./CuisinePicker";
 import { rememberCuisine } from "./cooking";
 import { initialJobView, JobWatch, type JobView, type Terminal } from "./JobWatch";
 import { useNavigation } from "./navigation";
 import { download } from "./exports";
 import type { GlobeCamera } from "./globe/Globe";
+import { foodName } from "./globe/food";
 import {
   backup, changeConversations, completeConversation, readConversations, requestPersistence, restoreBackup,
   type Conversation, type Message, type Pending,
@@ -131,7 +131,7 @@ function App() {
   const [jobViews, setJobViews] = useState<Record<string, JobView>>({});
   const [retry, setRetry] = useState<{ id: string } | null>(null);
   const starting = useRef(false);
-  const globeCamera = useRef<GlobeCamera | null>(null);
+  const globeCameras = useRef<Record<string, GlobeCamera>>({});
   const foregroundChat = useRef<string | null>(null);
   foregroundChat.current = route.screen === "recipe" ? chatId : null;
   const chat = recipes.find((recipe) => recipe.id === chatId);
@@ -340,25 +340,24 @@ function App() {
           limit={favoriteLimit} showMore={() => updateLibrary({ favoriteLimit: favoriteLimit + favoritePageSize })}
           openFolder={openFavoriteFolder} goToLevel={(depth) => history.go(depth - favoritePath.length)}
           open={openRecipe} toggleFavorite={toggleFavorite} /> :
-        globe && level && tree ? <RegionalMap id={level} tree={tree} choose={(id) =>
-          tree.nodes[id]?.children?.length ? openCuisine({ mapPath: [...mapPath, id] }) : openCuisine({ preview: id })} /> :
-        globe ? <Suspense fallback={<p role="status">Loading the globe…</p>}>
-          <Globe camera={globeCamera} openRegion={(id) => openCuisine({ mapPath: [id] })}
-            preview={(id) => openCuisine({ preview: id })} />
-        </Suspense> :
+        globe ? tree ? <Suspense fallback={<p role="status">Loading the globe…</p>}>
+          <Globe tree={tree} path={mapPath} cameras={globeCameras} choose={(id) =>
+            tree.nodes[id]?.children?.length ? openCuisine({ mapPath: [...mapPath, id] }) : openCuisine({ preview: id })} />
+        </Suspense> : <p role="status">Loading cuisines…</p> :
         chat ? <Chat key={chat.id} conversation={chat} tree={tree} send={send} mutate={(transform) => mutate(chat.id, transform)}
           favorite={() => toggleFavorite(chat.id)} progress={jobView} provisional={jobView.draft} busy={busy} canReconnect={!!jobView.paused} stop={stop}
           reconnect={() => { if (jobId) setRetry({ id: jobId }); }}
           report={report} followUpLimit={tree?.limits.follow_ups ?? 5} messageLimit={tree?.limits.message_characters ?? 4000} /> :
         ready ? <Home tree={tree} draft={draft} setDraft={setDraft} create={() => void create()} busy={busy}
           recipes={recipes} browse={() => openCuisine({ picker: true })} preview={(id) => openCuisine({ preview: id })}
-          removeRecipe={removeRecipe} openGlobe={() => { globeCamera.current = null; navigate("globe"); }}
+          removeRecipe={removeRecipe} openGlobe={() => { globeCameras.current = {}; navigate("globe"); }}
           open={openRecipe} toggleFavorite={toggleFavorite}
           query={route.query ?? ""} setQuery={(query) => updateLibrary({ query })}
           openFavorites={() => navigate("favorites")} /> : <p role="status">Opening your recipe book…</p>}
       {tree && route.picker && <CuisineBrowser tree={tree} close={dismissCuisine}
         preview={(id) => openCuisine({ preview: id })} reset={() => { pickCuisine(tree.no_cuisine); finishCuisine(); }} />}
       {tree && route.preview && tree.nodes[route.preview] && <CuisineInfo tree={tree} id={route.preview} close={dismissCuisine}
+        question={globe ? "Start making " + foodName(route.preview, tree) + "?" : undefined}
         choose={() => { pickCuisine(route.preview!); finishCuisine(); }} />}
     </main>
   </MotionConfig>;

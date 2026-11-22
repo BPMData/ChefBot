@@ -20,6 +20,13 @@ more than cost.
 
 ## Pinned (do these next, in this order)
 
+**Globe drill-down (2026-11-21, branch `claude/optimistic-joliot-745df1`, PR waiting for Bryan's review).**
+The web globe is now the full cuisine picker: planet, continent, country, cuisine, each with a hand-tuned
+camera (`web/src/globe/views.json`) and APK-style callout chips; a cuisine opens the infobox with "Start
+making ... food?" and Go. Every cuisine is covered by Playwright at phone and desktop sizes. Still to check on
+Bryan's phone: Europe is dense at phone width (chips fan out on leader lines; pinch-zoom re-lays them out),
+and the flight frame rate. Details under "Globe drill-down" in `docs/WEB_LAUNCH.md`.
+
 **Release automation (2026-11-21).** The manual API run stopped before Google Cloud authentication.
 GitHub currently has the API URL. The Cloud Run deployment variables and deployer authentication still
 need setup. The coordinated release deploys and checks the API before publishing Pages. Review the

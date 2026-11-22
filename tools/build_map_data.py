@@ -624,6 +624,12 @@ LABEL_POS_OVERRIDES: dict[str, dict[str, tuple[float, float]]] = {
 }
 
 
+# Filled by build_all(): each level's regions in longitude and latitude, before projection, for the web globe.
+RAW_LEVEL_REGIONS: dict[str, dict[str, list[list[tuple[float, float]]]]] = {}
+# The real Hawaiian islands (the phone map moves them into an inset).
+HAWAII_LONLAT: list[list[tuple[float, float]]] = []
+
+
 def build_all() -> dict[str, dict]:
     nodes = load_node_labels()
     sf0 = shapefile.Reader(str(COUNTRIES_SHP))
@@ -654,6 +660,7 @@ def build_all() -> dict[str, dict]:
             split_counties[(US_SPLIT_STATEFP[rec["STATEFP"]], rec["NAME"])].extend(extract_rings(sr.shape))
 
     levels_out: dict[str, dict] = {}
+    RAW_LEVEL_REGIONS.clear()
 
     def finalize_level(
         level_id: str,
@@ -667,6 +674,7 @@ def build_all() -> dict[str, dict]:
         anchor_overrides: dict[str, list[list[tuple[float, float]]]] | None = None,
         inset_geo_boxes: list[tuple[float, float, float, float]] | None = None,
     ) -> dict:
+        RAW_LEVEL_REGIONS[level_id] = raw_regions
         proj_regions, proj_bg = project_and_simplify(
             raw_regions, raw_bg, window, pad, epsilon=epsilon, min_area_px=min_area_px
         )
@@ -1090,6 +1098,7 @@ def build_all() -> dict[str, dict]:
         "us_native_american": [],
     }
     us_bg: list[list[tuple[float, float]]] = []
+    HAWAII_LONLAT.clear()
     for pname, rings in la_parishes.items():
         if pname in ACADIANA_PARISHES:
             us_regions["us_cajun"].extend(rings)
@@ -1134,6 +1143,7 @@ def build_all() -> dict[str, dict]:
         if postal == "HI":
             for r in rings:
                 if ring_bbox(r)[0] >= -160.5 and ring_bbox(r)[3] <= 22.5:
+                    HAWAII_LONLAT.append(r)
                     us_regions["us_hawaiian"].append([
                         (hi_vc_lon + (lon - hi_rc_lon) * hi_cos * hi_scale, hi_vc_lat + (lat - hi_rc_lat) * hi_scale)
                         for lon, lat in r
@@ -1566,63 +1576,96 @@ def lonlat_geometry(shape, epsilon: float, min_area: float) -> dict | None:
     return {"type": "MultiPolygon", "coordinates": polygons}
 
 
-def build_web_geojson() -> tuple[dict, dict]:
-    """Natural Earth country borders and three cuisines for the MapLibre globe spike."""
+# Degrees of simplification for the web globe: continent levels show whole countries, the
+# drill-down levels show provinces and states, and the Italian-American counties are small.
+WEB_EPSILON = {"americas": 0.06, "asia": 0.06, "europe": 0.04, "near_east": 0.04, "africa": 0.06, "oceania": 0.05}
+WEB_EPSILON_DEFAULT = 0.025
+WEB_EPSILON_REGION = {
+    "us_italian_american": 0.006, "us_creole": 0.01, "us_native_american": 0.012,
+    "russian": 0.12, "nordic": 0.08, "united_states": 0.1, "chilean": 0.09, "indonesian": 0.08, "australian": 0.08,
+    "china": 0.08, "brazilian": 0.08,
+}
+
+# Where a region's call-out points on the web globe, when the middle of its largest piece is the wrong
+# spot (Russia's middle is in Siberia, the Levant's largest piece is Syria, and so on).
+WEB_ANCHORS: dict[str, dict[str, tuple[float, float]]] = {
+    "americas": {"united_states": (-98.5, 39.0), "caribbean": (-78.5, 21.6), "chilean": (-71.0, -33.5),
+                 "quebecois": (-72.0, 50.5), "guianas": (-57.0, 4.5)},
+    "asia": {"indonesian": (110.5, -7.3), "malaysian_singaporean": (102.2, 4.0), "filipino": (121.0, 15.5),
+             "japan": (138.5, 36.3), "korean": (127.8, 36.6), "china": (103.0, 34.5), "india": (78.5, 22.0)},
+    "europe": {"russian": (38.5, 55.5), "nordic": (15.5, 61.5), "british": (-1.6, 52.8), "greek": (22.0, 39.5),
+               "italy": (12.6, 42.6), "french": (2.4, 46.6), "georgian": (43.6, 42.1)},
+    "near_east": {"palestinian_levantine": (36.2, 33.2), "persian": (54.0, 32.5), "turkish": (34.5, 39.0)},
+    "africa": {"central_african": (21.0, -2.0), "east_african": (36.5, -3.0), "south_african": (24.5, -30.0)},
+    "oceania": {"new_zealander": (172.5, -42.0)},
+    "united_states": {"us_native_american": (-109.8, 35.6), "us_italian_american": (-74.0, 40.75),
+                      "us_new_england": (-71.8, 43.6), "us_southern_soul": (-86.5, 33.0),
+                      "us_great_lakes": (-89.5, 45.5), "us_creole": (-89.9, 29.9), "us_cajun": (-92.2, 30.3),
+                      "us_hawaiian": (-155.5, 19.6)},
+    "caribbean": {"caribbean_cuban": (-79.5, 21.9)},
+    "china": {"cantonese": (113.3, 23.2)},
+    "japan": {"kanto": (139.7, 36.0), "kansai": (135.6, 34.6)},
+}
+
+
+def build_web_geojson() -> tuple[dict, dict, dict]:
+    """Natural Earth borders, every selectable region at every drill-down level, and call-out anchors."""
     lands = []
-    regions = []
-    nodes = load_node_labels()
-
-    def add(destination, shape, epsilon, min_area, **properties):
-        geometry = lonlat_geometry(shape, epsilon, min_area)
-        if geometry is not None:
-            destination.append({"type": "Feature", "properties": properties, "geometry": geometry})
-
-    def selected(shape, region, name, epsilon, min_area):
-        add(regions, shape, epsilon, min_area, cuisine=region, label=nodes[region]["label"], name=name)
-
     with shapefile.Reader(str(COUNTRIES_SHP)) as source:
         for item in source.iterShapeRecords():
-            add(lands, item.shape, 0.32, 0.12)
-            if item.record["ADM0_A3"] == "GRC":
-                selected(item.shape, "greek", "Greece", 0.045, 0.015)
+            geometry = lonlat_geometry(item.shape, 0.32, 0.12)
+            if geometry is not None:
+                lands.append({"type": "Feature", "properties": {}, "geometry": geometry})
 
-    states = set()
-    with shapefile.Reader(str(ADMIN1_SHP)) as source:
-        for index, record in enumerate(source.iterRecords()):
-            if record["iso_a2"] == "IN" and record["name"] in IN_CENTRAL_WEST:
-                name = record["name"]
-                selected(source.shape(index), "central_west_india", name, 0.045, 0.001)
-                states.add(name)
-    if states != IN_CENTRAL_WEST:
-        raise SystemExit(f"Indian states not in the shapefile: {sorted(IN_CENTRAL_WEST - states)}")
-
-    counties = set()
-    with shapefile.Reader(str(COUNTIES_SHP)) as source:
-        for index, record in enumerate(source.iterRecords()):
-            state = US_SPLIT_STATEFP.get(record["STATEFP"])
-            name = record["NAME"]
-            if name in US_ITALIAN_AMERICAN_COUNTIES.get(state, ()):
-                selected(source.shape(index), "us_italian_american", name, 0.008, 0.0002)
-                counties.add((state, name))
-    expected = {(state, name) for state, names in US_ITALIAN_AMERICAN_COUNTIES.items() for name in names}
-    if counties != expected:
-        raise SystemExit(f"U.S. counties not in the shapefile: {sorted(expected - counties)}")
-    if {feature["properties"]["cuisine"] for feature in regions} != {"greek", "central_west_india", "us_italian_american"}:
-        raise SystemExit("Missing a cuisine geometry for the web globe.")
+    build_all()
+    if not HAWAII_LONLAT:
+        raise SystemExit("Hawaii is missing from the state outlines.")
+    nodes = load_node_labels()
+    regions = []
+    anchors: dict[str, dict[str, list[float]]] = {
+        "world": {rid: meta["center"] for rid, meta in GLOBE_META.items()},
+    }
+    for level, raw_regions in RAW_LEVEL_REGIONS.items():
+        if level == "world":
+            continue
+        anchors[level] = {}
+        for rid, rings in raw_regions.items():
+            if rid == "us_hawaiian":
+                rings = HAWAII_LONLAT
+            epsilon = WEB_EPSILON_REGION.get(rid, WEB_EPSILON.get(level, WEB_EPSILON_DEFAULT))
+            polygons = _simplify_and_subdivide_lonlat(rings, epsilon_deg=epsilon, min_area_deg2=epsilon * epsilon * 4)
+            if not polygons:
+                polygons = _simplify_and_subdivide_lonlat(rings, epsilon_deg=epsilon / 4, min_area_deg2=0.0)[:1]
+            if not polygons:
+                raise SystemExit(f"No outline left for {rid} on the {level} level.")
+            anchor = WEB_ANCHORS.get(level, {}).get(rid)
+            if anchor is None:
+                anchor = visual_center([(x, y) for x, y in polygons[0]])
+            elif not any(point_in_ring(*anchor, [(x, y) for x, y in ring]) for ring in polygons):
+                raise SystemExit(f"The call-out anchor for {rid} is outside its outline.")
+            anchors[level][rid] = [round(anchor[0], 2), round(anchor[1], 2)]
+            regions.append({
+                "type": "Feature",
+                "properties": {"level": level, "cuisine": rid, "label": nodes[rid]["label"],
+                               "color": REGION_COLORS.get(rid, "teal")},
+                "geometry": {"type": "MultiPolygon", "coordinates": [[ring] for ring in polygons]},
+            })
     return (
         {"type": "FeatureCollection", "features": lands},
         {"type": "FeatureCollection", "features": regions},
+        anchors,
     )
 
 
 def write_web_geojson() -> None:
     output = ROOT / "web" / "src" / "globe"
     output.mkdir(parents=True, exist_ok=True)
-    for name, data in zip(("land", "regions"), build_web_geojson()):
-        path = output / f"{name}.geojson"
+    land, regions, anchors = build_web_geojson()
+    for name, data in (("land.geojson", land), ("regions.geojson", regions), ("anchors.json", anchors)):
+        path = output / name
         text = json.dumps(data, ensure_ascii=False, separators=(",", ":")) + "\n"
         path.write_text(text, encoding="utf-8")
-        print(f"wrote {path.relative_to(ROOT)} ({len(text.encode('utf-8')):,} bytes, {len(data['features'])} features)")
+        print(f"wrote {path.relative_to(ROOT)} ({len(text.encode('utf-8')):,} bytes)")
 
 
 def main() -> None:
