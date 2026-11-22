@@ -29,11 +29,12 @@ Bryan's phone: Europe is dense at phone width (chips fan out on leader lines; pi
 the spin and flight frame rate (60 and 52 frames/s with the Mac's GPU), and that a
 one-finger scroll over the home globe turns it instead of scrolling the page. Details under "Globe drill-down" in `docs/WEB_LAUNCH.md`.
 
-**Release automation (2026-11-21).** The manual API run stopped before Google Cloud authentication.
-GitHub currently has the API URL. The Cloud Run deployment variables and deployer authentication still
-need setup. The coordinated release deploys and checks the API before publishing Pages. Review the
-[deployment setup](docs/WEB_LAUNCH.md#deployment-setup) before approving the first run. Automatic
-releases are controlled by `CHEFBOT_AUTO_DEPLOY` and stay off until enabled.
+**Release automation (2026-11-21).** Configured. GitHub deploys with keyless Workload Identity
+Federation to a dedicated deployer limited to this repository's `main`. The first **Release ChefBot** run
+deployed the API, passed the `/api/cuisines` check and published Pages from one commit. To release, run
+**Release ChefBot** from the Actions tab. Automatic releases stay off until Bryan sets `CHEFBOT_AUTO_DEPLOY`
+to `true`; each would build a new revision and can interrupt an in-memory recipe job. Don't deploy from a
+local or Codex machine any more. See the [deployment setup](docs/WEB_LAUNCH.md#deployment-setup).
 
 **Web-to-Android follow-up (2026-11-21).** PR #43 merged. The installed APK was verified as version
 0.1.0 (2001), byte-for-byte the November 15 artifact. The physical review caught a web force-stop
@@ -42,7 +43,7 @@ replayed the original job with one POST after the fix, even with the legacy visi
 Bryan confirmed native ingredient recognition on a nearly empty lo mein container beside empty cans.
 Reserve further model checks for the web. Prioritize returning to a finished recipe after switching tabs,
 windows or apps. Same-job browser force-stop recovery is a secondary check. See the handset results and
-mobile-data test in [WEB_LAUNCH.md](docs/WEB_LAUNCH.md). Public Pages still serves the PR #40 merge.
+mobile-data test in [WEB_LAUNCH.md](docs/WEB_LAUNCH.md). Public Pages now serves the PR #45 merge.
 Publishing, redeploying Cloud Run and billable checks need explicit approval.
 
 **Web launch Phase 1 (2026-11-19, branch `chefbot-web-launch`).** The local FastAPI service

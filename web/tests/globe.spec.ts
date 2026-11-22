@@ -213,20 +213,30 @@ test.describe("with motion", () => {
     await page.waitForTimeout(2_000);
     const fps = await page.evaluate(() => performance.getEntriesByName("chefbot-globe-frame").length / 2);
     console.log(`Home globe spin at ${info.project.name} viewport: ${fps.toFixed(1)} rendered frames/s`);
-    // A short drag (not a tap, which would open a continent) stops the spin for good.
-    const box = (await page.locator(".globe-host canvas").boundingBox())!;
-    const x = Math.round(box.x + 20);
-    const y = Math.round(box.y + box.height / 2);
+    // A drag (not a tap, which would open a continent) stops the spin for good. The chips move as the
+    // globe turns, so the drag starts on a spot of bare map that no chip covers right now.
+    const { x, y } = await page.evaluate(() => {
+      const canvas = document.querySelector<HTMLCanvasElement>(".globe-host canvas")!;
+      const box = canvas.getBoundingClientRect();
+      for (const [fx, fy] of [[0.5, 0.92], [0.5, 0.1], [0.08, 0.92], [0.08, 0.1], [0.5, 0.5]]) {
+        const x = Math.round(box.left + box.width * fx);
+        const y = Math.round(box.top + box.height * fy);
+        if (document.elementFromPoint(x, y) === canvas && document.elementFromPoint(x + 40, y) === canvas) return { x, y };
+      }
+      throw new Error("No bare spot on the globe");
+    });
     if (info.project.name === "phone") {
       const touch = await page.context().newCDPSession(page);
       await touch.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] });
-      await touch.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: x + 12, y }] });
+      for (const distance of [10, 20, 30, 40]) {
+        await touch.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: x + distance, y }] });
+      }
       await touch.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
       await touch.detach();
     } else {
       await page.mouse.move(x, y);
       await page.mouse.down();
-      await page.mouse.move(x + 12, y, { steps: 3 });
+      await page.mouse.move(x + 40, y, { steps: 4 });
       await page.mouse.up();
     }
     await page.waitForTimeout(600);
