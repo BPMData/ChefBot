@@ -29,7 +29,7 @@ left the reply to finish and save before returning. Each recipe generated one PO
 | Flow | Flet and handoff reference | Web review build and remaining verification |
 | --- | --- | --- |
 | Start a recipe | In-app camera with gallery and cancel. Saved preferences and an opening summary of the chosen options. | Browser camera capture and a separate image picker on touchscreens. Exclusions and pantry defaults persist. On the handset, the APK opened its camera and Gallery. Both web paths returned a disposable image and populated ingredients through the offline fixture. Bryan confirmed native recognition on the lo mein photo. Reserve any further model checks for the web. |
-| Cuisine selection | The Flet list drills down through regions and has a separate About icon for each leaf. The native globe and regional maps open details on a leaf tap. | PR #42's compact searchable picker and automatic infoboxes from both entry points stay in place. One-finger drag worked on both apps. On the handset the web opened infoboxes automatically from the picker and map, and Android Back returned to the search or map. The APK opened details from the map and selected directly from the list. Offline Playwright also checks the globe zoom after Back. |
+| Cuisine selection | The Flet list drills down through regions and has a separate About icon for each leaf. The native globe and regional maps open details on a leaf tap. | PR #42's compact searchable picker and automatic infoboxes from both entry points stay in place. One-finger drag worked on both apps. On the handset the web opened infoboxes automatically from the picker and map, and Android Back returned to the search or map. The APK opened details from the map and selected directly from the list. Offline Playwright also checks the globe zoom after Back. The globe now drills down by continent and country with callout chips (see "Globe drill-down"). |
 | Saved recipes | Flet Favorites has access-ranked continent, country and cuisine folders, recent shortcuts at the root and country level, and search across all starred recipes. | The APK's separate Favorites screen and recent shortcuts appeared on the handset. Web Favorites follows the Flet structure, with counts, five recent at the root, three per country, a separate Any cuisine folder, and breadcrumbs. Browser Back restores the folder and query. Playwright checks ranking, the legacy Greek label, cross-folder search, and version 1 backup round trips. IndexedDB and backup format stay in place. |
 | Sharing and pictures | The Android share sheet can hand text, PDF and dish photo to a mail app. Dish pictures are generated from saved recipes. | Playwright checks text and both file signatures handed to Web Share. Browser and target app determine attachment support. Saved and imported replies can generate pictures using the saved title after the original job expires. A failed replacement leaves the previous image in place. On the handset Gmail received the complete fixture text, PDF and PNG from the web share sheet. The APK-to-Gmail check with a disposable pictured recipe remains open. |
 | Stop | Flet can keep the streamed partial recipe. | The web API cancels the draft, review or revision in progress and replays a stopped event. The web restores the request for editing and keeps the previous saved reply and pictures. Only finished, checked replies enter history. |
@@ -228,6 +228,48 @@ Keep a server flag that streams the draft instead (Bryan's earlier choice) in ca
 - The local preview uses 189,337 bytes of GeoJSON. In a single-worker Chromium run, the flight from the
   globe to New York City averaged 41.3 rendered frames/s at 375 × 812 and 39.3 at 1280 × 800.
   These are headless measurements. Record device performance during the phone check.
+
+### Globe drill-down (replaces the spike's three close-ups)
+
+The globe is now the whole cuisine-picking flow, level by level, driven by the cuisine tree:
+
+1. The whole planet, with a callout chip for each of the six continents. A continent on the far side of the
+   globe gets a chip at the globe's edge, pointing toward it, with a dashed line.
+2. Tapping a continent (its chip or the map) flies to that continent's fixed view and highlights every child
+   in the tree. Countries with sub-cuisines (United States, Mexico, Caribbean, China, Japan, India, Italy) fly
+   to their own fixed view in the same way, with an "Any region" button for the country's "Any" cuisine.
+3. Tapping a cuisine opens the existing infobox, which ends with "Start making ... food?" and a Go button.
+   Go returns to the recipe form with that cuisine picked. The picker's infobox keeps its "Use ..." button.
+4. Back goes up one level and restores the camera the person left there (spin, zoom). Going down always
+   starts from the level's fixed view. One-finger drag on touch screens is unchanged.
+
+**Globe first (default).** The home page opens with a smaller globe at the top of the cuisine card, spinning
+slowly (4 degrees a second) until the first touch, drag or scroll on it, after which it stays still for the
+visit. It doesn't spin when the browser asks for reduced motion, while the tab is hidden, or while it is
+scrolled out of view. Tapping a continent opens the globe screen already inside that continent, flying in
+from where the home globe was; Back climbs out to the world, then home. Settings > "Pick cuisines with"
+(`chefbot.cuisine-picker` in local storage: `globe`, the default, or `list`) and a "Start with the ... instead"
+link under the card switch between the globe and the original list layout. If WebGL fails, the home page falls
+back to the list for that visit. The home globe draws only the continents, so it doesn't load the regions
+file. Frame rate with the Mac's GPU (Playwright with Metal): 60 frames/s spinning and 52 during flights at both
+sizes; the default headless run draws in software and reports 13 to 17.
+
+Files: `web/src/globe/views.json` holds the hand-tuned camera per level (center, zoom, bearing, pitch). The
+zoom is for a 500-pixel frame and is scaled by the frame's size, so a phone and a desktop show about the same
+area. `regions.geojson` has every selectable region at every level (`level`, `cuisine`, `color`), and
+`anchors.json` the point each callout points at; both come from `tools/build_map_data.py --geojson`, which
+reuses the region groupings of the phone maps (Hawaii at its real position). Override an anchor in
+`WEB_ANCHORS` in the builder when a region's middle is the wrong spot. `web/src/globe/callouts.ts` places the
+chips: a chip sits on its region when it fits, and otherwise moves out along a leader line to the cheapest
+nearby spot, scored on overlap, crossing lines, covering another region's dot, sitting nearer another region,
+and distance. Chips are 32 px tall on touch screens. A "Choose by name" list under the map is the fallback
+when WebGL fails.
+
+`tests/test_web_globe.py` checks that every level has a view and every child has a highlight and an anchor
+inside it. `web/tests/globe.spec.ts` walks every cuisine in the tree at 375 x 812 and 1280 x 800, checks at each
+level that chips stay inside the map, are at least 28 px tall, overlap no other chip and are on top, and covers
+Go, a tap on the map itself, and Back restoring the view. The regions file is 381 KB (116 KB gzipped) and loads
+when the globe opens.
 
 ### Recipe backups (export in phase 2; Drive after phase 5 is live)
 

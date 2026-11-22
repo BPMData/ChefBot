@@ -25,9 +25,10 @@ test("creates a recipe, reconnects after reload, and saves favorites and exports
   }
   await page.getByLabel("Never use").fill("pork");
   await page.getByRole("button", { name: "Browse cuisines", exact: true }).click();
-  await page.getByRole("button", { name: "The Americas", exact: true }).click();
-  await page.getByRole("button", { name: "United States", exact: true }).click();
-  await page.getByRole("button", { name: "Cajun", exact: true }).click();
+  const browser = page.getByRole("dialog", { name: "Browse cuisines" });
+  await browser.getByRole("button", { name: "The Americas", exact: true }).click();
+  await browser.getByRole("button", { name: "United States", exact: true }).click();
+  await browser.getByRole("button", { name: "Cajun", exact: true }).click();
   await expect(page.getByRole("dialog", { name: "Cajun", exact: true })).toBeVisible();
   await expect(page.getByText("Classic flavors", { exact: true })).toBeVisible();
   await expect(page.getByRole("img", { name: "Cajun region highlighted" })).toBeVisible();

@@ -4,18 +4,18 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react"
 import { createRoot } from "react-dom/client";
 import logo from "../../src/assets/logo_white.svg";
 import { Chat } from "./Chat";
-import { Home, type Draft } from "./Home";
+import { Home, type Draft, type PickerStart } from "./Home";
 import { Favorites, favoritePageSize } from "./RecipeLibrary";
 import {
   loadCuisines, RequestError, startJob, stopJob, warmUp, type CuisineTree,
 } from "./api";
-import { RegionalMap } from "./CuisineMap";
 import { CuisineBrowser, CuisineInfo } from "./CuisinePicker";
 import { rememberCuisine } from "./cooking";
 import { initialJobView, JobWatch, type JobView, type Terminal } from "./JobWatch";
 import { useNavigation } from "./navigation";
 import { download } from "./exports";
 import type { GlobeCamera } from "./globe/Globe";
+import { foodName } from "./globe/food";
 import {
   backup, changeConversations, completeConversation, readConversations, requestPersistence, restoreBackup,
   type Conversation, type Message, type Pending,
@@ -38,8 +38,12 @@ function applyTheme(theme: string) {
   document.documentElement.style.colorScheme = theme === "system" ? "light dark" : theme;
 }
 
-function Settings({ recipes, refresh, report }: {
+const pickerKey = "chefbot.cuisine-picker";
+const savedPicker = (): PickerStart => localStorage.getItem(pickerKey) === "list" ? "list" : "globe";
+
+function Settings({ recipes, refresh, report, picker, setPicker }: {
   recipes: Conversation[]; refresh: (recipes: Conversation[]) => void; report: (status: string) => void;
+  picker: PickerStart; setPicker: (picker: PickerStart) => void;
 }) {
   const [theme, setTheme] = useState(document.documentElement.dataset.theme ?? "dark");
   const [recipient, setRecipient] = useState(() => localStorage.getItem("chefbot.email-to") ?? "");
@@ -57,6 +61,13 @@ function Settings({ recipes, refresh, report }: {
         }}>
           <option value="dark">Dark</option><option value="light">Light</option><option value="system">System</option>
         </select>
+      </div>
+      <div className="form-field">
+        <label htmlFor="cuisine-picker">Pick cuisines with</label>
+        <select id="cuisine-picker" value={picker} onChange={(event) => setPicker(event.target.value as PickerStart)}>
+          <option value="globe">The spinning globe</option><option value="list">The cuisine list</option>
+        </select>
+        <small>What the cuisine section on the home page starts with.</small>
       </div>
       <div className="form-field">
         <label htmlFor="email-to">Send recipes to</label>
@@ -112,7 +123,14 @@ function App() {
   }));
   const [tree, setTree] = useState<CuisineTree | null>(null);
   const [recipes, setRecipes] = useState<Conversation[]>([]);
-  const { route, navigate, back, openCuisine, dismissCuisine, finishCuisine, openFavoriteFolder, updateLibrary } = useNavigation();
+  const [picker, setPickerState] = useState<PickerStart>(savedPicker);
+  const [globeBroken, setGlobeBroken] = useState(false);
+  const setPicker = useCallback((next: PickerStart) => {
+    localStorage.setItem(pickerKey, next);
+    setPickerState(next);
+  }, []);
+  const globeFailed = useCallback(() => setGlobeBroken(true), []);
+  const { route, navigate, back, openCuisine, openGlobe, dismissCuisine, finishCuisine, openFavoriteFolder, updateLibrary } = useNavigation();
   const chatId = route.id;
   const settings = route.screen === "settings";
   const globe = route.screen === "globe";
@@ -131,7 +149,7 @@ function App() {
   const [jobViews, setJobViews] = useState<Record<string, JobView>>({});
   const [retry, setRetry] = useState<{ id: string } | null>(null);
   const starting = useRef(false);
-  const globeCamera = useRef<GlobeCamera | null>(null);
+  const globeCameras = useRef<Record<string, GlobeCamera>>({});
   const foregroundChat = useRef<string | null>(null);
   foregroundChat.current = route.screen === "recipe" ? chatId : null;
   const chat = recipes.find((recipe) => recipe.id === chatId);
@@ -334,31 +352,35 @@ function App() {
           : <button className="text-button" type="button" onClick={() => openRecipe(readyReply.id)}>Open recipe</button>}
       </div>}
       {chat && jobView.paused && <div className="notice" role="status">{jobView.paused}</div>}
-      {settings ? <Settings recipes={recipes} refresh={setRecipes} report={report} /> :
+      {settings ? <Settings recipes={recipes} refresh={setRecipes} report={report} picker={picker} setPicker={setPicker} /> :
         favorites && ready ? <Favorites recipes={recipes} tree={tree} path={favoritePath} query={route.query ?? ""}
           setQuery={(query) => updateLibrary({ query, favoriteLimit: favoritePageSize })}
           limit={favoriteLimit} showMore={() => updateLibrary({ favoriteLimit: favoriteLimit + favoritePageSize })}
           openFolder={openFavoriteFolder} goToLevel={(depth) => history.go(depth - favoritePath.length)}
           open={openRecipe} toggleFavorite={toggleFavorite} /> :
-        globe && level && tree ? <RegionalMap id={level} tree={tree} choose={(id) =>
-          tree.nodes[id]?.children?.length ? openCuisine({ mapPath: [...mapPath, id] }) : openCuisine({ preview: id })} /> :
-        globe ? <Suspense fallback={<p role="status">Loading the globe…</p>}>
-          <Globe camera={globeCamera} openRegion={(id) => openCuisine({ mapPath: [id] })}
-            preview={(id) => openCuisine({ preview: id })} />
-        </Suspense> :
+        globe ? tree ? <Suspense fallback={<p role="status">Loading the globe…</p>}>
+          <Globe tree={tree} path={mapPath} cameras={globeCameras} choose={(id) =>
+            tree.nodes[id]?.children?.length ? openCuisine({ mapPath: [...mapPath, id] }) : openCuisine({ preview: id })} />
+        </Suspense> : <p role="status">Loading cuisines…</p> :
         chat ? <Chat key={chat.id} conversation={chat} tree={tree} send={send} mutate={(transform) => mutate(chat.id, transform)}
           favorite={() => toggleFavorite(chat.id)} progress={jobView} provisional={jobView.draft} busy={busy} canReconnect={!!jobView.paused} stop={stop}
           reconnect={() => { if (jobId) setRetry({ id: jobId }); }}
           report={report} followUpLimit={tree?.limits.follow_ups ?? 5} messageLimit={tree?.limits.message_characters ?? 4000} /> :
         ready ? <Home tree={tree} draft={draft} setDraft={setDraft} create={() => void create()} busy={busy}
           recipes={recipes} browse={() => openCuisine({ picker: true })} preview={(id) => openCuisine({ preview: id })}
-          removeRecipe={removeRecipe} openGlobe={() => { globeCamera.current = null; navigate("globe"); }}
+          removeRecipe={removeRecipe} openGlobe={() => { globeCameras.current = {}; openGlobe(); }}
+          picker={globeBroken ? "list" : picker} setPicker={globeBroken ? undefined : setPicker}
+          globe={tree && picker === "globe" && !globeBroken && <Suspense fallback={<div className="globe-frame compact" />}>
+            <Globe compact spin tree={tree} path={[]} cameras={globeCameras} onFail={globeFailed}
+              choose={(id) => openGlobe([id])} />
+          </Suspense>}
           open={openRecipe} toggleFavorite={toggleFavorite}
           query={route.query ?? ""} setQuery={(query) => updateLibrary({ query })}
           openFavorites={() => navigate("favorites")} /> : <p role="status">Opening your recipe book…</p>}
       {tree && route.picker && <CuisineBrowser tree={tree} close={dismissCuisine}
         preview={(id) => openCuisine({ preview: id })} reset={() => { pickCuisine(tree.no_cuisine); finishCuisine(); }} />}
       {tree && route.preview && tree.nodes[route.preview] && <CuisineInfo tree={tree} id={route.preview} close={dismissCuisine}
+        question={globe ? "Start making " + foodName(route.preview, tree) + "?" : undefined}
         choose={() => { pickCuisine(route.preview!); finishCuisine(); }} />}
     </main>
   </MotionConfig>;

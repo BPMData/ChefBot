@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import type { CuisineTree } from "./api";
-import { cuisineLabel } from "./cooking";
 
 type Point = [number, number];
 type Bounds = [number, number, number, number];
@@ -72,54 +70,4 @@ export function CuisineMap({ levelId, regionId, label }: { levelId: string; regi
     <path className="map-pick" d={outline(selected.polygons)} />
     {tiny && <circle cx={selected.center[0]} cy={selected.center[1]} r="4" className="map-pick" />}
   </svg>;
-}
-
-function mapViewBox(level: Level) {
-  const ys = level.background.flatMap((ring) => ring.map((point) => point[1]));
-  for (const region of level.regions) {
-    const labelY = region.callout?.pos[1] ?? region.label_pos[1];
-    ys.push(region.bbox[1], region.bbox[3], labelY - 13, labelY + 13);
-  }
-  for (const box of level.inset_boxes ?? []) ys.push(box[1], box[3]);
-  const top = Math.min(...ys) - 8;
-  return [0, top, 360, Math.max(...ys) - top + 8].join(" ");
-}
-
-export function RegionalMap({ id, tree, choose }: { id: string; tree: CuisineTree; choose: (id: string) => void }) {
-  const { label, children = [] } = tree.nodes[id];
-  const level = useMapLevel(id);
-  if (level === undefined) return <p role="status">Loading the regional map…</p>;
-  return <section className="regional-map">
-    <div className="regional-heading"><h1>{label}</h1>
-      {level?.any_id && <button type="button" className="secondary" onClick={() => choose(level.any_id!)}>
-        Any region</button>}
-    </div>
-    {level ? <svg viewBox={mapViewBox(level)} role="group" aria-label={label + " cuisine map"}>
-      <path className="map-land" d={outline(level.background)} />
-      {level.inset_boxes?.map(([x, y, x1, y1]) => <rect key={x + "," + y} x={x} y={y} width={x1-x} height={y1-y}
-        fill="none" stroke="var(--border)" rx="2" />)}
-      {level.regions.map((region) => <path key={region.id} d={outline(region.polygons)} fill={regionColors[region.color]}
-        className="map-area" onClick={() => choose(region.id)}><title>{region.label}</title></path>)}
-      {level.regions.map(({ id, callout, color }) => callout && <line key={id} pointerEvents="none"
-        x1={callout.anchor[0]} y1={callout.anchor[1]} x2={callout.pos[0]} y2={callout.pos[1]} stroke={regionColors[color]} />)}
-      {level.regions.map((region) => {
-        const [centerX, y] = region.callout?.pos ?? region.label_pos;
-        const labelWidth = Math.max(56, region.label.length * 6.5 + 16);
-        const x = Math.max(4 + labelWidth / 2, Math.min(centerX, 356 - labelWidth / 2));
-        return <g key={region.id} role="button" tabIndex={0} aria-label={region.label} className="map-label"
-          onClick={() => choose(region.id)} onKeyDown={(event) => {
-            if (event.key === "Enter" || event.key === " ") { event.preventDefault(); choose(region.id); }
-          }}>
-          {region.callout && <rect x={x - labelWidth / 2} y={y - 13} width={labelWidth} height="26" rx="7"
-            stroke={regionColors[region.color]} />}
-          <text x={x} y={y} textAnchor="middle" dominantBaseline="central">{region.label}</text>
-        </g>;
-      })}
-    </svg> : <p role="status">Couldn’t load the map. Choose a region by name.</p>}
-    <details className="region-names" open={level ? undefined : true}>
-      <summary>Choose by name</summary>
-      <div className="catalog-grid">{children.map((child) => <button type="button" className="catalog-tile"
-        onClick={() => choose(child)} key={child}>{cuisineLabel(child, tree)}</button>)}</div>
-    </details>
-  </section>;
 }

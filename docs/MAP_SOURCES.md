@@ -31,6 +31,7 @@ Unzip the three source archives into `assets/maps/source/` (git-ignored) and run
 .venv/bin/python tools/build_map_data.py
 ```
 
-For the browser globe, run `.venv/bin/python tools/build_map_data.py --geojson`. It writes latitude and
-longitude GeoJSON into `web/src/globe/`. The preview uses Natural Earth borders, Greece, the central and
-western Indian state group, and the U.S. Census county and county-equivalent boundaries around New York City.
+For the browser globe, run `.venv/bin/python tools/build_map_data.py --geojson`. It writes longitude and
+latitude files into `web/src/globe/`: `land.geojson` (Natural Earth borders), `regions.geojson` (every
+selectable region at every drill-down level, grouped exactly as on the phone maps, including the Census county
+groups) and `anchors.json` (where each callout points).

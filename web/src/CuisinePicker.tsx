@@ -73,8 +73,8 @@ export function CuisineBrowser({ tree, close, preview, reset }: {
   </CuisineDialog>;
 }
 
-export function CuisineInfo({ tree, id, close, choose }: {
-  tree: CuisineTree; id: string; close: () => void; choose: () => void;
+export function CuisineInfo({ tree, id, close, choose, question }: {
+  tree: CuisineTree; id: string; close: () => void; choose: () => void; question?: string;
 }) {
   const path = cuisinePath(id, tree);
   const node: Cuisine = tree.nodes[id];
@@ -96,12 +96,14 @@ export function CuisineInfo({ tree, id, close, choose }: {
         <h3>{heading}</h3><p>{items.join(", ")}</p>
       </section> : null)}
     </div>
-    <div className="dialog-footer"><button type="button" className="primary" onClick={choose}>Use {name}</button></div>
+    {question ? <div className="dialog-footer go-footer"><p>{question}</p>
+      <button type="button" className="primary" onClick={choose}>Go</button></div>
+      : <div className="dialog-footer"><button type="button" className="primary" onClick={choose}>Use {name}</button></div>}
   </CuisineDialog>;
 }
 
 export function CuisinePicker({ tree, cuisine, browse, preview, openGlobe }: {
-  tree: CuisineTree; cuisine: string; browse: () => void; preview: (id: string) => void; openGlobe: () => void;
+  tree: CuisineTree; cuisine: string; browse: () => void; preview: (id: string) => void; openGlobe?: () => void;
 }) {
   const recents = recentCuisines().filter((id) => tree.nodes[id] && id !== cuisine);
   return <div className="form-field cuisine-field">
@@ -112,7 +114,7 @@ export function CuisinePicker({ tree, cuisine, browse, preview, openGlobe }: {
     </div>
     <div className="cuisine-tools">
       <button type="button" className="secondary" onClick={browse}><Compass size={18} /> Browse cuisines</button>
-      <button type="button" className="secondary" onClick={openGlobe}><Globe2 size={18} /> Cuisine globe</button>
+      {openGlobe && <button type="button" className="secondary" onClick={openGlobe}><Globe2 size={18} /> Cuisine globe</button>}
       <button type="button" className="text-button" onClick={() => {
         const choices = Object.values(tree.nodes).filter((node) => node.kind === "cuisine" || node.kind === "any");
         preview(choices[Math.floor(Math.random() * choices.length)].id);
