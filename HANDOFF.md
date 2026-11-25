@@ -20,6 +20,14 @@ more than cost.
 
 ## Pinned (do these next, in this order)
 
+**Phone recipe view (2026-11-25, branch `claude/project-thread-wug19l`, PR waiting for Bryan's review).**
+On the web at phone widths (640px or less) and in short windows (560px tall or less), a recipe page now scrolls as a
+whole: the header, Back link, notices and title scroll away, and the composer is one slim row pinned to the
+bottom whose quick-change chips appear once it has focus. Wider windows keep the boxed thread. The viewport
+meta has `interactive-widget=resizes-content` so Android Chrome shrinks the page above the keyboard. Notices
+now have a Dismiss button. Covered by `web/tests/mobile-layout.spec.ts` at 360x800, 412x915 and desktop. Still
+to check on Bryan's phone: typing a follow-up with the keyboard open, and the Jump button.
+
 **Globe drill-down (2026-11-21, branch `claude/optimistic-joliot-745df1`, PR waiting for Bryan's review).**
 The web globe is now the full cuisine picker: planet, continent, country, cuisine, each with a hand-tuned
 camera (`web/src/globe/views.json`) and APK-style callout chips; a cuisine opens the infobox with "Start

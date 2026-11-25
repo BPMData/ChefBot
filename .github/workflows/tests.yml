@@ -54,6 +54,13 @@ jobs:
         working-directory: web
         env:
           CHEFBOT_TEST_PYTHON: python
+      # The browser tests save screenshots (phone and desktop layouts) here; download them from the run's page.
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: web-screenshots
+          path: web/test-results/
+          if-no-files-found: ignore
 
   release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.CHEFBOT_AUTO_DEPLOY == 'true'

@@ -10,6 +10,13 @@ import { Waiting } from "./Waiting";
 type Progress = { stage: string; ingredients: string[]; steps: number };
 type ReplyArgs = { conversation: Conversation; text: string; history: Message[] };
 
+// On wide screens the thread is its own scroll box; on phones (see style.css) the page scrolls instead.
+function scroller(list: HTMLElement) {
+  return getComputedStyle(list).overflowY === "visible" ? document.scrollingElement as HTMLElement : list;
+}
+// Keeps focus in the composer when a chip or Send is tapped, so the phone layout doesn't collapse mid-tap.
+const keepFocus = (event: { preventDefault: () => void }) => event.preventDefault();
+
 function Reply({ message, title, photo, savePhoto, report }: {
   message: Message; title: string; photo?: string; savePhoto: (photo: string) => Promise<void>; report: (message: string) => void;
 }) {
@@ -108,20 +115,31 @@ export function Chat({ conversation, tree, send, mutate, favorite, progress, pro
   useEffect(() => {
     const list = thread.current;
     if (!list) return;
-    if (pending) list.scrollTop = list.scrollHeight;
+    const box = scroller(list);
+    if (pending) box.scrollTop = box.scrollHeight;
     else if (messages.length > 2) list.querySelector(".reply:last-of-type")?.scrollIntoView({ block: "start" });
-    else list.scrollTop = 0;
+    else box.scrollTop = 0;
   }, [pending?.id, latest, messages.length]);
 
   useEffect(() => {
     const list = thread.current;
     if (!list) return;
-    const check = () => setAwayFromEnd(list.scrollHeight - list.clientHeight - list.scrollTop > list.clientHeight * 0.8);
+    const check = () => {
+      const box = scroller(list);
+      setAwayFromEnd(box.scrollHeight - box.clientHeight - box.scrollTop > box.clientHeight * 0.8);
+    };
     const observer = new ResizeObserver(check);
     observer.observe(list);
     observer.observe(list.firstElementChild!);
     list.addEventListener("scroll", check, { passive: true });
-    return () => { observer.disconnect(); list.removeEventListener("scroll", check); };
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    return () => {
+      observer.disconnect();
+      list.removeEventListener("scroll", check);
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
+    };
   }, []);
 
   async function sendText(value: string) {
@@ -228,20 +246,20 @@ export function Chat({ conversation, tree, send, mutate, favorite, progress, pro
         </div>}
       </div>
     {awayFromEnd && <button type="button" className="jump secondary" aria-label="Jump to the bottom"
-      onClick={() => thread.current?.scrollTo({ top: thread.current.scrollHeight })}><ArrowDown size={18} /></button>}
+      onClick={() => { if (thread.current) { const box = scroller(thread.current); box.scrollTo({ top: box.scrollHeight }); } }}><ArrowDown size={18} /></button>}
     </div>
     {!blocked && <form className="card follow-up" onSubmit={submit}>
       {!!messages.length && canFollowUp && !editing && <div className="quick-tweaks" role="group" aria-label="Quick changes">
-        {tweaks.map(([label, prompt]) => <button className="chip" type="button" key={label}
+        {tweaks.map(([label, prompt]) => <button className="chip" type="button" key={label} onMouseDown={keepFocus}
           onClick={() => void sendText(prompt)}>{label}</button>)}
-        <button className="chip" type="button" onClick={() => warning.current?.showModal()}>The 1817 version (beta)</button>
+        <button className="chip" type="button" onMouseDown={keepFocus} onClick={() => warning.current?.showModal()}>The 1817 version (beta)</button>
       </div>}
       <label htmlFor="follow-up">{editing ? "Edit your follow-up" : messages.length ? "Ask a follow-up" : "Try your request again"}</label>
       <div className="follow-up-input">
         <textarea ref={composer} id="follow-up" rows={1} value={text} maxLength={messageLimit}
           disabled={!canFollowUp} placeholder={canFollowUp ? "Ask for a change…" : "This recipe has reached its follow-up limit."}
           onChange={(event) => setText(event.target.value)} />
-        <button type="submit" className="primary icon-button" aria-label="Send reply" disabled={!text.trim() || !canFollowUp}>
+        <button type="submit" className="primary icon-button" aria-label="Send reply" onMouseDown={keepFocus} disabled={!text.trim() || !canFollowUp}>
           <ArrowUp size={21} />
         </button>
       </div>

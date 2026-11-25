@@ -1,4 +1,4 @@
-import { ArrowLeft, Download, ExternalLink, Settings as SettingsIcon, Upload } from "lucide-react";
+import { ArrowLeft, Download, ExternalLink, Settings as SettingsIcon, Upload, X } from "lucide-react";
 import { MotionConfig } from "motion/react";
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
@@ -341,7 +341,10 @@ function App() {
       {(settings || chat || globe || favorites) && <button type="button" className="text-button back" onClick={back}>
         <ArrowLeft size={17} /> {backLabel}
       </button>}
-      {status && <div className="notice" role="status">{status}</div>}
+      {status && <div className="notice dismissible">
+        <span role="status">{status}</span>
+        <button type="button" className="icon-button" aria-label="Dismiss" onClick={() => report("")}><X size={18} /></button>
+      </div>}
       {readyReply && <div className="notice ready-reply">
         <span role="status">Ready: {readyReply.title}</span>
         {readyReply.id === foregroundChat.current
