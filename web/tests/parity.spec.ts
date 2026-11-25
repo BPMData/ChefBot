@@ -70,12 +70,16 @@ test("keeps the composer in reach and sends tweaks against the selected recipe",
   await page.getByRole("button", { name: /^Roasted carrots/ }).click();
   const input = page.getByLabel("Ask a follow-up");
   await expect(input).toBeInViewport();
-  await page.getByRole("region", { name: "Recipe conversation" }).evaluate((node) => node.scrollTop = 300);
+  // Wide screens scroll the thread box; phones scroll the page.
+  await page.getByRole("region", { name: "Recipe conversation" }).evaluate((node) => {
+    (getComputedStyle(node).overflowY === "visible" ? document.scrollingElement! : node).scrollTop = 300;
+  });
   await expect(input).toBeInViewport();
   await expect(page.getByRole("button", { name: "Jump to the bottom" })).toBeInViewport();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(page.viewportSize()!.width);
   await page.screenshot({ path: info.outputPath("conversation.png") });
 
+  await input.click();  // on phones the quick changes show once the composer has focus
   await page.getByRole("button", { name: "The 1817 version (beta)" }).click();
   await expect(page.getByRole("dialog", { name: "Historical recipes (beta)" })).toBeVisible();
   await page.getByRole("button", { name: "Cancel", exact: true }).click();

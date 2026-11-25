@@ -256,3 +256,34 @@ body:has(dialog[open]) { overflow: hidden; }
 /* The spinning globe at the top of the home page; sized here so the space is kept while it loads. */
 .globe-frame.compact { min-height: clamp(16rem, 42dvh, 24rem); margin-bottom: 1rem; border-radius: .85rem; background: #16191c; }
 .picker-switch { margin-top: .5rem; font-size: .9rem; }
+.notice.dismissible { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.notice.dismissible .icon-button { flex: none; margin: -.4rem -.45rem -.4rem 0; color: inherit; }
+
+/* Phones and short windows: the recipe page scrolls as a whole, so the header, Back link, notices and title
+   scroll away and the recipe gets the screen. The composer stays pinned to the bottom as one slim row; the quick
+   changes appear above it once it has focus. Wider windows keep the boxed thread above. */
+@media (max-width: 640px), (max-height: 560px) {
+  body:has(.thread-frame) #root { height: auto; display: block; }
+  html:has(.thread-frame) { scroll-padding-bottom: 5rem; }
+  main:has(.thread-frame) { display: block; padding-bottom: 0; }
+  main:has(.thread-frame) .notice { font-size: .88rem; padding: .45rem .7rem; margin-bottom: .6rem; }
+  .chat-heading h1 { font-size: 1.3rem; letter-spacing: -.02em; max-height: none; overflow: visible; margin: .2rem 0; }
+  .reply h2 { font-size: 1.3rem; }
+  .thread-frame { margin-top: .2rem; }
+  .thread { height: auto; overflow: visible; padding: 0 0 .6rem; }
+  .jump { position: sticky; z-index: 3; right: auto; bottom: 4.6rem; display: flex; width: 2.75rem; height: 2.75rem; margin: -2.75rem .3rem 0 auto; }
+  .follow-up {
+    position: sticky; bottom: 0; z-index: 2; margin: 0; padding: .45rem .6rem max(.45rem, env(safe-area-inset-bottom));
+    box-shadow: 0 -.4rem 1rem #0004;
+  }
+  .follow-up > label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .follow-up:not(:focus-within) .quick-tweaks { display: none; }
+  .quick-tweaks { scrollbar-width: none; }
+  .follow-up-input { margin-top: 0; }
+  .follow-up textarea { min-height: 2.75rem; padding-block: .55rem; resize: none; }
+}
+/* On phones the composer runs edge to edge, like a keyboard accessory bar. */
+@media (max-width: 640px) {
+  main:has(.thread-frame) { width: calc(100% - 1.45rem); }
+  .follow-up { margin: 0 -.725rem; border-radius: 1rem 1rem 0 0; border-bottom: none; }
+}
