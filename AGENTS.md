@@ -5,3 +5,4 @@ emojis, branch + pull request into `main`, never merge). Then `HANDOFF.md`, and 
 Current web plan: `docs/WEB_LAUNCH.md`.
 Web code (`web/`) is formatted with Prettier 3.3.3: run `npx prettier --write` on changed files (from `web/`)
 before committing. CI runs `npx prettier --check .`.
+`npm run lint` (from `web/`) runs `tsc` and oxlint with only the React Hooks rules; CI runs it too.
