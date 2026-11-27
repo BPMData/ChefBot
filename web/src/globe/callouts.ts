@@ -15,7 +15,11 @@ export type CalloutInput = {
 };
 
 export type Callout = {
-  id: string; x: number; y: number; width: number; height: number;
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
   /** Where the leader line starts (the anchor, pulled inside the frame), when the chip moved away. */
   lead: { x: number; y: number } | null;
   offscreen: boolean;
@@ -58,8 +62,8 @@ function lineHitsRect(line: Segment, rect: Rect) {
   // Samples the line; chips are much larger than the step, so this never misses one.
   const steps = Math.ceil(Math.hypot(line.x2 - line.x1, line.y2 - line.y1) / 6);
   for (let i = 1; i < steps; i++) {
-    const x = line.x1 + (line.x2 - line.x1) * i / steps;
-    const y = line.y1 + (line.y2 - line.y1) * i / steps;
+    const x = line.x1 + ((line.x2 - line.x1) * i) / steps;
+    const y = line.y1 + ((line.y2 - line.y1) * i) / steps;
     if (x > rect.left && x < rect.right && y > rect.top && y < rect.bottom) return true;
   }
   return false;
@@ -70,18 +74,28 @@ export function layoutCallouts(items: CalloutInput[], width: number, height: num
   const anchors = items.map((item) => {
     const { x, y } = item.anchor;
     const inside = x >= margin && x <= width - margin && y >= margin && y <= height - margin;
-    return { item, inside, x: Math.min(width - margin, Math.max(margin, x)), y: Math.min(height - margin, Math.max(margin, y)) };
+    return {
+      item,
+      inside,
+      x: Math.min(width - margin, Math.max(margin, x)),
+      y: Math.min(height - margin, Math.max(margin, y)),
+    };
   });
   type Anchor = (typeof anchors)[number];
   type Spot = { x: number; y: number; rect: Rect; line: Segment | null; cost: number };
-  const centroid = anchors.reduce((sum, a) => ({ x: sum.x + a.x / anchors.length, y: sum.y + a.y / anchors.length }), { x: 0, y: 0 });
+  const centroid = anchors.reduce((sum, a) => ({ x: sum.x + a.x / anchors.length, y: sum.y + a.y / anchors.length }), {
+    x: 0,
+    y: 0,
+  });
   const crowd = (a: Anchor) => anchors.filter((b) => b !== a && Math.hypot(a.x - b.x, a.y - b.y) < 90).length;
-  const fits = (a: Anchor) => a.inside && !a.item.behind
-    && a.item.size.width >= a.item.width * 0.8 && a.item.size.height >= a.item.height * 1.2;
+  const fits = (a: Anchor) =>
+    a.inside && !a.item.behind && a.item.size.width >= a.item.width * 0.8 && a.item.size.height >= a.item.height * 1.2;
   // Chips that fit on their own region go first; then crowded and off-screen regions, so they get the
   // free spots closest to their anchors.
-  const order = [...anchors].sort((a, b) => Number(fits(b)) - Number(fits(a)) || Number(a.inside) - Number(b.inside)
-    || crowd(b) - crowd(a) || a.y - b.y);
+  const order = [...anchors].sort(
+    (a, b) =>
+      Number(fits(b)) - Number(fits(a)) || Number(a.inside) - Number(b.inside) || crowd(b) - crowd(a) || a.y - b.y
+  );
   const dots = anchors.filter((anchor) => anchor.inside && !anchor.item.behind);
   const chosen = new Map<Anchor, Spot>();
 
@@ -111,7 +125,8 @@ export function layoutCallouts(items: CalloutInput[], width: number, height: num
   function score(anchor: Anchor, spot: { x: number; y: number; base: number }): Spot | null {
     const { item } = anchor;
     const rect = rectAt(spot.x, spot.y, item.width, item.height);
-    if (rect.left < margin || rect.top < margin || rect.right > width - margin || rect.bottom > height - margin) return null;
+    if (rect.left < margin || rect.top < margin || rect.right > width - margin || rect.bottom > height - margin)
+      return null;
     const moved = !anchor.inside || !!item.behind || spot.base > 0;
     const line = moved ? { x1: anchor.x, y1: anchor.y, x2: spot.x, y2: spot.y } : null;
     let cost = spot.base;
@@ -129,8 +144,13 @@ export function layoutCallouts(items: CalloutInput[], width: number, height: num
     }
     for (const dot of dots) {
       if (dot === anchor) continue;
-      if (dot.x > rect.left - dotClearance && dot.x < rect.right + dotClearance
-        && dot.y > rect.top - dotClearance && dot.y < rect.bottom + dotClearance) cost += 400;
+      if (
+        dot.x > rect.left - dotClearance &&
+        dot.x < rect.right + dotClearance &&
+        dot.y > rect.top - dotClearance &&
+        dot.y < rect.bottom + dotClearance
+      )
+        cost += 400;
     }
     return { x: spot.x, y: spot.y, rect, line, cost };
   }
@@ -145,7 +165,13 @@ export function layoutCallouts(items: CalloutInput[], width: number, height: num
       const { item } = anchor;
       const x = Math.min(width - margin - item.width / 2, Math.max(margin + item.width / 2, anchor.x));
       const y = Math.min(height - margin - item.height / 2, Math.max(margin + item.height / 2, anchor.y));
-      best = { x, y, rect: rectAt(x, y, item.width, item.height), line: { x1: anchor.x, y1: anchor.y, x2: x, y2: y }, cost: 0 };
+      best = {
+        x,
+        y,
+        rect: rectAt(x, y, item.width, item.height),
+        line: { x1: anchor.x, y1: anchor.y, x2: x, y2: y },
+        cost: 0,
+      };
     }
     chosen.set(anchor, best);
   }
@@ -158,22 +184,37 @@ export function layoutCallouts(items: CalloutInput[], width: number, height: num
     const spot = chosen.get(anchor)!;
     const { item } = anchor;
     return {
-      id: item.id, x: spot.x, y: spot.y, width: item.width, height: item.height,
-      lead: spot.line && { x: anchor.x, y: anchor.y }, offscreen: !anchor.inside, behind: !!item.behind,
+      id: item.id,
+      x: spot.x,
+      y: spot.y,
+      width: item.width,
+      height: item.height,
+      lead: spot.line && { x: anchor.x, y: anchor.y },
+      offscreen: !anchor.inside,
+      behind: !!item.behind,
     };
   });
 }
 
 /** Moves chips with their anchors while the globe is being dragged, without re-running the layout. */
-export function followAnchors(callouts: Callout[], previous: Map<string, { x: number; y: number }>,
-  next: Map<string, { x: number; y: number }>) {
+export function followAnchors(
+  callouts: Callout[],
+  previous: Map<string, { x: number; y: number }>,
+  next: Map<string, { x: number; y: number }>
+) {
   return callouts.flatMap((callout) => {
     const before = previous.get(callout.id);
     const after = next.get(callout.id);
     if (!before || !after) return [];
     const dx = after.x - before.x;
     const dy = after.y - before.y;
-    return [{ ...callout, x: callout.x + dx, y: callout.y + dy,
-      lead: callout.lead && { x: callout.lead.x + dx, y: callout.lead.y + dy } }];
+    return [
+      {
+        ...callout,
+        x: callout.x + dx,
+        y: callout.y + dy,
+        lead: callout.lead && { x: callout.lead.x + dx, y: callout.lead.y + dy },
+      },
+    ];
   });
 }
