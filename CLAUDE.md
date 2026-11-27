@@ -31,4 +31,6 @@ and self-verification workflow for larger tasks.
 
 - Tests: `.venv/bin/python -m pytest`. Run: `.venv/bin/flet run src/main.py` (desktop) or
   `--web --port 8551` for the browser pane. Restart the server after code changes.
+- Web code (`web/`) is formatted with Prettier 3.3.3: run `npx prettier --write` on changed files (from `web/`)
+  before committing. CI runs `npx prettier --check .`.
 - Keep `HANDOFF.md` (and `HANDOFF.local.md`) current: update its "Pinned" list and anything that changed at the end of a working session.

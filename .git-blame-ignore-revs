@@ -1,0 +1,3 @@
+# Prettier 3.3.3 reformat of web/ (formatting only). Needs a merge commit: a squash or rebase changes this hash.
+# Locally: git config blame.ignoreRevsFile .git-blame-ignore-revs   (GitHub's blame view reads this file by itself)
+7383dabae8cfacf05199213e29c09fbbdafd1954
