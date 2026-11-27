@@ -1,30 +1,113 @@
-.globe-panel { display: grid; gap: .9rem; }
-.globe-frame { position: relative; border-radius: .85rem; overflow: hidden; border: 1px solid var(--border); background: #16191c; }
-.globe-host { width: 100%; height: clamp(20rem, 64dvh, 38rem); }
-.globe-frame.compact .globe-host { height: clamp(16rem, 42dvh, 24rem); }
-.globe-host.maplibregl-map { font-family: "DM Sans", system-ui, sans-serif; }
-.globe-location, .globe-message {
-  position: absolute; left: .65rem; bottom: .65rem; max-width: calc(100% - 1.3rem);
-  z-index: 3; pointer-events: none; color: #f7ede4; background: #17110ef0;
-  border: 1px solid var(--border); padding: .4rem .65rem; border-radius: .5rem;
+.globe-panel {
+  display: grid;
+  gap: 0.9rem;
 }
-.globe-callouts { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
-.globe-callouts svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.globe-callouts line { stroke-width: 1.6; }
+.globe-frame {
+  position: relative;
+  border-radius: 0.85rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #16191c;
+}
+.globe-host {
+  width: 100%;
+  height: clamp(20rem, 64dvh, 38rem);
+}
+.globe-frame.compact .globe-host {
+  height: clamp(16rem, 42dvh, 24rem);
+}
+.globe-host.maplibregl-map {
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+.globe-location,
+.globe-message {
+  position: absolute;
+  left: 0.65rem;
+  bottom: 0.65rem;
+  max-width: calc(100% - 1.3rem);
+  z-index: 3;
+  pointer-events: none;
+  color: #f7ede4;
+  background: #17110ef0;
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.65rem;
+  border-radius: 0.5rem;
+}
+.globe-callouts {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.globe-callouts svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.globe-callouts line {
+  stroke-width: 1.6;
+}
 .globe-callout {
-  position: absolute; pointer-events: auto; display: flex; align-items: center; justify-content: center;
-  padding: 0 .5rem; border: 1.5px solid; border-radius: 1rem; white-space: nowrap;
-  font: 600 13px/1 "DM Sans", system-ui, sans-serif; color: #f7ede4; background: #241d19ee;
-  box-shadow: 0 2px 6px #0007; cursor: pointer; transition: background-color .15s;
+  position: absolute;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.5rem;
+  border: 1.5px solid;
+  border-radius: 1rem;
+  white-space: nowrap;
+  font:
+    600 13px/1 'DM Sans',
+    system-ui,
+    sans-serif;
+  color: #f7ede4;
+  background: #241d19ee;
+  box-shadow: 0 2px 6px #0007;
+  cursor: pointer;
+  transition: background-color 0.15s;
 }
-.globe-callout:hover, .globe-callout[data-hovered], .globe-callout:focus-visible { background: #3d2b22; color: #fff; }
-.globe-actions { display: grid; gap: .7rem; justify-items: start; }
-.globe-any { color: var(--accent); margin-left: .3rem; }
-.globe-names summary { cursor: pointer; color: var(--muted); }
-.globe-names .globe-cuisines { margin-top: .6rem; }
-.globe-cuisines { display: flex; flex-wrap: wrap; gap: .45rem; }
-.region-swatch { width: .62rem; height: .62rem; flex: 0 0 .62rem; border-radius: 100%; }
+.globe-callout:hover,
+.globe-callout[data-hovered],
+.globe-callout:focus-visible {
+  background: #3d2b22;
+  color: #fff;
+}
+.globe-actions {
+  display: grid;
+  gap: 0.7rem;
+  justify-items: start;
+}
+.globe-any {
+  color: var(--accent);
+  margin-left: 0.3rem;
+}
+.globe-names summary {
+  cursor: pointer;
+  color: var(--muted);
+}
+.globe-names .globe-cuisines {
+  margin-top: 0.6rem;
+}
+.globe-cuisines {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+.region-swatch {
+  width: 0.62rem;
+  height: 0.62rem;
+  flex: 0 0 0.62rem;
+  border-radius: 100%;
+}
 @media (max-width: 540px) {
-  .globe-panel.card { padding: .35rem; border-radius: .95rem; }
-  .globe-actions { padding: 0 .5rem .5rem; }
+  .globe-panel.card {
+    padding: 0.35rem;
+    border-radius: 0.95rem;
+  }
+  .globe-actions {
+    padding: 0 0.5rem 0.5rem;
+  }
 }

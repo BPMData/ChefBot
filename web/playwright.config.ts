@@ -1,32 +1,32 @@
-import { defineConfig } from "@playwright/test";
-import { resolve } from "node:path";
+import { defineConfig } from '@playwright/test';
+import { resolve } from 'node:path';
 
 export default defineConfig({
-  testDir: "./tests",
+  testDir: './tests',
   timeout: 35_000,
   webServer: [
     {
-      command: `${process.env.CHEFBOT_TEST_PYTHON ?? ".venv/bin/python"} -m uvicorn --app-dir tests/server browser_fixture:app --host localhost --port 8911`,
-      cwd: resolve(".."),
-      env: { CHEFBOT_USAGE_BUCKET: "", OPENROUTER_API_KEY: "" },
-      url: "http://localhost:8911/healthz",
+      command: `${process.env.CHEFBOT_TEST_PYTHON ?? '.venv/bin/python'} -m uvicorn --app-dir tests/server browser_fixture:app --host localhost --port 8911`,
+      cwd: resolve('..'),
+      env: { CHEFBOT_USAGE_BUCKET: '', OPENROUTER_API_KEY: '' },
+      url: 'http://localhost:8911/healthz',
       reuseExistingServer: false,
     },
     {
-      command: "npm run dev -- --host localhost --port 5183",
-      env: { VITE_API_URL: "http://localhost:8911" },
-      url: "http://localhost:5183/ChefBot/",
+      command: 'npm run dev -- --host localhost --port 5183',
+      env: { VITE_API_URL: 'http://localhost:8911' },
+      url: 'http://localhost:5183/ChefBot/',
       reuseExistingServer: false,
     },
   ],
   use: {
-    baseURL: "http://localhost:5183/ChefBot/",
+    baseURL: 'http://localhost:5183/ChefBot/',
     actionTimeout: 6_000,
-    reducedMotion: "reduce",
+    reducedMotion: 'reduce',
     launchOptions: { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE },
   },
   projects: [
-    { name: "phone", use: { viewport: { width: 375, height: 812 }, isMobile: true, hasTouch: true } },
-    { name: "desktop", use: { viewport: { width: 1280, height: 800 } } },
+    { name: 'phone', use: { viewport: { width: 375, height: 812 }, isMobile: true, hasTouch: true } },
+    { name: 'desktop', use: { viewport: { width: 1280, height: 800 } } },
   ],
 });

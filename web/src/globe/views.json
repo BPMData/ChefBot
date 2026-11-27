@@ -1,19 +1,19 @@
 {
   "reference_size": 500,
   "views": {
-    "world": {"center": [-20, 20], "zoom": 1.4, "bearing": 0, "pitch": 0},
-    "americas": {"center": [-80, 10], "zoom": 1.55, "bearing": 0, "pitch": 0},
-    "europe": {"center": [12, 50.5], "zoom": 2.45, "bearing": 0, "pitch": 0},
-    "near_east": {"center": [44, 28], "zoom": 3.1, "bearing": 0, "pitch": 0},
-    "asia": {"center": [105, 22], "zoom": 2.0, "bearing": 0, "pitch": 0},
-    "africa": {"center": [18, 0], "zoom": 2.1, "bearing": 0, "pitch": 0},
-    "oceania": {"center": [147, -31], "zoom": 2.15, "bearing": 0, "pitch": 0},
-    "united_states": {"center": [-96.5, 38.5], "zoom": 2.55, "bearing": 0, "pitch": 0},
-    "mexico": {"center": [-100.5, 23], "zoom": 3.3, "bearing": 0, "pitch": 0},
-    "caribbean": {"center": [-75.5, 19.5], "zoom": 3.85, "bearing": 0, "pitch": 0},
-    "china": {"center": [110, 31], "zoom": 3.2, "bearing": 0, "pitch": 0},
-    "japan": {"center": [136.8, 35.6], "zoom": 4.4, "bearing": 0, "pitch": 0},
-    "india": {"center": [79, 22], "zoom": 3.4, "bearing": 0, "pitch": 0},
-    "italy": {"center": [12.5, 42], "zoom": 4.45, "bearing": 0, "pitch": 0}
+    "world": { "center": [-20, 20], "zoom": 1.4, "bearing": 0, "pitch": 0 },
+    "americas": { "center": [-80, 10], "zoom": 1.55, "bearing": 0, "pitch": 0 },
+    "europe": { "center": [12, 50.5], "zoom": 2.45, "bearing": 0, "pitch": 0 },
+    "near_east": { "center": [44, 28], "zoom": 3.1, "bearing": 0, "pitch": 0 },
+    "asia": { "center": [105, 22], "zoom": 2.0, "bearing": 0, "pitch": 0 },
+    "africa": { "center": [18, 0], "zoom": 2.1, "bearing": 0, "pitch": 0 },
+    "oceania": { "center": [147, -31], "zoom": 2.15, "bearing": 0, "pitch": 0 },
+    "united_states": { "center": [-96.5, 38.5], "zoom": 2.55, "bearing": 0, "pitch": 0 },
+    "mexico": { "center": [-100.5, 23], "zoom": 3.3, "bearing": 0, "pitch": 0 },
+    "caribbean": { "center": [-75.5, 19.5], "zoom": 3.85, "bearing": 0, "pitch": 0 },
+    "china": { "center": [110, 31], "zoom": 3.2, "bearing": 0, "pitch": 0 },
+    "japan": { "center": [136.8, 35.6], "zoom": 4.4, "bearing": 0, "pitch": 0 },
+    "india": { "center": [79, 22], "zoom": 3.4, "bearing": 0, "pitch": 0 },
+    "italy": { "center": [12.5, 42], "zoom": 4.45, "bearing": 0, "pitch": 0 }
   }
 }
